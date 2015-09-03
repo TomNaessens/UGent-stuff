@@ -1,0 +1,3 @@
+NAME = ttylinuxload
+PATH = "/tmp/ttylinux.img"
+TYPE = OS

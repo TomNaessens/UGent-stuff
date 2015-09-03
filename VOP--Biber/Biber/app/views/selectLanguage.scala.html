@@ -1,0 +1,15 @@
+@(langs: List[models.Language])
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Please select a language</title>
+</head>
+<body>
+    Please select a language:
+    <ul>
+        @langs.map { lang =>
+        <li><a href="@routes.Application.index( Option.apply(lang.name()) )">@(lang.getOfficialCode().toUpperCase())</a></li>
+        }
+    </ul>
+</body>
+</html>

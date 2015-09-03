@@ -1,0 +1,70 @@
+\section{Beantwoording vragen}
+
+\subsection{Is de keuze van t-norm en t-conorm belangrijk voor de prestaties (= 
+gemiddelde snelheid) van de wagen?}
+
+Om na te gaan wat de impact is van de verschillende t-normen en bijbehorende t-conormen passen we deze aan in de controllers en laten we de wagen enkele keren rijden. 
+
+In een eerste experiment stappen we over van Zadeh normen (min,max) naar de probabilistische t-normen voor de aggregatie van de condities, dus in het raamwerk voor de \texttt{AND} en \texttt{OR} operators. We merken dat de wagen hierdoor minder veilig zal rijden. We zien dat er meer en grotere correcties moeten gebeuren opdat de wagen stabiel blijft rijden. 
+
+Uit deze eerste reeks testen kunnen we concluderen dat de veiligheid van de wagen erop achteruit gaat indien we de probabilistische normen gebruiken. Dit kunnen we verklaren door te kijken naar de normen zelf en hoe deze gebruikt worden. De probabilistische normen zullen steeds in een lagere waarde resulteren ten opzichte van de Zadeh normen. Omdat de lidmaatschapsgraad steeds gelegen is in het interval $[0,1]$ geldt dus met andere woorden:
+\begin{equation}
+\mu (a) \cdot \mu (b) < min(\mu (a),\mu (b))
+\end{equation}
+Hierdoor zullen de verschillende tussenresultaten bij de aggregatie sneller dalen bij de probabilistische normen ten opzichte van de Zadeh normen. Indien een regel veel delen omvat die verbonden worden door een conjunctie zal dit effect enkel erger worden en zal de totale lidmaatschap na de aggregatie dus beduidend lager liggen. Dit betekent dus dat de regels in mindere mate effect zullen hebben. In ons geval betekent dit, doordat er vooral conjuncties gebruikt worden, dat de controller dus te laat zal insturen en te laat correcties zal doorvoeren, waardoor de controller minder veilig wordt. Ook zal voor de meer ingewikkelde controllers het effect groter zijn doordat de regels meer conjuncties gebruiken. De kans op crashen wordt groter en ook zo het driftgevaar.
+
+Laten we nu kijken naar de \L ukasiewicz normen. We zien in ons experiment dat 
+de wagen minder snel rijdt. De topsnelheid ligt een beetje lager en ook de 
+snelheid in de bochten ligt lager. Wanneer we naar de formule van de  \L 
+ukasiewicz normen kijken, zien we dat indien de som van de te aggregeren 
+lidmaatschapsgraden kleiner is dan 1, we een graad 0 als resultaat zullen 
+bekomen. De Zadeh normen zullen in dit geval een graad hebben die klein is maar 
+nog steeds groter is dan 0. Hierdoor zullen regels met componenten die een lage 
+graad hebben in het geval van de Zadeh normen nog steeds inspraak hebben, 
+terwijl dit niet het geval is bij de \L ukasiewicz normen. Bijgevolg zal de 
+lidmaatschapsgraad voor alle regels hoger moeten zijn eer ze in werking gaan. 
+Concreet zullen we dus een een beetje trager correcties doorvoeren en zal de 
+acceleratie minder snel in werking treden. Hierdoor zal de gemiddelde snelheid 
+lager liggen.
+
+We kunnen dus globaal gezien concluderen dat de keuze van de normen in ons geval geen grote impact heeft maar dat dit wel het geval zou zijn indien de regels complexer worden. Wel merken we een beperkte impact die in ons geval een verlies in performantie en veiligheid met zich meebrengt.
+
+
+\subsection{Hoe robuust is het regelsysteem voor verschillende races? Is de 
+gemiddelde snelheid ongeveer dezelfde als de wagen een parcours meermaals doet?}
+Dit antwoord gaven we reeds bij de evaluatie van de verschillende controllers 
+in Sectie~\ref{sec:performance}.
+
+\subsection{Zijn er parcours waar uw controller minder goed presteert? Hoe komt 
+dit?}
+Dit antwoord gaven we reeds bij de evaluatie van de verschillende controllers 
+in Sectie~\ref{sec:performance}.
+
+\subsection{Hoe veilig is de wagen? Hoe dikwijls crasht de wagen?}
+Dit is afhankelijk van de controller: 
+\begin{itemize}
+\item De veilige controller is gemaakt om elkaar parcours (met uitzondering van 
+Spa-Francorchamps uit te rijden) zonder botsingen uit te rijden. Dit heeft hij 
+ook bij elke test gedaan.
+\item De snelle controller presteert ook nog vrij regelmatig goed, maar kan soms 
+toch nog eens crashen. Ongeveer één op de tien keer rijdt deze het parcours 
+niet uit.
+\item Aangezien de driftcontroller een instabiele en meer gewaagde versie is 
+van de speedcontroller crasht deze een stuk meer, ongeveer één op de drie keer 
+slaagt deze controller er niet om het parcours uit te rijden.
+\end{itemize}
+
+\subsection{Wat zijn de verschillen met de originele exacte controller?}
+Het grootste verschil is dat de originele exacte controller enkel werkt voor 
+Texas, niet voor de andere tracks. De oorzaak hiervan is dat de functionaliteit 
+in die controller vrij beperkt is en niet genoeg kan inspelen op alle mogelijke 
+situaties. Als deze controller zou worden uitgebreid worden met meer regels 
+zouden we waarschijnlijk wel hetzelfde gedrag kunnen verkrijgen als met de 
+vage regels, al zouden we dan wel alle mogelijke situaties en acties hard 
+moeten implementeren, wat waarschijnlijk in veel meer code zou resulteren dan 
+met vage regels. Daarnaast zou deze exacte implementatie het moeilijk hebben met kleine veranderingen in het circuit, wat net de specialiteit is van een vaag regelsysteem. 
+
+In plaats van alles te kunnen uitdrukken in ideeën zoals ``snel'', ``traag'', 
+``scherp'', etc. moeten we bij de exacte controller alles uitdrukken in exacte 
+waarden. Dit maakt het redeneren bij de exacte controller een stuk minder 
+eenvoudig en intuïtief ten opzichte van de vage controller.

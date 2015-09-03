@@ -1,0 +1,537 @@
+index.title = Main
+index.welcome = Welcome
+index.playUnrestrictedCompetition = Play Unrestricted Competition
+
+common.index = Home
+common.index = Home
+common.login = Login
+common.logout = Logout
+common.links = Links
+common.register = Register
+common.competition = competition
+common.question = question
+common.questionSet = question set
+common.level = level
+common.notFound = The specified {0} could not be found
+common.forgotPassword = Forgot password?
+common.submit = Submit
+common.password = Password
+common.feedback = feedback
+common.close = Close
+common.required = Required
+common.yes = yes
+common.no = no
+common.help = Help
+common.pupil = Pupil
+common.status = Status
+common.actions = Actions
+common.ok = ok
+
+register.error.mail = Registering ok! Login details: {0}, {1}. But mail server is down. Please contact an administrator.
+reset.error.mail = Mail server down. Please try again later or contact an administrator.
+
+time.hourSuffix = h
+time.minuteSuffix = m
+time.secondSuffix = s
+
+mimick.mimickUser = Mimick User
+mimick.stopMimick = Logout as {0}
+mimickUser.error.notExisting = BebrasId does not exist
+mimickUser.error.notAuthorized = You are not authorized to mimick this person
+mimickUsers.error.online = User online. Try again later.
+
+notAuthorized.admin = You tried to access {0}, you need to be logged in as an admin for this.
+notAuthorized.teacher =  You tried to access {0}, you need to be logged in as a teacher for this.
+notAuthorized.organizer = You tried to access {0}, you need to be logged in as a organizer for this.
+notAuthorized.pupil = You tried to access {0}, you need to be logged in as a pupil for this.
+
+resetPassword.mail.subject = [Biber]: Token for resetting your password.
+resetPassword.mail.message = Please visit: {0}, to start the process of resetting your password. This token will expire in 1 day.
+resetPassword.askResetForm.empty = Please fill in your email or bebrasId.
+resetPassword.askResetForm.notCorrect = BebrasId and/or email does not exist.
+resetPassword.askResetForm.success = A mail has been sent containing further instructions.
+resetPassword.tokenExpired = This token has expired. Please renew the process.
+resetPassword.error.technical = A technical error has occured. Please contact an admin when this problem persists.
+resetPassword.mail.success.subject = [Biber]: Your password has been reset.
+resetPassword.mail.success.message = The password of your account has been reset.
+resetPassword.success = Your password has been successfully changed.
+resetPassword.askResetForm.askTeacherForReset = We couldn''t find an email associated to your account. Please contact your teacher if you want to reset your password.
+resetPassword.askReset.head = Reset your password
+resetPassword.reset.head = Reset your password
+resetPassword.reset.newPassword = New Password
+resetPassword.reset.confirmNewPassword = Confirm new password
+
+
+addClass.addClass = Add new class
+addClass.school = Select school
+addClass.name = Name of the class:
+addClass.level = Select level
+addClass.exists = Class already exists in this school.
+addClass.nameRequired = A name for the class is required.
+
+addPupilToClass.title = Add existing pupil with given BebrasId to class
+addPupilToClass.notExisting = BebrasId does not exist
+addPupilToClass.empty = BebrasId required!
+
+resetPupilPassword.mail.subject = [Biber]: New login details for pupil
+resetPupilPassword.mail.message = New login details for pupil: BebrasId: {0}, password: {1}
+resetPupilPassword.reset = Reset
+
+registerSchool.register = Register School
+registerSchool.name = Name
+registerSchool.zipCode = Zipcode
+registerSchool.street = Street
+registerSchool.country = Country
+registerSchool.number = Number
+registerSchool.city = City
+registerSchool.success = School {0} successfully registered.
+
+registerTeacher.register = Register Teacher
+registerTeacher.success = Teacher successfully registered. Fill in the form to add another teacher
+registerTeacher.fields.schools = Choose the school(s) of the teacher
+
+login.invalidLogin = Invalid user or password
+logout.success = You''ve been logged out
+
+activate.passwordsNotEqual = Confirmed password not equal to new password
+activate.newPassword = New Password
+activate.confirmNewPassword = Confirm new password
+activate.title = Choose new password and activate account
+activate.activate = Activate
+
+authenticate.sorry = Sorry
+authenticate.sorry2 = but you are already logged in.
+authenticate.alreadyLoggedIn = Sorry {0}, but it seems you''re already logged in. If you did not explicitly log out previously, wait a minute and try again.
+authenticate.alreadyLoggedIn.head = Already logged in
+
+competition.open.button = Open
+competition.open.classesParticipating = The classes that are currently participating in this quiz are
+competition.open.noClassesParticipating = There are currently no classes participating in this quiz
+competition.open.classes = You may open the competition for following classes
+competition.open.noClasses = You have opened this competition for all your classes
+competition.open.official.head = Open the official week
+competition.open.official.warning = This will open the official competition, teachers will be able to open the competition for their classes
+competition.open.openCompetition = Open competition
+competition.open.info = Information
+competition.open.participating = Participating
+competition.open.actions = Actions
+
+competition.create.noSets = Please create first at least one official set.
+competition.create.head = Create a new competition
+competition.create.drophere = Drop the chosen question set here
+competition.create.competitionname = competition name
+competition.create.names = Give a name
+competition.create.namesrequired = At least one name should be given to the competition
+competition.create.setrequired = At least one set should be added
+competition.create.noSetsTeacher = Please ask an organizer to add some local questionsets first.
+
+competition.close.head = Close competition
+competition.close.message = For which classes do you want to close the competition?
+competition.close.button = Close
+competition.close.official.warning = This will close the official competition for all classes
+
+competition.take.stillHaveUnfinishedCompetition = You still have an unfinished competition running, please finish this competition before starting a new one
+competition.take.cannotParticipate = You can not participate in the selected competition
+competition.take.alreadyTaken = You have already taken this competition and can not take it twice
+competition.take.remainingTime = Remaining Time
+competition.take.finishCompetition = Finish Competition
+competition.take.timeLimit = Time limit
+competition.take.results = Results
+competition.take.totalTime = Total time
+competition.take.givenAnswer = Your answer
+competition.take.noPoints = No. Points
+competition.take.askFinishCompetition = Are you sure you want to finish the competition?
+competition.take.noAnswerGiven = No answer given
+competition.take.askNoAnswerGiven = You did not give an answer to the question, please provide an answer or skip the question
+competition.take.competitionFinished = You have succesfully completed the competition !
+competition.take.numberOfQuestions = Number of questions
+competition.take.totalNumberOfPoints = Total Number of Points
+competition.take.initialNumberOfPoints = Initial Number of Points
+
+competition.monitor.monitorCompetition = Monitor Competition
+competition.monitor.grantGraceTime = Grant Grace Time
+competition.monitor.deleteHistory = Delete History
+competition.monitor.reopenCompetition = Reopen Competition
+competition.monitor.askDeleteHistory = Are you sure want to delete all history saved for {0}?
+competition.monitor.askGraceTime = How much grace time do you want to give {0} ?
+competition.monitor.askReopenCompetition = How much time do you want to give the pupil when the competition reopens? (Note: when issuing a reopen, the competition will be started immediatly!)
+competition.monitor.answered = Answered
+
+competition.unrestricted = Unrestricted Competitions
+competition.unrestricted.take = Choose the unrestricted competition you wish to take
+
+register.emailAlreadyInUse = This email address is already in use.
+register.checkMailForPassword = Check your mailbox for your bebrasId and password and log in.
+register.email.subject = Login details for your account
+register.email.message = Login details for your newly created account: BebrasId:{0}, Password:{1}
+register.fields.firstName = First Name
+register.fields.lastName = Last Name
+register.fields.email = Email
+register.submit = Submit
+register.fields.dateOfBirth = Date Of Birth (dd/mm/yyyy):
+register.fields.bebrasIdOpt = BebrasId (optional):
+register.fields.telephone = Telephone number
+register.fields.schools = Schools
+register.selectSchool = Please select at least one school
+
+registerPupils.view.title = Register pupils
+registerPupils.view.chooseSchool = Please select a school
+
+registerPupils.csvNotSupported = Csv files are currently not supported.
+registerPupils.filetypeNotSupported = Filetype not supported. Should be xls/xlsx/csv.
+registerPupils.classesNotOwnedByTeacher = Class {0} already exists in this school, but is not your class. Delete this sheet from your file and try again.
+registerPupils.success = Registering/Updating succeeded. Please check your mail!
+registerPupils.bebrasIdNotCorrect = Pupil with BebrasId {0} doesn''t exist. Please correct this or delete the row from the file.
+registerPupils.email.subject = Login details for registered pupils
+registerPupils.email.message = The attachment contains the details (including BebrasId and password) for the newly registered pupils.
+registerPupils.emailExistsPupil1 = Email {0} already exists.
+registerPupils.emailExistsPupil2 = Pupil with this email has bebrasId {0}, please fill in the bebrasId column for this pupil.
+registerPupils.emailExists1 = Email {0} already exists in the system but is not of a pupil.
+registerPupils.emailExists2	= Please choose a different email or leave it blank.
+registerPupils.fileEmpty = Please choose a file!
+registerPupils.uploadProgress = Uploading progress:
+registerPupils.uploadFile = Upload File
+registerPupils.errors = Errors while processing your file:
+registerPupils.failed = Processing failed. Please fix the displayed errors and try again!
+registerPupils.final = Result:
+registerPupils.error.enum.language = Language value "{0}" not correct. Please use DUTCH,GERMAN,FRENCH or ENGLISH!
+registerPupils.error.enum.level = Level of the class "{0}" not correct. Please use WOOKIE,PADAWAN,JEDI or EWOK!
+registerPupils.error.enum.gender = Gender "{0}" not correct. Please use M or F!
+registerPupils.error.mail = Email server does not respond. Please try again later or contact an administrator!
+registerPupils.downloadExamples = Download Examples
+registerPupils.downloadExamplesText = Click on the appropriate button to download the file in the requested format:
+registerPupils.emailNotCorrect = Email {0} is not a valid email.
+registerPupils.dateFormatNotCorrect = Birthday empty or not correct. Use: ''dd/mm/yyyy''
+registerPupils.error.cellEmpty = Level, year, gender or language cell empty. Fill in all!
+
+uploadingView.title = Uploading file
+uploadingView.progressBar.text = Processing file:
+
+registerSinglePupil.actionLink = Register a new pupil for this class
+registerSinglePupil.dateFormatNotCorrect = Date format incorrect. Use ''DD/MM/YYYY''!
+registerSinglePupil.view.head = Register a new pupil for
+
+person.online = online
+person.offline = offline
+
+profilePage.info = My Info
+profilePage.home = Home
+profilePage.profile = Profile
+
+
+profileGeneral.link = Edit Profile
+profileGeneral.downloadManual = Download Manual
+
+profileTeacher.head = Teacher Profile
+profileTeacher.myClasses = My Classes
+profileTeacher.myCompetitions = My Competitions
+profileTeacher.size = Size
+profileTeacher.registerPupils = Register pupils
+profileTeacher.terminatedCompetitions = Closed Competitions
+profileTeacher.competition = New Local Competition
+profileTeacher.other = Other
+profileTeacher.competitions = Competitions
+profileTeacher.pupils = Pupils
+
+profilePupil.head = Pupil''s Profile
+profilePupil.availableQuizzes = Available Quizzes
+profilePupil.history = My History
+profilePupil.viewMyHistory = View my history
+profilePupil.competitions = Competitions
+profilePupil.other = Other
+profilePupil.classTitle = Class details
+profilePupil.class = Class: {0}
+profilePupil.teacher = Teacher: {0} {1}
+profilePupil.schoolName = School: {0}
+
+profileOrganizer.head = Organizer Profile
+profileOrganizer.tasks = Organizer Tasks
+profileOrganizer.newCompetition = Create Official Competition
+profileOrganizer.newSet = Create a new question set
+profileOrganizer.registerNewTeacher = Register new teacher
+profileOrganizer.terminatedCompetitions = Closed Official Competitions
+profileOrganizer.officialCompetitions = Official Competitions
+profileOrganizer.manageSets = Manage Question Sets
+profileOrganizer.endYear = End the current schoolyear
+profileOrganizer.other = Other
+profileOrganizer.competitions = Competitions
+profileOrganizer.register = Register
+
+organizerSchoolsPage.explain = Click on a school to see every registered teacher for this school
+organizerSchoolsPage.schools = Schools:
+organizerTeacherPage.head = Teacher page
+organizerTeacherPage.addSchool = Add school for teacher
+
+profileAdmin.head = Administrator Profile
+profileAdmin.tasks = Tasks
+profileAdmin.other = Other
+profileAdmin.register = Register
+
+editProfile.head = Change Profile
+editProfile.selectLanguage = --- Select Language ---
+editProfile.language = Language
+editProfile.selectLanguageError = Please select the preferred language
+editProfile.selectGender = --- Select Gender ---
+editProfile.gender = Gender
+editProfile.selectGenderError = Please select your Gender
+editProfile.change = Change Profile
+editProfile.email = E-mail
+editProfile.firstName = First Name
+editProfile.lastName = Last Name
+editProfile.tel = Telephone
+editProfile.mailIncorrect = Email {0} is not a valid email.
+
+registerOrganizer.head = Register new organizer
+registerOrganizer.success = Organizer succesfully registered. Fill in the form to add another organizer
+
+endYear.head = End Year
+endYear.info = Please read the following text closely before continuing. With this action you will end the existing schoolyear and start the new year. This will effect in removing all links between pupils and their respective classes. This will further lead to pupils only being able to play unrestricted quizzes. Teachers will also be unconnected from all their classes. This action cannot be undone. So proceed cautiously!
+endYear.success = You have successfully moved the application to the next year! May there be many years to follow!
+endYear.goBackToProfile = Go back to Profile
+
+localCompetitionsClass.head = Finished Local Competitions
+
+history.head = My History
+
+composeSet.head = Compose My Question Set
+composeSet.chooseQuestions = Choose the Questions
+composeSet.link = link
+composeSet.nameAndLevel = Choose the name and level
+composeSet.selectDifficultyError = Please select the difficulty
+composeSet.selectDifficulty = --- Select Difficulty ---
+composeSet.difficulty = Difficulty
+composeSet.hidden = Is Hidden
+composeSet.notHidden = Is Not Hidden
+composeSet.selectHidden = --- Select Visibility ---
+composeSet.errorHidden = Please fill in if this set is hidden
+composeSet.restricted =  Is Restricted
+composeSet.selectRestricted = --- Select Audience ---
+composeSet.errorRestricted = Please fill in if this set is restricted
+composeSet.selectLevel = --- Select Level ----
+composeSet.errorLevel = Please fill in the level of the set
+composeSet.timelimit = Time Limit (minutes)
+composeSet.values = Choose the specifics
+composeSet.fail = Fields not filled in correctly. At least 1 title and question should be given. Correct and Incorrect points should be numbers, time limit should be greater than 0
+composeSet.correct = marks if correct
+composeSet.incorrect = marks if incorrect
+composeSet.button = create
+composeSet.cannotRemoveSet = There are one or more competitions that use this question set. You can not remove the question set before these competition(s) are removed.
+composeSet.ENGLISH = English title
+composeSet.DUTCH = Dutch title
+composeSet.FRENCH = French title
+composeSet.GERMAN = German title
+
+question.answer = Answer
+
+set.difficulty = Difficulty
+set.correctPoints = Added points if correct
+set.incorrectPoints = Deducted points if incorrect
+set.name = Question set
+set.name.plural = Question sets
+
+enum.language.French = French
+enum.language.Dutch = Dutch
+enum.language.English = English
+enum.language.German = German
+
+enum.language.ENGLISH = English
+enum.language.DUTCH = Dutch
+enum.language.FRENCH = French
+enum.language.GERMAN = German
+
+enum.gender.MALE = male
+enum.gender.MALE.ab = m
+enum.gender.FEMALE = female
+enum.gender.FEMALE.ab = f
+
+enum.competitionType.LOCAL = Local
+enum.competitionType.OFFICIAL = Official
+enum.competitionType.UNRESTRICTED = Unrestricted
+
+enum.level.WOOKIE = Wookie
+enum.level.PADAWAN = Padawan
+enum.level.JEDI = Jedi
+enum.level.EWOK = Ewok
+
+enum.difficulties.EASY = Easy
+enum.difficulties.AVERAGE = Average
+enum.difficulties.HARD = Hard
+
+enum.status.READY = READY
+enum.status.STARTED = STARTED
+enum.status.FINISHED = FINISHED
+
+enum.answerType.REGULAR_EXPRESSION = Regular expression
+enum.answerType.MULTIPLE_CHOICE = Multiple Choice
+
+uploadQuestions.upload = Upload Questions
+uploadQuestions.head = Upload questions file
+uploadQuestions.failed = Uploading Failed!
+uploadQuestions.errors = Errors:
+uploadQuestions.questions = Questions
+uploadQuestions.zipFile = Zip File
+uploadQuestions.new = Add a new question
+uploadQuestions.questionView = Edit Question
+uploadQuestions.ok = this went just fine
+uploadQuestions.uploadFail = Couldn''t upload file to server
+uploadQuestions.specifyName = Please enter a name for this language if you want to upload files
+uploadQuestions.questionInfo = Info
+uploadQuestions.answer = Answer
+uploadQuestions.answerType = Select answer type
+uploadQuestions.inSetWarning = Question is part of a set, it can''t be deleted
+uploadQuestions.answerTypeErr = An answer type should be specified
+uploadQuestions.newQuestionENGLISH = add an English question
+uploadQuestions.newQuestionDUTCH = add a Dutch question
+uploadQuestions.newQuestionGERMAN = add a German question
+uploadQuestions.newQuestionFRENCH = add a French question
+uploadQuestions.titlePlaceholder = title
+uploadQuestions.questionPlaceholder = question
+uploadQuestions.feedbackPlaceholder = feedback
+uploadQuestions.extensionFail = An html document is required
+uploadQuestions.addExtras = add extra files
+uploadQuestions.extra = Extras
+uploadQuestions.search = search questions
+uploadQuestions.head = Upload Questions
+uploadQuestions.answerErr = This isn't a good multiple choice answer
+uploadQuestions.questionsHelp = Choose the question you wish to edit or press add question to create a new one
+uploadQuestions.questionInfoHelp = Choose the language you wish to add or the file you wish to edit
+uploadQuestions.zipfileHelp = Click the file you wish to select and press > to add it to the question/feedback field. You can also drag the file into the preferred field or type it yourself.
+uploadQuestions.answerErr = This isn''t a good multiple choice answer
+
+uploadQuestions.wysiwyg.title = Use an online editor
+uploadQuestions.wysiwyg.saveSuccess = Question saved succesfully!
+uploadQuestions.wysiwyg.titleLabel = Title
+uploadQuestions.wysiwyg.typeLabel = Type
+uploadQuestions.wysiwyg.answerLabel = Answer
+uploadQuestions.wysiwyg.questionLabel = Question
+uploadQuestions.wysiwyg.feedbackLabel = Feedback
+uploadQuestions.wysiwyg.save = Save
+uploadQuestions.wysiwyg.zipFile = Upload a zip
+uploadQuestions.wysiwyg.fileError = General file error!
+uploadQuestions.wysiwyg.answerError = Please pick a decent answer!
+uploadQuestions.wysiwyg.feedbackError = Please provide feedback!
+uploadQuestions.wysiwyg.questionError = Please provide a question!
+uploadQuestions.wysiwyg.answertypeError = Please provide an answertype!
+uploadQuestions.wysiwyg.titleError = Please provide a title!
+
+downloadClasses.head = Download Classes
+downloadClasses.info =  Here you can download the classes of your registered schools, select a school, and a format type. You can choose between the current classes or the classes of the previous year. This latter option can be useful when needing to register your students for a new year.
+downloadClasses.download = Download
+downloadClasses.selectSchool = --- Select a School ---
+downloadClasses.school = School
+downloadClasses.selectSchoolError =   Please select a school
+downloadClasses.selectType = --- Select a Type ---
+downloadClasses.type = Type
+downloadClasses.selectTypeError = Please select a type for your download file
+downloadClasses.current = Current
+downloadClasses.previous = Previous
+downloadClasses.selectYear = --- Select a Year ---
+downloadClasses.year = Year
+downloadClasses.selectYearError = Please select a year
+
+stats.downloadStats = download stats
+stats.head = Stats
+questionsetsstats.welcome = Statistics of questionsets
+downloadStatistics.head = Download statistics for one of these classes
+downloadStatistics.chooseClass = Pick a class
+questionsetsstats.numberofparticipants = Number of Participants
+viewstats.score = Score
+viewstats.numberWrong = Number wrong
+viewstats.numberCorrect = Number correct
+viewstats.own = Own
+viewstats.avg = Average
+pupilquestionstats.distr = Distribution for
+top20.greeting = This is the top 20 for the official competition
+top20.participant = Participant
+top20.totalscore = Total score
+top20.noparticipants = No one has taken the official competition
+competitionresults.procentright = % Correct by all participants
+download.statistics = Download statistics
+Competition = Competition
+nostats = No statistics for this question set, since no one has taken it
+closeFirst = Competition must first be closed by organizer, since it's official
+questionTitle = Question Title
+answer = Given answer
+correct = Correct
+wrong = Wrong
+
+helpPage.downloadHead = User Guide
+helpPage.title = What do you want to do?
+helpPage.download = For more details, download the user manual. This can be done through a link on your profile page.
+helpPage.editProfileHead = Edit your Profile
+helpPage.editProfile = To edit your profile, go to your profilepage and click to the left on the ''edit profile'' link.
+helpPage.generalHead = Needing other function?
+helpPage.general = You can find all other functions in the list of links on the left side of your profilepage. Just click on the appropriate link and you will go to the page.
+
+helpPagePupil.head = Help Page Pupil
+helpPagePupil.viewHistoryHead = View your History
+helpPagePupil.viewHistory = Go to your profilepage and click to the left on the ''view history'' link.
+helpPagePupil.playUnrestrictedHead = Play Unrestricted Competition
+helpPagePupil.playUnrestricted = Select a competition from the list of competitions on your profilepage and follow the instructions.
+helpPagePupil.playOfficialHead = Play Official Competition
+helpPagePupil.playOfficial = To play the official competition, you have to be part of a class, ask your teacher for more information.
+helpPagePupil.registerHead = Register?
+helpPagePupil.register = If you need to register contact your teacher or click on the appropriate link on the main page.
+
+helpPageTeacher.head = Help Page Teacher
+helpPageTeacher.addClassHead =  Add a Class
+helpPageTeacher.addClass =  On the profilepage you can add a class by clicking on the plus button under the ''My Classes'' list.
+helpPageTeacher.openLocalHead = Open Local Competition
+helpPageTeacher.openLocal =  You can open a competition by clicking on the competition on your profilepage under ''My Competitions''.
+helpPageTeacher.closeLocalHead = Close Local Competition
+helpPageTeacher.closeLocal =  You can close a competition for some classes by clicking on the red cross next to the competition on your profilepage under ''My Competitions''.
+helpPageTeacher.viewResultsHead = View Results of Competition
+helpPageTeacher.viewResults =  After a competition is closed for a particular class, go to this class homepage by clicking on the name of the class on your profilepage and click on the next page to the right on the link ''view recent competitions''. Now you will see a page where you can download the results by clicking the download button with the preferred filetype.
+helpPageTeacher.addPupilHead =  Add Single Pupil to Class
+helpPageTeacher.addPupil = Click on the class on your profilepage under ''My Classes''. On the next page, you will find the link on the right side.
+
+helpPageOrganizer.head = Help Page Organizer
+helpPageOrganizer.mimickUserHead = Taking over Account
+helpPageOrganizer.mimickUser = As an organizer you can take over a teacher his or hers account. To do this just click at the top of your profilepage right, on the ''Mimick User'' button.
+
+helpPageAdmin.head = Help Page Admin
+helpPageAdmin.mimickUserHead =  Taking over Account
+helpPageAdmin.mimickUser =  As an administrator you can take over an organizer and teacher his or hers account. To do this just click at the top of your profilepage right, on the ''Mimick User'' button.
+helpPageAdmin.registerOrganizerHead = Registering an Organizer
+helpPageAdmin.registerOrganizer = Just click on the link ''register organizer'' on your profilepage to the left.
+
+helpPage.contactHead = Contact
+helpPage.contactAdmin = Contact an
+helpPage.admin = admin
+helpPage.oran = or an
+helpPage.organizer = organizer
+
+monitorFTP.overview.linkTo = Manage FTP-servers
+monitorFTP.overview.title = FTP-servers: overview
+monitorFTP.overview.add = Add server
+monitorFTP.overview.edit = Edit server
+monitorFTP.overview.remove = Remove server
+monitorFTP.overview.host = Host
+monitorFTP.overview.port = Port
+monitorFTP.overview.questionFolder = Question folder
+monitorFTP.overview.publicLink = Public link
+monitorFTP.overview.username = Username
+monitorFTP.overview.pass = Password
+monitorFTP.overview.serverOffline = One of the FTP-servers is offline. Visit the overview as soon as possible!
+monitorFTP.addServer.title = Add new FTP server
+monitorFTP.addServer.fields.host = Host
+monitorFTP.addServer.fields.port = Port
+monitorFTP.addServer.fields.questionFolder = Question folder
+monitorFTP.addServer.fields.publicLink = Public link
+monitorFTP.addServer.fields.username = Username
+monitorFTP.addServer.fields.pass = Password
+MonitorFTP.errors.cantDeleteServer = There are still questions on this server. Therefore, this server can't be deleted.
+
+changeClassName.error = Class exists. (Teacher {0}).
+changeClassName.click = Click on name to change it!
+changeClassName.title = Class name:
+classForTeacher.head = Class page
+
+mergePupils.title = Merge Pupils
+mergePupils.submit = Submit
+mergePupils.search = Search
+mergePupils.selected = Selected Pupils (select the id you want to keep)
+mergePupils.error.format = Format not correct, use ''Lastname, Firstname''.
+mergePupils.success = Merging successful.
+
+level = Level

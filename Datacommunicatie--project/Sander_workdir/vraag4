@@ -1,0 +1,8 @@
+Onze binaire bron neemt symboolwaardes aan in A \in {1,0}, |A| = M: 2.
+T = {x_{i}|i=1,...,N} waar N = M^{K} -> 2^{k}.
+
+\forall t_i \in T met kans p_{i} geven door freqtabel laten we de \sum lopen.
+
+E[n] = 1/K \sum^{N}_{i=1}p_{i}n_{i} (waar n_{i} = |c_{i}| wat een injectie is van T naar C waar C de verzameling is van alle codewoorden.
+
+Voor k = 7 lijkt dat optimaal. Ik ga dat later nog eens hercontroleren.

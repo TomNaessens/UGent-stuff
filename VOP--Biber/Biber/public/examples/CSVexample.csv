@@ -1,0 +1,8 @@
+FORMAT:First Name,Family Name,Email,Gender,Language,Birthday,BebrasID
+Class,1a,Level,WOOKIE,,,
+FirstName1,Surname1,optional1@mail.com,M,DUTCH,30/09/1992,
+FirstName2,Surname2,optional2@mail.com,F,DUTCH,30/05/1992,
+,,,,,,
+Class,2b,Level,PADAWAN,,,
+FirstName1,Surname1,optional3@mail.com,F,DUTCH,30/09/1991,
+FirstName2,Surname2,optional4@mail.com,M,DUTCH,30/05/1991,

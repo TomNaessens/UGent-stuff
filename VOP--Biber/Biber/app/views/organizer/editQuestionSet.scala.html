@@ -1,0 +1,172 @@
+@(questions: List[Question],set: models.Set)
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("composeSet.head")) {
+<!-- HEAD -->
+<style>
+.checked {height: 50px}
+.marks {margin:5px;}
+.difc {margin:3px}
+.optioninput {width: 200px}
+.chbx {margin-bottom:5px}
+input.error {
+	border-color:rgb(190, 24, 24);
+}
+select.error {
+border-color:rgb(190, 24, 24);
+}
+</style>
+<script src='@routes.Assets.at("javascripts/jquery-ui-1.10.2.biber.js")' type='text/javascript'></script>
+<link rel='stylesheet' type='text/css' media='screen' href='@routes.Assets.at("stylesheets/jquery-biber.css")'>
+<script>
+	$(function(){
+		$('input[type="checkbox"]').change(function() {
+			
+			if($(this).is(':checked')) {
+				$( "#inputs" + $(this).val() ).html(
+						"<select id='"+$(this).val()+"diff' class='difc' name='"+$(this).attr('name')+"'>"+
+						@for(d <- Difficulties.values()) {
+							"<option value='@d.name()'>@d.toString()</option>"+
+						}"</select>"+
+						"<input id='"+$(this).val()+"correctPoints' class='marks' name='"+$(this).attr('name')+"' type='textbox' placeholder='@LangMessages.get("composeSet.correct")' title='@LangMessages.get("composeSet.correct")'>"+
+						"<input id='"+$(this).val()+"incorrectPoints' class='marks' name='"+$(this).attr('name')+"' type='textbox' placeholder='@LangMessages.get("composeSet.incorrect")' title='@LangMessages.get("composeSet.incorrect")'>"
+						
+				);
+				
+				$( "#inputs" + $(this).val() ).show("blind",300);
+				$( "#list").append("<li id='"+$(this).attr('value')+"li'>"+$( "#name" + $(this).val() ).text()+"</li>");
+			} else {
+				$("#list").find("#"+$(this).val()+"li").remove();
+				$( "#inputs" + $(this).val() ).hide("blind", 300);
+				$( "#inputs" + $(this).val() ).html("");
+			}
+			
+			 
+		});
+  		$( "#setinfo" ).accordion({
+  			collapsible: true,
+  			active: false
+
+  		});
+	});
+</script>
+} {
+
+
+} {
+	<p id="errorMessages" style="display:none;color:red" class="error"> @LangMessages.get("composeSet.fail") </p>
+	<form id="setForm">
+	<div id="setinfo">
+        <h3 class="accordionhead">@LangMessages.get("composeSet.values")</h3>
+        <div class="accordiontab">
+        	<div style="width:50%;float:left">
+            	@for(lang <- Language.values()) {
+            		<input class="languageInput" type="text" name="@lang.name()::name" title="@LangMessages.get("composeSet."+lang.name())" placeholder="@LangMessages.get("composeSet."+lang.name())" @if(set.setLanguages.keySet().contains(lang)) {value='@set.setLanguages.get(lang).title'}><br/>
+            	}
+            </div>
+            <div style="width:50%;position:relative;float:right">
+            	<select id="level" name="level" class="optioninput">
+            		<option value="" selected disabled> @LangMessages.get("composeSet.selectDifficulty") </option>
+            		@for(level <- Level.values()) {
+            			<option value=@level.name @if(set.level == level) {selected}>@level.toString()</option>
+            		}
+            	</select><br>
+            	<select id="compType" name="comptype" class="optioninput">
+            		<option value="" selected disabled> @LangMessages.get("composeSet.selectRestricted") </option>
+            		@for(comptype <- CompetitionType.values()) {
+            			<option value=@comptype.name @if(set.isRestricted == comptype) {selected}>@comptype.toString()</option>
+            		}
+            	</select><br>
+            	<select name="visibility" class="optioninput">
+            		<option value="" selected disabled> @LangMessages.get("composeSet.selectHidden") </option>
+            		<option value="true" @if(set.isHidden == true) {selected}> hidden </option>
+            		<option value="false" @if(set.isHidden == false) {selected}> visible </option>	
+            	</select><br>
+            	<input id="timelimit" class="optioninput" type="text" name="timelimit" title="@LangMessages.get("composeSet.timelimit")" placeholder="@LangMessages.get("composeSet.timelimit")" @if(set.timeLimit!=0) {value='@(set.timeLimit/60)'}>
+            </div>
+        </div>
+    </div>
+    
+    <input onclick="editSet(); return false;" id="formButton" style="margin-top:10px;margin-bottom:10px" type="button" value="@LangMessages.get("composeSet.button")"> <img id="loading-img" style="width:24px;height:24px;display:none" src="@routes.Assets.at("images/ajax-loader.gif")">
+	<table>
+	@questions.map { q =>
+	<tr>
+		@if(set.contains(q)) {
+		<td class="">
+		<input style="margin-bottom:5px" type="checkbox" name="@q.id" value="@q.id" checked> <span><a id="name@q.id" target='_blank' href='@q.getQuestionURL()'>@q.getTitle() </a><span style="margin-left:5px">( @for(lang <- q.questionLanguages.keySet()) {@lang.getOfficialCode() })</span></span>
+		<div id="inputs@q.id">
+			<select id="@(q.id)diff" class='difc' name="@q.id">
+			@for(d<-Difficulties.values()) {
+				<option value='@d.name()' @if(set.getQuestionDifficulty(q) == d) {selected}>@d.toString()</option>
+			}
+			<input id="@(q.id)correctPoints" class='marks' name='@q.id' type='textbox' title='@LangMessages.get("composeSet.correct")' value='@set.getCorrectPoints(q)'>
+			<input id="@(q.id)incorrectPoints" class='marks' name='@q.id' type='textbox' title='@LangMessages.get("composeSet.incorrect")' value='@set.getIncorrectPoints(q)'>
+		</div>	
+		</td>
+		} else {	
+		<td class="">
+		<input style="margin-bottom:5px" type="checkbox" name="@q.id" value="@q.id"> <span><a id="name@q.id" target='_blank' href='@q.getQuestionURL()'>@q.getTitle() </a><span style="margin-left:5px">( @for(lang <- q.questionLanguages.keySet()) {@lang.getOfficialCode() })</span></span>
+		<div style="display:none" id="inputs@q.id">	
+		</div>
+		</td>
+		}
+	
+	</tr>
+	}
+	</table>
+	<br>
+    </form>
+    <script>
+function editSet() {
+		$('#loading-img').show();
+		$('input').removeClass('error');
+		$('select').removeClass('error');
+		$('#errorMessages').hide();
+		jsRoutes.controllers.SetController.editSet(@if(set.id==null){0}else{@set.id}).ajax({
+			type: "POST",
+			data: $('#setForm').serialize(),
+			dataType: "json",
+			success: function(result){
+						$('#loading-img').hide();
+						if(!result.fail){
+							window.location.replace("@routes.SetController.renderManageSets");
+						} else {
+							$('#errorMessages').show();
+							if(result.emptyNames) {
+								$('.languageInput').addClass('error');
+							}
+							
+							
+							$.each(result,function(key,value){
+								$('#'+key).addClass('error');
+							});
+							
+							
+							
+						}
+			}
+		});
+}
+</script>
+} {
+<li>
+    <a href="@routes.Competitions.render_create_competition">@LangMessages.get("profileOrganizer.newCompetition")</a>
+</li>
+
+<li>
+    <a href="@routes.SetController.renderManageSets">@LangMessages.get("profileOrganizer.manageSets")</a>
+</li>
+<li>
+    <a href="@routes.QuestionsController.renderUploadQuestions">@LangMessages.get("uploadQuestions.upload")</a>
+</li>
+
+<h3>Questions</h3>
+<ul id="list">
+@for(q <- questions) {
+@if(set.contains(q)) {
+<li id='@(q.id)li'>@q.getTitle()</li>
+}
+}
+</ul>
+
+}

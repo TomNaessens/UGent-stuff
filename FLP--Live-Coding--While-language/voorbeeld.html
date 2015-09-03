@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>example/prog3.txt</title>
+<link rel="stylesheet" type="text/css" href="libs/styles.css" />
+<script type="text/javascript" src="libs/jquery.min.js"></script>
+<script type="text/javascript">
+	jQuery(".while").live('click', function(){
+		jQuery(this).next("span").slideToggle("fast");
+	});
+</script>
+</head>
+<body>
+<h1>example/prog3.txt</h1>
+<pre>
+<b>x = 3</b><span class="vars"> | x = 3</span>
+<b>y = 0</b><span class="vars"> | y = 0</span>
+<b>z = 0</b><span class="vars"> | z = 0</span>
+<br />
+<span class="while">&#9660; <b>while (x > 0) {</b><span class="vars"> | x = 3 | y = 0 | z = 0</span></span>
+<span>
+	<b>x = x - 1</b><span class="vars"> | x = 2</span>
+	<b>y = y + 1</b><span class="vars"> | y = 1</span>
+	<br />
+	<span class="while">&#9660; <b>while (3 > y) {</b><span class="vars"> | x = 2 | y = 1 | z = 0</span></span>
+	<span>
+		<b>z = z + 1 + 2 + 9</b><span class="vars"> | z = 12</span>
+		<b>y = y + 1</b><span class="vars"> | y = 2</span>
+		<br />		While iteration:<span class="vars"> | x = 2 | y = 2 | z = 12</span>
+		<b>z = z + 1 + 2 + 9</b><span class="vars"> | z = 24</span>
+		<b>y = y + 1</b><span class="vars"> | y = 3</span>
+		</span>
+	<b>}</b>
+	<br />	While iteration:<span class="vars"> | x = 2 | y = 3 | z = 24</span>
+	<b>x = x - 1</b><span class="vars"> | x = 1</span>
+	<b>y = y + 1</b><span class="vars"> | y = 4</span>
+	<br />
+	<span class="while">&#9660; <b>while (3 > y) {</b><span class="vars"> | x = 1 | y = 4 | z = 24</span></span>
+	<span>
+		</span>
+	<b>}</b>
+	<br />	While iteration:<span class="vars"> | x = 1 | y = 4 | z = 24</span>
+	<b>x = x - 1</b><span class="vars"> | x = 0</span>
+	<b>y = y + 1</b><span class="vars"> | y = 5</span>
+	<br />
+	<span class="while">&#9660; <b>while (3 > y) {</b><span class="vars"> | x = 0 | y = 5 | z = 24</span></span>
+	<span>
+		</span>
+	<b>}</b>
+	</span>
+<b>}</b>
+<b>x = z * 3</b><span class="vars"> | x = 72</span>
+</pre>
+</body>
+</html>

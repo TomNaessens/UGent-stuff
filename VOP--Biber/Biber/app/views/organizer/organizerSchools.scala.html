@@ -1,0 +1,41 @@
+@(schools: List[School])
+@import utils.LangMessages
+
+<h2>@LangMessages.get("organizerSchoolsPage.schools")</h2>
+<p><span class="label">@LangMessages.get("organizerSchoolsPage.explain")</span></p>
+<div class="accordion" id="accordion">
+
+@for(school <- schools){
+    <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@school.id">
+            @school.name
+          </a>
+        </div>
+        <div id="@(school.id)" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <ul></ul>
+          </div>
+        </div>
+    </div>
+}
+</div>
+<script>
+$('.collapse').on('show', function () {
+	  var schoolId = $(this).attr("id");
+	  if ($('#'+ schoolId).find('ul li').length != 0)
+	  	return;
+	  jsRoutes.controllers.OrganizerController.getTeachersFromSchool(schoolId).ajax({
+			success : function(result) {
+				var teachers = result.teachers;
+	        	if(teachers != null){
+	            	for (var i = 0; i < teachers.length; i++) {
+	            		var url = '@routes.OrganizerController.renderTeacherPage("xxx")';
+	            		url = url.replace("xxx", teachers[i].bebrasId);
+	            		$('#'+ schoolId).find('ul').append("<li><a class='teacher' href='"+ url +"'>"+ teachers[i].firstName + " " + teachers[i].lastName +"</a></li>");
+                	}
+	            }
+			}
+	  });
+	});
+</script>

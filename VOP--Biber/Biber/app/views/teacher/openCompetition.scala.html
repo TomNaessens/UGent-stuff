@@ -1,0 +1,58 @@
+@(pclasses: List[models.Class])(classes: List[models.Class])(id: Long)
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("competition.open.openCompetition")) {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+@if(pclasses.size != 0) {
+    <h2>@LangMessages.get("competition.open.participating") </h2>
+	@LangMessages.get("competition.open.classesParticipating"):
+	<ul>
+	@for(c <- pclasses) {
+		<li>@c.name</li>
+	}
+	</ul>
+    <h3>@LangMessages.get("competition.open.actions")</h3>
+    <a href="@routes.Statistics.downloadStatistics(id)">Download Stats</a><br/>
+	<a href="@routes.MonitorCompetitionController.monitorCompetition(id)">@LangMessages.get("competition.monitor.monitorCompetition")</a>
+	}
+
+    <h2>@LangMessages.get("competition.open.info")</h2>
+    @if(classes.size == 0){
+
+	    @LangMessages.get("competition.open.noClasses")
+
+    } else {
+
+        @LangMessages.get("competition.open.classes"):
+        @form(action = routes.Competitions.openCompetition(id)) {
+            <!-- Indexed chekbox name -->
+            @classes.groupBy(_.school).map {
+            case (school,sclasses) => {
+                <h4>@school.name</h4>
+                @for(c <- sclasses) {
+                    <input type="checkbox" name="@c.id" value="@c.id">@c.name <br>
+                }
+
+                
+            }
+        }
+    	<input type="submit" value="@LangMessages.get("competition.open.button")">
+    }
+}
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.Competitions.render_create_competition()">@LangMessages.get("profileTeacher.competition")</a>
+</li>
+}

@@ -1,0 +1,116 @@
+@(questions: List[Question])
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("composeSet.head")) {
+<!-- HEAD -->
+<style>
+.checked {height: 50px}
+.marks {margin:5px;width:50px}
+.difc {margin:3px}
+.optioninput {width: 200px}
+</style>
+<script src='@routes.Assets.at("javascripts/jquery-ui-1.10.2.biber.js")' type='text/javascript'></script>
+<link rel='stylesheet' type='text/css' media='screen' href='@routes.Assets.at("stylesheets/jquery-biber.css")'>
+<script>
+	$(function(){
+		$('input[type="checkbox"]').change(function() {
+			
+			if($(this).is(':checked')) {
+				$( "#inputs" + $(this).val() ).html(
+						"<select class='difc' name='"+$(this).attr('name')+"'>"+
+						@for(d <- Difficulties.values()) {
+							"<option value='@d.name()'>@d.toString()</option>"+
+						}"</select>"+
+						"<input class='marks' name='"+$(this).attr('name')+"' type='textbox' title='@LangMessages.get("composeSet.correct")'>"+
+						"<input class='marks' name='"+$(this).attr('name')+"' type='textbox' title='@LangMessages.get("composeSet.incorrect")'>"
+						
+				);
+				
+				$( "#inputs" + $(this).val() ).show("blind",300);
+				$( "#list").append("<li id='"+$(this).attr('value')+"li'>"+$( "#name" + $(this).val() ).text()+"</li>");
+			} else {
+				$("#list").find("#"+$(this).val()+"li").remove();
+				$( "#inputs" + $(this).val() ).hide("blind", 300, function() {
+					$( "#inputs" + $(this).val() ).html("");
+				});
+			}
+			
+			 
+		});
+  		$( "#setinfo" ).accordion({
+  			collapsible: true,
+  			active: false
+
+  		});
+	});
+</script>
+} {
+
+
+} {
+	@if(flash.contains("fail")) {
+	<p class="error"> @LangMessages.get("composeSet.fail") </p>
+	}
+	<form action="@routes.SetController.composeSet()" method="POST">
+	<table>
+	@questions.map { q =>
+	<tr>
+	<td class="">
+		<input style="margin-bottom:5px" type="checkbox" name="@q.id" value="@q.id"> <span ><a id="name@q.id" href='@q.getQuestionURL()'>@q.getTitle() </a><span style="margin-left:5px">( @for(lang <- q.questionLanguages.keySet()) {@lang.getOfficialCode() })</span></span>
+		<div style="display:none" id="inputs@q.id">
+		</div>
+	</td>
+	</tr>
+	}
+	</table>
+	<br>
+		<div id="setinfo">
+        <h3 class="accordionhead">@LangMessages.get("composeSet.values")</h3>
+        <div class="accordiontab">
+        	<div style="width:50%;float:left">
+            	@for(lang <- Language.values()) {
+            		<input type="text" name="@lang.name()::name" placeholder="@lang.toString()"><br/>
+            	}
+            </div>
+            <div style="width:50%;position:relative;float:right">
+            	<select name="level"class="optioninput">
+            		<option value="" disabled selected> @LangMessages.get("composeSet.selectDifficulty") </option>
+            		@for(level <- Level.values()) {
+            			<option value=@level.name>@level.toString()</option>
+            		}
+            	</select><br>
+            	<select name="comptype" class="optioninput">
+            		<option value="" disabled selected> @LangMessages.get("composeSet.selectRestricted") </option>
+            		@for(comptype <- CompetitionType.values()) {
+            			<option value=@comptype.name>@comptype.toString()</option>
+            		}
+            	</select><br>
+            	<select name="visibility" class="optioninput">
+            		<option value="" disabled selected> @LangMessages.get("composeSet.selectHidden") </option>
+            		<option value="true"> hidden </option>
+            		<option value="false"> visible </option>	
+            	</select><br>
+            	<input class="optioninput" type="text" name="timelimit" placeholder="@LangMessages.get("composeSet.timelimit")">
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="create"> 
+    </form>
+} {
+
+<li>
+    <a href="@routes.Competitions.render_create_competition">@LangMessages.get("profileOrganizer.newCompetition")</a>
+</li>
+
+<li>
+    <a href="@routes.SetController.renderManageSets">@LangMessages.get("profileOrganizer.manageSets")</a>
+</li>
+<li>
+    <a href="@routes.QuestionsController.renderUploadQuestions">@LangMessages.get("uploadQuestions.upload")</a>
+</li>
+
+<h3>Questions</h3>
+<ul id="list">
+</ul>
+
+}

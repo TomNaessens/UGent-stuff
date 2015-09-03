@@ -1,0 +1,4 @@
+Afspraken:
+We hebben een master branch, hier staan alleen werkende versies op;
+We hebben een dev branch, hier komen dingen op die werken maar die geen groot genoege feature zijn om naar de master te gooien;
+Ieder teamlid heeft z'n eigen branch waar hij op werkt. Als een feature af is wordt deze in de dev gemerged

@@ -1,0 +1,50 @@
+@(schoolForm: Form[OrganizerController.SchoolForm])
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main("Register school") {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<h2>@LangMessages.get("registerSchool.register")</h2>
+<div class="span8">
+@form(routes.OrganizerController.registerSchool) {
+        @if(schoolForm.hasGlobalErrors) {
+        <p>
+        <span class="label label-important">
+            @schoolForm.globalError.message
+        </span>
+        </p>
+        }
+
+        @wflash()
+        <div style="float:left;">
+        @inputText(schoolForm("name"), '_label -> LangMessages.get("registerSchool.name"))
+        @inputText(schoolForm("city"), '_label -> LangMessages.get("registerSchool.city"))
+        @inputText(schoolForm("zipCode"), '_label -> LangMessages.get("registerSchool.zipCode"))
+        <input class="btn" type="submit" value="@LangMessages.get("register.submit")"/>
+        </div>
+        <div style="float:right;">
+        @inputText(schoolForm("street"), '_label -> LangMessages.get("registerSchool.street"))
+        @inputText(schoolForm("number"), '_label -> LangMessages.get("registerSchool.number"))
+        @inputText(schoolForm("country"), '_label -> LangMessages.get("registerSchool.country"))
+        </div>
+}
+</div>
+
+} {
+<!-- Sidebar -->
+<li>
+	<a href="@routes.ProfilesController.seeProfile()">@LangMessages.get("profilePage.profile")</a>
+	</li>
+<li>
+	<a href="@routes.OrganizerController.renderRegisterTeacher()">@LangMessages.get("registerTeacher.register")</a>
+</li>
+}

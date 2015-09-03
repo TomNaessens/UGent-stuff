@@ -1,0 +1,77 @@
+\section{Performantie van de Controllers}
+\label{sec:performance}
+Laten we nu de performantie van onze controllers beschouwen. We kijken hierbij naar de gemiddelde snelheid, topsnelheid, neiging tot driften en hoe robuust de controller is. We geven hierbij ook aan welke circuits de controllers al dan niet kunnen afleggen. In Tabel~\ref{tbl:controllerresultaten} lijsten we de beste resultaten op van de algemene controllers. Bij het produceren van deze resultaten liepen de wagens geen schade op.
+
+\begin{table}
+	\centering
+	\caption{Beste resultaten van algemene controllers}
+	\label{tbl:controllerresultaten}
+	
+	\begin{subtable}{\linewidth}
+   		\centering
+   		\caption{Safecontroller}
+   		\label{tbl:resultssafe}
+       	\begin{tabular}{lrrrr}
+        	\toprule
+        	Track             & Tijd (s) & Drift (m) & Drift (s) & Top speed 
+        	(km/h) \\
+        	\midrule
+        	Interlagos        & 233.141 & 0 & 0 & 72.06 \\ 
+        	Texas             & 121.763 & 0 & 0 & 71.24 \\
+        	Spa-Francorchamps &       / & / & / & / \\
+        	Silverstone       & 178.367 & 0 & 0 & 71.91 \\
+        	\bottomrule
+    	\end{tabular}
+   	\end{subtable}
+   	
+	\begin{subtable}{\linewidth}
+   		\centering
+   		\caption{Speedcontroller}
+   		\label{tbl:resultsspeed}
+   		\begin{tabular}{lrrrr}
+    		\toprule
+        	Track             & Tijd (s) & Drift (m) & Drift (s) & Top speed  
+        	(km/h) \\
+        	\midrule
+        	Interlagos        & 128.100 &      0 &     0 & 304.16 \\
+        	Texas             &  59.369 & 257.11 & 4.799 & 352.73 \\
+        	Spa-Francorchamps &       / &      / &     / &      / \\
+        	Silverstone       & 106.700 &   20.5 & 1.600 & 270.97 \\
+        	\bottomrule
+    	\end{tabular}
+   	\end{subtable}
+  	   	
+   	\begin{subtable}{\linewidth}
+   		\centering
+   		\caption{Driftcontroller}
+   		\label{tbl:resultsdrift}
+   	    \begin{tabular}{lrrrr}
+   	    \toprule
+       	Track             & Tijd (s) & Drift (m) & Drift (s) & Top speed  
+       	(km/h) \\
+   	    \midrule
+       	Interlagos        & 116.081 & 117.29 & 4.342 & 244.47 \\
+       	Texas             &  58.034 & 277.37 & 5.000 & 336.69 \\
+       	Spa-Francorchamps &       / &      / &     / &      / \\
+       	Silverstone       & 109.533 &  66.42 & 2.767 & 272.75 \\
+   	    \bottomrule
+   	    \end{tabular}
+   	\end{subtable}
+\end{table}
+
+In de tabel zien we dat er geen gegevens beschikbaar zijn voor het circuit van Spa-Francorchamps. Geen enkele controller was namelijk in staat om door de laatste bocht te raken. Deze bocht is namelijk scherper dan 150 graden (zie Figuur~\ref{fig:spa}) waardoor de zijwaartse scanners niet kunnen uitmaken in welke richting de bocht gaat. Doordat onze controller steeds in de richting rijdt waarheen deze het verste kan kijken zal deze dus beslissen om rechtdoor te gaan, tegen de muur. Hierna zal deze de bocht ook niet meer verlaten.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.5\textwidth]{spa_circuit_bocht}
+\caption{Circuit van Spa-Francorchamps met de laaste bocht aangeduid met rood}\label{fig:spa}
+\end{figure}
+
+De controllers presteren in het algemeen het beste op banen die breed zijn en 
+egale bochten hebben, zoals Texas en Interlagos. Op een circuit zoals 
+Silverstone en Spa-Francorchamps waar enkele zeer scherpe bochten en scherpe 
+slaloms in verwerkt zijn moeten we voorzichtiger rijden met de speedcontroller en durft de driftcontroller al eens uit de bocht te gaan.
+
+\input{includes/performance/safe_perf}
+\input{includes/performance/speed_perf}
+\input{includes/performance/rally_perf}

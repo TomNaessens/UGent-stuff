@@ -1,0 +1,65 @@
+@(myForm: Form[WriteInfoToFile.Download])(teacher: Teacher)
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("downloadClasses.head")){
+<!-- Head -->
+<style>
+    .option {margin:20px}
+</style>
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main -->
+<div class="span8">
+    <div class="well">
+        @LangMessages.get("downloadClasses.info")
+     </div>
+</div>
+
+@if(myForm.hasGlobalErrors) {
+<p class="error">
+    Test
+</p>
+}
+@form(routes.WriteInfoToFile.downloadClasses){
+        <div class="option">@select(
+        myForm("Year"),
+        options = options("PREVIOUS" -> LangMessages.get("downloadClasses.previous"),"CURRENT" -> LangMessages.get("downloadClasses.current")),
+        '_default -> LangMessages.get("downloadClasses.selectYear"),
+        '_label -> LangMessages.get("downloadClasses.year"),
+        '_error -> myForm("Year").error.map(_.withMessage(LangMessages.get("downloadClasses.selectYearError")))
+    )   </div>
+        <div class="option">    @select(
+        myForm("School"),
+        teacher.schools.map{ t =>t.id.toString -> (t.toString()+"")},
+        '_default -> LangMessages.get("downloadClasses.selectSchool"),
+        '_label -> LangMessages.get("downloadClasses.school"),
+        '_error -> myForm("School").error.map(_.withMessage(LangMessages.get("downloadClasses.selectSchoolError")))
+    )   </div>
+
+        <div class="option">    @select(
+        myForm("Type"),
+        options = options(FileType.CSV.name() -> FileType.CSV.toString(), FileType.XLS.name() -> FileType.XLS.toString(), FileType.XLSX.name() -> FileType.XLSX.toString()),
+        '_default -> LangMessages.get("downloadClasses.selectType"),
+        '_label -> LangMessages.get("downloadClasses.type"),
+        '_error -> myForm("Type").error.map(_.withMessage(LangMessages.get("downloadClasses.selectTypeError")))
+    )   </div>
+    <div class="option">
+    <input class="btn btn-success" type="submit" name="action" value=@LangMessages.get("downloadClasses.download")> <i class="icon-white icon-download"></i>
+    </div>
+}
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.TeacherController.renderRegisterPupils">@LangMessages.get("profileTeacher.registerPupils")</a>
+</li>
+<li>
+    <a href="@routes.MergePupils.renderMergePupils">@LangMessages.get("mergePupils.title")</a>
+</li>
+}

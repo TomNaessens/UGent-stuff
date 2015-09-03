@@ -1,0 +1,74 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{microtype}
+
+\author{Tom Naessens}
+
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
+\parindent 0pt
+\begin{document}
+\pagestyle{empty}
+
+\underline{HPR Homework: Assignment 1}  \hfill \underline{Tom Naessens}\\
+
+\textbf{Q1.1:}\\
+\begin{tabular}{p{3cm}|p{12cm}}
+(For $N = 8186$):
+$[i-0]$: $1.65070\e{9}$
+$[i-1]$: $3.00127\e{8}$ 
+$[i-2]$: $5.99416\e{8}$ 
+$[i-3]$: $8.97871\e{8}$ 
+$[i-4]$: $1.19217\e{9}$ 
+$[i-5]$: $1.63810\e{9}$ 
+$[i-6]$: $1.63810\e{9}$ 
+& 
+For $[i-0]$, we can assume that one result per cycle is produced. But for $[i-1]$, $[i-2]$, $[i-3]$, $[i-4]$ pipelined computation is not possible as we impose dependencies on other cycles. This causes an introduction of no-ops in the pipeline, resulting in a drop of FLOP/s. The lower the index, the less pipeline stages we have to wait until the variable becomes available to load/store. This explains why the flops rise gradually as the indexes become lower. From $[i-5]$ on, the FLOP/s become stable as the difference in index (between $[i]$ and $[i-x]$)is greater than the amount of pipeline stages, so all pipeline steps can be filled in at any time without introducing no-ops.
+\end{tabular} 
+\\
+\\
+\\s
+\textbf{Q2.1:} We clearly see rises of time when the size of the array exceeds the size of a certain cache level. The execution times up to $N=1024$ ($4*64bit*1024=$)32Kb fit in the L1 cache. N ranging from 1025 to 8192(=256Kb) fits in the L2 cache and until N=524288, these elements fit in the L3 cache. 1048576 is 32Mb and will remain in RAM as this is too big to store entirely in the L3 cache. The slow times at the start are probably the result of very small loops, containing overhead.
+\\
+\textbf{Q2.2:} Not directly: the blocks have to be aligned to perform SIMD instructions, which is not always the case when there is overlap.
+\\
+\textbf{Q2.3:} Yes
+\\
+\textbf{Q2.4:} No
+\\
+\textbf{Q2.5:} Yes, especially for large sizes
+\\
+\textbf{Q2.6:} As the compiler can't be sure that the arrays are aligned and/or overlapping, it has added (relatively much) extra code to check this alignment. When the arrays are indeed not aligned, the compiler does not use SIMD instructions, but uses unaligned instructions. If the arrays however are aligned, the compiler can, after making sure the arrays are aligned, use SIMD instructions to speed up the calculation.
+\\
+\\
+\textbf{Q3.1:} Strided: $1.88679\e{9}$, Linear: $2.17391\e{9}$, BLAS: $7.38007\e{8}$
+\\
+\textbf{Q3.2:} Strided: $1.19156\e{9}$
+\\
+\textbf{Q3.3:} $49.6$\%. This is because of cache trashing. Every second row hits the same cache line, resulting in the eviction of the old cache line, causing half the lines to miss. 
+\\
+\textbf{Q3.4:} $6.2$\%. Only the first (and some random) cache lookups are misses, resulting in a low cache miss rate. This is because the dimensions are not a power of two. 
+\\
+\textbf{Q3.5:} $12.5$\%. This is also the result of cache trashing. Here, every eight row hits the same cache line. It is however not as bad as in Q3.3 as the dimensions are not as big.
+\\
+\\
+\textbf{Q4.1:}
+Strided: $8.80088\e{8}$,
+Linear: $2.06986\e{9}$,
+BLAS: $1.08108\e{10}$,
+Blocked: $1.31471\e{9}$
+\\
+\textbf{Q4.2:}
+Strided: $56.1$\%
+Linear: $3.1$\%
+BLAS: $16.9$\%
+Blocked: $2.6$\%. \\
+Comparing the FLOP/s of the algorithms, BLAS is obviously the fastest, followed by linear, blocked and finally non-linear. However, when comparing these values to the cache miss rates, one would suspect that BLAS is not the fastest at all, because it has a relatively high miss rate in comparison with the blocked linear algorithms. This is probably because BLAS uses a superior implementation, (over)compensating for the cache miss delay. \\
+One would however also expect that the blocked algorithm is faster than the linear version, because of its lower cache misses. But probably, the overhead of the extra loops and the edge-case-checking with \texttt{min()} causes a bit longer computation time. \\
+The miss rates for the blocked algorithm are the lowest because this algorithm makes ulterior reuse of memory. The linear version also has much less cache misses compared to the non-linear and BLAS because it queries the memory in a contiguous manner.
+\end{document}

@@ -1,0 +1,138 @@
+FUNCTION_BLOCK speed // Block definition (there may be more than one block per file)
+
+// Define input variables
+VAR_INPUT
+  carSpeedKph : REAL;
+  frontSensorDistance : REAL;
+  lateralVelocity : REAL;
+  corner : REAL;
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+  steering : REAL;
+  acceleration : REAL;
+  brake : REAL;
+  scanangle : REAL;
+END_VAR
+
+FUZZIFY carSpeedKph
+  TERM slow := (0, 1) (30, 1) (85, 0);
+  TERM normal := (75, 0) (100, 1) (130, 0);
+  TERM fast := (130, 0) (200, 1);
+  TERM very_fast := (210, 0) (320, 1);
+  TERM hyper_fast := (290,0) (330,1) (600, 1);
+END_FUZZIFY
+
+FUZZIFY frontSensorDistance
+  TERM near := (0, 1) (60, 0);
+  TERM normal := (40, 0) (75, 1) (100, 0);
+  TERM far := (75, 0) (120,1);
+  TERM very_far := (350, 0) (450, 1) (1000, 1);
+END_FUZZIFY
+
+FUZZIFY lateralVelocity
+  TERM minimal := trian -0.5 0 0.5;
+  TERM stable := trian -4 0 4;
+  TERM drifting := (-60, 1) (-30, 1) (-4, 0) (4, 0) (30, 1) (60, 1);
+END_FUZZIFY
+
+FUZZIFY corner
+  TERM sharp_left_corner := (-1, 1) (-0.7, 0);
+  TERM left_corner := trape -0.8 -0.6 -0.5 -0.4;
+  TERM mild_left_corner := trape -0.6 -0.45 -0.10 -0.05;
+  TERM mild_right_corner := trape 0.05 0.10 0.45 0.6;
+  TERM right_corner := trape 0.4 0.5 0.6 0.8;
+  TERM sharp_right_corner := (0.7, 0) (1, 1);
+END_FUZZIFY
+
+DEFUZZIFY steering
+  TERM sharp_left := (-1, 1) (-0.9, 0);
+  TERM left := trape -0.9 -0.7 -0.6 -0.3;
+  TERM mild_left := trape -0.2 -0.17 -0.14 -0.1;
+  TERM mild_right := trape 0.1 0.14 0.17 0.2;
+  TERM right :=  trape 0.3 0.6 0.7 0.9;
+  TERM sharp_right := (0.9, 0) (1, 1);
+  METHOD : COG;
+  DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY acceleration
+  TERM slowly := (0,1) (200,1) (300,0);
+  TERM normal := (200,0) (800,1) (1400,0);
+  TERM fastly := (1200,0) (1600,1);
+  METHOD : RM;
+  DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY brake
+  TERM slowly := (0,1) (10,0);
+  TERM normal := (10,0) (20,1) (30,0);
+  TERM fastly := (30,0) (40,1);
+  METHOD : RM;
+  DEFAULT := 0;
+END_DEFUZZIFY
+
+DEFUZZIFY scanangle
+  TERM very_narrow := trian 0 5 10;
+  TERM narrow := trian 10 15 20;
+  TERM normal := trian 13 30 45;
+  TERM wide   := trian 40 45 60;
+  METHOD : COG;
+  DEFAULT := 30;
+END_DEFUZZIFY
+
+// Inference rules
+RULEBLOCK steering
+  AND : MIN;  // Use 'min' for 'and'
+  ACT : MIN;  // Use 'min' activation method
+  ACCU : MAX; // Use 'max' accumulation method
+
+  RULE 1 : IF corner IS sharp_left_corner THEN steering IS sharp_left;
+  RULE 2 : IF corner IS left_corner THEN steering IS sharp_left;
+  RULE 3 : IF corner IS mild_left_corner THEN steering IS mild_left;
+  RULE 4 : IF corner IS mild_right_corner THEN steering IS mild_right;
+  RULE 5 : IF corner IS right_corner THEN steering IS sharp_right;
+  RULE 6 : IF corner IS sharp_right_corner THEN steering IS sharp_right;
+
+  RULE 7 : IF lateralVelocity IS drifting AND (corner IS mild_right_corner OR corner IS right_corner) THEN steering IS sharp_right;
+  RULE 8 : IF lateralVelocity IS drifting AND (corner IS mild_left_corner  OR corner IS left_corner)  THEN steering IS sharp_left;
+END_RULEBLOCK
+
+RULEBLOCK speedup
+  AND : MIN;  // Use 'min' for 'and'
+  ACT : MIN;  // Use 'min' activation method
+  ACCU : MAX; // Use 'max' accumulation method
+
+  RULE 1 : IF carSpeedKph IS slow AND frontSensorDistance IS near THEN acceleration IS fastly;
+  RULE 2 : IF carSpeedKph IS slow AND frontSensorDistance IS far THEN acceleration IS fastly;
+  RULE 3 : IF carSpeedKph IS normal AND frontSensorDistance IS far THEN acceleration IS fastly;
+
+  RULE 4 : IF carSpeedKph IS fast AND lateralVelocity IS minimal AND frontSensorDistance IS very_far THEN acceleration IS fastly;
+  RULE 5 : IF carSpeedKph IS hyper_fast AND frontSensorDistance IS NOT very_far THEN acceleration IS slowly;
+
+  RULE 6 : IF lateralVelocity IS drifting THEN acceleration IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK brake
+  AND : MIN;  // Use 'min' for 'and'
+  ACT : MIN;  // Use 'min' activation method
+  ACCU : MAX; // Use 'max' accumulation method
+
+  RULE 4 : IF frontSensorDistance IS NOT far AND carSpeedKph IS fast THEN brake IS slowly;
+  RULE 5 : IF frontSensorDistance IS NOT very_far AND carSpeedKph IS very_fast THEN brake IS normal;
+  RULE 6 : IF carSpeedKph IS fast THEN brake IS normal;
+  RULE 7 : IF carSpeedKph IS very_fast AND frontSensorDistance IS NOT very_far THEN brake IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK scanangle
+  AND : MIN;  // Use 'min' for 'and'
+  ACT : MIN;  // Use 'min' activation method
+  ACCU : MAX; // Use 'max' accumulation method
+
+  RULE 1: IF frontSensorDistance is near THEN scanangle IS wide;
+  RULE 2: IF carSpeedKph IS very_fast THEN scanangle IS narrow;
+  RULE 3: IF carSpeedKph IS hyper_fast THEN scanangle IS very_narrow;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

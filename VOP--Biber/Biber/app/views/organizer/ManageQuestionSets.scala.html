@@ -1,0 +1,87 @@
+@(sets:List[models.Set])
+@import utils.LangMessages
+
+@main(LangMessages.get("profileOrganizer.manageSets")) {
+<!-- HEADER -->
+
+<style>
+	.icon {width:24px}
+</style>
+} {
+<!-- TOPLINKS -->
+
+} {
+<!-- BODY -->
+@wflash()
+<h2>@LangMessages.get("set.name.plural")</h2>
+<p id="error" class="error"></p>
+<div id="list">
+@for(comptype <- CompetitionType.values()) {
+<h3> @comptype </h3>
+<table id="@comptype">
+@for(set <- sets.filter(_.isRestricted == comptype)) {
+			@setRow(set)
+	}
+</table>
+}
+
+
+</div>
+<script>
+function upgrade(id)
+{
+	jsRoutes.controllers.SetController.upgradeSet(id).ajax().done(
+    			function(result) {
+    				
+    				if (result.ok) {
+    					if($('#'+result.ok).length == 0) {
+    						$('#list').append("<h3>"+result.ok+"</h3><table id='"+result.ok+"'></table>");
+    					}
+    		            $('#'+result.ok).append($('#'+result.id));
+    		            if(result.ok == "@CompetitionType.OFFICIAL") {
+    		            	$('#arrowup'+result.id).hide();
+    		            }
+    		            if(result.ok == "@CompetitionType.LOCAL") {
+    		            	$('#arrowdown'+result.id).show();
+    		            }
+    				} else {
+   						$('#error').text(result.status);
+    				}
+    			});
+
+}
+function downgrade(id)
+{
+	jsRoutes.controllers.SetController.downgradeSet(id).ajax().done(
+		function(result) {
+			if(result.ok) {
+				if($('#'+result.ok).length == 0) {
+					$('#list').append("<h3>"+result.ok+"</h3><table id='"+result.ok+"'></table>");
+				}
+				$('#'+result.ok).append($('#'+result.id));
+				if(result.ok == "@CompetitionType.UNRESTRICTED") {
+					$('#arrowdown'+result.id).hide();
+				}
+	            if(result.ok == "@CompetitionType.LOCAL") {
+	            	$('#arrowup'+result.id).show();
+	            }
+			} else {
+				$('#error').text(result.status);
+			}
+		}	
+	);
+}
+</script>
+} {
+<!-- SIDEBAR -->
+<li>
+    <a href="@routes.SetController.renderComposeSet">@LangMessages.get("profileOrganizer.newSet")</a>
+</li>
+<li>
+    <a href="@routes.Competitions.render_create_competition">@LangMessages.get("profileOrganizer.newCompetition")</a>
+</li>
+<li>
+    <a href="@routes.QuestionsController.renderUploadQuestions">@LangMessages.get("uploadQuestions.upload")</a>
+</li>
+
+}

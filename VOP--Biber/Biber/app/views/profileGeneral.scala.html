@@ -1,0 +1,80 @@
+@(title: String)(person: Person)(head: Html)(topLinks: Html)(content: Html)(sidebar: Html)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(title) {
+<!-- Head -->
+
+<style type=text/css>
+    .blue {
+    color: #3F67B0;
+    }
+
+</style>
+
+@head
+<script type="text/javascript">
+$(function() {
+    $('#mimick-button').click(function(e) {
+        var bebrasId = $('#mimick-id').val();
+        jsRoutes.controllers.Application.mimickUser(bebrasId).ajax().done(
+    			function(result){
+    				if (result == null) return;
+    				if (result.redirect){
+    		            window.location.href = result.redirect;
+    				}
+    				else{
+   						$('#mimick-error').text(result.status);
+    				}
+    			});
+    });
+});
+
+</script>
+
+}{
+<!-- Toplinks -->
+@topLinks
+
+} {
+<!-- Main content -->
+@wflash()
+
+<h2>@LangMessages.get("profilePage.info")</h2>
+<div class="span8">
+<div class="well">
+<b>Name</b>: @person.firstName @person.lastName</br>
+<b>E-mail</b>: @person.email </br>
+<b>Gender</b>: @person.gender </br>
+<b>Language</b>: @person.language</br>
+</div>
+</div>
+@content
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <h3 id="myModalLabel">@LangMessages.get("mimick.mimickUser")</h3>
+  </div>
+  <div class="modal-body">
+		<input id="mimick-id" type="text" placeholder="bebrasId">
+ 		<p id= "mimick-error" class="label label-important"></p>   	
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id= "mimick-button" class="btn btn-primary">Mimick user</button>
+  </div>
+</div>
+
+} {
+<!-- Sidebar -->
+@sidebar
+<li>
+    <a href="@routes.ProfilesController.editProfile()">@LangMessages.get("profileGeneral.link")</a>
+</li>
+<li>
+    <a href="@routes.ProfilesController.downloadManual()">@LangMessages.get("profileGeneral.downloadManual")</a>
+</li>
+
+}

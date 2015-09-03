@@ -1,0 +1,11 @@
+package test.common;
+
+public interface TestService {
+
+    public Counter getCounter();
+    
+    public String sayHello(String name);
+    
+    //TODO:: HomeWork
+    //public void throwAnExceptionPlease();    
+}

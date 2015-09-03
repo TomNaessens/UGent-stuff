@@ -1,0 +1,5 @@
+[1]
+http://cis.k.hosei.ac.jp/~wakahara/sobel.c
+
+Sobel mask on image
+

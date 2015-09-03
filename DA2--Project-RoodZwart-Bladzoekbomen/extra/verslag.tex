@@ -1,0 +1,1496 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage[dutch]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{graphicx}
+
+\title{\underline{Algoritmen en Datastructuren II:}\\ Rood-zwart bomen: varianten en herbalanceringsmethoden}
+\author{Tom Naessens\\ Tom.Naessens@UGent.be}
+\date{28 november 2011}
+
+\parindent 0pt
+\begin{document}
+\maketitle
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                  VERWACHTINGEN                                                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Verwachtingen}   
+
+\section{Bespreking basismethoden}
+\subsection*{Opzoeken}
+\label{opzoeken}
+Als we opzoeken in een RZ-boom beginnen we bij de wortel en vergelijken we de waarde van wortel met de waarde die we in de boom zoeken. Is de waarde die we zoeken kleiner, doen we hetzelfde bij het linkerkind van de wortel, anders vergelijken we de gezochte waarde met de waarde van het rechterkind van de wortel. Dit blijven we doen tot op het moment dat of de waarde die we zoeken gelijk is aan de waarde van een top, of dat we naar links of naar rechts moeten, maar daar geen top is. In het eerste geval bestaat de top in de boom, in het tweede geval bestaat de top niet. De complexiteit, zoals beschreven in de cursus hiervan is $O(log(n))$ waar $n$ staat voor de verzameling van sleutels die we toevoegen.\\
+Het opzoeken in een inwendige en uitwendige RZ-boom is ongeveer gelijk aan het vorig algoritme. Er zijn 2 verschillen:\\
+Volgens de definitie van een bladzoekboom zitten alle sleutels in de bladeren. We zullen dus in alle gevallen moeten toppen vergelijken tot we in een blad terecht komen. Dit is ons eerste verschil. Het tweede verschil is, dat, in vergelijking met een gewone RZ-boom, we altijd $n-1$ meer toppen hebben voor een sleutelverzameling van $n$ waarden. Dit komt omdat we altijd een top aan een blad toevoegen, en dan herbalanceren. In een inwendige en uitwendige RZ-boom moeten we altijd, behalve in de wortel, een extra top toevoegen. In totaal zullen er dus altijd $n+(n-1)$ toppen in de boom zitten. Voor het vervolg van dit verslag zal ik de variabele $n$ gebruiken voor het aantal `echte' sleutels, en $m$ (dat gelijk is aan $n-1$) om het aantal inwendige toppen aan te duiden die geen sleutels zijn. Zoals gezegd bij het eerste verschil moeten we altijd toppen vergelijken tot we helemaal onderaan de boom (met een maximum diepte van $2*log(n+1+m)$) komen, dus zal de complexiteit hiervan gelijk zijn aan $log(n+m)$. Deze $log(n+m)$ is dus zowel een ondergrens als een bovengrens als het gemiddelde geval voor zowel de inwendige als de uitwendige RZ-boom.
+
+\subsection*{Toevoegen}
+Het toevoegen in een normale RZ-boom bestaat uit twee delen. Eerst zoeken we de top waaraan de nieuwe top moet worden toegevoegd en daarna, indien nodig, herbalanceren we de boom zodat de boom zodat de boom terug voldoet aan de kleureigenschappen. Beide acties hebben een kost van $O(log(n))$.\\
+Bij een inwendige en een uitwendige RZ-boom is het algoritme licht verschillend: we zoeken de top$(b)$ waaraan de nieuwe top$(a)$ zou moeten toegevoegd worden, daarna halen we deze top er uit en voegen we een nieuwe top$(c)$ toe, waarvan de waarde tussen de waarde van top$(a)$ en top$(b)$ ligt. Daarna herbalanceren we de boom indien nodig vanaf de top die we zelf hebben toegevoegd, top$(b)$ dus.\\
+Bij een uitwendige RZ-boom hebben de bladeren, de `echte' sleutels dus, geen kleur. Dit zorgt ervoor dat we vrijer zijn in het kiezen van de kleur van de top die we `tussen 2 sleutels steken'. Hierdoor verwacht ik dat we tijdens het herbalanceren, in vergelijking met een inwendige RZ-boom, in sommige gevallen vroeger mogen stoppen.\\
+Als we hier kijken naar de verschillende kosten vinden we dat de kost voor het zoeken van de top waaraan we de nieuwe top toevoegen gelijk is aan de maximale diepte van de boom, maximum $2*log(n+1+m)$. Daarna moeten we nog herbalanceren. Zoals beschreven op p. 23 van de cursus komen we met elke herbalancering 1 stap dichter bij de wortel. Aangezien we bij de top die we zelf hebben toegevoegd herbalanceren beginnen met herbalanceren, en niet vanaf een blad, moeten we dus maximaal over $2*log(n+1+m-1) = 2*log(n+m)$ toppen balanceren. \\
+We kunnen dus besluiten dat de complexiteit hiervan voor zowel een inwendige als uitwendige RZ-boom gelijk is aan $O(log(n+m))$.
+
+\subsection*{Verwijderen}
+De complexiteit van het verwijderen bij een standaard RZ-boom is, zoals beschreven in de cursus, gelijk aan $O(log(n))$.\\
+Het algoritme om te verwijderen in de varianten van een RZ-boom komt in grote lijnen overeen met het algoritme dat hierboven, bij het toevoegen dus, beschreven staat. Het enige verschil is dat we in plaats van een sleutel toevoegen, hier een sleutel gaan verwijderen. Hierbij kunnen we ook \'e\'en extra top, die geen element is van de sleutelverzameling, verwijderen. Na het verwijderen van deze twee toppen moeten we eventueel de kleuring en/of de diepte van de boom herstellen op dezelfde manier als bij een standaard RZ-boom. Aangezien we bij elke herbalancering \'e\'en stap dichter bij de wortel komen, en de maximale diepte van een boom $2*log(n+1+m)$ is, zal dit dus een complexiteit hebben van $O(log(n+m))$.\\
+
+\section{Datagebruik}
+Als we het datagebruik voor een gewone RZ-boom bekijken hebben we geen overhead: voor elke sleutel hebben we 1 top in onze boom. In vergelijking met een inwendige en een uitwendige RZ-boom, waar we altijd $n-1$ meer toppen nodig hebben voor een sleutelverzameling van $n$ hebben we dus een overhead van $n-1$ toppen, die allemaal geheugen innemen. Het totale ingenomen geheugen van een inwendige RZ-boom is dus $n+m = 2n-1$.\\ In een uitwendige RZ-boom houden de echte sleutels echter geen kleur bij, dus zullen deze iets minder geheugen innemen dan inwendige RZ-bomen, maar nog steeds meer dan gewone RZ-bomen. Dit zal ongeveer gelijk zijn aan $n+m-n*c = 2n-1-n*c$, waarbij de c staat voor het geheugen dat wordt ingenomen door de kleureigenschap. 
+
+\newpage
+\section{Overzicht}
+Om een verzameling van n sleutels toe te voegen is de complexiteit gelijk aan: \textit{(Hier staat de m ($=n-1$ niet in functie van $n$ geschreven om duidelijk te maken dat er wel degelijk een verschil zit in de complexiteit voor eenzelfde sleutelverzameling $n$.)}\\\\
+\begin{tabular}{|c||c|c|c|}
+\hline  & RZ-Boom & Inwendige RZ-Boom & Uitwendige RZ-boom \\ 
+\hline\hline Opzoeken & $O(log(n))$ & $O(log(n+m))$ & $O(log(n+m))$ \\ 
+\hline Toevoegen & $O(log(n))$ & $O(log(n+m))$ & $O(log(n+m))$ \\ 
+\hline Verwijderen & $O(log(n))$ & $O(log(n+m))$ & $O(log(n+m))$ \\ 
+\hline Datagebruik & $n$ & $n+m$ & $n+m-n*c$ \\ 
+\hline 
+\end{tabular} 
+
+\section{Besluit}
+Als we de tabel hierboven bekijken is het duidelijk dat de standaard RZ-boom de beste keuze is op alle vlakken, daarom zal deze in de praktijk ook het best zijn om te gebruiken. Voor een aantal randgevallen kan het wel zijn dat de inwendige of uitwendige RZ-boom beter is dan een standaard RZ-boom. Dit is echter wel verwaarloosbaar aangezien dit maar voor heel weinig gevallen geldt. Als voorbeeld nemen we een uitwendige RZ-boom met \'e\'en top. Deze top heeft geen kleur. Als we 1 top toevoegen bij een lege standaard RZ-boom is deze automatisch zwart gekleurd, wat er voor zorgt dat een uitwendige RZ-boom met 1 sleutel een verwaarloosbaar beetje minder geheugen gebruikt dan een standaard RZ-boom.\\ \\
+Als we de inwendige RZ-boom met de uitwendige vergelijken merken we op het eerste zicht niet echt veel verschil in complexiteit van de basisbewerkingen. Wat wel een verschil uitmaakt is de kleuring. Dit zorgt er ten eerste voor dat we iets minder data moeten gebruiken, aangezien de 'echte' sleutels geen kleuren hoeven bij te houden. Dit zal echter wel verwaarloosbaar zijn voor een groot aantal toppen. Ten tweede, zoals besproken bij het toevoegen, zorgt dit ervoor dat we hier vrijer zijn bij het kleuren van de toppen die we er zelf tussen steken, waardoor we over het algemeen effici\"enter de toppen kunnen kleuren, en zo eventueel vroeger mogen stoppen. Om deze twee redenen verwacht ik dat een uitwendige in het algemeen beter zal presteren dan een inwendige RZ-boom.\\
+Als algemeen besluit verwacht ik dat een standaard RZ-boom het best zal functioneren, daarna de uitwendige RZ-boom en dan de inwendige RZ-boom.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                     VERSLAG                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Verslag}
+\section*{Woord vooraf}
+Aangezien er in de rest van het verslag afbeeldingen voorkomen vermeld ik hier de legende:
+\begin{itemize}
+\item \textbf{Rode top:} Duidt een rode top aan;
+\item \textbf{Zwarte top:} Duidt een zwarte top;
+\item \textbf{Witte top:} Bij een gewone rood-zwart boom (geen bladzoekboom dus) duidt dit een top aan die zowel rood als zwart kan zijn. Bij een uitwendige rood-zwart bladzoekboom duidt dit een top aan die geen kleur bevat;
+\item \textbf{Top met onderlijnd label:} Duidt een vervangtop aan bij het verwijderen;
+\item \textbf{Top met ``\dots'' als label:} Toont aan dat er nog toppen kunnen tussen zitten;
+\item \textbf{Achthoekige top:} Duidt een top aan die we na toepassing van het verwijderalgoritme verwijderen.
+\end{itemize}
+Als er wordt verwezen naar een afbeelding is deze altijd te vinden onder de paragraaf waarin er verwezen wordt, of bovenaan de volgende bladzijde. Soms wordt er ook verwezen naar een stap van een afbeelding, met stap wordt de hoeveelste `deelafbeelding' van de afbeelding bedoeld.
+
+\section{Vertex}
+De toppen in de boom worden voorgesteld door objecten van de klasse \textsl{MyVertex}. Deze klasse implementeer de (meegegeven) klasse \textsl{Tree}. Naast de methodes die ook te vinden zijn in \textsl{Vertex} zijn er nog enkele setters en getters voorzien voor de verschillende variabelen.\\
+Elke top heeft de volgende attributen:
+\begin{itemize}
+\item kleur;
+\item waarde;
+\item referentie naar de ouder;
+\item referentie naar het linkerkind;
+\item referentie naar het rechterkind.
+\end{itemize}
+Ook is er een \textsl{static final int} variabele, \textsl{NOCOLOR}, die de waarde van `geen kleur' ($-1$) bij houdt.
+
+\section{Standaard rood-zwart bomen}
+\subsection{Bespreking implementatie}
+\subsubsection*{Abstracte bovenklasse: \textsl{AbstractRBTree.java}}
+Om goed gebruik te kunnen maken van overervering heb ik een abstracte bovenklasse gedefinieerd waar bijna alle methodes ge\"implementeerd zijn.\\
+Deze abstracte bovenklasse implementeert de meegegeven klasse \textsl{Tree.java}. Deze klasse bevat onder meer de hoofdmethoden:
+\begin{itemize}
+\item \textsl{\textbf{add()}}: Voegt een top toe in de boom en roept daarna, indien nodig, rebalance aan;
+\item \textsl{\textbf{rebalance()}}: Wordt overschreven in \textsl{Tree1}, \textsl{Tree2} en \textsl{Tree3}. Deze methode roept hierna 1 van de methode's \textsl{standardRebalance()} of \textsl{variantRebalance()} op die op hun beurt weer \textsl{executeRebalance()} oproepen. Deze laatste methode voert ook werkelijk de herbalancering uit;
+\item \textsl{\textbf{remove()}}: Deze methode verwijdert de top uit een boom. Hij maakt gebruik van hulpmethoden \textsl{findReplacementTop()}. Voor de gevallen waarbij van een sibling gebruikt wordt gemaakt maakt deze methode gebruik van de hulpmethode \textsl{siblingCases()};
+\item \textsl{\textbf{contains()}}: Controleert als een waarde in een boom voorkomt;
+\item \textsl{\textbf{iterator()}}: Geeft een object van de klasse \textsl{TreeIterator} terug. Deze is ge\"implementeerd in \textsl{TreeIterator.java}.
+\end{itemize}
+Naast deze methodes bevat deze klasse nog enkele hulpmethodes zoals \textsl{getSibling()}, \textsl{removeVertex()}, \dots \\
+Meer specifieke uitleg bij de bovenstaande methodes staat in commentaar bij de betreffende methode in het java-bestand.
+\subsubsection*{Basis herbalancering: \textsl{Tree1.java}}
+Deze klasse heeft de abstracte klasse \textsl{AbstractRBTree} als bovenklasse.\\
+Deze klasse heeft 1 methode, namelijk \textsl{rebalance()} en overschrijft hiermee de (lege) implementatie van de methode in de bovenklasse. In deze methode wordt de methode \textsl{standardRebalance()} van de superklasse (\textsl{AbstractRBTree}) opgeroepen. Deze voert de herbalancerings en kleuringsmethode uit die beschreven staat op p.23 in de cursus zolang er een conflict is.
+\subsubsection*{Verbeterde herbalancering: \textsl{Tree2.java}}
+Deze klasse is gelijk aan de klasse \textsl{Tree1.java}  met het enige verschil dat hij niet \textsl{standardRebalance()} oproept maar \textsl{variantRebalance()}. Deze voert de herbalancerings- en kleuringsmethode uit die beschreven staat op p. 22 in de cursus zolang er een conflict is of tot dat de herbalancerings- en de kleuringsmethode van op p. 23 kan worden uitgevoerd.
+\subsubsection*{Geparametriseerde versie: \textsl{Tree3.java}}
+Deze klasse heeft de abstracte klasse \textsl{AbstractRBTree} als bovenklasse en overschrijft net zoals de twee voorgaande klasses de methode \textsl{rebalance()}. Ook de methode \textsl{add()} wordt overschreven, zodat we de de diepte van de toegevoegde top kunnen berekenen om hierbij onze parameter op te kunnen baseren. Meer hierover staat in volgend puntje van het verslag.\\
+
+\subsection{Bespreking parameterkeuze}
+De parameter is, zodat het relatief gezien voor elke boom kan werken, gebaseerd op de diepte van een boom. Dit houdt wel in dat in klasse \textsl{Tree3} de \textsl{add()}-methode overschreven moet worden, zodat bij het zoeken naar de top waaraan de top moet worden toegevoegd de diepte kan worden bijgehouden.\\
+Als parameter heb ik $1/4$ maal de diepte van de boom gekozen. We voegen namelijk steeds onderaan toe. Voor de eerste x-aantal herbalancering gebruiken we de gewone herbalancering, die beschreven staat op p. 22 in de cursus. Op deze manier verminderen we het aantal rode sleutels in de boom, en vermeerderen we het aantal zwarte sleutels zodat bij een volgende herbalancering de kans op een botsing kleiner is.\\
+Waarom deze parameter dan exact $1/4$ maal de diepte van de boom is, is omdat ik verschillende waardes heb getest. Het bleek dat een verschillende parameter die al dan niet veel afweek van de voorgaande, maar h\'e\'el weinig verschil uitmaakte. Uit het gemiddelde van al deze tests kwam $1/4$ als de gunstigste factor voor.
+
+\subsection{Theoretische uitwerking: Verwijderen van sleutels}
+Bij het verwijderen van een sleutel proberen we eerst de te verwijderen top te vinden door af te dalen in de boom. \\
+Als we deze niet hebben gevonden stoppen we. We kunnen namelijk niets verwijderen dat niet in onze boom zit.\\
+Als we wel een top hebben gevonden met de waarde die we willen verwijderen zoeken we de top die qua waarde voor deze te verwijderen top komt. Dit doen we door, als dit mogelijk is, het linkerkind te nemen van deze te verwijderen top. Daarna nemen we zo veel mogelijk het rechterkind van deze top, tot de top geen rechterkind meer heeft. Als we deze top hebben gevonden hebben we een aantal gevallen:\\
+
+\textit{In deze gevallen gebruik ik de woorden `te verwijderen top' om de top aan te duiden waarvan de waarde overeen komt met de waarde die wel willen verwijderen en `vervangtop' om de top aan te duiden waarvan zijn waarde uiteindelijk in de `te verwijderen top' komt zal komen. Nadat elk geval verwijderen we uiteindelijk de `vervangtop' uit de boom.}
+
+\begin{description}
+\item[1ste geval:]
+\textbf{De te verwijderen top is de wortel en hij heeft geen linkerkind en geen rechterkind:}\\
+Dit geval is triviaal: De enige top in de boom is de wortel. We zetten deze op null.
+
+\item[2de geval:]
+\textbf{De te verwijderen top is de wortel en hij heeft geen linkerkind, maar wel een rechterkind:} \textsl{(Afbeelding: Figuur \ref{removeCase2})} \\
+Aangezien het aantal zwarte toppen (geteld aan de linkerkant van de boom met de wortel meegerekend) $1$ is moet deze langs de rechterkant ook $1$ zijn. De enige top die dus rechts kan voorkomen is een rood blad. Om te top uiteindelijk te gaan verwijderen plaatsen we de waarde van deze rode rechtertop in de wortel, en verwijderen we de rode rechtertop.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{images/removeCase2.png}
+	\caption{Verwijderen, geval 2}
+	\label{removeCase2}
+\end{figure}
+
+\item[3de geval:]
+\textbf{De vervangtop is rood:} \textsl{(Afbeelding: Figuur \ref{removeCase3})}\\
+Als de vervangtop rood is dan mogen we er van uit gaan dat we deze gewoon mogen verwijderen uit de boom, nadat de waarde van deze vervangtop in de te verwijderen top is geplaatst. Verklaring: Een rechterkind kan de vervangtop niet hebben, anders was dit rechterkind de vervangtop geworden. Een linkerkind kan deze top ook niet hebben want stel dat hij dit wel heeft, dan moet deze rood zijn om de boom niet uit balans te brengen (hij kan immers geen rechterkind hebben dat ook zwart is). Dit kan echter niet, want we veronderstellen dat de vervangtop rood is en een rood linkerkind zou de kleuringseigenschap (2 opeenvolgende toppen mogen niet beide rood zijn) breken.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{images/removeCase3.png}
+	\caption{Verwijderen, geval 3}
+	\label{removeCase3}
+\end{figure}
+
+\item[4de geval:]
+\textbf{De vervangtop is zwart en heeft 1 kind:}\\
+Hier onderscheiden we 2 deelgevallen waarvan het ene het spiegelbeeld is van het andere:
+\begin{enumerate}
+\item De vervangtop heeft een rood linkerkind: \textsl{(Afbeelding: Figuur \ref{removeCase4a})}\\
+We plaatsen de waarde van dit rood linkerkind in de vervangtop en we snijden dit rood linkerkind af.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{images/removeCase4a.png}
+	\caption{Verwijderen, geval 4, deelgeval 1}
+	\label{removeCase4a}
+\end{figure}
+\item De vervangtop heeft een rood rechterkind: \textsl{(Afbeelding: Figuur \ref{removeCase4b})}\\
+We plaatsen de waarde van dit rood rechterkind in de vervangtop en we snijden dit rood rechterkind af. Eigenlijk is geval 2 hier een speciaal geval van, waarbij de te verwijderen top de ouder is.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{images/removeCase4b.png}
+	\caption{Verwijderen, geval 4, deelgeval 2}
+	\label{removeCase4b}
+\end{figure}
+\end{enumerate}
+
+\item[5de geval:]
+\textbf{De vervangtop is zwart, is niet de wortel en heeft geen kinderen.}\\
+In dit geval gaan we er van uit dat de broer van de vervangtop rechts van de vervangtop zelf staat. Voor het omgekeerde bestaan er ook gevallen, maar deze zijn volledig analoog aan de onderstaande (met het enige verschil dat alle gevallen gespiegeld zijn).\\
+In dit geval heeft de vervangtop zeker een broer want: De vervangtop zelf is zwart en hij heeft geen kinderen. Dat wil dus zeggen dat als we kijken hoeveel zwarte toppen de ouder van de vervangtop in zijn linkerdeelboom heeft, dit aantal gelijk is aan $1$. Aangezien er moet gelden dat het aantal zwarte toppen in een linkerdeelboom van een top moet gelijk zijn aan het aantal toppen in een rechterdeelboom moet de rechterdeelboom van de ouder van de vervangtop dus ook $1$ zwarte top hebben.\\
+De volgende situaties kunnen optreden:
+\begin{enumerate}
+\item De broer is rood: \textsl{(Afbeelding: Figuur \ref{siblingCase1})}\\
+Als de broer rood is wil dit zeggen dat hij zeker 2 zwarte kinderen heeft. De rechterdeelboom van de ouder van de vervangtop moet namelijk (minstens en ten hoogste) $1$ zwarte top bevatten aangezien de linkerdeelboom van de ouder van de vervangtop 1 zwart blad heeft. De broer van deze vervangtop is rood, dus zijn kinderen zijn zeker beide zwart. Aangezien de broer van de vervangtop rood is, is zijn ouder (en dus ook de ouder van de vervangtop) zwart. De linkerdeelboom heeft na verwijdering van de vervangtop geen zwarte toppen, en de rechterdeelboom 1. Dit kunnen we oplossen door een rotatie toe te passen op de ouder van de vervangtop, de broer, en het rechterkind van de broer. Na deze rotatie kleuren we de ouder van de vervangtop rood, de broer zwart en het rechterkind van de broer ook zwart. Zo heeft de linkerdeelboom van de gemeenschappelijke top 1 zwarte top en de rechterdeelboom ook. Het probleem is nu dat we de vervangtop nog niet verwijderd hebben. Als we deze verwijderen in de kleine deelboom gevormd door de vervangtop, de ouder van de vervangtop en de (nieuwe) broer van de vervangtop dan heeft de linkerdeelboom van de ouder van de vervangtop geen zwarte kinderen, en de rechterdeelboom 1 zwart kind. Na het verwijderen van de vervangtop is de top die zijn ouder was rood, en de top die zijn broer was zwart. Dit is een probleem dat we kunnen oplossen door de ouder van de broer zwart te kleuren, en de broer rood te kleuren. Zo hebben we, als we de deelboom beschouwen met als wortel de grootvader van de verwijderde top een gebalanceerde rood-zwart boom, met evenveel zwarte toppen links en rechts als dat we in het begin hadden en mogen we stoppen met herbalanceren.\\
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{images/siblingCase1.png}
+	\caption{Verwijderen, geval 5, deelgeval 1}
+	\label{siblingCase1}
+\end{figure}
+
+\item De broer heeft geen kinderen: \textsl{(Afbeelding: Figuur \ref{siblingCase2})}\\
+Als de broer geen kinderen heeft is het zeker dat deze zwart is aangezien de diepte van de linkerdeelboom moet overeenkomen met de diepte van de rechterdeelboom. Aangezien dat de broer geen kinderen heeft kunnen we geen rotatie toepassen om het aantal zwarte bladeren links en rechts te behouden. Wat we wel kunnen doen is het aantal rode toppen van de volledige deelboom (= te verwijderen vervangtop, ouder van de vervangtop en de broer van de vervangtop) verminderen met 1 door de broer rood te kleuren. Nu hebben het aantal zwarte toppen van in de volledige deelboom met 1 vermindert, we hebben met andere woorden het probleem met 1 niveau naar boven geschoven. Het kan met andere woorden nog zijn dat de ouder van de volledige deelboom een $x$-aantal zwarte toppen heeft in zijn linkerdeelboom, en een $(x+1)$-aantal zwarte toppen in zijn rechterdeelboom. We zitten met andere woorden terug met het probleem dat we voorafaan deze herbalancering hadden. Daarom roepen we recursief nog eens geval 5 op, maar nu nemen we als vervangtop de ouder van de vervangtop. De recursiviteit zal na deze opsomming van gevallen besproken worden aangezien deze kan resulteren in alle gevallen.\\
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/siblingCase2.png}
+	\caption{Verwijderen, geval 5, deelgeval 2}
+	\label{siblingCase2}
+\end{figure}\\
+
+\item De broer heeft een rood linkerkind: \textsl{(Afbeelding: Figuur \ref{siblingCase3})}\\
+In dit geval kunnen we dit rode linkerkind van de broer gebruiken om het tekort van zwarte toppen in de linkerdeelboom van deze deelboom te compenseren. We kunnen een rotatie uitvoeren met als toppen het rode linkerkind van de broer van de vervangtop, de vervangtop zelf en de parent van de vervangtop. In figuur \ref{siblingCase3} heb ik een extra tussenstap (stap 2) gebruikt omdat je langs deze weg een `probleem' van deelgeval 3 kan omzetten naar een `probleem' van deelgeval 4 zonder een fout te introduceren. Voor het verdere verloop van de oplossing van dit probleem verwijs ik ook naar het volgend puntje.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/siblingCase3.png}
+	\caption{Verwijderen, geval 5, deelgeval 3}
+	\label{siblingCase3}
+\end{figure}\\
+
+\item De broer heeft een rood rechterkind: \textsl{(Afbeelding: Figuur \ref{siblingCase4})}\\
+In dit geval heeft de broer van de vervangtop een rood rechterkind. We kunnen dit rood rechterkind gebruiken om het tekort (na verwijderen van de vervangtop) op te vangen door de parent van de broer van de vervangtop, de vervangtop zelf en het rode rechterkind van de vervangtop te roteren zoals te zien is in de Figuur \ref{siblingCase4}. Na deze rotatie kleuren we de twee kinderen van de broer, die nu de top van de deelboom geworden is, zwart. Zo hebben we links van de broer en rechts van de broer een gelijk aantal zwarte toppen. De wortel kleuren we uiteindelijk in de originele kleur van de deelboom van voor de rotatie om ervoor te zorgen dat de hele deelboom eenzelfde aantal zwarte toppen heeft als voor de rotatie.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/siblingCase4.png}
+	\caption{Verwijderen, geval 5, deelgeval 4}
+	\label{siblingCase4}
+\end{figure}\\
+\end{enumerate}
+
+Deze gevallen zijn echter niet voldoende om alle problemen meteen op te lossen. Het enige geval dat recursief kan doorgaan is deelgeval 2, als de broer geen kinderen heeft. Na het uitvoeren van deze methode wordt geval 5 opnieuw doorlopen, maar ditmaal met de ouder van de oorspronkelijke vervangtop als vervangtop. De reden waarom we dit moeten doen is de volgende: de volledige deelboom is wel een rood-zwartboom maar hij is met 1 zwarte top verminderd. Stel nu dat deze deelboom deel uitmaakt van een grotere boom en we nemen de andere deelboom van de ouder van de wortel van de huidige deelboom, dan zal er een verschil zitten in het aantal zwarte toppen aan de linkerkant en het aantal zwarte toppen aan de rechterkant. Vaak resulteert dit in een ander geval dan geval 2, zodat de boom uiteindelijk goed gebalanceerd is. Het kan soms wel zijn (als een boom geen rode toppen bevat) dat het algoritme tot in de wortel door gaat. Als we in de wortel uitkomen is het probleem meteen opgelost. Dit wil zeggen dat we zowel links als rechts het aantal zwarte toppen met 1 verminderd hebben en dus dat de boom terug gebalanceert is. Als onderweg deelgeval 2 wordt opgeroepen op een rode top, dan kleuren we deze rode top gewoon zwart om het aantal zwarte toppen aan de linkerkant van de deelboom terug op zijn oorspronkelijk aantal te brengen. In dit geval loopt de recursie af aangezien het aantal zwarte toppen links gelijk is aan het aantal zwarte toppen van voor de operatie, en het evenwicht aan zwarte toppen in de hele boom hersteld is.\\
+Met andere woorden: het verwijderen kan meestal in enkele rotaties worden opgelost, maar in het slechtste geval moeten we het hele pad naar de wortel af lopen, wat dus een bovengrens heeft van $O(log(n))$.
+\end{description}
+
+
+\section{Inwendige en uitwendige rood-zwart bladzoekbomen}
+\subsection{Bespreking implementatie}
+\subsubsection*{Abstracte bovenklasse: \textsl{AbstractLeafTree.java}}
+Zoals bij gewone rood-zwart bomen heb ik hier ook gebruik gemaakt van een abstracte bovenklasse waar bijna alle methodes ge\"implementeerd zijn.\\
+Deze abstracte bovenklasse implementeert de klasse \textsl{AbstractRBTree.java}. Deze klasse overschrijft de volgende methoden van \textsl{AbstractRBTree}:
+\begin{itemize}
+\item \textsl{\textbf{add()}};
+\item \textsl{\textbf{remove()}};
+\item \textsl{\textbf{contains()}};
+\item \textsl{\textbf{iterator()}}: Geeft een object van de klasse \textsl{LeafIterator} terug. Deze is ge\"implementeerd in \textsl{LeafIterator.java}.
+\end{itemize}
+Naast deze methodes bevat deze klasse nog enkele hulpmethodes \textsl{rebalanceGarbageTop()}, \textsl{colorGarbageTop()}. Deze laatste methode wordt in de klassen \textsl{Tree4}, \textsl{Tree5}, \textsl{Tree6} en \textsl{Tree7} overschreven. \\
+Meer specifieke uitleg bij de bovenstaande methodes staat in commentaar bij de betreffende methode in het java-bestand.
+\subsubsection*{Standaard inwendige rood-zwartboom: \textsl{Tree4.java}}
+Deze klasse breidt de klasse \textsl{AbstractLeafTree} uit en overschrijft de methode \textsl{colorGarbageTop()}.
+\subsubsection*{Standaard uitwendige rood-zwartboom: \textsl{Tree5.java}}
+Deze klasse is gelijk aan de klasse \textsl{Tree4} maar past heeft een andere implementatie van de methode \textsl{colorGarbageTop()}.
+\subsubsection*{Geoptimaliseerde rood-zwart bladzoekboom: \textsl{OptimizedLeafTree.java}}
+Deze klasse breidt de klasse \textsl{AbstractLeafTree} uit en overschrijft de methodes \textsl{add()} en \textsl{contains()}. Meer informatie over het verschil tussen \textsl{AbstractLeafTree} en \textsl{OptimedLeafTree} is te lezen in \ref{ondervindingen}.
+\subsubsection*{Geoptimaliseerde inwendige rood-zwartboom: \textsl{Tree6.java}}
+Gelijk aan de klasse \textsl{Tree4} maar breidt \textsl{OptimizedLeafTree} uit in plaats van \textsl{AbstractLeafTree}.
+\subsubsection*{Geoptimaliseerde uitwendige rood-zwartboom: \textsl{Tree7.java}}
+Gelijk aan de klasse \textsl{Tree5} maar breidt \textsl{OptimizedLeafTree} uit in plaats van \textsl{AbstractLeafTree}.
+
+\subsection{Ondervindingen}
+\label{ondervindingen}
+Bij het proberen op te bouwen van deze in- en uitwendige rood-zwart bladzoekbomen werd al snel duidelijk dat je voor elke sleutel die je toevoegt een extra garbagetop moet toevoegen, behalve als de boom leeg is, om ervoor te zorgen dat je sleutels in de bladeren zitten. Dit zorgt ervoor dat je, zoals al beschrevingen in de verwachtingen, net niet dubbel zo veel sleutels zal hebben als wanneer je dezelfde sleutelverzameling zou toevoegen aan een gewone rood-zwart boom, een bovengrens hiervoor staat beschreven in \ref{theorem: bovengrens diepte}.\\
+In de definitie van een bladzoekboom staat dat de sleutels in de bladeren moeten zitten. Dit wil zeggen dat we zeker naar een blad zullen moeten afdalen om te weten als dit blad al bestaat of niet. Met andere woorden zal dit impact hebben op de snelheid bij het opzoeken, toevoegen en verwijderen bij deze boom ten opzichte van dezelfde operatie met een zelfde sleutelverzameling bij een gewone rood-zwart boom. We kunnen dit echter optimaliseren. Dit gebeurt op de volgende manier:\\
+Als we voor de garbagetop niet de gemiddelde waarde van de twee bladeren nemen, maar de maximale waarde, dan weten we zeker dat de waarde van elke inwendige garbagetop ook als waarde in een blad voor komt. Als we gaan naar het algoritme voor het opzoeken van een top moeten we `normaal' afdalen tot in een blad om te weten als deze top bestaat of niet. Als we echter de boom gaan opbouwen zoals hiervoor beschreven en we zoeken een top in een boom, dan kunnen we al stoppen vanaf we een inwendige top tegenkomen met dezelfde waarde. Bijvoorbeeld het opzoeken van top van de waarde $24$ in Figuur \ref{variantRebalance} dan moeten we niet eerst het rechterkind nemen van de wortel, en daarna het linkerkind van die top, maar kunnen we meteen bij de wortel stoppen aangezien deze de waarde $24$ heeft. Zo kunnen we ook bij het toevoegen sneller beslissen als de waarde als sleutel al voorkomt of niet.
+
+\subsection{Theoretische uitwerking: Toevoegen van sleutel en herbalancering}
+\label{theorem: toevoegen van sleutel en herbalancering}
+Als we een waarde in een inwendige rood-zwart bladzoekboom toevoegen doen we dit volgens het volgend algoritme:\\
+Bij het toevoegen van een top onderscheiden we de volgende gevallen:
+\begin{itemize}
+\item De wortel is leeg: \textsl{(Afbeelding: Figuur \ref{variantRebalance} Stap 1)}\\
+Triviaal geval: we maken een nieuwe top aan en zetten deze als wortel. Aangezien de kleur van de wortel zwart moet zijn kleuren we deze zwart;
+\item De wortel is niet leeg: \textsl{(Afbeelding: Figuur \ref{variantRebalance} Stap 2-5)}\\
+We zoeken eerst het blad waaraan de nieuwe top moet worden toegevoegd. Daarna nemen we de grootste waarde van deze twee toppen en maken een nieuwe garbagetop aan met deze waarde. Hierna vervangen we de top waaraan de nieuwe top moet worden toegevoegd door de garbagetop en zetten we links van deze top de kleinste van de twee sleutels, en rechts de grootste. 
+De garbagetop kleuren we rood en de twee kinderen zwart. Ter illustratie, in Figuur \ref{variantRebalance} Stap 3 voegen we de sleutel $32$ toe aan het blad $16$. We maken eerst een garbagetop aan met als waarde $32$, het grootste van $16$ en $32$. Daarna zetten we $16$ links van deze top, en $32$ rechts. We kleuren de garbagetop met waarde $32$ rood, en de sleutels $16$ en $32$ zwart.\\
+Zoals hiervoor besproken kleuren we onze bladeren altijd zwart. Als we nu een nieuwe sleutel aan een zwart blad toevoegen, dan vervangen we deze zwarte top door een rode garbagetop met 2 zwarte kinderen (de sleutel waaraan werd toegevoegd en de nieuwe sleutel die wordt toegevoegd). Als we kijken naar de situatie voor (Figuur \ref{variantRebalance} Stap 2) en na (Figuur \ref{variantRebalance} Stap 3) toevoeging van een nieuwe sleutel hadden we eerst in de rechterdeelboom vanaf de wortel gezien 2 zwarte toppen (met de wortel meegeteld) en links ook 2 zwarte toppen. Na het toevoegen van top $32$ hebben we rechts nog steeds 2 zwarte toppen en links ook. Dit komt omdat we een zwart blad vervangen door een rode top, met 2 zwarte kinderen. Het enige wat hier bij kan mis gaan is dat de nieuwe rode garbageto' een andere rode garbagetop als ouder heeft. In dit geval gebruiken we de herbalanceringsmethode zoals beschreven staat op p. 22 in de cursus. De drie toppen die we hierbij herbalanceren zijn de garbagetop die we net hebben toegevoegd, de ouder van deze top (ook een rode garbagetop) en ouder van deze laatst vernoemde top.
+\end{itemize}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/variantRebalance.png}
+	\caption{Voorbeeld bij 'Theoretische bespreking: Toevoegen van sleutel en herbalancering' voor het toevoegen van de verzameling ${8, 16, 32, 24}$.}
+	\label{variantRebalance}
+\end{figure}
+
+\subsection{Theoretische uitwerking: Bovengrens diepte}
+\label{theorem: bovengrens diepte}
+Eerstvooral onderzoeken we hoeveel toppen er werkelijk in een in- en uitwendige rood-zwart bladzoekboom aanwezig zijn. Dit heb ik al besproken in \ref{opzoeken}. Kort samengevat: Voor elke nieuwe waarde die we toevoegen, moeten we een garbagetop aanmaken met dezelfde waarde. Dit voor alle waardes, behalve voor de wortel. Daarom zitten er altijd $(n-1)$ toppen meer in een in- of uitwendige rood-zwart bladzoekboom, dan in een gewone rood-zwart boom voor dezelfde sleutelverzameling $n$. We kunnen besluiten dat we dus altijd $2n-1$ toppen hebben in een in- en uitwendige rood-zwart bladzoekboom.\\
+Vervolgens kunnen we hier Corollarium 7 van op p. 21 uit de cursus op toepassen. Dit corollarium zegt dat er in een rood-zwart boom met n toppen, de paden van de wortel naar een NULL-pointer ten hoogste $log(n+1)$ zwarte toppen bevatten, dus de diepte is ten hoogste $2*log(n+1)$. Als we de $n$ hierin vervangen krijgen we:\\
+In een rood-zwart boom met $2n-1$ toppen bevatten paden de wortel naar een NULL-pointer ten hoogste $log(2n)$ zwarte toppen, de diepte is dus ten hoogste $2*log(2n)$.
+
+\subsection{Theoretische uitwerking: Maximaal voorkomen van eenzelfde sleutel}
+\subsubsection*{Inwendige rood-zwart bladzoekboom}
+Bij een inwendige rood-zwart bladzoekboom kan je maximaal $3$ dezelfde toppen hebben. Figuur \ref{maxTopInw}, linker deelafbeelding is hier een voorbeeld van.\\
+Om aan te tonen dat je niet meer toppen kan hebben proberen we nog een top toe te voegen met dezelfde waarde. Als we deze toevoegen moet deze in de deelboom rechtsonder de top komen met dezelfde waarde komen. Als we in het voorbeeld nog een top met waarde 20 toevoegen, komt deze dus rechtsonder de rode top met waarde $20$. Deze top kunnen we niet rood kleuren, want anders zouden we $2$ rode toppen hebben die elkaar opvolgen, wat tegen de voorwaarden van een rood-zwart boom in gaat. We lossen dit op door de parent van deze top zwart te maken en de nieuwe top die we toe voegen rood te maken zoals te zien is in Figuur \ref{maxTopInw}, rechter deelafbeelding. Nu hebben we aan de rechterkant een deelboom met als parent de 2de zwarte top met waarde 20 (onderlijnd in de afbeelding) die rechts $2$ zwarte toppen heeft, en links maar $1$. Als we dit willen oplossen moeten we links van deze onderlijnde top nog een zwarte top toevoegen. Dit kan echter niet, want volgens de voorwaarden van een bladzoekboom moet elk linkerkind kleiner zijn dan zijn ouder. Als hij kleiner moet zijn dan $20$, dan kunnen we hem daar niet toevoegen aangezien de wortel van de volledige boom $20$ is, en we deze meteen deze top aan de linkerkant van de wortel van de volledige deelboom moeten plaatsen. In het voorbeeld is dit ge\"illustreerd door een sleutel met waarde $19$ proberen toe te voegen. (De top met waarde 14 is ook nog toevoegd, want 10 moet natuurlijk een blad blijven.)\\
+Het is ook onmogelijk om dit op de lossen aan de hand van een herbalancering want zo zou er een top met waarde $20$ een linkerkind zijn van een andere top met waarde $20$, wat tegen de voorwaarden van een rood-zwart bladozkeboom is.\\
+We kunnen dus besluiten dat het onmogelijk is om nog een top met waarde $20$ toe te voegen, aangezien dit zou stroken met de voorwaarden van een rood-zwart boom.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/maxTopsInw.png}
+	\caption{Theoretische uitwerking: maximaal voorkomen van eenzelfde sleutel in een inwendige rood-zwart boom}
+	\label{maxTopInw}
+\end{figure}
+
+\subsubsection*{Uitwendige rood-zwart bladzoekboom}
+Bij een uitwendige rood-zwart bladzoekboom kunnen we echter wel nog een 4de top toevoegen. Dit komt omdat deze top niet moet voldoen aan de kleuringseigenschappen. Een voorbeeld is te zien bij Figuur \ref{maxTopsUitw}, linker deelafbeelding. Als we echter nog een extra top willen toevoegen komen we terecht in de situatie die we ook hadden bij het proberen toe te voegen van nog een top met waarde $20$ bij een inwendige rood-zwart bladzoekboom. Het resultaat hiervaan staat uitgewerkt in Figuur \ref{maxTopsUitw}, rechter deelafbeelding.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=.5]{images/maxTopsUitw.png}
+	\caption{Theoretische uitwerking: maximaal voorkomen van eenzelfde sleutel in een uitwendige rood-zwart boom}
+	\label{maxTopsUitw}
+\end{figure}
+
+\section{Tests}
+\subsection{Correctheid}
+Om de correctheid van onderdelen van een operatie te controleren heb ik eerst een geldige rood-zwart boom opgesteld. Op deze boom voerde ik onderdeel na onderdeel van een operatie uit, en controleerde visueel door de volledige boom uit te schrijven naar standard output via de klasse \textsl{DotWriter} als het onderdeel goed werd uitgevoerd, en achteraf als er terug een geldige rood-zwart boom bekomen werd.\\
+Voor het testen van de juistheid van volledige bomen schreef ik net zoals bij het testen van een operatie de uiteindelijke boom weg in Dot-formaat naar standard output via de klasse \textsl{DotWriter}. Daarna zette ik deze om in een afbeelding en ging ik handmatig na als de eigenschappen van de bomen niet geschonden waren. Voor relatief kleine bomen duurde dit niet lang, maar voor grote bomen was het ongeveer onmogelijk om er zo zeker van te zijn dat de bomen golden. \\
+Daarom schreef ik de klasse \textsl{TreeTester} die recursief de boom afloopt en een aantal checks uitvoert. Als er aan \'e\'en van deze checks niet voldaan werd, werd een \textsl{AssertionException} opgeworpen. Als er geen exception werd opgeworpen nam ik aan dat de boom voldeed aan de eigenschappen. Het kan natuurlijk zijn dat deze klasse fout geschreven is, daarom heb ik eerst een aantal kleinere bomen opgebouwd die wel of niet voldeden aan de eigenschappen. Op deze bomen heb ik dan de test()-methode van \textsl{TreeTester} laten lopen. Het resultaat was iedere keer zoals verwacht: geen exceptions als de boom in orde was en wel exceptions als hij niet in orde was.\\
+Uiteindelijk heb ik elke methode van elke boom uitvoerig getest door grote aantallen random waarden toe te voegen, te verwijderen of op te gaan zoeken. Na elke operatie (add / remove / contains / \ldots) werd gekeken via de \textsl{TreeTester} of de boom nog voldeed aan de eigenschappen. Aangezien er tijdens deze test nergens een AssertionException werd opgesmeten ga ik er van uit dat de opgestelde bomen juist zijn.
+
+\subsection{Accurate tijdsmetingen}
+Om ervan zeker te zijn dat mijn tijdsmetingen accuraat zijn heb ik de volgende procedure doorlopen:\\
+Voor elke test startte ik mijn laptop opnieuw op om ervoor te zorgen dat er geen andere programma's onnodig geheugen of  rekenkracht innamen. Daarnaast heb ik voor elke inputwaarde de procedure (add, remove, contains, iterate ...) 8 keer doorlopen. Na elke keer iteratie riep ik handmatig de garbage collector aan. De eerste 3 keer hield ik geen resultaat in \textsl{ms} bij. Deze iteraties zijn puur bedoeld om de Java Virtual Machine en de processor `op te warmen' voor de tests. \\
+Na deze 3 `start-up' tests doorliep ik nog 5 iteraties, waarbij na iedere iteratie een tijd in milliseconden werd uitgeprint. Uiteindelijk nam ik het gemiddelde van deze 5 waarden, en dit gemiddelde nam ik dan als de uiteindelijke uitvoeringstijd voor de inputwaarde.
+
+\subsection{Vergelijking en verklaring testresultaten}
+\subsection*{Woord vooraf}
+De data waaruit de grafieken zijn opgemaakt is achteraan dit verslag bijgevoegd in tabelvorm.
+\subsection{Add()}
+Het toevoegen van waardes aan een boom werd getest met 2 verschillende inputsets: In de eerste inputset voegen we een bepaald aantal random waarden toe. In de tweede voegen we de waarden toe in stijgende volgorde.
+\subsubsection{Random volgorde \textsl{(Afbeelding: Figuur \ref{add-random})}}
+Deze figuur geeft een overzicht van de \textsl{add()}-methode met random waarden. Wat meteen op valt is dat we 2 groepen kunnen onderscheiden:\\
+Enerzijds zien we dat \textsl{Tree4} tot en met \textsl{Tree7} duidelijk een groep vormen (de groep van de rood-zwart bladzoekbomen). Anderzijds zien we dat \textsl{Tree1} tot en met \textsl{Tree3} ook duidelijk een groep vormen (de groep van de normale rood-zwart bomen). Bij deze laatste groep zien we dat \textsl{Tree1} net wat trager is dat \textsl{Tree2} en \textsl{Tree3}.\\
+We zien duidelijk dat de groep van de rood-zwart bladzoekbomen trager is dan de groep van de normale rood-zwart bomen. Een verklaring werd al gegeven bij de verwachtingen: Een rood-zwart bladzoekboom boom is voor elke invoerwaarde groter dan een normale rood-zwart boom. Dit zorgt ervoor dat we bij het toevoegen veel meer toppen moeten doorlopen om te weten als de top al dan niet bestaat en om het blad te vinden waaraan moet toegevoegd worden. Aangezien de boom groter is, is er ook kans dat we meer toppen moeten herbalanceren om het probleem op te lossen. Een laatste factor is dat er extra bewerkingen zijn om de extra garbagetop toe te voegen in de boom.\\
+In de groep van de rood-zwart bladzoekbomen is er echter geen verschil te zien tussen de normale rood-zwart bladzoekbomen en de ge\"optimaliseerde rood-zwart bladzoekbomen. De optimalisatie bij het toevoegen is dat we vlugger kunnen beslissen als een top al voorkomt of niet. We hebben hier echter met willekeurige waarden gewerkt, die zeer groot kunnen zijn. Daarom is de kans dat twee keer dezelfde waarde voorkomt een stuk kleiner dan als we de willekeurige waarden zouden limiteren tot een maximum getal.\\
+In de groep van de normale rood-zwart bomen zien we dat de ge\"optimaliseerde (\textsl{Tree2}) en de geparameteriseerde (\textsl{Tree3}) het iets beter doen dan de normale implementatie (\textsl{Tree1}). Dit kunnen we als volgt verklaren: Bij het toevoegen in een geparameteriseerde rood-zwart boom en in een ge\"optimaliseerde rood-zwart boom bestaat de mogelijkheid dat we we meteen, of na een aantal herbalanceringen, een herbalancering kunnen doen die het evenwicht in \'e\'en keer herstelt waardoor verdere herbalanceringen minder nodig zijn en we dus vroeger mogen stoppen.\\
+Algemeen kunnen we zeggen dat de gemiddelde uitvoeringstijd van deze operatie een complexiteit van $\theta(n*log(n))$ heeft voor alle bomen, maar dat er onderling wel kleine verschillen zijn.. Op het eerste zicht lijkt het eerder lineair, maar de waardes van de metingen tonen wel aan dat er nog een factor van telkens bij komt.
+
+\begin{figure}[h!]
+	\includegraphics[scale=.6]{graphs/add-random.pdf}
+	\caption{Add() methode: random waarden}
+	\label{add-random}
+\end{figure}
+
+\subsubsection{Ge\"ordende volgorde \textsl{(Afbeelding: Figuur \ref{add-ordened})}}
+\begin{figure}[h!]
+	\includegraphics[scale=.6]{graphs/add-ordened.pdf}
+	\caption{Add() methode: ge\"ordende waarden}
+	\label{add-ordened}
+\end{figure}
+Deze grafiek lijkt heel sterk op de vorige grafiek (Figuur \ref{add-random}). Het grootste verschil is te zien bij het \textsl{Tree2} en \textsl{Tree3}. Het is dus zeker een voordeel om, als we gegevens in volgorde toevoegen, hier een implementatie van \textsl{Tree2} en \textsl{Tree3} te gebruiken. De verklaring waarom dit zo veel sneller is ligt aan de manier waarop we herbalanceren, en wat van gevolgen dit heeft voor de volgende keer we herbalanceren.
+
+\subsection{Contains() \textsl{(Afbeelding: Figuur \ref{contains})}}
+De resultaten van contains lijken op het eerste zicht verspreid, maar we kunnen deze toch opdelen in de volgende groepen: \textsl{Tree4} en \textsl{Tree5} (groep van de normale rood-zwart bladzoekbomen) liggen z\'e\'er dicht bij elkaar. Daaronder hebben we \textsl{Tree6} en \textsl{Tree7} (groep van de ge\"optimaliseerde rood-zwart bladzoekbomen) die ook dicht bij elkaar aansluiten. Daaronder liggen nog de grafieken van de normale rood-zwart bomen: \textsl{Tree1}, \textsl{Tree2} en \textsl{Tree3} (groep van de normale rood-zwart bomen).\\
+Het verschil tussen de groep van de normale rood-zwart bladzoekbomen en de groep van de ge\"optimaliseerde rood-zwart bladzoekbomen is te verklaren door de optimalisatie die is doorgevoerd omtrent het mogen stoppen wanneer we een interne top tegen komen met de waarde die we zoeken. Dit is uitgewerkt in \ref{ondervindingen}.\\
+De optimalisatie heeft er echter niet voor gezorgd dat deze qua uitvoeringstijd in de buurt komen van de groep van de normale rood-zwart bomen. In sommige gevallen, als er geen interne top voorkomt met dezelfde waarde, moeten we nog steeds tot in de bladeren afdalen en aangezien er in de hele boom $2n-1$ meer toppen zitten duurt dit langer.\\
+Dan rest nog de groep van de normale rood-zwart bomen: Deze uitvoeringstijden liggen in de buurt van elkaar maar verschillen onderling wel wat. Aan de \textsl{contains()}-methode zelf kan het niet liggen. Deze gebruiken namelijk allemaal dezelfde methode, gedefinieerd in \textsl{AbstractRBTree} dus kunnen we besluiten dat de oorzaak hiervan ligt bij de manier van herbalanceren.\\
+Algemeen kunnen we zeggen dat de gemiddelde uitvoeringstijd van deze operatie een complexiteit van $\theta(n*log(n))$ heeft voor alle bomen, maar dat er onderling wel kleine verschillen zijn.\\
+In deze grafiek zitten op bepaalde plaatsen (bijvoorbeeld rond $2.000.000$ en rond $5.500.000$) soms een knik. Een verklaring hiervoor heb ik niet kunnen vinden. Ook na het opnieuw testen kwam er een soortgelijke knik in de grafiek.
+\begin{figure}[h!]
+	\includegraphics[scale=.6]{graphs/contains.pdf}
+	\caption{Contains() methode}
+	\label{contains}
+\end{figure}
+ 
+\subsection{Remove() \textsl{(Afbeelding: Figuur \ref{remove})}}
+De remove werd getest bij de \textsl{Tree1}, \textsl{Tree2} en \textsl{Tree3}. We zien dat de uitvoeringstijd van \textsl{Tree1} trager is dan de uitvoeringstijd van \textsl{Tree2} en \textsl{Tree3}. Een verklaring hiervoor is de volgende:\\
+Het verwijderalgoritme kan meestal in een aantal stappen zijn afgerond. Als we kijken naar de theoretische bespreking hiervan zien we dat dit altijd in de gevallen is waarbij er een rode top aanwezig is. In \textsl{Tree1} wordt altijd de herbalanceringsmethode gebruikt van op p. 22 uit de cursus. Daar verminderen we bij elke herbalancering het aantal rode toppen en vermeerderen we het aantal zwarte toppen. Bij de andere twee bomen, \textsl{Tree2} en \textsl{Tree3} behouden we net het aantal rode toppen en het aantal zwarte toppen. Dit wil zeggen dat er uiteindelijk in een boom van de klasse \textsl{Tree1} minder rode toppen aanwezig zijn dan in een boom van klasse \textsl{Tree2} en \textsl{Tree3}. Daarom zal de \textsl{remove()}-operatie een stuk langer duren, want de kans dat we meteen mogen stoppen met herbalanceren door het eventueel tekort aan een zwarte top te compenseren door een rode top zwart te kleuren is kleiner.\\
+Algemeen kunnen we ook hier besluiten dat de verwijderbewerking een complexiteit heeft van $\theta(log(n))$.
+\begin{figure}[h!]
+	\includegraphics[scale=.6]{graphs/remove.pdf}
+	\caption{Remove() methode}
+	\label{remove}
+\end{figure}
+
+\subsection{Datagebruik}
+Om dit te testen heb ik 1 miljoen waarden toegevoegd aan de normale rood-zwart boom van klasses \textsl{Tree1} tot \textsl{Tree3}, en hetzelfde aantal waarden in de bladzoekbomen van klasse \textsl{Tree4} tot \textsl{Tree7} en telkens het geheugengebruik gemeten. Hierbij maakte ik gebruik van het \textsl{Runtime}-object. Voor het toevoegen werd \textsl{Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()} aan een variabele toegekend, en na het toevoegen aan een andere variabele. Deze twee variabelen werden afgetrokken van elkaar, en zo komen we achter het gebruikte geheugen van de methode. Nadien werd enerzijds het gemiddelde geheugen genomen van de data bij normale rood-zwart bomen en anderzijds werd ook het gemiddelde genomen van de bladzoekbomen. De resultaten waren de volgende:
+\begin{itemize}
+\item \textbf{Normale rood-zwart bomen:} 31815752\\
+\item \textbf{Rood-zwart bladzoekbomen:} 64934440\\
+\end{itemize}
+Het is duidelijk dat de bladzoekbomen ongeveer twee keer zoveel geheugen gebruiken dan de normale rood-zwart bomen. We mogen dus besluiten dat de verwachtingen naar het datagebruik kloppen.
+
+\section{Besluit}
+Kort kunnen we besluiten uit de tests dat de bladzoekboomvarianten in elk opzicht trager zijn dan de normale rood-zwart bomen. Daarnaast gebruiken ze ook nog eens ongeveer dubbel zoveel geheugen.
+
+\begin{tiny}
+\section*{Bijlage}
+\subsection*{Tree1}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&42&40&43&41&43\\
+Input:&200000&Ms:&109&109&110&105&104\\
+Input:&300000&Ms:&194&199&195&201&194\\
+Input:&400000&Ms:&296&296&297&298&287\\
+Input:&500000&Ms:&392&416&417&418&413\\
+Input:&600000&Ms:&541&534&534&543&543\\
+Input:&700000&Ms:&731&656&680&637&681\\
+Input:&800000&Ms:&798&790&807&800&797\\
+Input:&900000&Ms:&918&994&928&927&990\\
+Input:&1000000&Ms:&1045&1120&1004&1071&1011\\
+Input:&1100000&Ms:&1135&1319&1217&1195&1195\\
+Input:&1200000&Ms:&1330&1319&1326&1352&1374\\
+Input:&1300000&Ms:&1417&1609&1510&1506&1418\\
+Input:&1400000&Ms:&1612&1747&1683&1771&1769\\
+Input:&1500000&Ms:&1803&1917&1940&2106&1857\\
+Input:&1600000&Ms:&1983&2036&1969&2088&1970\\
+Input:&1700000&Ms:&2111&2295&2184&2296&2278\\
+Input:&1800000&Ms:&2303&2399&2371&2437&2390\\
+Input:&1900000&Ms:&2454&2623&2528&2739&2520\\
+Input:&2000000&Ms:&2532&2886&2764&2580&2657\\
+Input:&2500000&Ms:&3161&3249&3120&3318&3221\\
+Input:&3000000&Ms:&4060&4026&3898&4075&4011\\
+Input:&3500000&Ms:&4698&4728&4926&5101&5255\\
+Input:&4000000&Ms:&6258&6384&6068&6122&6076\\
+Input:&4500000&Ms:&6872&8746&7009&7027&7020\\
+Input:&5000000&Ms:&7472&7587&7604&7593&7526\\
+Input:&5500000&Ms:&7916&8057&8040&8030&8058\\
+Input:&6000000&Ms:&9150&9112&9095&8980&9079\\
+Input:&6500000&Ms:&9990&10118&10318&10163&10192\\
+Input:&7000000&Ms:&11380&11407&11439&11418&11432\\
+Input:&7500000&Ms:&12667&12724&12718&12672&12708\\
+\end{tabular}
+
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&33&32&32&35&29\\
+Input:&200000&Ms:&77&83&79&81&82\\
+Input:&300000&Ms:&91&88&89&86&88\\
+Input:&400000&Ms:&131&132&133&133&131\\
+Input:&500000&Ms:&194&196&198&200&195\\
+Input:&600000&Ms:&216&220&214&216&219\\
+Input:&700000&Ms:&264&257&258&243&245\\
+Input:&800000&Ms:&298&284&280&281&283\\
+Input:&900000&Ms:&342&340&339&339&340\\
+Input:&1000000&Ms:&364&364&367&363&366\\
+Input:&1100000&Ms:&376&374&374&368&361\\
+Input:&1200000&Ms:&406&411&412&411&411\\
+Input:&1300000&Ms:&434&444&448&443&445\\
+Input:&1400000&Ms:&469&469&463&464&461\\
+Input:&1500000&Ms:&490&484&490&487&487\\
+Input:&1600000&Ms:&525&522&529&522&524\\
+Input:&1700000&Ms:&574&559&554&560&555\\
+Input:&1800000&Ms:&603&599&604&591&599\\
+Input:&1900000&Ms:&644&636&639&630&628\\
+Input:&2000000&Ms:&678&675&689&681&667\\
+Input:&2500000&Ms:&860&868&855&852&871\\
+Input:&3000000&Ms:&1042&1051&1047&1047&1058\\
+Input:&3500000&Ms:&1258&1176&1264&1229&1259\\
+Input:&4000000&Ms:&1414&1386&1418&1407&1414\\
+Input:&4500000&Ms:&2017&2001&2001&1997&1995\\
+Input:&5000000&Ms:&2205&2202&2209&2214&2209\\
+Input:&5500000&Ms:&2418&2397&2423&2392&2490\\
+Input:&6000000&Ms:&2635&2597&2654&2679&2661\\
+Input:&6500000&Ms:&2846&2841&2795&2803&2902\\
+Input:&7000000&Ms:&3023&3026&3021&3050&3015\\
+Input:&7500000&Ms:&3371&3381&3379&3410&3403\\
+\end{tabular}
+
+\subsubsection{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&29&30&29&29&29\\
+Input:&200000&Ms:&85&86&86&86&86\\
+Input:&300000&Ms:&159&159&160&159&159\\
+Input:&400000&Ms:&251&253&253&253&253\\
+Input:&500000&Ms:&358&360&360&361&359\\
+Input:&600000&Ms:&449&451&452&451&452\\
+Input:&700000&Ms:&544&561&562&545&545\\
+Input:&800000&Ms:&654&639&641&642&640\\
+Input:&900000&Ms:&744&817&794&792&794\\
+Input:&1000000&Ms:&858&935&933&927&931\\
+Input:&1100000&Ms:&1013&999&1004&1011&1008\\
+Input:&1200000&Ms:&1112&1129&1152&1160&1152\\
+Input:&1300000&Ms:&1233&1286&1272&1277&1274\\
+Input:&1400000&Ms:&1402&1336&1335&1368&1334\\
+Input:&1500000&Ms:&1524&1459&1460&1458&1466\\
+Input:&1600000&Ms:&1648&1620&1612&1642&1648\\
+Input:&1700000&Ms:&1747&1763&1711&1719&1728\\
+Input:&1800000&Ms:&1886&1844&1842&1852&1862\\
+Input:&1900000&Ms:&2030&2060&2087&2052&2050\\
+Input:&2000000&Ms:&2167&2188&2190&2181&2179\\
+Input:&2500000&Ms:&2862&2876&3070&2929&2894\\
+Input:&3000000&Ms:&3756&3711&3699&3557&3557\\
+Input:&3500000&Ms:&4541&4518&4442&4548&4538\\
+Input:&4000000&Ms:&5355&5421&5263&5326&5335\\
+Input:&4500000&Ms:&5068&4873&5034&4873&5020\\
+Input:&5000000&Ms:&5886&5730&5813&5622&5578\\
+Input:&5500000&Ms:&6955&7078&6990&6962&6974\\
+Input:&6000000&Ms:&8028&8118&8095&8006&8145\\
+Input:&6500000&Ms:&9209&9214&9135&9170&9210\\
+Input:&7000000&Ms:&10241&10260&10227&10229&10282\\
+Input:&7500000&Ms:&11382&11346&11365&11381&11401\\
+\end{tabular}
+
+\subsubsection{remove()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&50&47&45&42&95\\
+Input:&200000&Ms:&128&129&131&133&133\\
+Input:&300000&Ms:&237&238&238&238&239\\
+Input:&400000&Ms:&383&394&384&387&389\\
+Input:&500000&Ms:&537&540&538&538&538\\
+Input:&600000&Ms:&643&644&643&644&644\\
+Input:&700000&Ms:&799&804&776&777&780\\
+Input:&800000&Ms:&910&916&918&915&916\\
+Input:&900000&Ms:&1141&1152&1155&1154&1155\\
+Input:&1000000&Ms:&1325&1338&1339&1336&1339\\
+Input:&1100000&Ms:&1440&1446&1424&1425&1374\\
+Input:&1200000&Ms:&1582&1590&1625&1647&1624\\
+Input:&1300000&Ms:&1799&1812&1814&1818&1805\\
+Input:&1400000&Ms:&1856&1870&1872&1875&1903\\
+Input:&1500000&Ms:&2031&2045&2046&2051&2048\\
+Input:&1600000&Ms:&2245&2266&2293&2289&2293\\
+Input:&1700000&Ms:&2445&2460&2407&2374&2380\\
+Input:&1800000&Ms:&2532&2554&2539&2551&2565\\
+Input:&1900000&Ms:&2823&2846&2841&2842&2877\\
+Input:&2000000&Ms:&3002&2910&3055&3058&3020\\
+Input:&2500000&Ms:&4025&3975&4003&4044&4029\\
+Input:&3000000&Ms:&4994&5031&4958&4994&5035\\
+Input:&3500000&Ms:&6052&5951&6058&6155&6028\\
+Input:&4000000&Ms:&5727&5402&5762&5569&5753\\
+Input:&4500000&Ms:&6964&6629&6826&6558&6749\\
+Input:&5000000&Ms:&7905&7512&7862&7435&7724\\
+Input:&5500000&Ms:&9445&9110&9311&8880&9000\\
+Input:&6000000&Ms:&10172&9977&10238&10141&10310\\
+Input:&6500000&Ms:&11744&11634&11789&11831&11830\\
+Input:&7000000&Ms:&13142&13250&13222&13164&13225\\
+Input:&7500000&Ms:&14606&14731&14351&14691&14569\\
+\end{tabular}
+
+\subsubsection{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&29&26&26&25&26\\
+Input:&200000&Ms:&58&59&59&59&55\\
+Input:&300000&Ms:&100&62&55&55&59\\
+Input:&400000&Ms:&81&76&87&81&86\\
+Input:&500000&Ms:&110&97&97&97&97\\
+Input:&600000&Ms:&124&37&126&118&118\\
+Input:&700000&Ms:&140&139&140&139&141\\
+Input:&800000&Ms:&151&162&171&162&171\\
+Input:&900000&Ms:&183&183&182&195&195\\
+Input:&1000000&Ms:&271&204&191&205&205\\
+Input:&1100000&Ms:&225&315&315&255&240\\
+Input:&1200000&Ms:&320&390&376&262&248\\
+Input:&1300000&Ms:&268&269&268&268&268\\
+Input:&1400000&Ms:&294&368&314&382&370\\
+Input:&1500000&Ms:&366&448&358&470&396\\
+Input:&1600000&Ms:&350&361&389&428&377\\
+Input:&1700000&Ms:&415&500&491&527&495\\
+Input:&1800000&Ms:&530&379&377&380&380\\
+Input:&1900000&Ms:&482&557&521&608&537\\
+Input:&2000000&Ms:&575&672&592&421&421\\
+Input:&2500000&Ms:&232&197&242&194&223\\
+Input:&3000000&Ms:&359&321&360&280&348\\
+Input:&3500000&Ms:&520&457&523&452&501\\
+Input:&4000000&Ms:&454&442&374&297&268\\
+Input:&4500000&Ms:&469&441&443&443&442\\
+Input:&5000000&Ms:&619&544&616&613&543\\
+Input:&5500000&Ms:&958&905&959&839&840\\
+Input:&6000000&Ms:&1118&978&977&1118&1118\\
+Input:&6500000&Ms:&1798&1796&1636&1817&1673\\
+Input:&7000000&Ms:&1694&1638&1555&1556&1630\\
+Input:&7500000&Ms:&1592&1480&1483&1576&1527\\
+\end{tabular}
+
+\subsection*{Tree2}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&37&40&40&39&38\\
+Input:&200000&Ms:&93&94&92&93&94\\
+Input:&300000&Ms:&178&182&180&179&178\\
+Input:&400000&Ms:&271&270&281&281&278\\
+Input:&500000&Ms:&378&382&382&383&387\\
+Input:&600000&Ms:&504&507&508&508&507\\
+Input:&700000&Ms:&609&601&643&637&630\\
+Input:&800000&Ms:&749&754&748&737&753\\
+Input:&900000&Ms:&867&875&876&875&876\\
+Input:&1000000&Ms:&1033&1022&1022&1020&1037\\
+Input:&1100000&Ms:&1105&1110&1115&1110&1150\\
+Input:&1200000&Ms:&1315&1316&1350&1349&1275\\
+Input:&1300000&Ms:&1408&1410&1438&1440&1450\\
+Input:&1400000&Ms:&1633&1645&1526&1595&1581\\
+Input:&1500000&Ms:&1727&1783&1676&1676&1733\\
+Input:&1600000&Ms:&1909&1935&1927&1944&1849\\
+Input:&1700000&Ms:&1966&2011&1964&1952&1985\\
+Input:&1800000&Ms:&2147&2146&2196&2199&2189\\
+Input:&1900000&Ms:&2358&2286&2392&2378&2387\\
+Input:&2000000&Ms:&2542&2469&2543&2475&2542\\
+Input:&2500000&Ms:&3351&3360&3287&3381&3312\\
+Input:&3000000&Ms:&4225&4462&4233&4056&4423\\
+Input:&3500000&Ms:&5037&5138&5080&5168&5056\\
+Input:&4000000&Ms:&5402&5614&5446&5573&5591\\
+Input:&4500000&Ms:&6217&6395&6303&6407&6248\\
+Input:&5000000&Ms:&7063&7167&7051&7210&7158\\
+Input:&5500000&Ms:&7851&7823&7934&7948&7979\\
+Input:&6000000&Ms:&8695&8737&8825&8774&8767\\
+Input:&6500000&Ms:&9730&9631&9718&9788&9794\\
+Input:&7000000&Ms:&10644&10774&10663&10762&10711\\
+Input:&7500000&Ms:&11758&11865&11777&11571&11705\\
+\end{tabular}
+
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&14&15&15&20&17\\
+Input:&200000&Ms:&22&27&26&24&22\\
+Input:&300000&Ms:&31&34&33&34&37\\
+Input:&400000&Ms:&43&41&46&48&45\\
+Input:&500000&Ms:&50&53&55&51&55\\
+Input:&600000&Ms:&61&62&68&62&66\\
+Input:&700000&Ms:&77&72&78&76&72\\
+Input:&800000&Ms:&89&84&83&86&84\\
+Input:&900000&Ms:&94&95&98&94&95\\
+Input:&1000000&Ms:&105&107&108&107&105\\
+Input:&1100000&Ms:&115&116&116&115&115\\
+Input:&1200000&Ms:&127&127&128&128&128\\
+Input:&1300000&Ms:&137&138&137&137&138\\
+Input:&1400000&Ms:&148&148&148&148&147\\
+Input:&1500000&Ms:&159&159&158&159&159\\
+Input:&1600000&Ms:&170&170&171&171&171\\
+Input:&1700000&Ms:&183&183&183&182&184\\
+Input:&1800000&Ms:&193&194&196&193&193\\
+Input:&1900000&Ms:&207&207&207&207&212\\
+Input:&2000000&Ms:&217&216&217&218&216\\
+Input:&2500000&Ms:&273&274&273&273&276\\
+Input:&3000000&Ms:&340&334&333&335&334\\
+Input:&3500000&Ms:&409&402&401&402&401\\
+Input:&4000000&Ms:&447&446&448&456&447\\
+Input:&4500000&Ms:&501&503&503&503&503\\
+Input:&5000000&Ms:&577&579&577&577&577\\
+Input:&5500000&Ms:&969&940&971&937&950\\
+Input:&6000000&Ms:&1028&1005&996&994&1001\\
+Input:&6500000&Ms:&1105&1108&1076&1082&1083\\
+Input:&7000000&Ms:&1130&1169&1134&1135&1133\\
+Input:&7500000&Ms:&1218&1237&1224&1223&1225\\
+\end{tabular}
+
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&28&32&28&28&28\\
+Input:&200000&Ms:&83&82&83&83&82\\
+Input:&300000&Ms:&154&158&159&155&153\\
+Input:&400000&Ms:&239&243&242&243&244\\
+Input:&500000&Ms:&335&342&342&337&337\\
+Input:&600000&Ms:&429&432&416&430&431\\
+Input:&700000&Ms:&538&539&525&528&525\\
+Input:&800000&Ms:&617&620&628&622&622\\
+Input:&900000&Ms:&759&758&778&798&757\\
+Input:&1000000&Ms:&882&895&893&896&892\\
+Input:&1100000&Ms:&989&1004&972&963&949\\
+Input:&1200000&Ms:&1074&1086&1123&1076&1116\\
+Input:&1300000&Ms:&1224&1237&1233&1247&1232\\
+Input:&1400000&Ms:&1323&1298&1307&1296&1305\\
+Input:&1500000&Ms:&1407&1453&1425&1460&1422\\
+Input:&1600000&Ms:&1545&1561&1585&1585&1599\\
+Input:&1700000&Ms:&1703&1719&1667&1666&1668\\
+Input:&1800000&Ms:&1779&1793&1801&1804&1793\\
+Input:&1900000&Ms:&1995&1944&1983&2034&1992\\
+Input:&2000000&Ms:&2134&2159&2153&2085&2094\\
+Input:&2500000&Ms:&2762&2884&2817&2764&2840\\
+Input:&3000000&Ms:&3597&3571&3613&3583&3600\\
+Input:&3500000&Ms:&4316&4423&4308&4274&4295\\
+Input:&4000000&Ms:&4280&4192&4277&4169&4284\\
+Input:&4500000&Ms:&5039&4942&4997&4899&5010\\
+Input:&5000000&Ms:&5723&5661&5758&5588&5589\\
+Input:&5500000&Ms:&6624&6692&6619&6626&6669\\
+Input:&6000000&Ms:&7498&7539&7531&7538&7576\\
+Input:&6500000&Ms:&8496&8551&8434&8503&8509\\
+Input:&7000000&Ms:&9584&9396&9386&9446&9432\\
+Input:&7500000&Ms:&10396&10424&10391&10414&10408\\
+\end{tabular}
+
+\subsubsection*{remove()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&45&39&40&39&39\\
+Input:&200000&Ms:&119&121&125&125&123\\
+Input:&300000&Ms:&221&225&224&223&228\\
+Input:&400000&Ms:&357&359&360&360&360\\
+Input:&500000&Ms:&494&493&493&494&495\\
+Input:&600000&Ms:&596&602&600&599&601\\
+Input:&700000&Ms:&755&736&731&719&732\\
+Input:&800000&Ms:&853&860&860&860&852\\
+Input:&900000&Ms:&1064&1076&1075&1075&1078\\
+Input:&1000000&Ms:&1252&1252&1250&1251&1249\\
+Input:&1100000&Ms:&1366&1371&1331&1333&1292\\
+Input:&1200000&Ms:&1485&1497&1560&1561&1555\\
+Input:&1300000&Ms:&1706&1708&1712&1709&1709\\
+Input:&1400000&Ms:&1801&1761&1764&1761&1758\\
+Input:&1500000&Ms:&1946&1921&1920&1961&1924\\
+Input:&1600000&Ms:&2115&2129&2150&2152&2152\\
+Input:&1700000&Ms:&2294&2301&2235&2294&2239\\
+Input:&1800000&Ms:&2392&2405&2404&2409&2407\\
+Input:&1900000&Ms:&2678&2694&2722&2722&2689\\
+Input:&2000000&Ms:&2897&2794&2886&2831&2865\\
+Input:&2500000&Ms:&3743&3767&3710&3763&3715\\
+Input:&3000000&Ms:&4752&4738&4734&4726&4737\\
+Input:&3500000&Ms:&5664&5854&5659&5653&5666\\
+Input:&4000000&Ms:&5438&5184&5463&5265&5443\\
+Input:&4500000&Ms:&6437&6227&6300&6179&6251\\
+Input:&5000000&Ms:&7277&7105&7258&7093&7118\\
+Input:&5500000&Ms:&8579&8439&8470&8460&8430\\
+Input:&6000000&Ms:&9667&9572&9627&9603&9585\\
+Input:&6500000&Ms:&10763&10804&10604&10784&10794\\
+Input:&7000000&Ms:&11939&11846&11984&12028&11999\\
+Input:&7500000&Ms:&13168&13318&12991&13001&13147\\
+\end{tabular}
+
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&10&12&14&13&12\\
+Input:&200000&Ms:&30&30&30&30&30\\
+Input:&300000&Ms:&55&56&55&55&56\\
+Input:&400000&Ms:&74&74&74&75&76\\
+Input:&500000&Ms:&98&98&98&97&98\\
+Input:&600000&Ms:&121&121&121&120&121\\
+Input:&700000&Ms:&143&143&142&143&144\\
+Input:&800000&Ms:&161&161&172&172&162\\
+Input:&900000&Ms:&201&198&198&199&186\\
+Input:&1000000&Ms:&210&209&225&225&209\\
+Input:&1100000&Ms:&211&210&223&224&218\\
+Input:&1200000&Ms:&241&242&227&226&226\\
+Input:&1300000&Ms:&262&261&262&261&245\\
+Input:&1400000&Ms:&244&245&250&250&265\\
+Input:&1500000&Ms:&283&286&284&284&287\\
+Input:&1600000&Ms:&283&326&322&323&290\\
+Input:&1700000&Ms:&321&323&300&323&346\\
+Input:&1800000&Ms:&341&363&365&341&368\\
+Input:&1900000&Ms:&392&396&393&397&394\\
+Input:&2000000&Ms:&385&408&405&408&413\\
+Input:&2500000&Ms:&588&557&515&516&556\\
+Input:&3000000&Ms:&669&669&708&708&668\\
+Input:&3500000&Ms:&352&274&359&274&336\\
+Input:&4000000&Ms:&381&351&350&302&302\\
+Input:&4500000&Ms:&458&455&455&455&456\\
+Input:&5000000&Ms:&584&544&612&544&585\\
+Input:&5500000&Ms:&955&952&952&954&953\\
+Input:&6000000&Ms:&1103&1041&1107&1044&1042\\
+Input:&6500000&Ms:&1785&1784&1626&1782&1622\\
+Input:&7000000&Ms:&1688&1632&1556&1550&1635\\
+Input:&7500000&Ms:&1583&1463&1461&1570&1531
+\end{tabular}
+
+\subsection*{Tree3}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&1\\
+Input:&100000&Ms:&37&37&35&40&37\\
+Input:&200000&Ms:&94&93&93&93&92\\
+Input:&300000&Ms:&178&177&178&177&184\\
+Input:&400000&Ms:&271&272&276&282&277\\
+Input:&500000&Ms:&378&383&388&384&383\\
+Input:&600000&Ms:&502&507&508&508&507\\
+Input:&700000&Ms:&607&609&640&641&632\\
+Input:&800000&Ms:&749&753&747&746&752\\
+Input:&900000&Ms:&867&870&872&869&876\\
+Input:&1000000&Ms:&1015&1021&1022&1019&1035\\
+Input:&1100000&Ms:&1187&1191&1115&1109&1110\\
+Input:&1200000&Ms:&1313&1316&1342&1340&1321\\
+Input:&1300000&Ms:&1402&1407&1426&1436&1449\\
+Input:&1400000&Ms:&1542&1557&1620&1619&1560\\
+Input:&1500000&Ms:&1739&1755&1665&1657&1714\\
+Input:&1600000&Ms:&1912&1929&1861&1849&1843\\
+Input:&1700000&Ms:&2021&2004&1947&1945&1986\\
+Input:&1800000&Ms:&2141&2160&2187&2145&2142\\
+Input:&1900000&Ms:&2306&2326&2383&2387&2371\\
+Input:&2000000&Ms:&2531&2465&2544&2480&2494\\
+Input:&2500000&Ms:&3353&3300&3352&3444&3303\\
+Input:&3000000&Ms:&4223&4416&4231&3999&4412\\
+Input:&3500000&Ms:&5160&5074&5060&5164&5069\\
+Input:&4000000&Ms:&5355&5535&5434&5490&5395\\
+Input:&4500000&Ms:&6212&6334&6273&6322&6190\\
+Input:&5000000&Ms:&7003&7135&7053&7194&7179\\
+Input:&5500000&Ms:&7794&7958&7982&7999&8049\\
+Input:&6000000&Ms:&8801&8810&8857&8656&8711\\
+Input:&6500000&Ms:&9659&9749&9680&9755&9780\\
+Input:&7000000&Ms:&10718&10751&10607&10646&10626\\
+Input:&7500000&Ms:&11728&11822&11704&11657&11653\\
+\end{tabular}
+
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&20&15&18&10&10\\
+Input:&200000&Ms:&19&19&20&25&27\\
+Input:&300000&Ms:&37&32&31&30&30\\
+Input:&400000&Ms:&44&40&46&43&42\\
+Input:&500000&Ms:&51&51&55&50&52\\
+Input:&600000&Ms:&62&64&68&62&68\\
+Input:&700000&Ms:&72&72&76&72&72\\
+Input:&800000&Ms:&88&84&83&83&83\\
+Input:&900000&Ms:&92&93&93&94&101\\
+Input:&1000000&Ms:&104&110&105&104&105\\
+Input:&1100000&Ms:&116&116&116&116&116\\
+Input:&1200000&Ms:&127&126&127&127&127\\
+Input:&1300000&Ms:&138&138&138&138&138\\
+Input:&1400000&Ms:&148&148&147&147&148\\
+Input:&1500000&Ms:&160&159&160&159&159\\
+Input:&1600000&Ms:&170&171&171&171&170\\
+Input:&1700000&Ms:&183&182&183&182&183\\
+Input:&1800000&Ms:&195&194&193&193&193\\
+Input:&1900000&Ms:&212&212&206&208&212\\
+Input:&2000000&Ms:&217&217&218&218&217\\
+Input:&2500000&Ms:&272&272&274&274&274\\
+Input:&3000000&Ms:&341&336&335&336&336\\
+Input:&3500000&Ms:&400&400&398&399&408\\
+Input:&4000000&Ms:&451&447&449&458&447\\
+Input:&4500000&Ms:&508&509&535&510&525\\
+Input:&5000000&Ms:&925&910&911&911&911\\
+Input:&5500000&Ms:&963&940&967&970&965\\
+Input:&6000000&Ms:&998&1000&1030&1046&1000\\
+Input:&6500000&Ms:&1076&1080&1076&1079&1090\\
+Input:&7000000&Ms:&1164&1157&1146&1137&1152\\
+Input:&7500000&Ms:&1222&1224&1225&1228&1225\\
+\end{tabular}
+
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&30&34&29&29&29\\
+Input:&200000&Ms:&85&87&91&87&93\\
+Input:&300000&Ms:&160&161&164&160&163\\
+Input:&400000&Ms:&249&253&252&253&254\\
+Input:&500000&Ms:&349&350&351&356&351\\
+Input:&600000&Ms:&449&448&448&449&449\\
+Input:&700000&Ms:&563&562&572&555&549\\
+Input:&800000&Ms:&658&643&651&650&651\\
+Input:&900000&Ms:&751&789&810&788&807\\
+Input:&1000000&Ms:&871&925&927&941&930\\
+Input:&1100000&Ms:&985&992&1019&1008&1008\\
+Input:&1200000&Ms:&1118&1160&1159&1158&1159\\
+Input:&1300000&Ms:&1223&1279&1257&1287&1281\\
+Input:&1400000&Ms:&1427&1353&1350&1353&1405\\
+Input:&1500000&Ms:&1544&1478&1480&1478&1479\\
+Input:&1600000&Ms:&1682&1622&1630&1653&1640\\
+Input:&1700000&Ms:&1771&1735&1737&1731&1732\\
+Input:&1800000&Ms:&1894&1867&1866&1868&1875\\
+Input:&1900000&Ms:&2051&2064&2064&2076&2081\\
+Input:&2000000&Ms:&2169&2151&2177&2207&2203\\
+Input:&2500000&Ms:&2871&2894&3038&2949&2954\\
+Input:&3000000&Ms:&3699&3718&3794&3623&3609\\
+Input:&3500000&Ms:&4408&4563&4517&4459&4400\\
+Input:&4000000&Ms:&5268&5194&5397&5417&5304\\
+Input:&4500000&Ms:&5156&4980&5162&5034&5132\\
+Input:&5000000&Ms:&5755&5771&5796&5780&5703\\
+Input:&5500000&Ms:&6881&6900&6830&6889&6875\\
+Input:&6000000&Ms:&7820&7800&7828&7833&7819\\
+Input:&6500000&Ms:&8764&8746&8825&8811&8795\\
+Input:&7000000&Ms:&9731&9721&9809&9683&9717\\
+Input:&7500000&Ms:&10778&10763&10796&10799&10776\\
+\end{tabular}
+
+\subsubsection*{remove()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&38&39&38&37&38\\
+Input:&200000&Ms:&119&119&122&122&122\\
+Input:&300000&Ms:&219&222&220&221&217\\
+Input:&400000&Ms:&362&355&354&355&354\\
+Input:&500000&Ms:&487&486&488&493&489\\
+Input:&600000&Ms:&593&590&590&589&589\\
+Input:&700000&Ms:&744&746&719&717&717\\
+Input:&800000&Ms:&840&845&847&846&842\\
+Input:&900000&Ms:&1053&1059&1061&1063&1068\\
+Input:&1000000&Ms:&1234&1232&1231&1234&1232\\
+Input:&1100000&Ms:&1347&1304&1313&1312&1276\\
+Input:&1200000&Ms:&1461&1477&1532&1536&1535\\
+Input:&1300000&Ms:&1676&1688&1686&1666&1684\\
+Input:&1400000&Ms:&1722&1735&1734&1737&1736\\
+Input:&1500000&Ms:&1920&1898&1894&1900&1894\\
+Input:&1600000&Ms:&2086&2097&2121&2129&2115\\
+Input:&1700000&Ms:&2269&2285&2213&2267&2208\\
+Input:&1800000&Ms:&2359&2380&2407&2374&2372\\
+Input:&1900000&Ms:&2646&2661&2607&2672&2659\\
+Input:&2000000&Ms:&2774&2785&2807&2817&2811\\
+Input:&2500000&Ms:&3682&3883&3736&3726&3741\\
+Input:&3000000&Ms:&4677&4677&4674&4670&4678\\
+Input:&3500000&Ms:&5596&5793&5581&5652&5591\\
+Input:&4000000&Ms:&5487&5187&5420&5180&5337\\
+Input:&4500000&Ms:&6256&6180&6326&6093&6263\\
+Input:&5000000&Ms:&7187&7059&7251&6970&7089\\
+Input:&5500000&Ms:&8424&8350&8268&8346&8259\\
+Input:&6000000&Ms:&9366&9454&9279&9548&9402\\
+Input:&6500000&Ms:&10640&10520&10414&10645&10545\\
+Input:&7000000&Ms:&11845&11910&11673&11872&11820\\
+Input:&7500000&Ms:&13086&13049&13111&12880&13031\\
+\end{tabular}
+
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&1&0\\
+Input:&100000&Ms:&13&11&11&12&12\\
+Input:&200000&Ms:&30&31&31&31&31\\
+Input:&300000&Ms:&54&53&54&53&54\\
+Input:&400000&Ms:&77&78&77&77&77\\
+Input:&500000&Ms:&94&94&95&95&95\\
+Input:&600000&Ms:&114&115&115&115&116\\
+Input:&700000&Ms:&135&136&136&136&136\\
+Input:&800000&Ms:&172&172&162&162&172\\
+Input:&900000&Ms:&187&188&187&187&198\\
+Input:&1000000&Ms:&209&209&209&210&225\\
+Input:&1100000&Ms:&218&223&211&211&211\\
+Input:&1200000&Ms:&226&227&243&242&242\\
+Input:&1300000&Ms:&263&261&245&245&262\\
+Input:&1400000&Ms:&246&245&264&265&250\\
+Input:&1500000&Ms:&265&266&263&267&264\\
+Input:&1600000&Ms:&290&323&323&303&303\\
+Input:&1700000&Ms:&344&323&299&324&348\\
+Input:&1800000&Ms:&341&364&365&342&365\\
+Input:&1900000&Ms:&396&391&365&392&366\\
+Input:&2000000&Ms:&385&412&408&409&413\\
+Input:&2500000&Ms:&550&519&515&515&556\\
+Input:&3000000&Ms:&624&631&626&626&669\\
+Input:&3500000&Ms:&358&297&369&319&382\\
+Input:&4000000&Ms:&513&428&494&412&452\\
+Input:&4500000&Ms:&489&415&455&443&446\\
+Input:&5000000&Ms:&585&585&614&585&614\\
+Input:&5500000&Ms:&835&953&899&952&901\\
+Input:&6000000&Ms:&1103&1047&1105&1043&1043\\
+Input:&6500000&Ms:&1792&1785&1625&1784&1633\\
+Input:&7000000&Ms:&1686&1633&1549&1548&1631\\
+Input:&7500000&Ms:&1570&1463&1467&1572&1529\\
+\end{tabular}
+
+\subsection*{Tree4}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&54&53&53&57&54\\
+Input:&200000&Ms:&135&135&139&136&142\\
+Input:&300000&Ms:&247&248&253&249&249\\
+Input:&400000&Ms:&363&363&374&361&366\\
+Input:&500000&Ms:&481&501&493&496&489\\
+Input:&600000&Ms:&649&650&652&648&652\\
+Input:&700000&Ms:&758&770&781&776&770\\
+Input:&800000&Ms:&919&922&912&915&930\\
+Input:&900000&Ms:&1078&1079&1065&1074&1081\\
+Input:&1000000&Ms:&1230&1233&1332&1313&1249\\
+Input:&1100000&Ms:&1436&1434&1332&1327&1395\\
+Input:&1200000&Ms:&1525&1529&1561&1578&1537\\
+Input:&1300000&Ms:&1691&1754&1728&1746&1721\\
+Input:&1400000&Ms:&1799&1893&1804&1907&1851\\
+Input:&1500000&Ms:&1956&2027&2046&1981&1980\\
+Input:&1600000&Ms:&2254&2278&2225&2267&2231\\
+Input:&1700000&Ms:&2377&2383&2372&2413&2360\\
+Input:&1800000&Ms:&2520&2483&2543&2558&2537\\
+Input:&1900000&Ms:&2824&2693&2866&2846&2731\\
+Input:&2000000&Ms:&2999&2944&2973&2976&2966\\
+Input:&2500000&Ms:&3579&3810&3657&3793&3685\\
+Input:&3000000&Ms:&4536&4595&4526&4613&4571\\
+Input:&3500000&Ms:&5292&5325&5325&5310&5291\\
+Input:&4000000&Ms:&6327&6370&6352&6244&6330\\
+Input:&4500000&Ms:&7152&7218&7137&7279&7263\\
+Input:&5000000&Ms:&8203&8185&8179&8157&8061\\
+Input:&5500000&Ms:&10013&10085&10052&10092&9979\\
+Input:&6000000&Ms:&11039&11040&11047&11061&10965\\
+Input:&6500000&Ms:&12095&12182&12074&11958&12127\\
+Input:&7000000&Ms:&13055&13259&13106&13036&13042\\
+Input:&7500000&Ms:&14111&13999&14017&14110&14105\\
+\end{tabular}
+
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&36&36&30&34&28\\
+Input:&200000&Ms:&66&67&70&69&65\\
+Input:&300000&Ms:&106&100&104&102&100\\
+Input:&400000&Ms:&136&135&139&134&133\\
+Input:&500000&Ms:&165&164&167&169&164\\
+Input:&600000&Ms:&196&197&197&199&197\\
+Input:&700000&Ms:&218&217&218&214&215\\
+Input:&800000&Ms:&262&262&261&261&261\\
+Input:&900000&Ms:&294&295&298&293&290\\
+Input:&1000000&Ms:&328&327&331&331&330\\
+Input:&1100000&Ms:&353&353&348&351&353\\
+Input:&1200000&Ms:&370&370&384&389&368\\
+Input:&1300000&Ms:&416&423&415&419&419\\
+Input:&1400000&Ms:&446&456&454&446&458\\
+Input:&1500000&Ms:&486&495&475&482&474\\
+Input:&1600000&Ms:&512&509&510&523&518\\
+Input:&1700000&Ms:&571&568&570&569&552\\
+Input:&1800000&Ms:&587&580&597&596&596\\
+Input:&1900000&Ms:&645&638&638&642&642\\
+Input:&2000000&Ms:&635&636&686&681&682\\
+Input:&2500000&Ms:&1059&1090&1064&1101&1082\\
+Input:&3000000&Ms:&1316&1340&1361&1376&1371\\
+Input:&3500000&Ms:&1526&1537&1527&1520&1569\\
+Input:&4000000&Ms:&1722&1730&1769&1728&1716\\
+Input:&4500000&Ms:&1968&1933&1930&1925&1919\\
+Input:&5000000&Ms:&2151&2146&2122&2111&2118\\
+Input:&5500000&Ms:&3000&2965&2998&3033&3032\\
+Input:&6000000&Ms:&3220&3197&3215&3210&3129\\
+Input:&6500000&Ms:&3458&3323&3351&3343&3365\\
+Input:&7000000&Ms:&3563&3589&3523&3582&3494\\
+Input:&7500000&Ms:&3867&3847&3887&3896&3881\\
+\end{tabular}
+
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&59&58&58&57&58\\
+Input:&200000&Ms:&163&161&162&162&161\\
+Input:&300000&Ms:&283&287&288&283&286\\
+Input:&400000&Ms:&416&419&421&420&417\\
+Input:&500000&Ms:&546&554&549&551&550\\
+Input:&600000&Ms:&698&698&697&698&696\\
+Input:&700000&Ms:&826&834&842&846&841\\
+Input:&800000&Ms:&996&999&1001&1004&1006\\
+Input:&900000&Ms:&1150&1159&1177&1179&1166\\
+Input:&1000000&Ms:&1332&1341&1347&1346&1340\\
+Input:&1100000&Ms:&1499&1519&1536&1546&1509\\
+Input:&1200000&Ms:&1669&1675&1714&1713&1678\\
+Input:&1300000&Ms:&1837&1851&1848&1851&1845\\
+Input:&1400000&Ms:&2019&2085&2032&2032&2041\\
+Input:&1500000&Ms:&2204&2223&2212&2189&2211\\
+Input:&1600000&Ms:&2396&2401&2402&2405&2401\\
+Input:&1700000&Ms:&2534&2608&2600&2585&2605\\
+Input:&1800000&Ms:&2732&2784&2794&2792&2798\\
+Input:&1900000&Ms:&2981&2983&2973&2971&2972\\
+Input:&2000000&Ms:&3166&3237&3248&3178&3168\\
+Input:&2500000&Ms:&3227&3073&3315&3112&3285\\
+Input:&3000000&Ms:&4394&4213&4331&4134&4254\\
+Input:&3500000&Ms:&5559&5330&5442&5192&5388\\
+Input:&4000000&Ms:&6463&6172&6262&5966&5978\\
+Input:&4500000&Ms:&7364&7379&7353&7347&7358\\
+Input:&5000000&Ms:&8806&8813&8773&8890&8816\\
+Input:&5500000&Ms:&8289&8344&8289&8273&8288\\
+Input:&6000000&Ms:&9595&9447&9505&9493&9668\\
+Input:&6500000&Ms:&10945&10936&10897&10825&10917\\
+Input:&7000000&Ms:&12299&12279&12250&12256&12312\\
+Input:&7500000&Ms:&13448&13624&13561&13615&13600\\
+\end{tabular}
+
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&26&27&28&25&25\\
+Input:&200000&Ms:&59&62&63&62&62\\
+Input:&300000&Ms:&91&94&94&92&92\\
+Input:&400000&Ms:&125&126&125&126&118\\
+Input:&500000&Ms:&161&158&158&158&159\\
+Input:&600000&Ms:&196&191&188&191&193\\
+Input:&700000&Ms:&228&229&224&224&223\\
+Input:&800000&Ms:&253&252&256&251&253\\
+Input:&900000&Ms:&302&305&294&290&289\\
+Input:&1000000&Ms:&327&323&321&325&325\\
+Input:&1100000&Ms:&346&343&359&360&351\\
+Input:&1200000&Ms:&399&400&393&384&392\\
+Input:&1300000&Ms:&388&433&381&427&426\\
+Input:&1400000&Ms:&459&459&457&462&459\\
+Input:&1500000&Ms:&493&474&489&444&493\\
+Input:&1600000&Ms:&537&537&502&528&521\\
+Input:&1700000&Ms:&547&572&544&560&541\\
+Input:&1800000&Ms:&535&596&597&576&574\\
+Input:&1900000&Ms:&640&608&631&633&612\\
+Input:&2000000&Ms:&653&641&666&662&633\\
+Input:&2500000&Ms:&517&515&523&508&518\\
+Input:&3000000&Ms:&755&686&676&689&708\\
+Input:&3500000&Ms:&965&878&916&882&884\\
+Input:&4000000&Ms:&1002&1004&973&973&1002\\
+Input:&4500000&Ms:&1104&1223&1182&1122&1223\\
+Input:&5000000&Ms:&1451&1451&1452&1305&1304\\
+Input:&5500000&Ms:&864&850&852&832&829\\
+Input:&6000000&Ms:&1092&1066&1086&1086&1026\\
+Input:&6500000&Ms:&1285&1227&1316&1226&1316\\
+Input:&7000000&Ms:&1537&1536&1544&1423&1545\\
+Input:&7500000&Ms:&1707&1756&1704&1751&1705\\
+\end{tabular}
+\\
+\subsection*{Tree5}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&53&52&57&53&52\\
+Input:&200000&Ms:&139&142&138&140&137\\
+Input:&300000&Ms:&257&252&261&261&263\\
+Input:&400000&Ms:&377&376&382&372&384\\
+Input:&500000&Ms:&482&495&493&496&490\\
+Input:&600000&Ms:&624&627&633&622&631\\
+Input:&700000&Ms:&753&760&766&769&765\\
+Input:&800000&Ms:&906&918&916&916&910\\
+Input:&900000&Ms:&1069&1077&1080&1057&1071\\
+Input:&1000000&Ms:&1223&1242&1219&1218&1239\\
+Input:&1100000&Ms:&1388&1375&1404&1396&1381\\
+Input:&1200000&Ms:&1558&1558&1563&1548&1574\\
+Input:&1300000&Ms:&1723&1708&1722&1707&1704\\
+Input:&1400000&Ms:&1856&1962&1884&1908&1931\\
+Input:&1500000&Ms:&2025&2031&1984&2074&1975\\
+Input:&1600000&Ms:&2175&2229&2221&2176&2222\\
+Input:&1700000&Ms:&2287&2358&2352&2417&2362\\
+Input:&1800000&Ms:&2462&2548&2562&2547&2550\\
+Input:&1900000&Ms:&2813&2799&2790&2822&2900\\
+Input:&2000000&Ms:&3032&3013&2995&2969&2932\\
+Input:&2500000&Ms:&3628&3667&3603&3777&3677\\
+Input:&3000000&Ms:&4626&4584&4590&4502&4575\\
+Input:&3500000&Ms:&5317&5305&5333&5340&5355\\
+Input:&4000000&Ms:&6209&6355&6177&6260&6296\\
+Input:&4500000&Ms:&7094&7265&7110&7074&7115\\
+Input:&5000000&Ms:&8077&8173&8214&8094&8127\\
+Input:&5500000&Ms:&10089&9999&9959&10052&10112\\
+Input:&6000000&Ms:&11054&10980&11140&11054&10941\\
+Input:&6500000&Ms:&11955&12134&12071&12258&12163\\
+Input:&7000000&Ms:&13066&13128&13145&13123&13063\\
+Input:&7500000&Ms:&14190&14140&14100&14132&14141\\
+\end{tabular}
+\\
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&33&29&26&28&32\\
+Input:&200000&Ms:&66&66&67&70&69\\
+Input:&300000&Ms:&102&107&103&105&104\\
+Input:&400000&Ms:&136&138&141&136&135\\
+Input:&500000&Ms:&162&162&163&163&165\\
+Input:&600000&Ms:&195&194&195&197&195\\
+Input:&700000&Ms:&216&215&213&223&213\\
+Input:&800000&Ms:&260&259&259&260&259\\
+Input:&900000&Ms:&291&291&288&284&284\\
+Input:&1000000&Ms:&326&326&330&328&322\\
+Input:&1100000&Ms:&353&354&357&357&349\\
+Input:&1200000&Ms:&364&364&382&382&367\\
+Input:&1300000&Ms:&413&419&415&416&416\\
+Input:&1400000&Ms:&443&452&451&445&453\\
+Input:&1500000&Ms:&486&480&472&472&483\\
+Input:&1600000&Ms:&505&519&503&507&522\\
+Input:&1700000&Ms:&566&565&546&566&563\\
+Input:&1800000&Ms:&589&583&597&591&596\\
+Input:&1900000&Ms:&648&639&637&637&639\\
+Input:&2000000&Ms:&645&658&657&678&630\\
+Input:&2500000&Ms:&1050&1080&1071&1111&1075\\
+Input:&3000000&Ms:&1287&1343&1355&1371&1368\\
+Input:&3500000&Ms:&1469&1469&1472&1469&1472\\
+Input:&4000000&Ms:&1728&1702&1685&1722&1685\\
+Input:&4500000&Ms:&1929&1893&1911&1907&1915\\
+Input:&5000000&Ms:&2125&2125&2106&2099&2101\\
+Input:&5500000&Ms:&3015&2977&3033&3044&3025\\
+Input:&6000000&Ms:&3248&3184&3194&3188&3081\\
+Input:&6500000&Ms:&3515&3298&3348&3292&3349\\
+Input:&7000000&Ms:&3534&3587&3490&3507&3492\\
+Input:&7500000&Ms:&3842&3817&3859&3852&3847\\
+\end{tabular}
+\\
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&63&59&59&60&59\\
+Input:&200000&Ms:&164&162&164&163&164\\
+Input:&300000&Ms:&287&287&289&285&289\\
+Input:&400000&Ms:&420&421&420&418&424\\
+Input:&500000&Ms:&557&556&558&558&556\\
+Input:&600000&Ms:&702&706&703&703&703\\
+Input:&700000&Ms:&837&848&852&856&855\\
+Input:&800000&Ms:&1009&1011&1018&1014&1018\\
+Input:&900000&Ms:&1165&1170&1187&1178&1180\\
+Input:&1000000&Ms:&1340&1346&1351&1349&1345\\
+Input:&1100000&Ms:&1512&1522&1510&1512&1523\\
+Input:&1200000&Ms:&1673&1692&1717&1720&1690\\
+Input:&1300000&Ms:&1836&1903&1842&1866&1856\\
+Input:&1400000&Ms:&2042&2087&2045&2051&2051\\
+Input:&1500000&Ms:&2218&2227&2231&2230&2206\\
+Input:&1600000&Ms:&2406&2429&2416&2418&2424\\
+Input:&1700000&Ms:&2600&2587&2577&2618&2609\\
+Input:&1800000&Ms:&2762&2806&2799&2812&2814\\
+Input:&1900000&Ms:&2981&2999&3048&2999&3005\\
+Input:&2000000&Ms:&3180&3201&3184&3195&3187\\
+Input:&2500000&Ms:&3248&3081&3289&3127&3298\\
+Input:&3000000&Ms:&4378&4221&4339&4130&4314\\
+Input:&3500000&Ms:&5530&5326&5469&5214&5409\\
+Input:&4000000&Ms:&6555&6249&6270&5992&6004\\
+Input:&4500000&Ms:&7439&7397&7473&7409&7413\\
+Input:&5000000&Ms:&8863&8907&8823&8842&8857\\
+Input:&5500000&Ms:&8292&8293&8286&8273&8167\\
+Input:&6000000&Ms:&9490&9559&9596&9600&9550\\
+Input:&6500000&Ms:&10986&10981&10979&10961&10991\\
+Input:&7000000&Ms:&12235&12280&12332&12281&12292\\
+Input:&7500000&Ms:&13660&13604&13627&13619&13601\\
+\end{tabular}
+\\
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&24&24&25&23&25\\
+Input:&200000&Ms:&60&60&59&61&60\\
+Input:&300000&Ms:&93&92&91&92&93\\
+Input:&400000&Ms:&123&127&125&125&126\\
+Input:&500000&Ms:&158&159&159&156&156\\
+Input:&600000&Ms:&193&193&195&191&188\\
+Input:&700000&Ms:&229&228&224&223&226\\
+Input:&800000&Ms:&251&253&254&258&254\\
+Input:&900000&Ms:&298&305&291&291&291\\
+Input:&1000000&Ms:&325&320&322&322&324\\
+Input:&1100000&Ms:&349&347&353&359&345\\
+Input:&1200000&Ms:&398&401&384&388&391\\
+Input:&1300000&Ms:&424&427&424&427&427\\
+Input:&1400000&Ms:&440&467&462&461&461\\
+Input:&1500000&Ms:&443&441&491&493&494\\
+Input:&1600000&Ms:&508&536&529&532&509\\
+Input:&1700000&Ms:&561&559&500&559&562\\
+Input:&1800000&Ms:&593&532&575&596&572\\
+Input:&1900000&Ms:&633&635&628&607&607\\
+Input:&2000000&Ms:&660&666&667&661&643\\
+Input:&2500000&Ms:&520&479&568&521&577\\
+Input:&3000000&Ms:&685&646&721&673&730\\
+Input:&3500000&Ms:&868&876&945&853&911\\
+Input:&4000000&Ms:&973&1004&1003&970&1001\\
+Input:&4500000&Ms:&1223&1226&1223&1223&1186\\
+Input:&5000000&Ms:&1450&1461&1305&1306&1454\\
+Input:&5500000&Ms:&861&862&827&832&849\\
+Input:&6000000&Ms:&1063&1084&1085&1086&1024\\
+Input:&6500000&Ms:&1318&1283&1224&1312&1282\\
+Input:&7000000&Ms:&1537&1419&1497&1423&1536\\
+Input:&7500000&Ms:&1755&1754&1705&1754&1719\\
+\end{tabular}
+
+\subsection*{Tree6}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&52&45&56&50&54\\
+Input:&200000&Ms:&133&137&134&136&137\\
+Input:&300000&Ms:&246&244&248&254&252\\
+Input:&400000&Ms:&348&369&371&368&372\\
+Input:&500000&Ms:&506&482&478&486&484\\
+Input:&600000&Ms:&622&617&616&610&607\\
+Input:&700000&Ms:&733&733&746&744&745\\
+Input:&800000&Ms:&887&900&905&896&889\\
+Input:&900000&Ms:&1042&1061&1134&1104&1057\\
+Input:&1000000&Ms:&1221&1216&1315&1308&1218\\
+Input:&1100000&Ms:&1342&1370&1340&1368&1344\\
+Input:&1200000&Ms:&1522&1536&1528&1522&1530\\
+Input:&1300000&Ms:&1644&1657&1672&1692&1674\\
+Input:&1400000&Ms:&1794&1849&1876&1886&1877\\
+Input:&1500000&Ms:&1921&1997&1984&1941&1994\\
+Input:&1600000&Ms:&2133&2207&2184&2132&2199\\
+Input:&1700000&Ms:&2325&2341&2330&2317&2258\\
+Input:&1800000&Ms:&2520&2434&2495&2494&2501\\
+Input:&1900000&Ms:&2750&2761&2722&2795&2768\\
+Input:&2000000&Ms:&2819&2854&2856&2925&2912\\
+Input:&2500000&Ms:&3661&3641&3586&3773&3639\\
+Input:&3000000&Ms:&4466&4654&4515&4508&4537\\
+Input:&3500000&Ms:&5199&5247&5261&5288&5377\\
+Input:&4000000&Ms:&6259&6213&6204&6221&6259\\
+Input:&4500000&Ms:&7119&7141&7211&7174&7155\\
+Input:&5000000&Ms:&8079&8104&8013&8039&8129\\
+Input:&5500000&Ms:&9921&10021&9996&10039&10089\\
+Input:&6000000&Ms:&10853&10847&10800&10933&10903\\
+Input:&6500000&Ms:&12067&11857&12021&12057&11866\\
+Input:&7000000&Ms:&13128&12970&13131&13014&13078\\
+Input:&7500000&Ms:&13874&14031&13913&14040&13987\\
+\end{tabular}
+\\
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&28&34&25&26&33\\
+Input:&200000&Ms:&64&65&69&66&66\\
+Input:&300000&Ms:&101&99&94&97&96\\
+Input:&400000&Ms:&132&133&132&130&132\\
+Input:&500000&Ms:&158&163&158&166&163\\
+Input:&600000&Ms:&193&189&190&189&188\\
+Input:&700000&Ms:&206&207&203&209&203\\
+Input:&800000&Ms:&250&252&251&250&250\\
+Input:&900000&Ms:&280&287&274&274&279\\
+Input:&1000000&Ms:&314&314&319&318&313\\
+Input:&1100000&Ms:&340&339&335&334&339\\
+Input:&1200000&Ms:&351&350&370&368&350\\
+Input:&1300000&Ms:&397&407&398&406&401\\
+Input:&1400000&Ms:&429&438&437&428&441\\
+Input:&1500000&Ms:&467&473&457&465&456\\
+Input:&1600000&Ms:&484&477&485&503&494\\
+Input:&1700000&Ms:&548&548&549&540&527\\
+Input:&1800000&Ms:&565&560&576&577&577\\
+Input:&1900000&Ms:&619&623&634&620&616\\
+Input:&2000000&Ms:&659&621&621&659&606\\
+Input:&2500000&Ms:&1062&1080&1048&1079&1054\\
+Input:&3000000&Ms:&1302&1303&1297&1345&1347\\
+Input:&3500000&Ms:&1506&1482&1472&1506&1500\\
+Input:&4000000&Ms:&1659&1683&1665&1661&1650\\
+Input:&4500000&Ms:&1881&1862&1901&1861&1867\\
+Input:&5000000&Ms:&2084&2079&2055&2058&2081\\
+Input:&5500000&Ms:&2895&2906&2959&2923&2928\\
+Input:&6000000&Ms:&3140&3099&3099&3106&3001\\
+Input:&6500000&Ms:&3338&3227&3233&3269&3248\\
+Input:&7000000&Ms:&3439&3443&3385&3394&3386\\
+Input:&7500000&Ms:&3792&3763&3761&3724&3753\\
+\end{tabular}
+\\
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&47&45&44&45&44\\
+Input:&200000&Ms:&127&127&128&127&128\\
+Input:&300000&Ms:&227&234&230&231&234\\
+Input:&400000&Ms:&342&343&341&341&344\\
+Input:&500000&Ms:&454&456&454&455&453\\
+Input:&600000&Ms:&577&577&576&577&578\\
+Input:&700000&Ms:&702&705&707&708&707\\
+Input:&800000&Ms:&839&841&842&846&844\\
+Input:&900000&Ms:&970&975&981&981&978\\
+Input:&1000000&Ms:&1119&1131&1122&1127&1132\\
+Input:&1100000&Ms:&1275&1279&1269&1271&1278\\
+Input:&1200000&Ms:&1415&1427&1425&1422&1429\\
+Input:&1300000&Ms:&1559&1591&1570&1570&1575\\
+Input:&1400000&Ms:&1718&1740&1735&1731&1732\\
+Input:&1500000&Ms:&1883&1915&1898&1897&1898\\
+Input:&1600000&Ms:&2052&2058&2069&2062&2064\\
+Input:&1700000&Ms:&2208&2224&2236&2228&2227\\
+Input:&1800000&Ms:&2388&2391&2401&2396&2401\\
+Input:&1900000&Ms:&2550&2577&2590&2568&2569\\
+Input:&2000000&Ms:&2732&2746&2742&2748&2737\\
+Input:&2500000&Ms:&2796&2668&2857&2717&2876\\
+Input:&3000000&Ms:&3828&3669&3814&3644&3733\\
+Input:&3500000&Ms:&4877&4655&4755&4549&4687\\
+Input:&4000000&Ms:&5713&5440&5467&5267&5230\\
+Input:&4500000&Ms:&6438&6396&6423&6443&6436\\
+Input:&5000000&Ms:&7699&7629&7658&7693&7723\\
+Input:&5500000&Ms:&7428&7411&7268&7275&7429\\
+Input:&6000000&Ms:&8414&8539&8535&8460&8438\\
+Input:&6500000&Ms:&9643&9498&9686&9716&9421\\
+Input:&7000000&Ms:&10920&10854&10937&10801&10967\\
+Input:&7500000&Ms:&12025&12002&12092&12015&12054\\
+\end{tabular}
+\\
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&1&0&0\\
+Input:&100000&Ms:&23&24&25&24&25\\
+Input:&200000&Ms:&59&59&61&60&58\\
+Input:&300000&Ms:&92&92&91&90&93\\
+Input:&400000&Ms:&124&123&125&124&124\\
+Input:&500000&Ms:&155&159&156&156&158\\
+Input:&600000&Ms:&189&188&194&189&190\\
+Input:&700000&Ms:&238&219&220&219&219\\
+Input:&800000&Ms:&253&247&250&251&250\\
+Input:&900000&Ms:&299&297&308&305&283\\
+Input:&1000000&Ms:&319&317&345&343&322\\
+Input:&1100000&Ms:&344&346&346&352&342\\
+Input:&1200000&Ms:&381&387&385&385&385\\
+Input:&1300000&Ms:&381&415&374&422&419\\
+Input:&1400000&Ms:&455&450&452&443&453\\
+Input:&1500000&Ms:&489&444&483&490&483\\
+Input:&1600000&Ms:&499&513&518&519&500\\
+Input:&1700000&Ms:&546&548&503&555&551\\
+Input:&1800000&Ms:&583&543&572&583&566\\
+Input:&1900000&Ms:&619&598&617&618&621\\
+Input:&2000000&Ms:&635&656&657&635&654\\
+Input:&2500000&Ms:&558&481&523&520&561\\
+Input:&3000000&Ms:&722&698&737&633&725\\
+Input:&3500000&Ms:&958&898&937&872&903\\
+Input:&4000000&Ms:&909&993&910&910&992\\
+Input:&4500000&Ms:&1178&1109&1215&1215&1130\\
+Input:&5000000&Ms:&1443&1400&1309&1438&1442\\
+Input:&5500000&Ms:&828&857&860&833&846\\
+Input:&6000000&Ms:&1027&1056&1076&1063&1080\\
+Input:&6500000&Ms:&1307&1224&1306&1309&1308\\
+Input:&7000000&Ms:&1521&1487&1530&1538&1529\\
+Input:&7500000&Ms:&1710&1757&1708&1755&1710\\
+\end{tabular}
+
+\subsection*{Tree7}
+\subsubsection*{Add() - Random volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&45&47&48&49&51\\
+Input:&200000&Ms:&131&133&134&136&137\\
+Input:&300000&Ms:&249&249&249&253&252\\
+Input:&400000&Ms:&363&368&364&349&367\\
+Input:&500000&Ms:&476&482&490&481&486\\
+Input:&600000&Ms:&611&610&608&622&612\\
+Input:&700000&Ms:&731&726&756&747&763\\
+Input:&800000&Ms:&883&883&892&891&892\\
+Input:&900000&Ms:&1064&1054&1112&1115&1042\\
+Input:&1000000&Ms:&1212&1211&1284&1286&1222\\
+Input:&1100000&Ms:&1368&1339&1374&1363&1392\\
+Input:&1200000&Ms:&1525&1523&1522&1518&1539\\
+Input:&1300000&Ms:&1598&1801&1607&1669&1681\\
+Input:&1400000&Ms:&1810&1862&1883&1863&1887\\
+Input:&1500000&Ms:&2032&2013&2000&1939&2019\\
+Input:&1600000&Ms:&2131&2177&2174&2191&2137\\
+Input:&1700000&Ms:&2323&2334&2266&2357&2367\\
+Input:&1800000&Ms:&2506&2421&2518&2517&2532\\
+Input:&1900000&Ms:&2665&2818&2752&2767&2750\\
+Input:&2000000&Ms:&2815&2934&2939&2904&2930\\
+Input:&2500000&Ms:&3661&3738&3616&3912&3639\\
+Input:&3000000&Ms:&4582&4623&4520&4627&4498\\
+Input:&3500000&Ms:&5174&5282&5267&5304&5267\\
+Input:&4000000&Ms:&6244&6233&6279&6218&6259\\
+Input:&4500000&Ms:&7170&7180&7204&7237&7189\\
+Input:&5000000&Ms:&8131&8203&8016&8108&8193\\
+Input:&5500000&Ms:&10032&10025&10087&10075&10101\\
+Input:&6000000&Ms:&10923&10897&10924&10992&11027\\
+Input:&6500000&Ms:&12256&12480&12629&12367&12524\\
+Input:&7000000&Ms:&13202&13036&13184&13001&13160\\
+Input:&7500000&Ms:&14147&13982&13988&14097&14099\\
+\end{tabular}
+\\
+\subsubsection*{Add() - Geordende volgorde}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&29&29&34&28&30\\
+Input:&200000&Ms:&69&66&70&69&66\\
+Input:&300000&Ms:&98&102&99&96&101\\
+Input:&400000&Ms:&134&132&132&133&133\\
+Input:&500000&Ms:&161&159&160&159&162\\
+Input:&600000&Ms:&197&195&190&196&190\\
+Input:&700000&Ms:&212&208&209&205&207\\
+Input:&800000&Ms:&256&265&255&254&255\\
+Input:&900000&Ms:&287&283&279&280&276\\
+Input:&1000000&Ms:&316&315&318&320&315\\
+Input:&1100000&Ms:&341&342&344&344&343\\
+Input:&1200000&Ms:&353&352&362&363&353\\
+Input:&1300000&Ms:&401&409&402&404&404\\
+Input:&1400000&Ms:&430&441&440&431&441\\
+Input:&1500000&Ms:&471&475&458&469&460\\
+Input:&1600000&Ms:&488&482&485&508&501\\
+Input:&1700000&Ms:&533&545&578&550&544\\
+Input:&1800000&Ms:&564&576&569&579&579\\
+Input:&1900000&Ms:&622&619&634&622&620\\
+Input:&2000000&Ms:&662&624&634&662&611\\
+Input:&2500000&Ms:&1027&1097&1047&1097&1058\\
+Input:&3000000&Ms:&1259&1285&1329&1327&1327\\
+Input:&3500000&Ms:&1491&1496&1496&1492&1497\\
+Input:&4000000&Ms:&1677&1691&1673&1680&1666\\
+Input:&4500000&Ms:&1890&1875&1885&1871&1881\\
+Input:&5000000&Ms:&2092&2084&2066&2053&2065\\
+Input:&5500000&Ms:&2920&2914&2960&2978&3077\\
+Input:&6000000&Ms:&3124&3106&3141&3131&3003\\
+Input:&6500000&Ms:&3360&3277&3266&3249&3241\\
+Input:&7000000&Ms:&3459&3503&3416&3403&3429\\
+Input:&7500000&Ms:&3790&3747&3806&3765&3767\\
+\end{tabular}
+\\
+\subsubsection*{contains()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&47&47&48&47&48\\
+Input:&200000&Ms:&125&125&129&128&132\\
+Input:&300000&Ms:&237&236&230&236&236\\
+Input:&400000&Ms:&343&344&345&343&341\\
+Input:&500000&Ms:&355&391&528&529&535\\
+Input:&600000&Ms:&685&683&685&675&681\\
+Input:&700000&Ms:&575&513&574&826&827\\
+Input:&800000&Ms:&859&818&871&811&836\\
+Input:&900000&Ms:&950&913&940&999&930\\
+Input:&1000000&Ms:&1153&1121&1150&1115&1145\\
+Input:&1100000&Ms:&1294&1250&1286&1241&1279\\
+Input:&1200000&Ms:&1420&1373&1413&1462&1305\\
+Input:&1300000&Ms:&1553&1601&1543&1491&1543\\
+Input:&1400000&Ms:&1785&1737&1782&1727&1773\\
+Input:&1500000&Ms:&1822&1867&1816&1755&1803\\
+Input:&1600000&Ms:&2010&2053&2006&2030&2093\\
+Input:&1700000&Ms:&2236&2180&2228&2166&2325\\
+Input:&1800000&Ms:&2393&2321&2377&2308&2350\\
+Input:&1900000&Ms:&2519&2457&2520&2443&2307\\
+Input:&2000000&Ms:&2846&2698&2797&2686&2842\\
+Input:&2500000&Ms:&2871&2708&2802&2781&2868\\
+Input:&3000000&Ms:&3861&3750&3833&3721&3865\\
+Input:&3500000&Ms:&5218&4969&4748&4731&4645\\
+Input:&4000000&Ms:&5523&5448&5479&5510&5521\\
+Input:&4500000&Ms:&6514&6539&6523&6520&6591\\
+Input:&5000000&Ms:&7736&7769&7794&7730&7795\\
+Input:&5500000&Ms:&7402&7430&7578&7434&7427\\
+Input:&6000000&Ms:&8558&8649&8647&8635&8596\\
+Input:&6500000&Ms:&9625&9691&9596&9643&9636\\
+Input:&7000000&Ms:&11074&11009&11378&11188&11342\\
+Input:&7500000&Ms:&12378&12352&12370&12409&12328\\
+\end{tabular}
+\\
+\subsubsection*{iterator()}
+\begin{tabular}{l l ||l  l  l  l  l  l}
+Input:&0&Ms:&0&0&0&0&0\\
+Input:&100000&Ms:&23&24&24&26&27\\
+Input:&200000&Ms:&59&61&61&60&60\\
+Input:&300000&Ms:&93&92&92&93&91\\
+Input:&400000&Ms:&122&125&125&125&126\\
+Input:&500000&Ms:&156&157&158&159&157\\
+Input:&600000&Ms:&193&192&191&192&190\\
+Input:&700000&Ms:&220&221&221&227&221\\
+Input:&800000&Ms:&252&254&251&268&248\\
+Input:&900000&Ms:&299&298&285&287&285\\
+Input:&1000000&Ms:&319&323&318&317&321\\
+Input:&1100000&Ms:&347&345&354&351&347\\
+Input:&1200000&Ms:&389&389&390&388&389\\
+Input:&1300000&Ms:&383&420&385&424&423\\
+Input:&1400000&Ms:&454&457&459&455&467\\
+Input:&1500000&Ms:&490&474&494&444&523\\
+Input:&1600000&Ms:&508&525&526&525&512\\
+Input:&1700000&Ms:&555&558&505&552&555\\
+Input:&1800000&Ms:&593&539&572&590&589\\
+Input:&1900000&Ms:&626&630&628&624&620\\
+Input:&2000000&Ms:&636&668&657&640&659\\
+Input:&2500000&Ms:&535&524&596&544&590\\
+Input:&3000000&Ms:&759&684&786&672&773\\
+Input:&3500000&Ms:&964&856&973&828&951\\
+Input:&4000000&Ms:&1051&1029&1072&951&1007\\
+Input:&4500000&Ms:&1250&1206&1230&1238&1244\\
+Input:&5000000&Ms:&1449&1413&1405&1468&1320\\
+Input:&5500000&Ms:&865&865&857&866&851\\
+Input:&6000000&Ms:&1067&1065&1074&1034&1087\\
+Input:&6500000&Ms:&1318&1238&1231&1289&1231\\
+Input:&7000000&Ms:&1536&1558&1501&1430&1541\\
+Input:&7500000&Ms:&1708&1763&1706&1761&1703
+\end{tabular}
+\end{tiny}
+
+\end{document}

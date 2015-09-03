@@ -1,0 +1,10 @@
+@(correctP: Int)(wrongP: Int)(correctN: Int)(wrongN: Int)(q: Question)
+@if(correctN == 0){
+    <img src="http://chart.apis.google.com/chart?cht=p3&chs=450x200&chd=t:@wrongN&chl=Wrong (-@wrongP points)&chtt=All%20Answered%20Wrong&chco=ff0000">
+        }
+@if(wrongN == 0){
+    <img src="http://chart.apis.google.com/chart?cht=p3&chs=450x200&chd=t:@correctN&chl=Correct (@correctP points)&chtt=All%20Answered%20Correct&chco=ff0000">
+        }
+@if(wrongN > 0 && correctN > 0){
+<img src="http://chart.apis.google.com/chart?cht=p3&chs=450x200&chd=t:@correctN,@wrongN&chl=Right (@correctP points)|Wrong (-@wrongP points)&chtt=Distribution%²    &chco=ff0000">
+        }

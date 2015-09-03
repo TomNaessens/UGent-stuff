@@ -1,0 +1,24 @@
+@(questions: List[Question])
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main("Questionlist") {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+} {
+<!-- Main content -->
+<ul>
+    @for(q <- questions){
+    <li>Titel</li>
+    }
+</ul>
+
+} {
+<!-- Sidebar -->
+
+}
+

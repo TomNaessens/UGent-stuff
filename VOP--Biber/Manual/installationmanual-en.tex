@@ -1,0 +1,61 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[dutch]{babel}
+\title{Installation Manual Bebras (nl)}
+\author{Team Biber}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[pdftex]{graphicx}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\makeindex
+\begin{document}
+\maketitle
+\parindent 0pt
+
+\section{Dependencies}
+\begin{itemize}
+\item Make sure you have a working \href{http://www.playframework.com/documentation/2.1.0/Home}{Play installation}. We use Play 2.1.0!
+\item Make sure you have a working \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java installation}. We use Java 7!
+\item Get our codebase \href{https://github.ugent.be/tnnaesse/Biber}{here}.
+\item If you don't have a working Git installation, remove the file \texttt{project/project/plugin.scala}
+\item Firefox needs to be installed in order for the Seleniumtests to work! ATTENTION: It is possible that a Seleniumtests fails due to delay. We set a specific waiting delay ranging from 300ms to 3 seconds according to the page load. If a test fail, please repeat it using \texttt{play 'test-only [name test]'}.
+\end{itemize}
+
+\section{Testing}
+\begin{itemize}
+\item Open a terminal
+\item Navigate to the root of the codebase
+\item Navigate to the \texttt{Biber/} folder
+\item Execute \texttt{play test}
+\end{itemize}
+
+\section{Developer mode}
+\begin{itemize}
+\item Open a terminal
+\item Navigate to the root of the codebase
+\item Navigate to the \texttt{Biber/} folder
+\item Execute \texttt{play run}; the developer mode works with an H2 in memory database so it is not needed to configure one
+\item Navigate in your browser to \texttt{localhost:9000}
+\end{itemize}
+
+\section{Production mode}
+Before you begin; make sure you have a working Postgres installation with a predefined user
+
+\begin{itemize}
+\item Open a terminal
+\item Navigate to the root of the codebase
+\item Navigate to the \texttt{Biber/} folder
+\item Execute \texttt{play test}
+\item Log into your Postgres installation with the prefered user
+\item Import all the files in \texttt{conf/evolutions/prod} in order (first \texttt{1.sql} then \texttt{2.sql} and so on). After these files have been added, import \texttt{admin.sql} to generate the admin user
+\item Edit \texttt{conf/prod.conf} and edit the details of your Postgres installation to your needs
+\item Execute \texttt{play -Dconfig.file=conf/prod.conf start}
+\item Navigate to \texttt{localhost:9000/play/}
+\end{itemize}
+
+
+\end{document}

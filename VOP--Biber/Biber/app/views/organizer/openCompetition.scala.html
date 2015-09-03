@@ -1,0 +1,21 @@
+@(comp: Competition)
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("competition.open.official.head")) {
+
+} {
+
+
+} {
+        @wflash()
+	<h3>@LangMessages.get("competition.open.official.warning")</h3>
+	<!-- TODO: refer to the right competition page 
+		 TODO: Maybe add a calendar widget to specify how long the competition can run?
+	-->
+	<a href="#">@comp.getTitle()</a>
+	@form(action = routes.Competitions.openCompetition(comp.id)) {
+		<input type="submit" value="@LangMessages.get("competition.open.button")">
+	}
+} {
+
+}

@@ -1,0 +1,77 @@
+\section{Implementatie Controllers}
+In deze sectie overlopen we de assumpties die we hebben gemaakt over het gedrag van 
+de wagen en welke bewerkingen we toegepast hebben op de invoerdata van het vage 
+raamwerk. Daarna bekijken we kort de algemene lidmaatschapsfuncties, waarna we 
+dieper ingaan op de specifieke implementatie van de drie verschillende 
+controllers. Tenslotte kijken we naar de eventuele verschillen in de lidmaatschapsfuncties voor de individuele controllers.
+
+\subsection{Regels}
+
+Om de wagen doorheen de parcours te leiden hebben we enkele beschouwingen gemaakt over het gedrag van de wagen.
+
+Ten eerste zien we dat er twee mogelijke denkwijzen zijn voor het sturen van de wagen. Ofwel laten we de wagen wegsturen van de randen van het parcours, ofwel laten we de wagen in de richting rijden naar waar deze het verste kan kijken. De eerste zal steeds een veilige route kiezen die een minimumafstand behoudt tot de grenzen van het parcours. De tweede zal echter meer sportief de binnenkant van de bocht nemen. Dit maakt de eerste manier van sturen meer geschikt voor de veilige controller terwijl de tweede voor de snelle en drift controller interessanter is.
+
+We merken ook op dat wanneer de snelheid van de wagen omhoog gaat, de remafstand ook hoger ligt. We moeten dus ervoor zorgen dat de wagen bij hogere snelheden ook sneller zal beginnen remmen. Daarnaast kunnen bruuske bewegingen bij hoge snelheden ervoor zorgen dat de wagen begint te slippen. We zullen dus aan de hand van de sensor vooraan de wagen in combinatie met de snelheid nagaan wanneer de wagen moet beginnen remmen.
+
+Wanneer de wagen een bocht nadert zal deze moeten vertragen. Wanneer we de 
+tweede manier van sturen gebruiken, kijken we naar waar de wagen moet gaan. 
+Hierbij kan een problematisch randgeval zich voordoen indien de sensoren aan 
+beide zijden van de wagen ongeveer dezelfde waarden aangeven. In dit geval zullen de regels voor het sturen niet kunnen vaststellen in welke richting er gestuurd moet worden. Daarom zullen we 
+de hoek van deze sensoren aanpassen indien de afstanden tot zowel de voor- als 
+zij-sensoren te klein worden.
+
+Indien de wagen begint te slippen willen we dat deze zich zal stabiliseren. We zullen in dit geval dus de versnelling van de wagen stoppen en stilaan remmen. Indien we te bruusk remmen of versnellen tijdens het remmen zullen we harder aan het slippen gaan, wat zeker niet de bedoeling is voor de veilige en snelle controllers.
+
+Tenslotte moeten we rekening houden met de baanbreedte in combinatie met de afstanden die beide
+zij-sensoren ons geven. Op het circuit van Texas zijn er bijvoorbeeld heel lange, maar ook heel
+brede bochten. In Silverstone en Spa-Francorchamps is de baan daarentegen heel smal en zijn de
+bochten zeer scherp. We kunnen dus niet puur afgaan op de afstanden die de
+zij-sensoren aangeven om bochten op alle parcoursbreedtes te herkennen. We zullen dit moeten oplossen door deze
+afstand te normaliseren. Daarom voeren we eerst een bewerking door op deze sensoren
+die als resultaat een genormaliseerde waarde tussen $-1$ en $1$ oplevert, dit
+resultaat noemen we \texttt{corner}. $-1$ komt overeen met een scherpe bocht
+naar links, $1$ met een scherpe bocht naar rechts. Wanneer de wagen op een recht
+stuk zit en dus beide zij-sensoren een gelijke waarde aangeven is het resultaat
+$0$. Negatieve waarden tussen $-1$ en $0$ geven bochten naar links aan, waarbij
+lagere waarden scherpere bochten zijn. Het inverse geld ook voor bochten naar
+rechts. Op basis van deze \texttt{corner} waarde kunnen we dan verschillende
+linguïstische termen vastleggen om scherpe, gewone en milde bochten aan te geven.
+
+\subsection{Lidmaatschapsfuncties}
+
+Voor de verschillende controllers gebruiken we andere lidmaatschapsfuncties. Dit 
+doen we omdat bijvoorbeeld voor de veilige controller een trage snelheid lager 
+zal liggen dan die in de snelle controller. Om makkelijk de vergelijking te maken hebben we de invoeren uitgezet in Figuur~\ref{fig:lidfties_in} en de uitvoeren in Figuur~\ref{fig:lidfties_out}.
+
+\input{includes/lidmaatschap}
+
+We gebruiken de volgende invoeren:
+\begin{itemize}
+\item \texttt{\textbf{carSpeedKph:}} De snelheid van de wagen in km/h.
+\item \texttt{\textbf{frontSensorDistance:}} De afstand van de voorkant van wagen tot de muur in meter.
+\item \texttt{\textbf{corner:}} Intensiteit van de bocht, gaande van $-1$ voor een scherpe bocht naar links tot $1$ voor een scherpe bocht naar rechts. 
+\item \texttt{\textbf{lateralVelocity:}} De zijwaartse snelheid van de wagen die aangeeft of de wagen al dan niet slipt.
+\end{itemize}
+
+En leggen de volgende uitvoeren vast in functie van deze invoeren:
+\begin{itemize}
+\item \texttt{\textbf{acceleration:}} De versnelling van de wagen van $0$ tot $1600$. Indien er geen waarde berekend wordt zal deze $0$ zijn. Deze is voor alle controllers opgedeeld in enkele termen die overeenkomen met een lage ( \texttt{slowly}), gematigde (\texttt{normal}) en snelle (\texttt{fastly}) acceleratie.
+\item \texttt{\textbf{brake:}} Geeft aan hoe hard de wagen dient te remmen. Indien er geen waarde berekend wordt zal deze $0$ zijn. Deze is eveneens voor alle controllers opgedeeld in 3 termen: \texttt{slowly}, \texttt{normal} en \texttt{fastly}.
+\item \texttt{\textbf{steering:}} De richting en hoe scherp er gestuurd moet worden. Deze waarde zal van $-1$ tot $1$ gaan, analoog aan de corner invoer.
+\item \texttt{\textbf{scanangle:}} geeft aan wat de nieuwe hoek van de 
+zijsensoren wordt. Bij de safecontroller werken we enkel met \texttt{normal} en 
+\texttt{wide}, maar bij de speed- en driftcontroller breiden we deze uit met 
+\texttt{narrow} en \texttt{very\_narrow} om verder vooruit te kunnen kijken.
+\end{itemize}
+
+De overige gegevens worden niet gebruikt, of worden enkel gebruikt voor de 
+berekening van de inputs zoals de zij-sensoren die worden gecombineerd en 
+genormaliseerd tot \texttt{corner}.
+
+Merk op voor de uitvoer \emph{brake} dat de termen disjunct zijn in onze controllers waardoor de COG methode het gemiddelde van deze gebieden zou geven. Om ervoor te zorgen dat deze waarden toch worden opgetrokken zullen we dus in plaats van de COG formule de RM formule gebruiken in de snellere controllers. Volgens een analoge redenering hebben we geopteerd om de RM functie te gebruiken voor de acceleratie.
+
+Alternatief hadden we deze termen discreet kunnen maken aan de hand van singletons. Hierdoor zouden we een exacte waarde kunnen opleggen aan de uitvoer. Hierdoor zou de impact van een vaag regelsysteem te gebruiken echter afgezwakt worden en zouden de controllers dus gevoeliger worden voor kleine veranderingen in de invoer.
+
+\input{includes/implementation/safe_impl}
+\input{includes/implementation/speed_impl}
+\input{includes/implementation/rally_impl}

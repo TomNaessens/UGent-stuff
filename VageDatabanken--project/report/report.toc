@@ -1,0 +1,19 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Gebruikt Vaag Regelsysteem}{2}{section.1}
+\contentsline {section}{\numberline {2}Implementatie Controllers}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Regels}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Lidmaatschapsfuncties}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Veiligheid}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Snelheid}{6}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Drift}{7}{subsection.2.5}
+\contentsline {section}{\numberline {3}Performantie van de Controllers}{9}{section.3}
+\contentsline {subsection}{\numberline {3.1}Veiligheid}{10}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Snelheid}{10}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Drift}{11}{subsection.3.3}
+\contentsline {section}{\numberline {4}Beantwoording vragen}{11}{section.4}
+\contentsline {subsection}{\numberline {4.1}Is de keuze van t-norm en t-conorm belangrijk voor de prestaties (= gemiddelde snelheid) van de wagen?}{11}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Hoe robuust is het regelsysteem voor verschillende races? Is de gemiddelde snelheid ongeveer dezelfde als de wagen een parcours meermaals doet?}{12}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Zijn er parcours waar uw controller minder goed presteert? Hoe komt dit?}{12}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Hoe veilig is de wagen? Hoe dikwijls crasht de wagen?}{12}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Wat zijn de verschillen met de originele exacte controller?}{12}{subsection.4.5}
+\contentsline {section}{References}{13}{section*.6}

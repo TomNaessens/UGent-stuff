@@ -1,0 +1,147 @@
+@(locals: List[Competition], classes: List[models.Class],terminatedCompetitions: List[Competition], teacher: Teacher)
+
+<!-- Imports -->
+@import utils.LangMessages
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+@import helper._
+
+<!-- ProfileGeneral call -->
+@profileGeneral(LangMessages.get("profileTeacher.head"))(teacher){
+<!-- Head -->
+<script type="text/javascript">
+$(function(){
+	popover();
+});
+</script>
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<h2>@LangMessages.get("profileTeacher.myClasses")</h2>
+<ul id="classes">
+    @for(p <- classes) {
+        <li><a href="@routes.ProfilesController.viewClass(p.id)">@p.name @p.school</a></li>
+    }
+</ul>
+
+
+
+<a href="#"><img src="@routes.Assets.at("images/add.png")" id="popover" style="width:5%;height:5%"></a>
+<div id="popover-head" class="hide">
+	@LangMessages.get("addClass.addClass")
+	<button type="button" id="close" class="close" onclick="$('#popover').popover('hide');$('.error').hide();">&times;</button>
+</div>
+<div id="popover-content" class="hide">
+	<p style="display:none;" class="error empty">@LangMessages.get("addClass.nameRequired")</p>
+	<p style="display:none;" class="error exists">@LangMessages.get("addClass.exists")</p>
+	<form id="addClassForm">
+	<div>
+	    <label for="classSchool">@LangMessages.get("addClass.school")</label>
+	  	<select id="classSchool">
+			@for(school <- teacher.schools) {
+				<option value="@school.id - @school.name">@school.name</option>
+			}
+		</select>
+	    <label for="classLevel">@LangMessages.get("addClass.level")</label>
+		<select id="classLevel">
+		@for(l <- Level.values()){
+			<option value="@l.name">@l</option>
+		}
+		</select>
+		<label for="className">@LangMessages.get("addClass.name")</label>
+		<input id="className" class="required" placeholder="@LangMessages.get("addClass.name")"/>
+		<p>
+			<button type="button" class="btn btn-primary" onclick="addClass()">@LangMessages.get("common.submit")</button>
+		    <button type="button" class="btn" onclick="$('#popover').popover('hide');$('.error').hide();" aria-hidden="true">@LangMessages.get("common.close")</button>	
+		</p>
+	</div>
+	</form>
+</div>
+
+<h2>@LangMessages.get("profileTeacher.myCompetitions")</h2>
+<ul>
+    @LangMessages.get("profileTeacher.size"): @locals.size()
+    @for(c <- locals) {
+    <!-- TODO: get title for the language of the currently logged in user -->
+    <li><a href="@routes.Competitions.render_open_competition(c.id)">@c.getTitle()</a>@if(c.compType == CompetitionType.OFFICIAL) { <button class="btn btn-warning btn-small"><i class="icon-white icon-star-empty"></i></button> }
+    @if(c.hasOpenClasses()) {
+    <a href="@routes.Competitions.renderCloseCompetition(c.id)"><i class="icon-remove"></i></a>
+    }
+    </li>
+    }
+</ul>
+@if(terminatedCompetitions.size()!=0) {
+	<h2>@LangMessages.get("profileTeacher.terminatedCompetitions")</h2>
+	<ul>
+	@for(c <- terminatedCompetitions) {
+		<li>@c.getTitle()</li>
+	}
+	</ul>	
+
+}
+
+
+} {
+<!-- Sidebar -->
+<h4 class="blue">@LangMessages.get("profileTeacher.competitions")</h4>
+<li>
+    <a href="@routes.Competitions.render_create_competition()">@LangMessages.get("profileTeacher.competition")</a>
+</li>
+<h4 class="blue">@LangMessages.get("profileTeacher.pupils")</h4>
+    <li>
+        <a href="@routes.TeacherController.renderRegisterPupils">@LangMessages.get("profileTeacher.registerPupils")</a>
+    </li>
+    <li>
+        <a href="@routes.WriteInfoToFile.renderDownloadClasses">Download classes</a>
+    </li>
+    <li>
+		<a href="@routes.MergePupils.renderMergePupils">@LangMessages.get("mergePupils.title")</a>
+	</li>
+<h4 class="blue">@LangMessages.get("profileTeacher.other")</h4>
+
+<script type="text/javascript">
+
+ 
+function popover(){
+	$('#popover').popover({ 
+	    html : true,
+	    title: function() {
+	      return $("#popover-head").html();
+	    },
+	    content: function() {
+	      return $("#popover-content").html();
+	    }
+	}); 
+}
+
+function addClass(){
+    var school = $('#classSchool').val();
+    var name = $('#className').val();
+    var level = $('#classLevel').val();
+    if(name == ""){
+		$(".error").hide();
+    	$(".error.empty").show();
+		$('#popover').popover('show');
+	    return false;
+    }
+    else{
+	jsRoutes.controllers.TeacherController.addClassToSchool(school, name, level).ajax({
+		success : function(result) {
+			if (result.status != null) {
+				$(".error").hide();
+				$(".error.exists").show();
+				$('#popover').popover('show');
+			} else {
+				window.location = "@routes.ProfilesController.seeProfile()";
+			}
+		}
+	});
+	}
+}
+
+
+
+</script>
+}

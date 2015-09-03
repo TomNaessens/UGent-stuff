@@ -1,0 +1,247 @@
+@(competition: Competition)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+@main(LangMessages.get("competition.monitor.monitorCompetition")) {
+<!-- Head -->
+<script type="text/javascript" src='@routes.Assets.at("javascripts/time.js")'></script>
+<script type="text/javascript">
+    function updateStatusses() {
+        jsRoutes.controllers.MonitorCompetitionController.getPupilsStatusForCompetition(@competition.id).ajax().done(function(result) {
+            refreshTable(result)
+        });
+    }
+
+    function refreshTable(result) {
+        if (result == null) return;
+        $.each(result, function(classId, c) {
+            $.each(c.pupils, function(bebrasId, pupil) {
+                var remainingTime = "";
+                var time = pupil.time;
+
+                if (time != undefined) {
+                    remainingTime = printTime(
+                        Math.floor(time/1000),
+                        '@LangMessages.get("time.hourSuffix")',
+                        '@LangMessages.get("time.minuteSuffix")',
+                        '@LangMessages.get("time.secondSuffix")'
+                    );
+                }
+
+                var onlineImg = pupil.online ? '@routes.Assets.at("images/status/online.png")'
+                                             : '@routes.Assets.at("images/status/offline.png")';
+
+                $('#' + bebrasId + '-online').attr('src', onlineImg);
+                $('#' + bebrasId + '-time').text(remainingTime);
+                $('#' + bebrasId + '-status').text(pupil.status);
+
+                if (pupil.answered != undefined && pupil.numberOfQuestions != undefined)
+                    $('#' + bebrasId + '-answered').text(pupil.answered + ' / ' + pupil.numberOfQuestions);
+                else
+                    $('#' + bebrasId + '-answered').text('-');
+            });
+        });
+    }
+
+    function addRow(row) {
+        $('#monitor-table').append(row);
+    }
+
+    function getName(pupil) {
+        return pupil.firstName + " " + pupil.lastName;
+    }
+
+    function initTable() {
+        jsRoutes.controllers.MonitorCompetitionController.getPupilsStatusForCompetition(@competition.id).ajax().done(function(result) {
+            $.each(result, function(classId, c) {
+
+                addRow('<tr><th colspan="9"><span id="class-' + classId + '">'+c.name+'</span></th></tr>');
+
+                $.each(c.pupils, function(bebrasId, pupil) {
+
+
+                    var row = '<tr>';
+                    row += '<td><img id="'+ bebrasId +'-online" /></td>';
+                    row += '<td><span id="'+ bebrasId +'-name">'+getName(pupil)+'</span></td>';
+                    row += '<td><span id="'+ bebrasId +'-status"></span></td>';
+                    row += '<td><span id="'+ bebrasId +'-answered"></span></td>';
+                    row += '<td><span id="'+ bebrasId +'-time"></span></td>';
+                    row += '<td><a href="#grantGraceTimeDialog" data-id="'+ bebrasId +'" role="button" class="open-grantGraceTimeDialog btn btn-mini" data-toggle="modal">@LangMessages.get("competition.monitor.grantGraceTime")</a></td>';
+                    row += '<td><a href="#deleteHistoryDialog" data-id="'+ bebrasId +'" role="button" class="open-deleteHistoryDialog btn btn-mini" data-toggle="modal">@LangMessages.get("competition.monitor.deleteHistory")</a></td>';
+                    row += '<td><a href="#reopenCompetitionDialog" data-id="'+ bebrasId +'" role="button" class="open-reopenCompetitionDialog btn btn-mini" data-toggle="modal">@LangMessages.get("competition.monitor.reopenCompetition")</a></td>';
+                    row += '<td><a href="#showStats" data-id="'+ bebrasId +'" role="button" class="open-showStats btn btn-mini" data-toggle="modal">Show Statistics</a></td>';
+                    row += '</tr>';
+
+                    addRow(row);
+                });
+            });
+
+            refreshTable(result);
+        });
+    }
+
+    function validateTime(txtId, controlGroupId) {
+        var graceTime = $('#' + txtId).val();
+        if (graceTime.match(/^[0-9]?[0-9](:[0-9]?[0-9]){2}$/) == null) {
+            $('#' + controlGroupId).addClass('error');
+            return false;
+        }
+
+        $('#' + controlGroupId).removeClass('error');
+        return true;
+    }
+
+    $(function() {
+        // Add handlers
+        $('#submitGraceTime').click(function() {
+            return validateTime('txtGraceTime', 'graceTime-control-group');
+        });
+
+        $('#submitReopenCompetition').click(function() {
+            return validateTime('txtCompetitionTime', 'reopenCompetition-control-group');
+        });
+
+        initTable();
+        setInterval(updateStatusses, 5*1000);
+    });
+
+    $(document).on('click', '.open-grantGraceTimeDialog', function() {
+        var bebrasId = $(this).data('id');
+        $('#grantGraceTime-form .modal-body .pupil').text(bebrasId);
+        $('#grantGraceTime-form .modal-body #hidPupil').val(bebrasId);
+    });
+
+    $(document).on('click', '.open-deleteHistoryDialog', function() {
+        var bebrasId = $(this).data('id');
+        $('#deleteHistory-form .modal-body .pupil').text(bebrasId);
+        $('#deleteHistory-form .modal-body #hidPupil2').val(bebrasId);
+    });
+
+    $(document).on('click', '.open-reopenCompetitionDialog', function() {
+        var bebrasId = $(this).data('id');
+        $('#reopenCompetition-form .modal-body .pupil').text(bebrasId);
+        $('#reopenCompetition-form .modal-body #hidPupil3').val(bebrasId);
+    });
+
+    $(document).on('click', '.open-showStats', function() {
+        var bebrasId = $(this).data('id');
+        $('#showStats-form .modal-body .pupil').text(bebrasId);
+        $('#showStats-form .modal-body #hidPupil4').val(bebrasId);
+
+        jsRoutes.controllers.Statistics.showRightAndWrong(@competition.id,bebrasId).ajax({
+            success : function(result) {
+               $('#showStats-control-group').html(result);
+            }
+        });
+    });
+</script>
+} {
+<!-- Toplinks -->
+} {
+<!-- Main content -->
+        @wflash()
+<h2>@LangMessages.get("competition.monitor.monitorCompetition")</h2>
+
+<form id="grantGraceTime-form" method="post" action="@routes.MonitorCompetitionController.grantGraceTime(competition.id)">
+    <div class="modal hide" id="grantGraceTimeDialog">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h3>@LangMessages.get("competition.monitor.grantGraceTime")</h3>
+        </div>
+        <div class="modal-body">
+            <p>@Html(LangMessages.get("competition.monitor.askGraceTime", "<strong><span class='pupil'></span></strong>"))</p>
+            <div id="graceTime-control-group" class="control-group">
+                <div class="controls">
+                    <input type="text"
+                       id="txtGraceTime"
+                       name="time"
+                       class="input-small"
+                       placeholder='@(LangMessages.get("time.hourSuffix") * 2):@(LangMessages.get("time.minuteSuffix") * 2):@(LangMessages.get("time.secondSuffix") * 2)' />
+                    <input type="hidden" id="hidPupil" name="pupil" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" aria-hidden="true" class="btn">@LangMessages.get("common.close")</a>
+            <button id="submitGraceTime" type="submit" class="btn btn-primary">@LangMessages.get("competition.monitor.grantGraceTime")</button>
+        </div>
+    </div>
+</form>
+
+<form id="deleteHistory-form" method="post" action="@routes.MonitorCompetitionController.deleteHistory(competition.id)">
+    <div class="modal hide" id="deleteHistoryDialog">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h3>@LangMessages.get("competition.monitor.deleteHistory")</h3>
+        </div>
+        <div class="modal-body">
+            <p>@Html(LangMessages.get("competition.monitor.askDeleteHistory", "<strong><span class='pupil'></span></strong>"))</p>
+            <input type="hidden" id="hidPupil2" name="pupil" />
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">@LangMessages.get("common.no")</a>
+            <button id="submitDeleteHistory" type="submit" class="btn">@LangMessages.get("common.yes")</button>
+        </div>
+    </div>
+</form>
+
+<form id="reopenCompetition-form" method="post" action="@routes.MonitorCompetitionController.reopenCompetition(competition.id)">
+    <div class="modal hide" id="reopenCompetitionDialog">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h3>@LangMessages.get("competition.monitor.reopenCompetition")</h3>
+        </div>
+        <div class="modal-body">
+            <p>@Html(LangMessages.get("competition.monitor.askReopenCompetition", "<strong><span class='pupil'></span></strong>"))</p>
+            <div id="reopenCompetition-control-group" class="control-group">
+                <div class="controls">
+                    <input type="text"
+                           id="txtCompetitionTime"
+                           name="time"
+                           class="input-small"
+                           placeholder='@(LangMessages.get("time.hourSuffix") * 2):@(LangMessages.get("time.minuteSuffix") * 2):@(LangMessages.get("time.secondSuffix") * 2)' />
+                    <input type="hidden" id="hidPupil3" name="pupil" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">@LangMessages.get("common.close")</a>
+            <button id="submitReopenCompetition" type="submit" class="btn">@LangMessages.get("competition.monitor.reopenCompetition")</button>
+        </div>
+    </div>
+</form>
+
+<form id="showStats-form" method="post" action="@routes.Statistics.showStats(competition.id)">
+    <div class="modal hide" id="showStats">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="hidPupil4" name="pupil" />
+        </div>
+        <div class="modal-body">
+            <p>Distribution</p>
+            <div id="showStats-control-group" class="control-group">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">@LangMessages.get("common.close")</a>
+            <button id="submitDownloadStatistics" type="submit" class="btn">@LangMessages.get("download.statistics")</button>
+        </div>
+    </div>
+</form>
+
+<table class="table" id="monitor-table">
+<tr>
+    <th>&nbsp;</th>
+    <th>@LangMessages.get("common.pupil")</th>
+    <th>@LangMessages.get("common.status")</th>
+    <th>@LangMessages.get("competition.monitor.answered")</th>
+    <th>@LangMessages.get("competition.take.remainingTime")</th>
+    <th colspan="4">@LangMessages.get("common.actions")</th>
+</tr>
+</table>
+} {
+<!-- Sidebar -->
+}

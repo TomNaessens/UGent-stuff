@@ -1,0 +1,72 @@
+@(organizer: Organizer,competitions: List[Competition],terminatedCompetitions: List[Competition])
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- ProfileGeneral call -->
+@profileGeneral(LangMessages.get("profileOrganizer.head"))(organizer) {
+<!-- Header -->
+
+} {
+<!-- Toplinks -->
+@if(session().get("mimickId") == null){
+<a href="#myModal" role="button" class="" data-toggle="modal">Mimick User </a>|
+}
+} {
+<!-- Main content -->
+</br>
+@if(competitions.size()!=0) {
+<h2>@LangMessages.get("profileOrganizer.officialCompetitions")</h2>
+<ul>
+	@for(c <- competitions) {
+	<li>
+	@if(c.isOpen==Competition.VISIBLE) {
+		@closeCompetitionModal(c)
+	} else {
+		@openCompetitionModal(c)	
+	}
+	</li>
+	}
+</ul>
+}
+@if(terminatedCompetitions.size()!=0) {
+	<h2>@LangMessages.get("profileOrganizer.terminatedCompetitions")</h2>
+	<ul>
+	@for(c <-terminatedCompetitions) {
+	<li><a href="#">@c.getTitle()</a>
+	}
+	</ul>
+}
+
+@organizerSchools(models.School.allSchools())
+
+} {
+<!-- Sidebar -->
+    <h4 class="blue">@LangMessages.get("profileOrganizer.register")</h4>
+        <li>
+            <a href="@routes.OrganizerController.renderRegisterSchool">@LangMessages.get("registerSchool.register")</a>
+        </li>
+        <li>
+            <a href="@routes.OrganizerController.renderRegisterTeacher">@LangMessages.get("profileOrganizer.registerNewTeacher")</a>
+        </li>
+    <h4 class="blue">@LangMessages.get("profileOrganizer.competitions")</h4>
+        <li>
+            <a href="@routes.SetController.renderComposeSet">@LangMessages.get("profileOrganizer.newSet")</a>
+        </li>
+        <li>
+            <a href="@routes.Competitions.render_create_competition">@LangMessages.get("profileOrganizer.newCompetition")</a>
+        </li>
+        <li>
+            <a href="@routes.Statistics.viewTop20">View Top 20</a>
+        </li>
+        <li>
+            <a href="@routes.SetController.renderManageSets">@LangMessages.get("profileOrganizer.manageSets")</a>
+        </li>
+        <li>
+            <a href="@routes.QuestionsController.renderUploadQuestions">@LangMessages.get("uploadQuestions.upload")</a>
+        </li>
+    <h4 class="blue">@LangMessages.get("profileOrganizer.other")</h4>
+        <li>
+            <a href="@routes.OrganizerController.render_endYear" >@LangMessages.get("profileOrganizer.endYear")</a>
+        </li>
+}

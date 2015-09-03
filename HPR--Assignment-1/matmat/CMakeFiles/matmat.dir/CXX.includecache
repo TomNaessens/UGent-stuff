@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/user/home/gent/vsc408/vsc40889/HPR--Assignment-1/matmat/matmat.cpp
+cstdlib
+-
+iostream
+-
+ctime
+-
+cstring
+-
+cmath
+-
+

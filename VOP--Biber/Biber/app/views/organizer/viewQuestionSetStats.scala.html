@@ -1,0 +1,70 @@
+@(setId: Long)(getallen: List[Integer])(size: Int)(lq: List[Question])
+@import utils.LangMessages
+@main(LangMessages.get("questionsetsstats.welcome")) {
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    //load the Google Visualization API and the chart
+    google.load('visualization', '1', {'packages': ['columnchart']});
+
+    //set callback
+    google.setOnLoadCallback (createChart);
+    function createChart() {
+    var dataTable = new google.visualization.DataTable();
+
+    //define columns
+    dataTable.addColumn('number', 'Score');
+
+    //define rows of data
+    @for(x <- 0 to getallen.size-1) {
+        dataTable.addRow([@getallen(x)]);
+    }
+    //instantiate our chart object
+    var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+
+    //define options for visualization
+    var options = {width: 400, height: 240, is3D: true, title: 'Verspreiding punten'};
+
+    //draw our chart
+    chart.draw(dataTable, options);
+    }
+</script>
+} {
+
+
+} {
+        @wflash()
+<div id="chart"></div>
+<h3>@LangMessages.get("questionsetsstats.numberofparticipants"): @size</h3>
+@if(lq.size > 0 ) {
+<div class="accordion" id="accordion">
+    @for(q <- lq) {
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@q.id">
+                @q.id
+            </a>
+        </div>
+        <div id="@(q.id)" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+    }
+    </div>
+    <script>
+        $('.collapse').on('show', function () {
+            var questionId = $(this).attr("id");
+            //if ($('#'+ questionId).find('ul li').length != 0)
+               //return;
+            jsRoutes.controllers.Statistics.getStatsForQuestion(@setId, questionId).ajax({
+                success : function(result) {
+                    $('#'+ questionId).find('ul').html(result);
+                }
+            });
+        });
+    </script>
+}
+} {
+
+}

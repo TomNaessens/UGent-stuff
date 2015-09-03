@@ -1,0 +1,22 @@
+@(questions: List[Set_Question], set: models.Set)
+@import utils.LangMessages
+@main(set.getTitle()) {
+
+} {
+
+
+} {
+<table>
+<tr>
+<td> @LangMessages.get("common.question") </td>
+<td> @LangMessages.get("set.difficulty") </td>
+<td style="text-align:right"> @LangMessages.get("set.correctPoints") </td>
+<td style="text-align:right"> @LangMessages.get("set.incorrectPoints") </td>
+</tr>
+@for(sq <- questions) {
+	<tr>@set_question(sq)</tr>
+}
+</table>
+} {
+
+}

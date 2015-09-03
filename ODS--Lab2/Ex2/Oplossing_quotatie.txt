@@ -1,0 +1,5 @@
+Resulterend object:
+ [PK_QUOTATION_ID\x3D18, name\x3DPeter Pan, Peter Pan, sentence\x3DAll it takes is faith and trust.]
+
+ Naam: Peter Pan, Peter Pan
+ Quote: All it takes is faith and trust.

@@ -1,0 +1,10 @@
+@(set:models.Set)
+<tr id="@set.id">
+	<td><a href="@routes.SetController.viewSet(set.id)">@set.getTitle()</a></td>
+	<td id="arrowdown@set.id" @if(set.isRestricted == CompetitionType.UNRESTRICTED){style="cursor:pointer;display:none"} class="icon"><img style="cursor:pointer" onclick="downgrade(@set.id)" title="downgrade this set" src="http://icons.iconarchive.com/icons/fasticon/essential-toolbar/24/down-icon.png"></td>
+	
+	<td id="arrowup@set.id" @if(set.isRestricted == CompetitionType.OFFICIAL){style="display:none"} class="icon"><img style="cursor:pointer" onclick="upgrade('@set.id')" title="upgrade this set" src="http://icons.iconarchive.com/icons/fasticon/essential-toolbar/24/up-icon.png"></td>
+	<td class="icon"><a href="@routes.SetController.renderEditSet(set.id)"><img title="edit set" src="http://icons.iconarchive.com/icons/brainleaf/free-pencil/24/pencil-yellow-icon.png"></a></td>
+	<td class="icon"><a href="@routes.SetController.deleteSet(set.id)"><img title="delete set" src="http://icons.iconarchive.com/icons/fasticon/essential-toolbar/24/cancel-icon.png"></a></td>
+    <td class="icon"><a href="@routes.Statistics.viewQuestionSetStatistics(set.id)"><img title="view stats" src="http://photoshopfrenzy.com/wp-content/uploads/2007/07/13.jpg"></a></td>
+</tr>

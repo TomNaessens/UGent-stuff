@@ -1,0 +1,19 @@
+@(p : Person)
+@import utils.LangMessages
+
+
+@main("You are already Logged in") {
+
+} {
+
+} {
+
+<div class="span8">
+<h2>@LangMessages.get("authenticate.alreadyLoggedIn.head")</h2>
+@LangMessages.get("authenticate.alreadyLoggedIn", p.bebrasId)
+<p><a class="btn" href="@routes.Application.login">@LangMessages.get("common.login")</a>
+</p>
+</div>
+} {
+<a href="@routes.Application.login">@LangMessages.get("common.login")</a>
+}

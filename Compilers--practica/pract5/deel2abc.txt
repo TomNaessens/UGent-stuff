@@ -1,0 +1,24 @@
+GROUP 09
+========
+
+Part 2.1
+--------
+
+recurse-1-01.s: This is the most basic and less-optimized version. We'll use this one to compare the other versions too.
+recurse-1-02.s: There is no real call to the r function here. The calling conventions are not really respected as the eax register is not used to pass the return values. The calling informations (such as parameters) are added into .cfi_startproc blocks. R does also not call itself anymore, so the tail recursion has been dealt with. R even isn't called anymore, but the function is inlined in the main block. The assembler of the r function is however still there (albeit unused).
+recurse-2-01.s: There isn't much difference with recurse-1-01.s here. The only difference is that the value to the r function is called using the eax register instead of the esp register.
+recurse-2-02.s: The complete code is a lot shorter. The r function has completely been inlined and the tail recursion has been replaced by a loop.
+
+Recurse-2-02.s contains the most efficient code; the function r has been optimized away. Because this means there are no calls to the function, this also means there are no stack frames which must be initialised for it.
+
+Part 2.2
+--------
+
+The r function has been declared as static; this means it is guaranteed to be only called within the same compilation unit (the same .c file). Because the compiler knows all the entry points to the function, it can completely optimise the function away.
+
+Part 2.3
+--------
+
+ebp is caller saved (pushed before the call to r), ebx is callee saved (pushed within the function r).
+From the instructions within function r (move data from eax in to ebx, do some calculations, add to eax) we can tell that the return value is saved within eax.
+The parameters are saved above the stack pointer (esp).

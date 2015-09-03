@@ -1,0 +1,75 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage[nottoc]{tocbibind}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{microtype}
+
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=l,
+    xleftmargin=\parindent,
+    showstringspaces=false,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries,
+    commentstyle=\color{cyan}\itshape,
+    stringstyle=\ttfamily,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny,
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\graphicspath{{images/}}
+
+\usepackage{varioref}
+\usepackage[plainpages=false,hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\begin{document}
+\input{frontpage}
+
+\tableofcontents
+\newpage
+
+\thispagestyle{plain}
+\section{Gebruikt Vaag Regelsysteem}
+
+Voor de implementatie van het vaag regelsysteem maken we gebruik van de externe bibliotheek jFuzzyLogic~\cite{jfuzzylogic, cingolanijfuzzylogic, cingolani2012jfuzzylogic}. Dit raamwerk stelt ons in staat om op een eenvoudige wijze de lidmaatschapsfuncties op te geven, de t-normen en t-conormen te kiezen, regels te bepalen en samenvoegen en tenslotte de nodige verscherpingen door te voeren. jFuzzyLogic is conform de specificatie van de Fuzzy Control Language (FCL) van IEC werkgroep~\cite{fcl}. 
+
+Alvorens we het raamwerk in gebruik namen, gingen we na of de nodige t-normen en t-conormen, zoals die van \L ukasiewicz, aanwezig zijn. Dit blijkt het geval te zijn, hoewel de benamingen van deze normen verschillen. Zo zal de \L ukasiewicz t-norm als \texttt{BDIF} aangeduid worden met als corresponderende t-conorm is de \texttt{BSUM}. Voor de probabilistische normen vinden we de t-norm \texttt{PROD} en t-conorm \texttt{ASUM}. We kunnen onszelf ervan vergewissen dat deze identiek gedefinieerd zijn als in de cursus en opgave door te kijken naar de specificatie van FCL~\cite{fcl}.
+
+Om discrete lidmaatschapsfuncties te definiëren kunnen we enkele singletons opgeven. Voor continue lidmaatschapsfuncties biedt het raamwerk ons meerdere mogelijkheden. Zo kunnen we een functie definiëren aan de hand van haar knikpunten, of aan de hand van ingebouwde functies voor enkele voorgedefinieerde vormen zoals triangulaire of trapezoïdale lidmaatschapsfuncties. De linguïstische termen die over hetzelfde universum en dezelfde invoer gedefinieerd zijn zullen ook samengevoegd zijn in blokken.
+
+Het opstellen van regels is ook zeer eenvoudig aan de hand van \emph{rule blocks}. Deze blokken omvatten een aantal regels onder de vorm van linguïstische uitdrukkingen. Hierbij kunnen de binaire operatoren \texttt{AND}, \texttt{OR} en de unaire operator \texttt{NOT} gebruikt worden die respectievelijk de t-norm, t-conorm en het complement zullen toepassen. De normen die gebruikt moeten worden voor de regels in het blok worden aan het begin van het blok opgegeven. Ook de normen die gebuikt worden voor de bepaling van de samenvoeging van regels wordt hier vastgelegd voor het blok.
+
+Voor de verscherping gebruiken we de formule die in de opgave vermeldt staat. Deze is in het raamwerk bekend als de Centre of Gravity (COG) formule. Deze zal het zwaartepunt van de samengevoegde vaagverzamelingen nemen, zoals dus gevraagd wordt in de opgave. De alternatieven die het raamwerk verder ook aanbiedt zijn Right Most Maximum (RM) en Left Most Maximum (LM). Deze laatste zullen resulteren in respectievelijk een hogere en lagere waarde ten opzichte van de COG formule. De gebruikte methode moeten we in het raamwerk per uitvoer opgegeven.
+
+\input{includes/implementation/implementation}
+\input{includes/performance/performance}
+\input{includes/vragen}
+
+
+\bibliographystyle{unsrt}
+\bibliography{bibliodatabase}
+
+\end{document}

@@ -1,0 +1,24 @@
+@(listClasses: List[models.Class])(competition : Competition)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("downloadStatistics.head")) {
+<!-- Header -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+@wflash()
+<h1>@LangMessages.get("downloadStatistics.chooseClass")</h1>
+    @for( cl <- listClasses ){
+        <li><a href="@routes.Statistics.downloadStatisticsForClass(cl.id,competition.id)">@cl</a></li>
+    }
+
+} {
+<!-- Sidebar -->
+
+}

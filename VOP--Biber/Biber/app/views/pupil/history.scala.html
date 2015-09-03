@@ -1,0 +1,37 @@
+@(historyList: List[ParticipationHistory])
+
+<!-- Imports -->
+@import utils.LangMessages
+@import views.html.competition.competitionSummary
+@import views.html.competition.competitionResults
+
+<!-- Main call -->
+@main(LangMessages.get("history.head")) {
+<!-- Head -->
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<h1>@LangMessages.get("history.head")</h1>
+
+    @for(h <- historyList) {
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#history-content-@h.id">
+                @h.competition.getTitle() (@h.questionSet.level.toString())
+            </a>
+        </div>
+        <div id="history-content-@(h.id)" class="accordion-body collapse">
+            <div class="accordion-inner">
+                @competitionResults(h)
+            </div>
+            <a href="@routes.Statistics.pupilDownloadStatistics(h.id)">@LangMessages.get("stats.downloadStats")</a>
+        </div>
+    </div>
+}
+
+} {
+<!-- Sidebar -->
+<li><a href="@routes.Competitions.renderUnrestrictedCompetitions()">@LangMessages.get("competition.unrestricted")</a> </li>
+}

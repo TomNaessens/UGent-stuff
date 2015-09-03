@@ -1,0 +1,17 @@
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@*
+* If flash contains invisible, it shouldn't display the message.
+* Otherwise display all flash messages.
+*@
+@flash.map {
+    case (key, value) => {
+        @if(!key.contains("invisible")){
+        <p class="">
+            <span class="badge badge-@key">@value</span>
+        </p>
+        }
+    }
+}

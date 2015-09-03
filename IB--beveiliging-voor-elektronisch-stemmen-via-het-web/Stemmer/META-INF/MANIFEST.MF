@@ -1,0 +1,2 @@
+Main-Class: stemmer.Stemmer
+Class-Path: lib/jackson-annotation-2.2.3.jar lib/jackson-core-2.2.3.jar lib/jackson-databind-2.2.3/jar lib/jEidlib.jar lib/swing-layout-1.0.4.jar

@@ -1,0 +1,41 @@
+@(history: models.History)(cc: CompetitionComparison)
+
+<!-- Imports -->
+@import play.i18n._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(history.getCompetition().getTitle()) {
+<!-- Head -->
+<script type="text/javascript" src='@routes.Assets.at("javascripts/time.js")'></script>
+<script type="text/javascript">
+    $(function() {
+        $('.time').html(printTime(
+            @(history.getTotalTime() / 1000),
+            '@LangMessages.get("time.hourSuffix")',
+            '@LangMessages.get("time.minuteSuffix")',
+            '@LangMessages.get("time.secondSuffix")'
+        ));
+    });
+</script>
+} {
+
+<!-- Toplinks -->
+
+} {
+
+<!-- Main -->
+<h1>@LangMessages.get("competition.take.results")</h1>
+<ul>
+    <li>@LangMessages.get("competition.take.totalTime"): <span class="time"></span></li>
+</ul>
+
+@competitionResults(history)
+@if(cc != null){
+    <h3>Global ranking:@cc.getRank()/@cc.getNumberOfParticipants()</h3>
+}
+} {
+
+<!-- Sidebar -->
+
+}

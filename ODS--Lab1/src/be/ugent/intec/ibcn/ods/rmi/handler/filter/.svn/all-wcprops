@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/ODS/!svn/ver/72/practica/Lab1/assignment/src/be/ugent/intec/ibcn/ods/rmi/handler/filter
+END
+GZipFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ODS/!svn/ver/72/practica/Lab1/assignment/src/be/ugent/intec/ibcn/ods/rmi/handler/filter/GZipFilter.java
+END
+IProtocolFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ODS/!svn/ver/72/practica/Lab1/assignment/src/be/ugent/intec/ibcn/ods/rmi/handler/filter/IProtocolFilter.java
+END
+DefaultFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ODS/!svn/ver/72/practica/Lab1/assignment/src/be/ugent/intec/ibcn/ods/rmi/handler/filter/DefaultFilter.java
+END

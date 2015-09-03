@@ -1,0 +1,5 @@
+digraph "CFG for 'echo' function" {
+	label="CFG for 'echo' function";
+
+	Node0x907dcb8 [shape=record,label="{entry:\l  %1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([4 x i8]*\l... @format, i32 0, i32 0), i32 %0)\l  ret void\l}"];
+}

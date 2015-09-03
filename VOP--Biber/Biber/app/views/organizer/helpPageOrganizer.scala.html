@@ -1,0 +1,36 @@
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("helpPageOrganizer.head")){
+<!-- Head -->
+
+<style type=text/css>
+    .bold {
+    font-weight: bold;
+    }
+</style>
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main -->
+<div class="span8">
+    <div class="well">
+        <h2>@LangMessages.get("helpPage.title")</h2>
+        <ul>
+
+            <li><div class="bold">@LangMessages.get("helpPageOrganizer.mimickUserHead"):</div> @LangMessages.get("helpPageOrganizer.mimickUser")</li>
+            <li><div class="bold">@LangMessages.get("helpPageOrganizer.generalHead"):</div> @LangMessages.get("helpPageOrganizer.general")</li>
+            <li><div class="bold">@LangMessages.get("helpPage.downloadHead"):</div> @LangMessages.get("helpPage.download")</li>
+            <li><div class="bold">@LangMessages.get("helpPage.contactHead"):</div> @LangMessages.get("helpPage.contactAdmin") <a href="mailto:admin@@biber.ugent.be">@LangMessages.get("helpPage.admin")</a>.</li>
+        </ul>
+    </div>
+</div>
+} {
+<!-- Sidebar -->
+
+<li>
+    <a href="@routes.ProfilesController.downloadManual()">@LangMessages.get("profileGeneral.downloadManual")</a>
+</li>
+}

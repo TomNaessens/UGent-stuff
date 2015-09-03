@@ -1,0 +1,48 @@
+@(myForm: DynamicForm, person: Person)
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("editProfile.head")){
+
+}{
+<style xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+       xmlns="http://www.w3.org/1999/html">
+
+
+</style>
+}{
+<div class="span8">
+
+    	@wflash()
+        @form(routes.ProfilesController.submitChangesProfile()){
+        <div  style="float:left">@inputText(myForm("First Name"), '_label -> LangMessages.get("editProfile.firstName"))
+            @select(
+            myForm("Language"),
+            options = options("ENGLISH" -> LangMessages.get("enum.language.ENGLISH"), "DUTCH" -> LangMessages.get("enum.language.DUTCH"),"FRENCH" -> LangMessages.get("enum.language.FRENCH"),"GERMAN" -> LangMessages.get("enum.language.GERMAN")),
+            '_default -> LangMessages.get("editProfile.selectLanguage"),
+            '_label -> LangMessages.get("editProfile.language"),
+            '_error -> myForm("Language").error.map(_.withMessage(LangMessages.get("editProfile.selectLanguageError")))
+            )
+
+            @inputText(myForm("Email"), '_ -> LangMessages.get("editProfile.email"))
+
+            <input type="submit" class="btn btn-success name="action" value=@LangMessages.get("editProfile.change")>
+        </div>
+        <div  style="float:right">
+            @inputText(myForm("Last Name"), '_label -> LangMessages.get("editProfile.lastName"))
+
+            @select(
+            myForm("Gender"),
+            options = options("MALE" -> LangMessages.get("enum.gender.MALE"), "FEMALE" -> LangMessages.get("enum.gender.FEMALE")),
+            '_default -> LangMessages.get("editProfile.selectGender"),
+            '_label -> LangMessages.get("editProfile.gender"),
+            '_error -> myForm("Gender").error.map(_.withMessage(LangMessages.get("editProfile.selectGenderError")))
+            )
+
+            @if(Application.getCurrentlyLoggedInTeacher()!=null){@inputText(myForm("telephone"), '_label -> LangMessages.get("editProfile.tel"))}
+        </div>
+        }
+
+</div>
+}{
+<li><a href="@routes.ProfilesController.seeProfile">@LangMessages.get("profilePage.profile")</a></li>
+}

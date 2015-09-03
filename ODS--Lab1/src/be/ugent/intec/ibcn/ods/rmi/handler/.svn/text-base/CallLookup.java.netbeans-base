@@ -1,0 +1,43 @@
+package be.ugent.intec.ibcn.ods.rmi.handler;
+
+import java.net.Socket;
+
+/**
+ * A common static way to access the Socket which started the Delegator Thread.
+ * A very useful way to know who called the current Method.
+ *
+ * @see	be.ugent.intec.ibcn.ods.rmi.handler.CallHandler
+ */
+public class CallLookup {
+
+    //TODO - Create a container object to store all Thread - CommunicationModule tuples
+    //private ...
+    
+    /**
+     * Get the current Socket for this call. Only works in the main thread call.
+     *
+     * @return Socket which started the Delegator Thread
+     */
+    public static Socket getCurrentSocket() {
+        //TODO:: return the correct Socket.
+        CommunicationModule handler = null;
+        return (handler == null ? null : handler.getSocket());
+    }
+
+    /**
+     * Register a new CommunicationModule
+     *
+     * @param connectionHandler
+     */
+    static void handlingMe(CommunicationModule communicationModule) {
+        //TODO:: store the CommunicationModule in the container.
+    }
+
+    /**
+     * Remove an existing CommunicationModule
+     *
+     */
+    static void forgetMe() {
+        //TODO:: remove the CommunicationModule from the container
+    }
+}

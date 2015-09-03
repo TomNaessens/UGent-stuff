@@ -1,0 +1,37 @@
+\subsection{Veiligheid}
+De veilige implementatie is een zeer eenvoudige implementatie. Om uiterst veilig
+te zijn rijden we niet veel sneller dan 70 km/h, wat overeen komt met de boven grens van de term \texttt{slow} voor deze controller. Bochten nemen we afhankelijk van hun scherpte. Scherpe bochten nemen we scherp, gewone bochten nemen we
+normaal en milde bochten sturen we mild in. We versnellen enkel snel wanneer de
+auto traag rijdt, en remmen doen we snel wanneer een bocht binnenrijden en doen
+we gestaag wanneer een bocht in de verte aankomt. Wanneer we een bocht naderen
+zetten we als laatste de zij-sensoren iets wijder om een beter zicht op het soort
+bocht te krijgen.
+
+De lidmaatschapsfuncties van deze controllers is te vinden in de de linkerkolommen 
+van figuren \ref{fig:lidfties_in} en \ref{fig:lidfties_out}.
+
+Dit resulteert in de volgende regelblokken:
+
+\begin{lstlisting}
+RULEBLOCK steering
+  RULE 1 : IF corner IS sharp_left_corner THEN steering IS sharp_left;
+  RULE 2 : IF corner IS left_corner THEN steering IS left;
+  RULE 3 : IF corner IS mild_left_corner THEN steering IS mild_left;
+  RULE 4 : IF corner IS mild_right_corner THEN steering IS mild_right;
+  RULE 5 : IF corner IS right_corner THEN steering IS right;
+  RULE 6 : IF corner IS sharp_right_corner THEN steering IS sharp_right;
+END_RULEBLOCK
+
+RULEBLOCK speedup
+  RULE 1 : IF carSpeedKph IS slow THEN acceleration IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK brake
+  RULE 1 : IF frontSensorDistance IS normal THEN brake IS normal;
+  RULE 2 : IF frontSensorDistance IS near THEN brake IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK scanangle
+  RULE 1: IF frontSensorDistance is near THEN scanangle IS wide;
+END_RULEBLOCK
+\end{lstlisting}

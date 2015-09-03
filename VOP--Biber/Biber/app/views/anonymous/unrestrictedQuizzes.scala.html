@@ -1,0 +1,21 @@
+@(competitions: List[Competition])
+@import utils.LangMessages
+
+@main(LangMessages.get("competition.unrestricted")) {
+
+} {
+
+} {
+ <h2>@LangMessages.get("competition.unrestricted")</h2>
+@LangMessages.get("competition.unrestricted.take"):
+
+<ul>
+    @for(c <- competitions){
+    <li><a href="@routes.CompetitionController.beforeCompetition(c.id,c.getLevelOfUnrestrictedCompetition().name)">@c.getTitle()</a> (@c.getLevelOfUnrestrictedCompetition())</li>
+
+    }
+</ul>
+
+} {
+<li><a href="@routes.Application.renderRegisterAsHalfRegisteredPupil">@LangMessages.get("common.register")</a></li>
+}

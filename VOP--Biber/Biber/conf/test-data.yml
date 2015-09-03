@@ -1,0 +1,335 @@
+schools:
+
+    - &olva !!models.School
+        name: OLVA
+        city: Brugge
+        zipCode: 8310
+        country: Belgie
+        street: lala
+        number: 1
+
+    - &ugent !!models.School
+        name: Ugent
+        city: Gent
+        zipCode: 9000
+        country: Belgie
+        street: lala
+        number: 5
+    
+    - !!models.School
+        name: Olva male
+        city: Sint-Kruis
+        zipCode: 8310
+        country: Belgie
+        street: lala
+        number: 5    
+        
+
+classes:
+
+    - &test !!models.Class
+        name: 6a
+        level: EWOK
+        school: *olva
+        beginYear: 2012
+        teacher:
+            !!models.Teacher
+                bebrasId: hswimberghe
+persons:
+
+    - !!models.Teacher
+        bebrasId: hswimberghe
+        lastName: Swimberghe
+        firstName: Hannes
+        email: hannes.swimberghe@gmail.com   
+        password: secret
+        schools: [*olva,*ugent]
+        language: ENGLISH
+            
+        
+    - !!models.Pupil
+        bebrasId: tvanregenmortel
+        lastName: Van Regenmortel
+        firstName: Tom
+        email: tvanregenmortel@gmail.com
+        password: secret
+        currentClass: *test
+        language: ENGLISH
+    
+    - !!models.Pupil
+        bebrasId: tvanregenmortel5
+        lastName: Van Regenmortel
+        firstName: Tom
+        password: secret
+        currentClass: *test
+        language: ENGLISH
+        
+    - !!models.Pupil
+        bebrasId: jjansen
+        lastName: Jansen
+        firstName: Jan
+        password: secret
+        language: ENGLISH
+    
+    - !!models.Organizer
+        bebrasId: ebral
+        lastName: Bral
+        firstName: Enver  
+        password: secret
+        gender: MALE
+        language: ENGLISH
+        
+    - !!models.Admin
+        bebrasId: nkrohn
+        lastName: Krohn
+        firstName: Niels   
+        password: secret
+        language: ENGLISH
+  
+    - !!models.Admin
+        bebrasId: jmd
+        lastName: JMD
+        firstName: JM
+        password: secret
+        language: DUTCH
+        email: jeanmarie.dendoncker@UGent.be
+          
+sets:
+    - &set1 !!models.Set
+        timeLimit:          600
+        isHidden:           false
+        level:              EWOK
+        length:             600
+        isRestricted:       UNRESTRICTED
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 1
+                language:   ENGLISH
+
+    - !!models.Set
+        level: WOOKIE
+        isRestricted: LOCAL
+        setLanguages:
+            ? DUTCH
+            : !!models.Set_Language
+                title:      Set 2
+                language:   DUTCH
+    
+    - !!models.Set
+        level: WOOKIE
+        isRestricted: LOCAL
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 3
+                language:   ENGLISH
+                
+    - !!models.Set
+        level: EWOK
+        isRestricted: LOCAL
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 4
+                language:   ENGLISH
+                
+    - !!models.Set
+        level: EWOK
+        isRestricted: LOCAL
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 5
+                language:   ENGLISH
+
+    - !!models.Set
+        level: EWOK
+        isRestricted: LOCAL
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 6
+                language:   ENGLISH
+
+    - !!models.Set
+        level: PADAWAN
+        isRestricted: LOCAL
+        setLanguages:
+            ? FRENCH
+            : !!models.Set_Language
+                title:      Set 7
+                language:   FRENCH
+                
+    - !!models.Set
+        level: PADAWAN
+        isRestricted: LOCAL  
+        setLanguages:
+            ? ENGLISH
+            : !!models.Set_Language
+                title:      Set 8
+                language:   ENGLISH
+        
+    - !!models.Set
+        level: PADAWAN
+        isRestricted: LOCAL
+        setLanguages:
+            ? GERMAN
+            : !!models.Set_Language
+                title:      Set 9
+                language:   GERMAN
+
+competitions:
+    - &competition1 !!models.Competition
+        compType:               LOCAL
+        isOpen:                 1
+        competitionLanguages:
+            ? ENGLISH
+            : !!models.Competition_Language
+                language: ENGLISH
+                title: Competition 1
+        questionSets:
+            ? EWOK
+            : *set1
+
+    - !!models.Competition
+      competitionLanguages:
+        ? ENGLISH
+        : !!models.Competition_Language
+            language: ENGLISH
+            title: test1
+      compType: UNRESTRICTED
+
+    - !!models.Competition
+      competitionLanguages:
+        ? ENGLISH
+        : !!models.Competition_Language
+            language: ENGLISH
+            title: test2
+      compType: UNRESTRICTED
+
+class_competitions:
+
+    - !!models.Class_Competition
+        currentClass:   *test
+        competition:    *competition1
+        isOpen:         1
+
+fileservers:
+    - &fserver1 !!models.FileServer
+        host: localhost
+        port: 21
+        publicLink: http://biber.ugent.be/questions/
+        username: biberftp
+        pass: Biber5tu77
+        
+    - &server1 !!models.FileServer
+        host: localhost
+        port: 21
+        publicLink: http://biber.ugent.be/questions/
+        username: Biber
+        pass: secret
+questions:
+
+    - !!models.Question
+        id: 10
+        author: myself
+        answer: A
+        answerType: MULTIPLE_CHOICE
+        server: *fserver1
+        questionLanguages:
+            ? ENGLISH
+            : !!models.Question_Language
+                title: Question 1
+                language: ENGLISH
+                questionFile: question.html
+                feedbackFile: feedback.html
+
+    - !!models.Question
+        id: 11
+        author: myself
+        answer: B
+        answerType: MULTIPLE_CHOICE
+        server: *fserver1
+        questionLanguages:
+            ? ENGLISH
+            : !!models.Question_Language
+                title: Question 2
+                language: ENGLISH
+                questionFile: question.html
+                feedbackFile: feedback.html
+
+    - &fakeQuestion !!models.Question
+            author:             ebral
+            answerType:         MULTIPLE_CHOICE
+            answer:             A
+            server:             *fserver1
+            questionLanguages:
+                ? ENGLISH
+                : !!models.Question_Language
+                    title:          Question 3
+                    questionFile:   question.html
+                    feedbackFile:   feedback.html
+                    language:       ENGLISH
+
+    - &question1 !!models.Question
+        author:             ebral
+        answerType:         MULTIPLE_CHOICE
+        answer:             A
+        server:             *fserver1
+        questionLanguages:
+            ? ENGLISH
+            : !!models.Question_Language
+                title:          Question 4
+                questionFile:   question.html
+                feedbackFile:   feedback.html
+                language:       ENGLISH
+
+    - &question2 !!models.Question
+        author:             unknown
+        answerType:         REGULAR_EXPRESSION
+        answer:             ^1011110$
+        server:             *fserver1
+        questionLanguages:
+            ? ENGLISH
+            : !!models.Question_Language
+                title:          Question 5
+                questionFile:   question.html
+                feedbackFile:   feedback.html
+                language:       ENGLISH
+
+    - &question3 !!models.Question
+        author:             ebral
+        answerType:         MULTIPLE_CHOICE
+        answer:             D
+        server:             *fserver1
+        questionLanguages:
+            ? ENGLISH
+            : !!models.Question_Language
+                title:          Question 6
+                questionFile:   question.html
+                feedbackFile:   feedback.html
+                language:       ENGLISH
+
+set_questions:
+
+    - !!models.Set_Question
+        difficulty: HARD
+        correctPoints:      12
+        incorrectPoints:    4
+        question:   *question1
+        set:        *set1
+
+    - !!models.Set_Question
+        difficulty: EASY
+        correctPoints:      6
+        incorrectPoints:    2
+        question:   *question2
+        set:        *set1
+
+    - !!models.Set_Question
+        difficulty: AVERAGE
+        correctPoints:      9
+        incorrectPoints:    3
+        question:   *question3
+        set:        *set1

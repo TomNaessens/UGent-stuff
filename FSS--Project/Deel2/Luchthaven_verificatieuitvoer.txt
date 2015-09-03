@@ -1,0 +1,19 @@
+TLC2 Version 2.05 of 23 July 2013
+Running in Model-Checking mode.
+Parsing file Luchthaven.tla
+Parsing file /Users/silox/tla/tla2sany/StandardModules/Naturals.tla
+Semantic processing of module Naturals
+Semantic processing of module Luchthaven
+Starting... (2014-12-30 21:42:01)
+Implied-temporal checking--satisfiability problem has 5 branches.
+Computing initial states...
+Finished computing initial states: 1 distinct state generated.
+Checking temporal properties for the complete state space...
+Model checking completed. No error has been found.
+  Estimates of the probability that TLC did not check all reachable states
+  because two distinct states had the same fingerprint:
+  calculated (optimistic):  val = 4.8E-14
+  based on the actual fingerprints:  val = 5.1E-15
+1934 states generated, 730 distinct states found, 0 states left on queue.
+The depth of the complete state graph search is 39.
+Finished. (2014-12-30 21:42:35)

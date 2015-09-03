@@ -1,0 +1,10 @@
+@(competition: models.Competition)(questionSet: models.Set)
+
+@import utils.LangMessages
+
+<ul>
+    <li><strong>@LangMessages.get("common.competition"):</strong> @competition.getTitle()</li>
+    <li><strong>@LangMessages.get("common.level"):</strong> @questionSet.level.toString()</li>
+    <li><strong>@LangMessages.get("competition.take.numberOfQuestions"):</strong> @questionSet.size()</li>
+    <li><strong>@LangMessages.get("competition.take.timeLimit"):</strong> <span class="time"></span></li>
+</ul>

@@ -1,0 +1,182 @@
+@(listOfPupils: List[Pupil], cl: models.Class)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("classForTeacher.head",cl.name)) {
+<!-- Head -->
+<script src="@routes.Assets.at("javascripts/bootstrap-editable.js")"></script>
+<link href="@routes.Assets.at("stylesheets/bootstrap-editable.css")" rel="stylesheet">
+<script type="text/javascript" src='@routes.Assets.at("javascripts/time.js")'></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    function updatePupilsStatus() {
+        jsRoutes.controllers.TeacherController.getPupilsStatus(@cl.id).ajax().done(function(result) {
+            if (result == null) return;
+            $.each(result.pupils, function(pupil, status) {
+                $('#' + pupil + '-status').attr('src',
+                    status.status ? '@routes.Assets.at("images/status/online.png")'
+                                  : '@routes.Assets.at("images/status/offline.png")'
+                )
+            });
+        });
+    }
+
+    $(function() {
+    	$('#tooltip').tooltip();
+    	editInPlace();
+    	popover(); 
+        updatePupilsStatus();
+        setInterval(updatePupilsStatus, 60 * 1000);
+        $('.reset').click(function(e) {
+        	$('#spinner').fadeIn('fast');
+            var bebrasId = $(this).attr("value");
+            resetPupilPassword(bebrasId);
+        });        
+    });
+    
+    function resetPupilPassword(bebrasId){
+    	jsRoutes.controllers.TeacherController.resetPupilPassword(bebrasId).ajax({
+    		success: function(result) {
+                $('#spinner').stop().fadeOut('fast');
+    			if(!result.error){
+					$('#' + bebrasId + '-reset').empty().prepend("<img style='float:right;margin-right:2%' src='@routes.Assets.at("images/ok_checkmark.png")'/>");
+    	        }
+    			else{
+    				alert(result.error);
+    			}
+   			}
+    	});
+    }
+    
+    function editInPlace(){
+    	$('#className').editable({
+    	    type: 'text',
+    	    pk: 1,
+    	    url: '@routes.TeacherController.changeClassName()',
+    	    title: 'Enter new class name',
+    	    params: {classId : '@cl.id'},
+    	    error: function(response, newValue) {
+    	            return response.responseText;
+    	    }
+    	});
+    }
+    
+
+    
+</script>
+
+<style>
+div#spinner
+{
+    display: none;
+    width:100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align:center;
+    margin-left: -50px;
+    margin-top: -100px;
+    z-index:2;
+    overflow: auto;
+}    
+</style>
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+ @wflash()
+<div id="spinner">
+    <img src='@routes.Assets.at("images/ajax-loader.gif")' alt="Loading..."/>
+</div>
+
+<div class="span8">
+<a href="@routes.Statistics.viewStatsForClass(cl.id)"><p>View all statistics for this class <img src="http://www.psdgraphics.com/wp-content/uploads/2009/06/save-icon.jpg" width="25" height="25"></p></a>
+<div class="well">
+<h2><span id="tooltip" data-toggle="tooltip" title="@LangMessages.get("changeClassName.click")">@LangMessages.get("changeClassName.title")</span> <a id="className" >@cl.name</a></h2>
+<p>@LangMessages.get("level"): @cl.level.toString()</p>
+<ul>
+    @for(p <- listOfPupils) {
+    <li id="@p.bebrasId">
+    	<img id="@(p.bebrasId)-status">
+    	<span style="margin-left:5%">@p.firstName @p.lastName</span>
+    	<div id="@(p.bebrasId)-reset" style="float:right">
+    		<button class="reset btn-mini btn-primary" value="@p.bebrasId">@LangMessages.get("resetPupilPassword.reset")</button>
+    	</div>
+    </li>
+    }
+</ul>
+
+<a href="#"><img src="@routes.Assets.at("images/add.png")" id="popover" style="width:5%;height:5%"></a>
+<div id="popover-head" class="hide">
+	@LangMessages.get("addPupilToClass.title")
+	<button type="button" id="close" class="close" onclick="$('#popover').popover('hide');$('.error').hide();">&times;</button>
+</div>
+<div id="popover-content" class="hide">
+	<p style="display:none;" class="error notExisting">@LangMessages.get("addPupilToClass.notExisting")</p>
+	<p style="display:none;" class="error empty">@LangMessages.get("addPupilToClass.empty")</p>
+	<div>
+		<label for="bebrasId">BebrasId:</label>
+		<input id="bebrasId" class="required" placeholder="BebrasId"/>
+		<p>
+			<button class="btn btn-primary" onclick="addPupilToClass()">@LangMessages.get("common.submit")</button>
+		    <button class="btn" onclick="$('#popover').popover('hide');$('.error').hide();" aria-hidden="true">@LangMessages.get("common.close")</button>	
+		</p>
+	</div>
+</div>
+
+</div>
+</div>
+} {
+<!-- Sidebar -->
+	<li>
+		<a href="@routes.TeacherController.renderRegisterSinglePupil(cl.id)">@LangMessages.get("registerSinglePupil.actionLink")</a>
+	</li>
+    <li>
+        <a href="@routes.WriteResultsToFile.viewRecentCompetitions(cl.id)">View recent competitions</a>
+    </li>
+	
+<script type="text/javascript">
+
+ 
+function popover(){
+	$('#popover').popover({ 
+	    html : true,
+	    title: function() {
+	      return $("#popover-head").html();
+	    },
+	    content: function() {
+	      return $("#popover-content").html();
+	    }
+	}); 
+}
+
+function addPupilToClass(){
+    var classId = "@cl.id";
+    var bebrasId = $('#bebrasId').val();
+    if(bebrasId == ""){
+		$(".error").hide();
+    	$(".error.empty").show();
+		$('#popover').popover('show');
+    	return;
+    }
+	jsRoutes.controllers.TeacherController.addExistingPupilToClass(classId,bebrasId).ajax({
+		success : function(result) {
+			if (result.status != null) {
+				$(".error").hide();
+				$(".error.notExisting").show();
+				$('#popover').popover('show');
+			} 
+			else{
+				window.location.href = result.redirect;
+			}
+		}
+	});
+}
+</script>
+	
+}

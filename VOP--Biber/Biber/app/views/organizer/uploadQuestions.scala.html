@@ -1,0 +1,362 @@
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+<!-- Main call -->
+@main(LangMessages.get("upload questions")) {
+<!-- Head -->
+<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/jqueryFileTree.css")'
+      xmlns="http://www.w3.org/1999/html">
+<style type=text/css>
+    .viewer {
+        height:300px;
+        border-top: solid 1px #BBB;
+        border-left: solid 1px #BBB;
+        border-bottom: solid 1px #FFF;
+        border-right: solid 1px #FFF;
+        background: #FFF;
+        overflow: scroll;
+        padding: 5px;
+    }
+    li{
+
+    }
+
+    .button-icon:hover {
+    cursor:pointer;
+    }
+</style>
+
+<style type=text/css>
+    .bar {
+    height: 18px;
+    background: green;
+    }
+</style>
+<script src='@routes.Assets.at("javascripts/ckeditor/ckeditor.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/jqueryFileTree.js")' type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready( function() {
+        getTree();
+    });
+
+    $('#questionInfo').on("click" , "a", function(event){
+        event.preventDefault();
+    });
+
+    $('#questionInfo').on("dblclick" , "a", function(event){
+        // Double clicking a file in the file tree should open the file
+        if($(event.target).parent().hasClass('file')) {
+            window.open(event.target.href);
+        }
+    });
+</script>
+} {
+<!-- Toplinks -->
+} {
+<!-- Main content -->
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                > @LangMessages.get("uploadQuestions.wysiwyg.title")
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h2>@LangMessages.get("uploadQuestions.questions")</h2>
+
+                        <div style="max-height:300px" id="questionTree" class="viewer"></div>
+                        <input type="text" oninput="getTree()" id="questionsearch" placeholder="@LangMessages.get("uploadQuestions.search")">
+                    </div>
+
+                    <div class="span6">
+                        <h2>@LangMessages.get("uploadQuestions.questionInfo")</h2>
+
+                        <div id="questionInfo" class="viewer"></div>
+                    </div>
+                </div>
+                <hr />
+                <span id="succesLabel" style="display: none;" class="label label-success">@LangMessages.get("uploadQuestions.wysiwyg.saveSuccess")</span>
+                <div id="makeQuestion" style="display: none;">
+
+                    <form class="form-horizontal" id="questionform" action="@routes.QuestionsController.updateQuestion()" method="POST">
+                        <div class="control-group" id="titleGroup">
+                            <label class="control-label" for="title">@LangMessages.get("uploadQuestions.wysiwyg.titleLabel"):</label>
+                            <div class="controls">
+                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="language" id="language">
+                                <input type="text" id="title" name="title" placeholder="Title" />
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="answertypeGroup">
+                            <label class="control-label" for="answerType">@LangMessages.get("uploadQuestions.wysiwyg.typeLabel"):</label>
+                            <div class="controls">
+                                <select id="answerType" name="answertype">
+                                    <option id="noAnswerType" selected disabled>@LangMessages.get("uploadQuestions.answerType")</option>
+                                    @for(at <- AnswerType.values()) {
+                                        <option value="@at.name()" id="@at.name()">@at</option>
+                                    }
+                                </select>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="answerGroup">
+                            <label class="control-label" for="answer">@LangMessages.get("uploadQuestions.wysiwyg.answerLabel"):</label>
+                            <div class="controls">
+                                <input id="answer" type="text" name="answer" placeholder="@LangMessages.get("uploadQuestions.answer")" />
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="questionGroup">
+                            <label class="control-label" for="questionEditor">@LangMessages.get("uploadQuestions.wysiwyg.questionLabel"):</label>
+                            <div class="controls">
+                                <textarea name="questionEditor" id="questionEditor"></textarea>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="control-group" id="feedbackGroup">
+                            <label class="control-label" for="feedbackEditor">@LangMessages.get("uploadQuestions.wysiwyg.feedbackLabel"):</label>
+                            <div class="controls">
+                                <textarea name="feedbackEditor" id="feedbackEditor"></textarea>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+                    <script>
+                        CKEDITOR.replace('questionEditor');
+                        CKEDITOR.replace('feedbackEditor');
+                    </script>
+                    <br/>
+
+                    <div class="text-right"><input type="submit" class="btn btn-primary" value="@LangMessages.get("uploadQuestions.wysiwyg.save")" onclick="submitQuestion(); return false;" /></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                > @LangMessages.get("uploadQuestions.wysiwyg.zipFile")
+            </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div>
+                    <p id="failed" style="display:none">
+                        <span class="badge badge-important">@LangMessages.get("uploadQuestions.failed")</span>
+                    </p>
+                </div>
+                <div>
+                    <input id="fileupload" type="file" name="file">
+                </div>
+                <div>
+                    <p>@LangMessages.get("registerPupils.uploadProgress")</p>
+
+                    <div id="upload" class="progress">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <div>
+                    <h2>@LangMessages.get("uploadQuestions.errors")</h2>
+                    <ul id="errors">
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function getTree() {
+        $('#questionTree').fileTree({
+            root: $('#questionsearch').val(),
+            script: '@routes.QuestionsController.buildQuestionTree'
+        }, function(file){
+            getInfoTree(file);
+            $('#succesLabel').hide();
+            $('#makeQuestion').slideUp();
+        });
+    }
+
+    function getInfoTree(id) {
+        $('#questionInfo').fileTree({
+            root: id,
+            script: '@routes.QuestionsController.buildQuestionInfoTreeWithoutLinks',
+            expandSpeed: 100,
+            collapseSpeed: 100
+        }, function(file) {
+            clearErrors();
+            $('#succesLabel').hide();
+            $('#makeQuestion').slideDown();
+
+            jsRoutes.controllers.QuestionsController.getQuestionContents(file).ajax().done(function(result) {
+                var obj = $.parseJSON(result);
+
+                $('#title').val(obj.title);
+
+                $('#id').val(obj.id);
+                $('#language').val(obj.language);
+
+                $('#answerType option:selected').removeAttr('selected');
+                $('#answerType').val(obj.answertype);
+                $('#answer').val(obj.answer);
+
+		CKEDITOR.config.baseHref = 'http://biber.ugent.be/FTP/questions/' + obj.id + '/';
+                CKEDITOR.instances.questionEditor.setData(obj.question);
+                CKEDITOR.instances.feedbackEditor.setData(obj.feedback);
+            });
+        });
+    }
+
+    function submitQuestion() {
+        CKupdate();
+        jsRoutes.controllers.QuestionsController.updateQuestion().ajax({
+            type: "POST",
+            data: $('#questionform').serialize(),
+            dataType: "json",
+            success: function(result) {
+
+                clearErrors();
+
+                var scrolled = 0;
+                // There was an error
+                if(result.error != null) {
+
+                    if(result.titleError != null) {
+                        $('#titleGroup').addClass("error");
+                        $('#titleGroup .help-inline').text(result.titleError);
+                        scrolled = 1;
+                        $('html, body').animate({
+                            scrollTop: ($("#titleGroup").offset().top - 50)
+                        }, 500);
+                    }
+
+                    if(result.answertypeError != null) {
+                        $('#answertypeGroup').addClass("error");
+                        $('#answertypeGroup .help-inline').text(result.answertypeError);
+
+                        if(scrolled == 0) {
+                            scrolled = 1;
+                            $('html, body').animate({
+                                scrollTop: ($("#answertypeGroup").offset().top - 50)
+                            }, 500);
+                        }
+                    }
+
+                    if(result.answerError != null) {
+                        $('#answerGroup').addClass("error");
+                        $('#answerGroup .help-inline').text(result.answerError);
+
+                        if(scrolled == 0) {
+                            scrolled = 1;
+                            $('html, body').animate({
+                                scrollTop: ($("#answerGroup").offset().top - 50)
+                            }, 500);
+                        }
+                    }
+
+                    if(result.questionError != null) {
+                        $('#questionGroup').addClass("error");
+                        $('#questionGroup .help-inline').text(result.questionError);
+
+                        if(scrolled == 0) {
+                            scrolled = 1;
+                            $('html, body').animate({
+                                scrollTop: ($("#questionGroup").offset().top - 50)
+                            }, 500);
+                        }
+                    }
+
+                    if(result.feedbackError != null) {
+                        $('#feedbackGroup').addClass("error");
+                        $('#feedbackGroup .help-inline').text(result.feedbackError);
+
+                        if(scrolled == 0) {
+                            scrolled = 1;
+                            $('html, body').animate({
+                                scrollTop: ($("#feedbackGroup").offset().top - 50)
+                            }, 500);
+                        }
+                    }
+
+                } else { // No error!
+                    $('#makeQuestion').slideUp();
+                    $('#succesLabel').show();
+                    getTree();
+                    getInfoTree(result.id);
+                }
+            }
+
+        });
+    }
+
+    function CKupdate(){
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+
+    function clearErrors() {
+        $('#titleGroup').removeClass("error");
+        $('#titleGroup .help-inline').text("");
+        $('#answertypeGroup').removeClass("error");
+        $('#answertypeGroup .help-inline').text("");
+        $('#answerGroup').removeClass("error");
+        $('#answerGroup .help-inline').text("");
+        $('#questionGroup').removeClass("error");
+        $('#questionGroup .help-inline').text("");
+        $('#feedbackGroup').removeClass("error");
+        $('#feedbackGroup .help-inline').text("");
+    }
+
+</script>
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.SetController.renderComposeSet">@LangMessages.get("profileOrganizer.newSet")</a>
+</li>
+<li>
+    <a href="@routes.Competitions.render_create_competition">@LangMessages.get("profileOrganizer.newCompetition")</a>
+</li>
+
+<li>
+    <a href="@routes.SetController.renderManageSets">@LangMessages.get("profileOrganizer.manageSets")</a>
+</li>
+
+
+<script src='@routes.Assets.at("javascripts/bootstrap-filestyle.min.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/jquery.ui.widget.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/jquery.iframe-transport.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/jquery.fileupload.js")' type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#fileupload').fileupload({
+            url: "@routes.QuestionsController.questionUploader",
+            dataType: 'json',
+            done: function (e, data) {
+                if(data.result.directory) {
+                    var url = '@routes.QuestionsController.renderProcessFiles("xxx")';
+                    url = url.replace("xxx",data.result.directory);
+                    window.location = url;
+                }
+                else if(data.result.error) {
+                    $('#errors').append("<li><span class='badge badge-important'>" + data.result.error + "</span></li>");
+                    $('#failed').show();
+                }
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#upload .bar').css('width', progress + '%');
+            }
+        });
+    });
+</script>
+}

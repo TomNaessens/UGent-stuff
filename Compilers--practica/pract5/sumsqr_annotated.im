@@ -1,0 +1,261 @@
+# Functions are defined with a 3-line header of #'s containing the name of the function'
+# Annotations with line numbers are put after the relevant lines, indicatid with #:line_number
+# Memory calls are indicated by putting [ ] around the address
+# CJumps are written using the if-shorthand notation () ? :
+
+##########################################
+############ function main() #############
+##########################################
+
+########### Variable initialisation
+
+LABEL L9
+MOVE(                                                                #:2 [t100-28] <- t100-4
+    MEM(BINOP(PLUS, TEMP t100, CONST -28)),
+    BINOP(PLUS, TEMP t100, CONST -4))
+MOVE(                                                                #:3 [t100-24] <- initArray(100, 0)
+    MEM(BINOP(PLUS, TEMP t100, CONST -24)),
+    CALL(NAME initArray, CONST 100, CONST 0))
+MOVE(                                                                #:3 [[t100-28]] (= arr) <- [t100-24]
+    MEM(MEM(BINOP(PLUS, TEMP t100, CONST -28))),
+    MEM(BINOP(PLUS, TEMP t100, CONST -24)))
+MOVE(                                                                #:4 [t100-8] (= i) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 0)
+MOVE(                                                                #:5 [t100-12] (= to_square) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -12)),
+    CONST 0)
+MOVE(                                                                #:33 [t100-16] (= i) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+    CONST 0)
+MOVE(                                                                #:33 [t100-20] (= for_upperbound) <- 9
+    MEM(BINOP(PLUS, TEMP t100, CONST -20)),
+    CONST 9)
+CJUMP(LT,                                                            #:33 ([t100-16] < [t100-20]) ? L6 : L5
+    MEM(BINOP(PLUS, TEMP t100, CONST -16)),                          # i < 9 ?
+    MEM(BINOP(PLUS, TEMP t100, CONST -20)),                          # jump into the loop : go directly to add_sqr
+    L6,
+    L5)
+
+########### Execution of the add_sqr method
+
+LABEL L5
+EXP(                                                                 #:35 add_sqr(t100, [t100-4], 10)
+    CALL(
+        NAME add_sqr,
+            TEMP t100,
+            MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+            CONST 10)
+    )
+JUMP(NAME L8)                                                        #:36 (jump to empty block:) return()
+
+########### Loop check: go inside if i > 9
+
+LABEL L6
+CJUMP(GT,                                                            #:33 if([t100-16] > [t100-20]) ? L5 : L7
+    MEM(BINOP(PLUS, TEMP t100, CONST -16)),                          # i > 9 ?
+    MEM(BINOP(PLUS, TEMP t100, CONST -20)),
+    L5,
+    L7)
+
+########### Inside the :33 for-loop
+
+LABEL L7
+MOVE(                                                                #:34 [[t100-4]+[t100-16]*4] <- [t100-16]+1
+    MEM(                                                             # arr[i] (= offset of 4 bytes * i) <- i+1
+        BINOP(PLUS,
+            MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+            BINOP(TIMES,
+                MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+                CONST 4))),
+    BINOP(PLUS,
+        MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+        CONST 1))
+MOVE(                                                                #:34 [t100-16] (= i) <- [t100-16]+1
+    MEM(BINOP(PLUS, TEMP t100, CONST -16)),                          # i <- i+1
+    BINOP(PLUS,
+        MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+        CONST 1))
+JUMP(NAME L6)                                                        # jump to L6 (loop check)
+
+###########
+
+LABEL L8                                                             #:36 exit()
+
+##########################################
+########### function add_sqr() ###########
+##########################################
+
+########### Variable initialisation
+
+LABEL L11
+MOVE(                                                                #:12 [t100-4] (= idx) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+    CONST 0)
+MOVE(                                                                #:13 [t100-8] (= sum) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 0)
+MOVE(                                                                #:25 [t100-4] (= idx) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+    CONST 0)
+MOVE(                                                                #:26 [t100-8] (= sum) <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 0)
+EXP(                                                                 #:27 addone(t100)
+    CALL(
+        NAME addone,
+            TEMP t100))
+MOVE(                                                                #:28 t101 <- [t100-8]
+    TEMP t101,
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)))
+JUMP(NAME L10)                                                       #:29 (jump to empty block:) return()
+
+###########
+
+LABEL L10
+
+##########################################
+############ function addone() ###########
+##########################################
+
+LABEL L13
+MOVE(                                                                #:16 [[[t100+8]+8]-12] <- [[[t100+8]+12]+[[t100+8]-4]*4]
+    MEM(
+        BINOP(PLUS,
+            MEM(
+                BINOP(PLUS,
+                    MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                    CONST 8)),
+            CONST -12)),
+    MEM(
+        BINOP(PLUS,
+            MEM(
+                BINOP(PLUS,
+                    MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                    CONST 12)),
+            BINOP(TIMES,
+                MEM(
+                    BINOP(PLUS,
+                        MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                        CONST -4)),
+                CONST 4))))
+MOVE(                                                                #:17 [t100-20] <- [t100+8]-8
+    MEM(BINOP(PLUS, TEMP t100, CONST -20)),
+    BINOP(PLUS,
+        MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+        CONST -8))
+MOVE(                                                                #:17 [t100-16] <- [[t100+8]-8]
+    MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+    MEM(
+        BINOP(PLUS,
+            MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+            CONST -8)))
+MOVE(                                                                #:17 [t100-12] <- square([[t100+8]+8])
+    MEM(BINOP(PLUS, TEMP t100, CONST -12)),
+    CALL(
+        NAME square,
+            MEM(
+                BINOP(PLUS,
+                    MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                    CONST 8))))
+MOVE(                                                                #:17 [t100-20] <- [t100-16]+[t100-12]
+    MEM(
+        MEM BINOP(PLUS, TEMP t100, CONST -20))),
+    BINOP(PLUS,
+        MEM(BINOP(PLUS, TEMP t100, CONST -16)),
+        MEM(BINOP(PLUS, TEMP t100, CONST -12))))
+MOVE(                                                                #:18 [[t100+8]-4] <- [[t100+8]-4]+1
+    MEM(
+        BINOP(PLUS,
+            MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+            CONST -4)),
+    BINOP(PLUS,
+        MEM(
+            BINOP(PLUS,
+                MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                CONST -4)),
+        CONST 1))
+MOVE(                                                                #:19 [t100-8] <- 1
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 1)
+CJUMP(LT,                                                            #:19 ([[t100+8]-4] < [[t100+8]+16]) ? L0 : L1
+    MEM(
+        BINOP(PLUS,
+            MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+            CONST -4)),
+    MEM(
+        BINOP(PLUS,
+            MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+            CONST 16)),
+    L0,
+    L1)
+
+###########
+
+LABEL L1
+MOVE(                                                                #:19 [t100-8] <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 0)
+
+###########
+
+LABEL L0
+CJUMP(NE,                                                            #:19 ([t100-8] != 0) ? L2 : L3
+    MEM(BINOP(PLUS, TEMP t100, CONST -8)),
+    CONST 0,
+    L2,
+    L3)
+
+
+###########
+
+LABEL L3
+MOVE(                                                                #:19 [t100-4] <- 0
+    MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+    CONST 0)
+
+
+###########
+
+LABEL L4
+MOVE(                                                                #:22 t101 <- [t100-4]
+    TEMP t101,
+    MEM(BINOP(PLUS, TEMP t100, CONST -4)))
+JUMP(NAME L12)
+
+
+###########
+
+LABEL L2
+MOVE(                                                                #:21 [t100-4] <- addone([t100+8])
+    MEM(BINOP(PLUS, TEMP t100, CONST -4)),
+    CALL(
+        NAME addone,
+            MEM(BINOP(PLUS, TEMP t100, CONST 8))))
+JUMP(NAME L4)
+
+###########
+
+LABEL L12
+
+##########################################
+########### function square():9 ##########
+##########################################
+
+LABEL L15
+MOVE(                                                                #:8 t101 <- [[t100+8] - 12] * [[t100+8] - 12]
+    TEMP t101,
+    BINOP(TIMES,
+        MEM(
+            BINOP(PLUS,
+                MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                CONST -12)),
+        MEM(
+            BINOP(PLUS,
+                MEM(BINOP(PLUS, TEMP t100, CONST 8)),
+                CONST -12))))
+JUMP(NAME L14)
+
+###########
+
+LABEL L14                                                            #:8 return

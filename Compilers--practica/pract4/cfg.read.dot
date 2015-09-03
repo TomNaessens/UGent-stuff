@@ -1,0 +1,5 @@
+digraph "CFG for 'read' function" {
+	label="CFG for 'read' function";
+
+	Node0x907f5f8 [shape=record,label="{entry:\l  %toScan = alloca i32\l  %0 = call i32 (i8*, ...)* @scanf(i8* getelementptr inbounds ([3 x i8]*\l... @format1, i32 0, i32 0), i32* %toScan)\l  %1 = load i32* %toScan\l  ret i32 %1\l}"];
+}

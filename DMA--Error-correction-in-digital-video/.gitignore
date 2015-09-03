@@ -1,0 +1,17 @@
+Debug/
+ipch/
+Test_environment/
+*.sdf
+*.opensdf
+*.vcxproj
+*.enc
+*.yuv
+*.suo
+
+*.zip
+
+*.log
+*.pdf
+*.aux
+*.out
+

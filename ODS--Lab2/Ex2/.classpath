@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/javax.xml.stream_1.0.1.v201004272200.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.codehaus.jackson.smile.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/javax.persistence_2.0.3.v201010191057.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/javax.mail_1.4.0.v201005080615.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/javax.activation_1.1.0.v201005080500.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.codehaus.jackson.mapper.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/javax.xml.bind_2.2.0.v201005080402.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.codehaus.jackson.core.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/commons-codec-1.8.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.restlet.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.restlet.ext.servlet.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.restlet.ext.json.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.restlet.ext.jackson.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.restlet.ext.gwt.jar"/>
+	<classpathentry kind="lib" path="/home/tnaessens/Documents/UGent/Ontwerp van Gedistribueerde Systemen/Lab2/Ex2/war/WEB-INF/lib/org.json.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.wtp.jpa.DATANUCLEUS_CONTAINER">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+			<attribute name="owner.project.facets" value="jpt.jpa"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

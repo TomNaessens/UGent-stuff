@@ -1,0 +1,49 @@
+@(loginForm: Form[Application.Login])
+
+<!-- Imports -->
+@import utils.LangMessages
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+@import helper._
+
+<!-- Main call -->
+@main("Login") {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+} {
+<!-- Main -->
+<div class="span8">
+    <div class="well">
+    
+    <h3>@LangMessages.get("common.login")</h3>
+	@form(routes.Application.authenticate, 'class -> "form-vertical") {
+
+    @if(loginForm.hasGlobalErrors) {
+    <p class="error" >
+        <span class="label important">@loginForm.globalError.message()</span>
+    </p>
+    }
+    
+	@wflash()
+	
+	<fieldset>
+    @inputText(loginForm("bebrasId"), '_label -> "BebrasId:")
+    @inputPassword(loginForm("password"), '_label -> LangMessages.get("common.password"))
+    </fieldset>
+    
+    
+    <input type="text" name="returnUrl" style="display:none" value="@if(flash.contains("returnUrl_invisible")){@flash.get("returnUrl_invisible")}">
+    <div class="form-actions">
+    <input type="submit" class="btn btn-primary" value="@LangMessages.get("common.submit")"/>
+    <a href="@routes.Reset.renderAskReset">@LangMessages.get("common.forgotPassword")</a>
+    </div>
+	}
+	</div>
+	</div>
+} {
+<!-- Sidebar -->
+<li>
+<a href="@routes.Reset.renderAskReset">@LangMessages.get("common.forgotPassword")</a>
+</li>
+}

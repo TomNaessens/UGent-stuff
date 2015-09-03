@@ -1,0 +1,76 @@
+\subsection{Snelheid}
+We nemen voornamelijk de lidmaatschapsfuncties over van de veilige controller, maar moeten hier wel wat 
+aanpassingen maken. De veilige controller versnelde nooit boven de 70 km/h. 
+Daardoor moesten we geen rekening houden met hoge snelheden en dus grotere remafstanden. Met de snelle controller mikken we op hogere snelheden en zullen we dus wel moeten doen. Daarom voegen we enkele termen toe bij de 
+\texttt{carSpeedKph}-invoer om op grotere snelheden te kunnen anticiperen. Deze termen zijn \texttt{very\_fast} en \texttt{hyper\_fast}. Merk hierbij op dat deze nieuwe vaagverzamelingen inclusief zijn ten opzichte van de vaagverzameling die overeen komt met de term \texttt{fast}. Dit doen we omdat we willen dat wanneer we zeer snel gaan dit nog steeds als snel beschouwd kan worden. Bovendien is de term \texttt{hyper\_fast} sterk inclusief omdat deze in de kern van de term \texttt{fast} omvat is. Voor \texttt{very\_fast} hebben we geen sterke inclusie tegenover \texttt{fast} omdat deze eerste een klein gebied buiten de kern van de laatste omvat.
+
+Door de hogere snelheden is het belangrijk om ervoor te zorgen dat de wagen stabiel blijft. Daarom zullen we een nieuwe term toevoegen voor de \texttt{lateralVelocity}-invoer. Deze nieuwe term, \texttt{minimal}, zal aangeven dat de wagen niet alleen stabiel is maar zeer stabiel. In dit geval zal het mogelijk zijn om sterk te versnellen zonder te beginnen slippen. Daarnaast kunnen we door de verhoogde snelheid ook hogere laterale snelheden verwachten. Om deze op te vangen moeten we de lidmaatschapsfunctie van de term \texttt{drifting} uitbreiden.
+
+Om de langere remafstanden die met deze hogere snelheden gepaard gaan moeten we vervolgens ook aanpassingen doorvoeren op de lidmaatschapsfuncties van de termen voor de \texttt{frontSensorDistance}-invoer. Hierbij zullen we geen gebruik meer maken van de term \texttt{very\_near}, waardoor we deze kunnen weglaten. Belangrijker voor deze controller is het correct inschatten van de remafstand. Derhalve breiden we de termen \texttt{far} en \texttt{very\_far} uit tot maximaal 1000 meter. Ook hier zullen we analoog aan de snelheid de term \texttt{very\_far} sterk inclusief maken ten opzichte van de term \texttt{far}.
+
+Voor de uitvoer zullen we slechts beperkte aanpassingen moeten doen. Zo zullen we de acceleratie en het remgedrag iets scherper stellen door in plaats van de COG functie de RM functie te gebruiken. Ook verschuiven we het zwaartepunt door de grenzen tussen de termen strenger te maken.
+
+Als laatste aanpassing aan de lidmaatschapsfuncties laten we de wagen sneller bochten ontdekken door de de \texttt{scanangle} uitvoer toe te staan te vernauwen. Dit zal gebeuren wanneer de wagen voldoen de ver kan kijken of zeer hoge snelheden haalt. Dit zal ervoor zorgen dat de wagen in mindere mate heen en weer zal schommelen bij hoge snelheden. De regels die hieruit voortvloeien staan in het \texttt{scanangle} rule-block.
+
+De bekomen lidmaatschapsfuncties van deze controller voor de uitvoer zijn te vinden in de 
+middelste kolom van Figuur~\ref{fig:lidfties_in}. De invoer is terug te vinden in dezelfde kolom van Figuur~\ref{fig:lidfties_out}.
+
+Bij het opstellen van de regels moeten we een afweging maken tussen snelheid en 
+veiligheid. We moeten snel rijden op lange stukken, maar ook rekening houden 
+met de langere remweg die dit met zich meebrengt. Aan grote snelheid hebben 
+kleine stuurcorrecties ook veel meer impact, dus we moeten ervoor zorgen dat we 
+bij het uitvoeren van die correcties onze snelheid verlagen en niet 
+versnellen tijdens deze manoeuvres om de controle over het stuur niet te 
+verliezen.
+
+Aan de regels voor de besturing van de veilige controller, in het \texttt{steering} rule-block, hebben we geen aanpassingen gedaan omdat we ervoor zorgen dat de wagen voldoende vertraagt wanneer deze een bocht nadert met de regels in het \texttt{brake} rule-block.
+
+\begin{lstlisting}
+RULEBLOCK steering
+  RULE 1 : IF corner IS sharp_left_corner THEN steering IS sharp_left;
+  RULE 2 : IF corner IS left_corner THEN steering IS left;
+  RULE 3 : IF corner IS mild_left_corner THEN steering IS mild_left;
+  RULE 4 : IF corner IS mild_right_corner THEN steering IS mild_right;
+  RULE 5 : IF corner IS right_corner THEN steering IS right;
+  RULE 6 : IF corner IS sharp_right_corner THEN steering IS sharp_right;
+END_RULEBLOCK
+
+RULEBLOCK speedup
+  RULE 1 : IF carSpeedKph IS slow AND lateralVelocity IS stable  AND 
+  frontSensorDistance IS near THEN acceleration IS slowly;
+  RULE 2 : IF (carSpeedKph IS slow OR carSpeedKph IS normal) AND 
+  lateralVelocity IS stable  AND 
+  frontSensorDistance IS far THEN acceleration IS fastly;
+
+  RULE 4 : IF carSpeedKph IS fast AND lateralVelocity IS minimal AND 
+  frontSensorDistance IS very_far THEN acceleration IS fastly;
+  RULE 5 : IF carSpeedKph IS hyper_fast AND frontSensorDistance IS NOT very_far 
+  THEN acceleration IS slowly;
+END_RULEBLOCK
+
+RULEBLOCK brake
+  RULE 1 : IF lateralVelocity IS drifting AND carSpeedKph IS slow THEN brake IS 
+  slowly;
+  RULE 2 : IF lateralVelocity IS drifting AND carSpeedKph IS NOT slow THEN 
+  brake IS fastly;
+
+  RULE 3 : IF frontSensorDistance IS near AND carSpeedKph IS normal THEN brake 
+  IS normal;
+
+  RULE 4 : IF frontSensorDistance IS NOT far AND carSpeedKph IS fast THEN brake 
+  IS slowly;
+  RULE 5 : IF frontSensorDistance IS NOT very_far AND carSpeedKph IS very_fast 
+  THEN brake IS fastly;
+  RULE 6 : IF carSpeedKph IS fast AND lateralVelocity IS NOT minimal THEN brake 
+  IS normal;
+  RULE 7 : IF carSpeedKph IS very_fast AND frontSensorDistance IS NOT very_far 
+  THEN brake IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK scanangle
+  RULE 1: IF frontSensorDistance is near THEN scanangle IS wide;
+  RULE 2: IF carSpeedKph IS very_fast THEN scanangle IS narrow;
+  RULE 3: IF carSpeedKph IS hyper_fast THEN scanangle IS very_narrow;
+END_RULEBLOCK
+
+\end{lstlisting}

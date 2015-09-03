@@ -1,0 +1,5 @@
+.dropbox
+Icon?
+*.tar.gz
+*.o
+*.class

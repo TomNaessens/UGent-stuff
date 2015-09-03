@@ -1,0 +1,136 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[english]{babel}       % Voor nederlandstalige hyphenatie (woordsplitsing)
+
+\usepackage{amsmath}                    % Uitgebreide wiskundige mogelijkheden
+\usepackage{amssymb}                    % Voor speciale symbolen zoals de verzameling Z, R...
+
+\usepackage{microtype}
+
+\usepackage[super]{nth}
+
+\usepackage{url}                        % Om url's te verwerken
+\usepackage{graphicx}                   % Om figuren te kunnen verwerken
+
+\usepackage[utf8]{inputenc}           
+\usepackage[T1]{fontenc}  
+
+\usepackage{float}                      % Om nieuwe float environments aan te maken. Ook optie H!
+\usepackage{listings}                   % Voor het weergeven van letterlijke text en codelistings
+\usepackage{inconsolata}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=Lisp,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+}
+
+\usepackage{geometry}
+\geometry{
+  top=1in,     
+  inner=1in,
+  outer=1in,
+  bottom=1in,
+  headheight=3ex,
+  headsep=2ex,
+}
+
+\usepackage{fancyhdr}                   % Voor fancy headers en footers.
+\fancyhf{}
+\fancyhead[L]{\slshape Report Route Planning in CLIPS}
+\fancyhead[R]{\slshape Tom Naessens - Dieter Decaestecker}
+\fancyfoot[C]{\thepage}
+
+   
+\setlength{\headheight}{15pt} % fixes \headheight warning
+
+\usepackage[dutch]{varioref}
+\usepackage[plainpages=false, hidelinks]{hyperref}    % Om hyperlinks te hebben in het pdfdocument. 
+ 
+\graphicspath{{includes/}}               % De plaats waar latex zijn figuren gaat halen.
+
+\begin{document}
+\selectlanguage{english}
+
+\input{0.0-titelpagina}
+
+\pagestyle{fancy}
+
+\section{Algorithm description}
+\subsection{General description}
+All neighbourhood space search algorithms can be summarized as follows: one starts with a point, designated by some coordinates, and iteratively searches the space around that point for a goal, according to some pattern or rule. This pattern or rule defines how the iterative search selects following points and expands the search space. As indicated in the assignment, we use the A-star algorithm to search select candidate search paths.
+
+The search space exists here of a 2D grid, where nodes are possibly connected to a horizontal and/or vertical neighbour. At the start of the execution, the user selects a start node and a goal node. We then search the corresponding coordinates ($x$ and $y$ positions) of both nodes, to be able to position them on the search plane. The next step is to build the search tree. We start setting up this search tree by adding the start node as the root node. We then continue to complete our search tree by adding the neighbours of the root (start) node as children, and select the best node to continue our search following the A* heuristic (more formally described in subsection \ref{subsection-heuristic-choice}). Nodes of which the children have been expanded and added to the search tree are marked as closed.
+
+This process repeats recursively, until the goal node has been expanded as a child of a node in the tree, indicating that we have found our solution. The path from the root node to the goal node can then be traced back by iterating the search tree bottom op, starting with the goal node, selecting the parents of each node in the process.
+When all nodes have been marked as closed and the goal node has not been added to the search tree, there exists no path between the start and the goal node.
+
+\subsection{Heuristic implementation}
+\label{subsection-heuristic-choice}
+As described in the assignment, the heuristic used to determine which open node should be selected in the search tree, is the A* heuristic. This heuristic tries to minimize the cost of the path so far, and the predicted cost to the goal from that node. This results in the following formula
+\begin{equation}\label{eq:fn}
+f(n) = g(n) + h(n)
+\end{equation}
+where $f(n)$ is the estimated total cost, $g(n)$ the cost of the path so far and $h(n)$ the estimated cost to the goal.
+
+$g(n)$ can easily be filled in, as this is the depth of the node in the search tree. $h(n)$ however depends on the dimension of the search space and the connections between different nodes. As we are working in a grid-like structure, where a node can only be connected to its horizontal en vertical neighbours, the shortest distance between two points is the Manhattan distance. This information changes formula \ref{eq:fn} to
+
+\begin{equation*}
+f(n) = \text{depth}(n) + \left(\left|n_x - g_x\right| + \left|n_y - g_y\right|\right)
+\end{equation*}
+where $depth(n)$ is the depth of the node $n$ in the search tree, and $g$ is the goal node, with corresponding $x$ and $y$-coordinates.
+
+\section{Code explanation}
+\subsection{Remarks}
+In the attached file, \texttt{decaesteckerd-naessenst-path.clp}, our complete ruleset can be found with inline comments. The purpose of this section is to elaborate on changes we have made to the existing rules, and to describe the new rules we added, including why we added these rules.
+
+We have also added a \texttt{printout} statement to each rules' right hand side, as this provides a better overview on what happens internally and which rules are invoked at what point in time. These added \texttt{printout} rules are prefixed with ``\texttt{DEBUG:}''.
+
+\subsection{Adapted rules}
+\label{subsection:adapted-rules}
+To be able to solve the assignment efficiently, some rules and definitions from the given \texttt{path.clp} file had to be adapted. The changes made to this file are the following:
+\begin{itemize}
+\item \textbf{Addition of $f(n)$ \texttt{field} to the \texttt{node template}:} As nodes are stored in the search tree, and generally do not switch positions later, it is more efficient to calculate the $f(n)$ \texttt{value} of that node once, without calculating it every time a new \texttt{node} is selected as active.
+\item \textbf{Addition of LHS condition in the \texttt{generate-neighbours} rule:} Nodes which are already present in the search tree should not be added again, as they (in this 2D grid situation, not in all situations!) will always have a higher $g(n)$ value and have the same $h(n)$ value, leading to a higher $f(n)$. If we would include these duplicate nodes, the duplicate node that was added first with the minimum $f(n)$ would always be selected as the new active node, with as result that the later duplicates would never get chosen.
+\item \textbf{Increase of \texttt{salience} in \texttt{compose-route} and \texttt{print-route}:} Once a goal has been reached and a route has been \texttt{assert}ed, we want to immediately compose the route and print it without doing anything else. In the given implementation, it is possible that other rules with a higher \texttt{salience} could fire, rendering these executions unnecessary. Increasing the \texttt{salience} of both rules, and halting at the end of the \texttt{print-route} rule prohibits these unnecessary executions. It is also possible to prohibit this by placing \texttt{(not (route))} in the LHS of all rules that could possible be triggered, but this would lead to cluttered and repetitive code.
+\item \textbf{Addition of \texttt{NIL} to the \texttt{route} LHS in \texttt{print-route}:} For some reason, the \texttt{compose-route} rule ads \texttt{NIL} as the most top-level parent, causing the \texttt{print-route} never to fire. Altering the \texttt{(route ?d \$?q ?b)} condition to \texttt{(route NIL ?d \$?q ?b)} solves this problem.
+\end{itemize}
+
+\subsection{Added rules}
+The rules given in the \texttt{path.clp} file were not enough to fix the problem, and had to be completed. Following is a description of all the added rules. These can also be found with documentation at the bottom of the attached file.
+
+\begin{itemize}
+\item \textbf{Creation of the root node (\texttt{Set-start-node}):} When the program is \texttt{init}ed, a \texttt{start} fact is created. This fact creation should also trigger the creation of the root \texttt{node} in the search tree. So, whenever there is a \texttt{start} fact and there exists no \texttt{node} with the same name as this \texttt{start} fact, a new node should be created without parents at depth $0$ of the search tree.
+\item \textbf{Addition of a stop (failure) rule (\texttt{Halt-when-closed-empty}):} When all the nodes are closed and the goal hasn't been reached (so there is no found route), the search space has been depleted. The execution should then stop and print ``\texttt{FAILURE}'' to the screen.
+\item \textbf{Calculation of the $f(n)$ values of new nodes (\texttt{Update-fn} and \texttt{calculate-fn}):} As mentioned in subsection \ref{subsection:adapted-rules}, we save the $f(n)$ value of nodes in the search tree in the \texttt{node template}. Every time a new node is added to the search tree, it's $f(n)$ value should automatically be generated. To avoid clutter in our code, we make use of a helper function, \texttt{calculate-fn}, the implementation of which can be found in the attached source code.
+\item \textbf{Selection of a new active node (\texttt{Select-active-node}):} This probably is the most important rule of the program. Of all open \texttt{node}s, the one with the lowest $f(n)$ value should get selected. To manage this, we make use of the following condition in the LHS of this rule: \texttt{(not (node (fn ?fn\&:(< ?fn ?open-fn)) (status open)))}. Translated, this means that there should not be another open \texttt{node} of which the $f(n)$ is less than the selected \texttt{node}. We put this found \texttt{node} to active, to enable the further expansion of the search tree by the \texttt{generate-neighbours} rule.
+\item \textbf{Generate a \texttt{route} fact when the goal has been reached (\texttt{Reach-goal}):} When a \texttt{node} has been generated with the same name as the \texttt{goal} fact, a \texttt{route} fact should be generated, allowing the \texttt{Compose-route} and \texttt{Print-route} rules to take over and halt the execution when the route has been traced back.
+\end{itemize}
+
+\section{Sample execution}
+To execute the code, one can open the attached file in \texttt{CLIPS} and load the buffer into a \texttt{dialog} window. After running \texttt{(reset)}, all initial facts get generated. When executing \texttt{(run)}, the user has the ability to pick the name of the \texttt{start} and \texttt{goal} fact. For example, when searching a path from \texttt{I} to \texttt{H}, the following output, mentioned in listing \ref{lst} is generated.
+
+\begin{lstlisting}[label=lst, caption=Sample output from \texttt{I} to \texttt{H}]
+CLIPS> (reset)
+CLIPS> (run)
+Init
+The grid name of the start position? I
+The grid name of the end position? H
+*** SNIP: DEBUG OUTPUT ***
+SUCCESS: Reached H
+*** SNIP: DEBUG OUTPUT ***
+The optimal path from I to H passes (C A B D F G)
+CLIPS> 
+\end{lstlisting}
+\end{document}

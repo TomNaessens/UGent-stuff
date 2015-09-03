@@ -1,0 +1,37 @@
+@(comp: Competition)
+@import utils.LangMessages
+
+
+<span id="links@comp.id"><a href="@routes.Competitions.render_open_competition(comp.id)">@comp.getTitle() </a><a href="#openModal@comp.id" role="button" class="" data-toggle="modal"><img title="open the competition" style="position:relative;top:-3px;height:20px;width:20px;top=-5" src='@routes.Assets.at("images/unlock-icon.png")'></a></span>
+<div id="openModal@comp.id" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <h3 id="myModalLabel">@LangMessages.get("competition.open.")</h3>
+  </div>
+  <div class="modal-body">
+ 		<p class="help-inline"><span id="opencomptext@comp.id">This will open @comp.getTitle() for all classes </span><img id="opensucces@comp.id" src='@routes.Assets.at("images/ok_checkmark.png")' style="display:none"></p> 
+ 		<p id="openerror@comp.id" class="error"><p>  	
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id= "openCompButton@comp.id" class="openCompButton btn btn-primary">@LangMessages.get("competition.open.button")</button>
+  </div>
+</div>
+
+<script>
+$(function() {
+    $('#openCompButton@comp.id').click(function(e) {
+        jsRoutes.controllers.Competitions.openCompetition(@comp.id).ajax().done(
+    			function(result){
+    				if (result == null) return;
+    				if (result.forbidden) {
+    				$('#openerror@comp.id').text("Snap, something wrong happened");
+    				} else {
+  						$('#opensucces@comp.id').css("display","inline");
+  						$('#close@comp.id').css("display","none");
+  						$('#opencomptext@comp.id').text("The competition has been opened");
+  						$('#links@comp.id').html("<a href='@routes.Competitions.renderCloseCompetition(comp.id)'>@comp.getTitle() <img src='http://www.saltbox.com/img/red-x-icon.png'></a>");
+    				}
+    			});
+    });
+});
+</script>

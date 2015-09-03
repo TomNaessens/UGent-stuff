@@ -1,0 +1,229 @@
+@(directory: String)
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("uploadQuestions.head")) {
+<!-- Head -->
+<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/jqueryFileTree.css")'>
+<style type=text/css>
+.viewer {		
+    height:300px;
+    border-top: solid 1px #BBB;
+    border-left: solid 1px #BBB;
+    border-bottom: solid 1px #FFF;
+    border-right: solid 1px #FFF;
+    background: #FFF;
+    overflow: scroll;
+    }
+
+.viewerDiv {
+	margin: 0px;
+	padding: 0px;
+}
+
+#editQuestionDiv {
+	display:none;
+}
+
+#questionInfoDiv {
+	display:none;
+}
+
+#zipfileDiv {
+	display:none;
+}
+
+.button-icon:hover {
+	cursor:pointer;
+}
+
+.question-info-input {
+	width: 70%
+}
+</style>
+<script src='@routes.Assets.at("javascripts/jqueryFileTree.js")' type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+    $('#fileTree').fileTree({
+        root: '@directory',
+        script: '@routes.QuestionsController.fileTreeConnector',
+        expandSpeed: 100,
+        collapseSpeed: 100,
+        multiFolder: true,
+    }, function(file) {
+    	$('#fileTree a').removeClass("selected");
+    	$('#fileTree').find('a[rel="'+file+'"]').addClass("selected");
+    });
+    getTree();
+    $('#questionTree').on("dblclick" , "a",function(event){
+    	// data of the question should be opened here
+    });
+    $('#fileTree').on("dblclick" , "a", function(event){
+    	// Double clicking a file in the file tree should open the file
+    	if($(event.target).parent().hasClass('file')) {
+    		window.open(event.target.href);
+    	}
+    });
+    $('#questionInfo').on("dblclick" , "a", function(event){
+    	// Double clicking a file in the file tree should open the file
+    	if($(event.target).parent().hasClass('file')) {
+    		window.open(event.target.href);
+    	}
+    });
+    $('#questionsHelp').popover();
+    $('#zipfileHelp').popover();
+    $('#questionInfoHelp').popover();
+});
+</script>
+
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<div class="row-fluid">
+    <div class="span3">
+        <h2>@LangMessages.get("uploadQuestions.questions")</h2>
+        <i id="questionsHelp" style="cursor:pointer" class="icon-question-sign" data-toggle="popover" data-placement="top" data-content="@LangMessages.get("uploadQuestions.questionsHelp")"></i>
+        <div style="max-height:300px" id="questionTree" class="viewer"></div>
+        <input type="text" oninput="getTree()" id="questionsearch" placeholder="@LangMessages.get("uploadQuestions.search")">
+    </div>
+
+    <div id="questionInfoDiv" class="span3 viewerDiv">
+        <h2>@LangMessages.get("uploadQuestions.questionInfo")</h2>
+		<i id="questionInfoHelp" style="cursor:pointer" class="icon-question-sign" data-toggle="popover" data-placement="top" data-content="@LangMessages.get("uploadQuestions.questionInfoHelp")"></i>
+        <div id="questionInfo" class="viewer"></div>
+    </div>
+
+    <div id="zipfileDiv" class="span3 viewerDiv">
+        <h2>@LangMessages.get("uploadQuestions.zipFile")</h2>
+        <i id="zipfileHelp" style="cursor:pointer" class="icon-question-sign" data-toggle="popover" data-placement="top" data-content="@LangMessages.get("uploadQuestions.zipfileHelp")"></i>
+        <div style="max-height:300px" id="fileTree" class="viewer"></div>
+    </div>
+
+    <div id="editQuestionDiv" class="span3 viewerDiv">
+        <h2>@LangMessages.get("uploadQuestions.questionView")</h2>
+        @questionInfo(directory)
+    </div>
+</div>
+
+} {
+
+<!-- Sidebar -->
+        <li>
+            <a href="@routes.QuestionsController.renderUploadQuestions">@LangMessages.get("uploadQuestions.upload")</a>
+        </li>
+
+<script>
+function submitQuestion(id){
+	$('.uploadinfo').hide();
+	$('#loading-img').show();
+	jsRoutes.controllers.QuestionsController.setQuestionInfo(id,"@directory").ajax({
+		type: "POST",
+		data: $('#questionform').serialize(),
+		dataType: "json",
+		success: function(result) {
+			getTree();
+			getInfoTree(result.id);
+			jsRoutes.controllers.QuestionsController.getQuestionInfo(result.id).ajax().done(
+                function(result) {
+                    setQuestionInfo(result);
+
+                });
+                $('#loading-img').hide();
+                @for(l <- Language.values()) {
+                    if(result.@l.name()nameERR) {
+                        $('#@l.name()nameERR').show();
+                        $('#@l.name()nameERR').attr('title',result.@l.name()nameERR);
+                    } else {
+                        if(result.@l.name()nameOK) {
+                            $('#@l.name()nameOK').show();
+                            $('#@l.name()nameOK').attr('title',result.@l.name()nameOK);
+                        }
+                    }
+                    if(result.@l.name()questionERR) {
+                        $('#@l.name()questionERR').show();
+                        $('#@l.name()questionERR').attr('title',result.@l.name()questionERR);
+                    } else {
+                        if(result.@l.name()questionOK) {
+                            $('#@l.name()questionOK').show();
+                            $('#@l.name()questionOK').attr('title',result.@l.name()questionOK);
+                        }
+                    }
+                    if(result.@l.name()feedbackERR) {
+                        $('#@l.name()feedbackERR').show();
+                        $('#@l.name()feedbackERR').attr('title',result.@l.name()feedbackERR);
+                    } else {
+                        if(result.@l.name()feedbackOK) {
+                        $('#@l.name()feedbackOK').show();
+                        $('#@l.name()feedbackOK').attr('title',result.@l.name()feedbackOK);
+					}
+				}
+			}
+			
+			if(result.answerTypeERR) {
+				$('#answerTypeERR').show();
+				$('#answerTypeERR').attr('title',result.answerTypeERR);
+			}
+			
+			if(result.answerERR) {
+				$('#answerERR').show();
+				$('#answerERR').attr('title',result.answerERR);
+			}
+
+		}
+	});
+}
+
+function getTree() {
+	$('#questionTree').fileTree({
+		root: $('#questionsearch').val(),
+		script: '@routes.QuestionsController.buildQuestionTree'
+	}, function(file){
+		getInfoTree(file);
+    	$('#questionTree a').removeClass("selected");
+    	$('#questionTree').find('a[rel="'+file+'"]').addClass("selected");
+		$('#questionInfoDiv').show();
+		$('#extrasInput').html('<input type="text" name="extras">');
+    	jsRoutes.controllers.QuestionsController.getQuestionInfo(file).ajax().done(
+            function(result) {
+                $('.uploadinfo').hide();
+                setQuestionInfo(result);
+            }
+        );
+    });
+
+}
+
+function getInfoTree(id) {
+	$('#questionInfo').fileTree({
+		root: id,
+		script: '@routes.QuestionsController.buildQuestionInfoTree',
+        expandSpeed: 100,
+        collapseSpeed: 100,
+	}, function(file) {
+		$('#zipfileDiv').show();
+		$('#editQuestionDiv').show();
+		$('#languagePanels div').hide();
+		$('#'+file).show();
+		$('#'+file+' div').show();
+	});
+}
+
+function setQuestionInfo(result) {
+	$('#answer').val(result.answer);
+	$('#answerType option:selected').removeAttr('selected');
+	$('#'+result.answerType).prop('selected', true);
+	@for(lang <- Language.values()) {
+		$('#@lang.name()question').val(result.@lang.name()question);
+		$('#@lang.name()feedback').val(result.@lang.name()feedback);
+		$('#@lang.name()name').val(result.@lang.name()name);
+	
+    }
+    $('#questionbutton').attr('onclick', 'submitQuestion('+result.id+')');
+}
+</script>
+}

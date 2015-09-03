@@ -1,0 +1,187 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage[dutch]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fullpage}
+
+\lstset{ %
+  basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  aboveskip= 6pt plus 2pt, 
+  belowskip=-15pt plus 2pt
+}
+
+\author{Tom Naessens}
+\title{\underline{Verslag Algoritmen en Datastructuren III:}\\ Data compression\\ Burrows-Wheeler }
+\date {29 november 2012}
+\parindent 0pt
+\begin{document}
+\maketitle
+\newpage
+
+\section{Implementatie}
+\subsection{Deel 1: Burrows-Wheeler}
+
+\paragraph*{Encoderen}
+Voor de implementatie hiervan heb ik ervoor gekozen om met een cyclische string te werken. Op deze manier kan je blijven werken met pointers in je originele string, in plaats van een heel blok op te stellen waar elke lijn gelijk is aan de vorige lijn, maar dan 1 karakter doorgeschoven. Deze cyclische string heb ik ge\"implementeerd aan de hand van een array die initieel de indexen van 0 tot de blokgrootte bevat. Deze worden gesorteerd met behulp van quicksort aan de hand van de functie \texttt{compare\_cyclic\_string} die eerst de twee te vergelijken indexen opzoekt in de originele string. Als deze lijst met indexen volledig is gesorteerd, wordt het resultaat van de Burrows-wheeler transformatie opgebouwd door de lijst van indexes te doorlopen en de bijhorende karakters in de originele string op te zoeken.\\
+
+\paragraph*{Decoderen}
+Het decoderen gebeurt hier vrijwel analoog aan het encoderen:
+We stellen eerst terug een array van indexen op die we sorteren aan de hand van de inputarray. Eenmaal gesorteerd vervangen we het eerste element door het element op index start\_index. We passen dan onze index aan naar de nieuwe index die voor komt op plaats start\_index in de array van indexen. Dit herhalen we tot we de volledig inputarray hebben doorlopen. De uiteindelijke output van deze methode is ons gedecodeerd bestand.
+
+
+\subsection{Deel 2: Compressie en decompressie}
+\subsubsection{Move to front}
+
+\paragraph*{Encoderen}
+Het encoderen is als volgt ge\"implementeerd:
+Eerst stel ik een array met alle mogelijke \texttt{unsigned char}s (van 0 tot 255 dus), in volgorde, op.\\
+Daarna overloop ik de inputarray van \texttt{char}s, die dus de output is van de Burrows-Wheeler-transformatie. Voor elke char in deze array zoek ik zijn positie op in de alphabetrij. De originele \texttt{char} in de input wordt dan vervangen door een nieuwe \texttt{unsigned char} die zijn positie in de array. Dan wordt de gevonden index in de alphabetarray helemaal naar vooraan opgeschoven. Dit herhalen we voor de volledige array. Uiteindelijk bekomen we dus een aangepaste rij waar elke char is vervangen door zijn index in de alphabetarray.\\
+
+\paragraph*{Decoderen}
+Het decoderen is hier ook weer (logischerwijs) het inverse van het encoderen, met het enige verschil dat we als inputarray een rij van indexen in de alphabetarray krijgen. We hoeven met andere woorden niet meer het voorkomen van de char in de alphabetarray op te zoeken, aangezien we zijn positie al weten. We vervangen daarna de initiele index door de char die op de inputindex in de alphabetarray zit en schuiven dit voorkomen binnen de alphabetarray helemaal naar vooraan. Dit herhalen we voor de rest van de inputarray en we bekomen een aangepaste array die de input vormt voor de Burrows-Wheeler decoder.\\
+
+\paragraph*{Verklaring keuze gebruik array}
+Bij die algoritme moest ik de keuze maken bij het encoderen en het decoderen tussen een gelinkte lijst of een array om het alphabet bij te houden. Beide hebben z'n voordelen en z'n nadelen:\\
+Bij het encoderen moeten we het alphabet overlopen en nadien een element opschuiven naar vooraan. Om het alphabet te overlopen is het sneller om een array gebruiken: de elementen zitten hier allemaal naast elkaar in het geheugen opgeslagen en bij het opzoeken van een element zal waarschijnlijk al grote delen van de array in de cache worden geladen, waardoor het verder opzoeken nog sneller zal verlopen. \\
+Het naar voor schuiven kan enkel door element per element naar achter de plaatsen, wat nog steeds vrij snel zal gebeuren aangezien we met een maximum van 256 karakters zitten. Door de Burrows-wheeler transformatie is de kans dat er meerdere dezelfde elementen elkaar opvolgen ook vrij groot (bij tekstbestanden toch). Dit zorgt ervoor dat als we 1 element van een reeks van dezelfde elementen naar voor hebben geschoven, we in het vervolg meteen al op index 0 in de alphabatarray het te zoeken element vinden. Bijgevolg moet er dus niets worden opgeschoven in dit geval.\\
+
+Stel dat we met een gelinkte lijst werken zal het opzoeken bij het en- en decoderen een stuk trager verlopen: Bij het overlopen van de lijst om tijdens het encoderen de positie van het voorkomen te zoeken zullen we steeds, aangezien de elementen van deze lijst niet mooi na elkaar zullen zitten in het geheugen, verspringen naar andere stukken geheugen. Dit zal dus een stuk trager gaan. Ook bij het decoderen kunnen we niet zomaar, zoals bij een array, de $x^{de}$ index opzoeken, maar moeten we de volledige rij overlopen en een teller bijhouden.\\
+Het opschuiven zal hier wel een stuk sneller verlopen dan bij een array: We hoeven niet element per element op te schuiven, maar we kunnen het bekomen element vooraan plaatsen door enkel maar wat pointers aan te passen.\\
+
+Ik heb in beide gevallen (en- en decoderen) gebruikt gemaakt van een array: Enerzijds zal bij het encoderen een array sneller zal kunnen overlopen worden omdat deze gemakkelijk in de cache kan worden ingelezen omdat deze arraygrootte maar beperkt is, en bij het decoderen omdat we meteen het element op een bepaalde index kunnen raadplegen zonder de hele gelinkte lijst te overlopen.
+Anderzijds zal (vooral bij tekstuele bestanden) de eerst uitgevoerde Burrows-Wheelertransformatie ervoor zorgen dat maar zelden de volledige array zal moeten worden opgeschoven.
+
+\subsubsection{Huffman coding}
+\paragraph*{Encoderen}
+Bij het encoderen krijgen we als input een array van \texttt{unsigned char}s. Eerst stellen we de frequentietabel op. Na het opstellen van deze frequentietabel overlopen we deze tabel en maken we en \texttt{node}s. Dit gebeurt in de methode \texttt{create\_huffman\_tree}. Een node bevat een \texttt{unsigned char}, een frequentie en een pointer naar zijn linker- en rechterkind. Eenmaal deze nodetabel is opgesteld sorteren we deze op basis van frequentie van groot naar klein, voegen we de twee laatste nodes samen door een gemeenschappelijke parentnode aan te stellen. Deze parentnode voegen we toe op de plaats van de voorlaatste node in de oorspronkelijke nodetabel. Hierna verkleinen we de array met 1 node. Dit herhalen we tot we tot er nog 1 node, namelijk de rootnode, in de array zit.\\
+Eenmaal we de boom hebben opgesteld stellen we de codetabel op. Dit gebeurt in de methode \texttt{generate\_codes}. We overlopen de boom recursief, breedte eerst. Telkens we een niveau dieper gaan in de boom verlengen we de tijdelijke code van die node met een 0 als we naar links gaan en een 1 als we naar rechts gaan. Een code bestaat uit een array van 8 integers, of in het totaal 256 bits. Dit is vrij groot, maar is ook nodig om de codes in het slechtste geval te kunnen op slaan: Een code kan maximum 255 bits lang zijn. Dit komt voor bij het geval waar de frequenties bijvoorbeeld gelijk zijn aan ${...,256,128,64,32,16,8,4,2,1}$. Dit zorgt ervoor dat we 1 lange tak rechts hebben. Het karakter met de hoogste frequentie zal zo de code 0 krijgen, het karakter met de tweede hoogste frequentie krijgt dan als code 10, het derde 110, enzovoort. Het laatste karakter krijgt dan 255 1'tjes.\\
+Uiteindelijk overlopen we dan het resultaat van de move to front en zoeken we voor elke letter de bijhorende frequentie op in de codetabel. Op deze code, die op dit moment nog een array van 8 \texttt{unsigned int}s is, worden enkele bitshifts op uitgevoerd. De uiteindelijke code wordt dan via in \texttt{BitWriter.c} toegevoegd aan een char. Wanneer deze char vol zit wordt hij opgeslagen in een array, die achteraf wordt weggeschreven.
+
+\paragraph*{Decoderen}
+Bij het decoderen lezen we een frequentietabel en een payload, namelijk de ge\"encodeerde Huffman, als input. We stellen eerst terug, zoals hiervoor al beschreven, de boom op. Daarna overlopen we de payload op de volgende manier:\\
+We starten voor de eerste bit bovenaan de boom, als de payload een 0 als eerste bit heeft dalen we af naar links, als de payload een 1 als eerste bit heeft dalen we af naar rechts. Dit blijven herhalen we bit per bit tot we in een blad zitten. De \texttt{char}, waar dit blad mee overeen komt is ook de eerste char van onze Huffmangedecodeerde. De kans dat dit niet zo is, is 0, want Huffman is een prefixcode. Als we in een blad zijn voegen we de bijhorende \texttt{char} dus toe aan een array. Dit herhalen we tot onze bits op zijn. Het resultaat van deze decodeerfunctie geven we daarna door aan move to front.
+
+\subsection{3. Semi move to front}
+De implementatie van semi move to front komt bijna volledig overeen met zijn implementatie in de standaardvorm. \\
+Ik heb ervoor gekozen om zijn initi\"ele positie te delen met een bepaalde factor. Het resultaat van deze deling is dan zijn nieuwe positie in de array. De factor die het uiteindelijk geworden is, wordt besproken in de bespreking van de testresultaten op pagina \pageref{smtf}.\\
+Intern heb ik dit geprogrammeerd door de standaard methode een extra parameter te laten nemen die 0 is bij algoritme 1, en een magic nummer is bij algoritme 3. In de methode zelf wordt de nieuwe index dan bepaald aan de hand van deze extra parameter.
+
+\subsection{Ge\"encodeerde vorm}
+Uiteindelijk is het weggeschreven bestand van de volgende vorm:\\
+algorithm\_number \{start\_index frequency\_tabel number\_of\_huffman\_bytes payload number\_of\_flush\_bits\}+ (zonder spaties)
+
+\subsection{Optimalisaties}
+\subsubsection*{\texttt{Realloc} optimalisaties}
+Op sommige plaatsen worden er elementen weggeschreven naar een array, zonder dat we van vooraf weten hoe groot deze array is. Een voorbeeld hiervan is bijvoorbeeld het wegschrijven van de bytes met codes in het bestand \texttt{BitWriter.c}. Zoals daar te zien is heb ik voor een implementatie gekozen die veel minder \texttt{realloc}s uitvoert: in plaats van met een lege array te starten en bij een nieuwe volgeschreven byte de array met \texttt{sizeof(unsigned char)} te vergroten zorg ik ervoor dat de array standaard $10*\texttt{sizeof(unsigned char)}$ bytes groot is. Na het wegschrijven van de de tiende byte verdubbel ik de grootte van de array. Dit doe ik steeds opnieuw, tot alle bytes zijn weggeschreven.\\
+Een ander voorbeeld is bij het opstellen van de \texttt{node\_tabel} in \texttt{Huffman.c}, methode \texttt{huffman\_encode()}: Daar overloop ik eerst de frequentietabel om te weten te komen hoe groot de array met nodes uiteindelijk zal zijn.\\
+\texttt{Realloc}s zijn dure operaties, zeker als ze meerdere keren gebeuren. Ik heb het verschil eens vergeleken met behulp van \texttt{Valgrind} en kreeg het volgend resultaat: Met de `slechte' manier werd er voor een file van 29Kb bijna een megabyte meer aan geheugen gebruikt en een duizendtal meer \texttt{malloc}s en \texttt{free}s.
+
+\subsubsection*{Arrays hergebruiken}
+Een vrij simpele optimalisatie kan worden doorgevoerd bij de move to front-methode is dat we de originele inputarray kunnen aanpassen in plaats van eerst een nieuwe array op te bouwen. Een praktisch voorbeeld hier van zien we bij de methode \texttt{mtf\_encode} in \texttt{MTF.c} waar, na het opzoeken van de index van een element, dit element meteen door die index vervangen wordt.
+
+\subsubsection*{Weglaten sortering bij \texttt{code\_table} in \texttt{Huffman.c}}
+Na het opstellen van de codetabel bij het opstellen van de Huffmancodes sorteerde ik eerst nog eens mijn array op de lengte van de codes. Deze heb ik gewoon kunnen weglaten: Eerst overliep ik mijn boom diepte eerst. Dit zorgde ervoor dat niet altijd de kortste codes eerst in de tabel stonden. Door deze methode aan te passen naar een breedte eerst algoritme zullen de minst diepe nodes, en dus de kortste codes het eerst bereikt worden en zullen deze als eerste in de array worden geplaatst.
+
+\subsubsection*{Optimaliseren wegschrijven frequentietabel}
+Deze optimalisatie heb ik niet kunnen implementeren wegens tijdsgebrek. Mijn doel was om het wegschrijven van de frequentietabel te optimaliseren. Op dit moment wordt er namelijk voor elk blok 1024 bytes (256 integers) weggeschreven, ook al is de frequentie bij een bepaalde char 0. \\
+Een optimalisatie zou zijn om niet de volledige array weg te schrijven, maar om enkel om koppels weg te schrijven waar werkelijk een frequentie is voor de betreffende char. Dit houdt in dat we eerst een \texttt{char} wegschrijven met het aantal koppels, en daarna telkens een koppel van 5 bytes een \texttt{char} en een \texttt{integer}. Dit wil zeggen dat deze aanpak voordeliger is dan de hele array is weggeschreven vanaf het aantal chars met frequentie verschillend van 0 kleiner is dan 204 ($=(1024-1)/5$).\\
+Dan is er nog andere mogelijkheid: in plaats van het wegschrijven van de (of van een deel van de) frequentietabel kunnen we ook proberen onze boom weg te schrijven. Dit kunnen we doen door de boom als een complete boom te aanschouwen. Zo hoeven we zelfs geen frequenties meer weg te schrijven en sparen we dus al de `overhead' van de integers uit. Hierbij is het wel een probleem dat hoe minder compleet onze boom is, hoe meer overhead we zullen krijgen door het modelleren van de complete boom.\\
+We kunnen dus besluiten dat het het best zou zijn om eerst in de code de berekeningen welke het voordeligst is, namelijk hoeveel geheugen het zou kosten om \\
+1. de complete frequentietabel weg te schrijven;\\
+2. de frequentietabel in koppels weg te schrijven;\\
+3. de boom als een complete boom weg te schrijven.\\
+En op basis hiervan de uiteindelijke methode te kiezen hoe we onze boom zullen wegschrijven.
+
+\section{Tests}
+Ik heb 2 scripts geschreven om de code te testen. De ene test de code op memory leaks met behulp van Valgrind, de andere test de correcte werking van het encoderen en decoderen op basis van 4 verschillende files.
+
+\section{Resultaten}
+\subsection{Testbestanden}
+Om deze twee algoritmes te testen heb ik vier `normale' testbestanden gebruikt van 2 groepen: de ene groep zijn pure tekstbestanden (lorem\_ipsum (kleiner) en Edgar\_Allan\_Poe (groter)), de andere groep zijn mediabestanden (tumblr.jpg (kleiner) en FatboySlim.mp3 (groter)). De reden waarom ik deze bestanden heb gekozen is om het verschil te kunnen opmeten tussen enerzijds tekstuele bestanden, die Burrows-Wheeler goed zal kunnen `sorteren' en anderzijds bestanden met een pseudorandom inhoud, omdat jpg en mp3 uit zichzelf al goed gecomprimeerd zijn en vrij random data bevatten (op wat headers na).\\
+Daarnaast heb ik nog tijdstesten uitgevoerd met 2 `speciale' bestanden die zeer veer herhaling bevatten, om te testen hoe de encodeertijd hier op reageert aangezien we vaak gebruik maken van quicksort en quicksort slecht presteert op al gesorteerde arrays.\\
+De gebruikte testbestanden en grafieken die in de volgende puntjes volgen, zijn ook meegeleverd met de online versie van het verslag, naast ook de scriptjes waarmee deze grafieken zijn opgesteld.
+
+\subsection{Optimale factor voor semi move to front}
+\label{smtf}
+Om de optimale delingsfactor van de semi move te bepalen heb ik het algoritme laten lopen met een vari\"erende parameter en telkens van beide files de compressieratio bepaalt. De grafiek hiervan is te zien op figuur \ref{gsmtf} op pagina \pageref{gsmtf}.
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.8\textwidth]{best_factor.pdf}
+    \caption{Grafiek bestudering invloed semi move to front delingsfactor}
+  \label{gsmtf}
+\end{figure}
+\\We zien dat deze factor niet veel meer uitmaakt vanaf deze groter wordt dan ongeveer 3, met een optimaal minimum rond 8. We zullen 8 dan ook gebruiken als optimale compressiefactor en de rest van de testen met deze factor uitvoeren.
+
+\subsection{Compressieratio}
+We bestuderen eerst de belangrijkste factor: de compressiefactor. De metingen werden hier uitgevoerd met Edgar\_Allan\_Poe en FatboySlim.mp3. Voor een aantal blocksizes werden metingen uitgevoerd waarna de grootte van het ge\"encodeerde bestand procentueel werd vergeleken met de grootte van het originele bestand. Het resultaat is te zien in figuur \ref{compr} op pagina \pageref{compr}.
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.8\textwidth]{compression_ratio.pdf}
+    \caption{Compression ratio: textual file vs. pseudorandom file}
+  \label{compr}
+\end{figure}
+Wat meteen al opvalt is dat er een groot verschil is tussen het comprimeren van een tekstueel bestand en van een pseudorandom bestand. De compressieratio van de audiofile ligt zeer dicht tegen de $100\%$. We maken hier met andere woorden zeer weinig winst mee.\\
+Bij de tekstfile is het een ander verhaal: al vanaf een blocksize van ongeveer 10 Kilobytes is de ge\"encodeerde file al minder dan $50\%$ van de oorspronkelijke file. Vanaf een blocksize van 250 is dit zelfs al $35\%$.\\
+Wat ook opvalt uit de figuur is dat de blocksize na een grootte van 100 Kilobytes niet veel winst meer levert. Ook zien we dat voor een zeer kleine blocksize, de compressieratio vrij hoog is.
+We zien ook dat het verschil tussen semi move to front met de optimale parameter en de gewone move to front bijna verwaarloosbaar is.\\
+We zien ook (vooral bij tekstuele bestanden) dat, hoe groter de blocksize wordt, hoe kleiner de compressieratio is.
+
+\paragraph*{Verklaring} De verklaring voor waarom een tekstbestand makkelijker te comprimeren is dan een mediabestand zoals FatboySlim.mp3 is vrij logisch: de eerst doorgevoerde Burrows-Wheeler-transformatie zal ervoor zorgen dat er zeer veer herhaling zit in een tekstbestand. Bij een mediabestand werken we met veel random data, dat niet optimaal kan gesorteerd worden door de Burrows-Wheelertransformatie. Dit zorgt ervoor dat we terug met een ongesorteerde output zitten, die dan weer door de move to front niet zal resulteren in een resultaat met veel dezelfde getallen.\\
+Het snelle dalen bij een kleine blocksize kunnen we verklaren door de overhead van het wegschrijven van de frequentietabel: hoe kleiner de blocksize, hoe meer we de frequentietabel zullen moeten wegschrijven. Als we bijvoorbeeld als blocksize 1 kilobyte nemen, zal daar als output al meteen 1 kilobyte frequentietabel per blok bij komen. Bij een zeer grote blocksize zal de grootte van deze frequentietabel verwaarloosbaar zijn ten opzichte van het aantal weggeschreven data.\\
+Hoe groter de blocksize, hoe kleiner de compressieratio, is als volgt te verklaren: Hoe meer tekst de Burrows-Wheelertransformatie heeft om mee te werken, hoe meer opeenvolgende karakters zullen voorkomen in de Burrows-Wheelerge\"encodeerde. Dit resulteert uiteindelijk in meer nullen in de move to front ge\"encodeerde, en uitendelijk dus in een kleinere code. Op de grafiek zien we duidelijk wel dat dit verwaarloosbaar wordt vanaf een blocksize van ongeveer 250 kilobytes voor deze files.
+
+\subsection{En- en decodeertijd}
+Ook de en- en decodeertijd speelt een belang. We vergelijken de en- en decodeertijd zoals voorgaande puntje ook voor zowel Edgar\_Allan\_Poe als FatboySlim.mp3. Voor elke blocksize heb ik 3 keer het algoritme laten lopen en daarbij de tijd opgemeten. Achteraf nam ik het gemiddelde van deze 3 tijden. Het resultaat is te zien in \ref{tijd} op pagina \pageref{tijd}.
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.8\textwidth]{encoding_decoding_time.pdf}
+    \caption{Comparison encoding and decoding time}
+  \label{tijd}
+\end{figure}
+We kunnen hier duidelijk weer 2 groepen onderscheiden: het decoderen en het encoderen. Het valt op dat het decoderen veel sneller gaat dan het encoderen, wat in de praktijk ook zeer handig is: 1 file wordt meestal maar 1 maal ge\"encodeerd, maar vele malen meer gedecodeerd. Het decoderen lijkt zeer traag lineair te stijgen. Het encoderen lijkt in grote lijnen lineair sneller te stijgen, maar vertoont wel wat rare pieken en stijgingen. Als laatste merken we nog op dat het en- en decoderen van een tekstbestand ietwat sneller is dan bij een pseudorandom bestand.
+
+\paragraph*{Verklaring} Dat het decoderen veel sneller is dan het encoderen ligt aan verschillende dingen: Bij het encoderen wordt bij Huffman eerst de frequentietabel opgebouwd, bij het decoderen wordt deze simpelweg uitgelezen. Nog bij Huffman wordt er bij het encoderen een codetabel opgebouwd, terwijl we bij het decoderen gewoon telkens opnieuw onze boom kunnen doorlopen, waardoor het opstellen van de codetabel hier niet hoeft. Ook wordt bij de Burrows\-Wheelertransformatie bij het encoderen bij het vergelijken van strings in de methode \texttt{compare\_cyclic\_string} gesorteerd op een string, bij \texttt{compare\_char} bij het decoderen wordt er enkel op char gesorteerd.\\
+
+De verklaring waarom het en- en decoderen van een tekstbestand sneller is dan van een mediabestand ligt aan wat ik al deels heb besproken in de verklaring van de compressieratio: een mediabestand zal de Burrows-Wheelertransformatie niet zo goed `sorteren' als een tekstbestand. Dit zorgt ervoor dat er minder gelijke tekens na elkaar staan, wat er op zijn beurt weer voor zorgt dat we in het opzoeken in het alphabet bij de move to front encodering vaker verder in de array zullen moeten zoeken en zo ook meer elementen moeten opschuiven.\\
+
+De reden waarom de tijdsmeting bij het encoderen rare kronkels vertoont kan ik niet meteen zeggen. Ik heb de tijdsmeting meerdere keren herhaald, en hij toonde steeds exact dezelfde resultaten. Misschien ligt de plotse stijging tussen blocksize 500 1000 bij het encoderen van het tekstbestand er aan dat de array plots niet meer volledig effici\"ent in de cache kan worden geladen, waardoor hij bij de move to front methode (zoals beschreven bovenaan dit verslag) ook steeds terug naar het geheugen moet lezen.
+
+\paragraph*{Randtesten}
+Naast deze tijdstest nam ik nog enkele steekproeven met de twee eerder vermelde `speciale' inputfiles. Hierbij merkte ik dat deze goed gecomprimeerd werden; beter dan bij een gewone tekstfile en veel beter dan bij een pseudorandom of mediabestand. Bij een tekstfile van ongeveer 300.000 keer de letter 'a' werd een compressieratio van maar liefst 14\% bekomen.\\
+Dit heeft ook wel zijn nadelen: het encoderen hiervan duurt relatief gezien veel langer dan bij andere files van dezelfde grootte. Dit komt omdat we zeer vaak gebruiken van quicksort en de complexiteit van quicksort in het slechtste geval is kwadratisch. Zeker bij de BurrowsWheeler-transformatie zal dit zwaar doorwegen in uitvoeringstijd aangezien we daar in de methode \texttt{compare\_cyclic\_string} nog eens de hele array doorlopen, wat uiteindelijk resulteert in een complexiteit van $O(n^3)$.
+
+\subsection{Geheugengebruik}
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.8\textwidth]{memory_usage.pdf}
+    \caption{Memory usage}
+  \label{mem}
+\end{figure}
+Als laatste bekijken we nog het geheugengebruik. Via Valgrind heb ik voor een reeks van blocksizes het totale geheugengebruik meten. Dit is niet het peak memory usage, maar het totale geheugen dat doorheen het programma wordt gealloceerd. Voor deze vergelijking heb ik 2 files gebruikt van dezelfde grootte: Een tekstfile lorem\_ipsum en een foto: tumblr.jpg. Het resultaat is te zien op figuur \ref{mem} op pagina \pageref{mem}.
+
+Ook hier zien we, minder duidelijk weliswaar, dat het en- en decoderen van tekstbestanden in totaal minder geheugen in neemt dan het en- en decoderen van mediabestanden.
+
+\paragraph*{Verklaring}
+Dit ligt opnieuw aan de effectiviteit van de Burrows-Wheelertransformatie zoals ik al enkele keren besproken heb. Bij het encoderen zal het resultaat van de move to front resulteren in minder gelijke waarden. Dit zorgt ervoor dat de frequenties veel minder divers zullen zijn. Uiteindelijk zal dit resulteren in een groter aantal bits per codewoord, wat weer resulteert in een groter array-gebruik bij het wegschrijven van deze bits. Bij het decoderen zullen er dan ook meer bits worden ingelezen aangezien de weggeschreven code meer bits bevat.
+
+\section{Besluit}
+De vraag is natuurlijk wat we hieruit kunnen besluiten. Als we naar alle factoren kijken zien we samenvattend dat de compressieratio niet veel meer daalt bij beide types bestanden vanaf een blocksize van 250 kilobytes. Voor dezelfde grootte is de overeenkomende en- en decodeertijd nog vrij klein. Pas vanaf een blocksize van +-600 kilobytes wordt de encodeertijd van tekstuele bestanden echt groter. Ook het geheugengebruik zal niet veel meer toenemen als we er van uit gaan dat de evolutie tussen een blocksize 10 en 25 kilobyte hetzelfde blijft.\\
+
+Als we algoritme 1 met algoritme 3 vergelijken zien we eigenlijk weinig verschil. In de curves van de compressieratio zien we maar heel weinig verschil tussen de curves van het encoderen van algoritme 1 en 3 onderling en tussen de curves van het decoderen van algoritme 1 en 3 onderling.\\
+Het encoderen en decoderen zal bij algoritme 3 wel iets trager gaan: aangezien de elementen niet helemaal vooraan de array worden geplaatst tijdens de move to frontbewerking zal de tijd om hetzelfde element opnieuw opzoeken iets langer zijn.\\
+
+Als ik een keuze zou moeten maken tussen algoritme 1 en algoritme 3, en voor een bepaalde blocksize moeten kiezen, zou ik om voorgaande redenen algoritme 1 kiezen, met een blocksize van ongeveer 250 kilobyte.
+
+
+\end{document}

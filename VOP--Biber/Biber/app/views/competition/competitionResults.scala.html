@@ -1,0 +1,45 @@
+@(history: History)
+@import utils.LangMessages
+
+<table border="0">
+    <tr>
+        <td>@LangMessages.get("common.question")</td>
+        <td>@LangMessages.get("competition.take.givenAnswer")</td>
+        <td>@LangMessages.get("common.feedback")</td>
+        <td>@LangMessages.get("competition.take.noPoints")</td>
+    </tr>
+    <tr>
+        <td colspan="3">@LangMessages.get("competition.take.initialNumberOfPoints")</td>
+        <td>@history.getQuestionSet().getInitialPoints()</td>
+    </tr>
+    @history.getQuestionSet().getSetQuestions().map { setQuestion =>
+    @defining(setQuestion.question) { question =>
+    <tr>
+        <td>@setQuestion.question.getTitle()</td>
+
+        @if(history.getGivenAnswer(question) == null) {
+        <td>&nbsp;</td>
+        <td><a href="@setQuestion.question.getFeedbackURL()">@LangMessages.get("common.feedback")</a></td>
+        <td><span class="points">@setQuestion.getPoints(null)</span></td>
+        } else {
+        @defining(history.getGivenAnswer(question)) { givenAnswer =>
+        <td>
+            @if(question.isCorrectAnswer(givenAnswer)) {
+            <span style="color: green;">@givenAnswer</span>
+            } else {
+            <span style="color: red;">@givenAnswer</span>
+            }
+        </td>
+        <td><a href="@setQuestion.question.getFeedbackURL()">@LangMessages.get("common.feedback")</a></td>
+        <td><span class="points">@setQuestion.getPoints(givenAnswer)</span></td>
+        }
+        }
+    </tr>
+
+    }
+    }
+    <tr>
+        <td colspan="3">@LangMessages.get("competition.take.totalNumberOfPoints")</td>
+        <td><strong>@history.getTotalPoints()</strong></td>
+    </tr>
+</table>

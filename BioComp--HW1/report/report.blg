@@ -1,0 +1,60 @@
+This is BibTeX, Version 0.99d (TeX Live 2014)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: report.aux
+The style file: bioinformatics.bst
+Database file #1: report.bib
+Warning--entry type for "SILInt" isn't style-file defined
+--line 1 of file report.bib
+Warning--entry type for "SuffixTree" isn't style-file defined
+--line 9 of file report.bib
+Warning--entry type for "HPCUGent" isn't style-file defined
+--line 18 of file report.bib
+Warning--empty year in biblecode, using label: a
+`'11' is a function literal, not a string, for entry biblecode
+while executing---line 1437 of file bioinformatics.bst
+ptr=1, stack=
+ ({\em{a}})
+---the literal stack isn't empty for entry biblecode
+while executing---line 1437 of file bioinformatics.bst
+You've used 4 entries,
+            2135 wiz_defined-function locations,
+            522 strings with 4063 characters,
+and the built_in function-call counts, 958 in all, are:
+= -- 94
+> -- 28
+< -- 4
++ -- 9
+- -- 8
+* -- 73
+:= -- 170
+add.period$ -- 8
+call.type$ -- 4
+change.case$ -- 15
+chr.to.int$ -- 4
+cite$ -- 14
+duplicate$ -- 40
+empty$ -- 69
+format.name$ -- 12
+if$ -- 181
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 19
+num.names$ -- 12
+pop$ -- 22
+preamble$ -- 1
+purify$ -- 16
+quote$ -- 0
+skip$ -- 38
+stack$ -- 0
+substring$ -- 39
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 22
+warning$ -- 1
+while$ -- 8
+width$ -- 0
+write$ -- 43
+(There were 2 error messages)

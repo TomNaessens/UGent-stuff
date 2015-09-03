@@ -1,0 +1,46 @@
+package be.ugent.intec.ibcn.ods.rmi.call;
+
+import java.io.Serializable;
+
+/**
+ * Class that holds information about a remote instance, making the instance
+ * unique in all remote JVM. All remote instances have a generated random UUID,
+ * except the global ones (registered with
+ * {@link be.ugent.intec.ibcn.ods.rmi.handler.RemoteRereferenceModule#registerGlobal RemoteReferenceModule}).
+ *
+ */
+public class RemoteInstance implements Serializable {
+
+    private static final long serialVersionUID = -4597780264243542810L;
+    String instanceId;
+    String className;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public RemoteInstance(String instanceId, String className) {
+        this.instanceId = instanceId;
+        this.className = className;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RemoteInstance) {
+            RemoteInstance ri = (RemoteInstance) obj;
+            boolean localInstanceId = ((getInstanceId() == null ? ri.getInstanceId() == null : getInstanceId().equals(ri.getInstanceId())) || (getInstanceId() != null && getInstanceId().equals(ri.getInstanceId())));
+            boolean localClassName = (getClassName().equals(ri.getClassName()));
+            return (localClassName && localInstanceId);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return className.hashCode();
+    }
+}

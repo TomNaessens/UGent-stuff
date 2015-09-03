@@ -1,0 +1,70 @@
+@(numberCorrect: Int)(numberWrong: Int)(avgCorrect: Int)(avgWrong: Int)(cName: String)
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("stats.head")){
+<!-- Head -->
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    //load the Google Visualization API and the chart
+    google.load('visualization', '1', {'packages': ['columnchart']});
+
+    //set callback
+    google.setOnLoadCallback (createChart);
+
+    //callback function
+    function createChart() {
+
+    //create data table object
+    var dataTable = new google.visualization.DataTable();
+
+    //define columns
+    dataTable.addColumn('string','@cName');
+    dataTable.addColumn('number', 'Aantal');
+
+    //define rows of data
+    dataTable.addRows([['number correct',@numberCorrect], ['number wrong',@numberWrong]]);
+
+    //instantiate our chart object
+    var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+
+    //define options for visualization
+    var options = {width: 400, height: 240, is3D: true, title: '@cName statistics'};
+
+    //draw our chart
+    chart.draw(dataTable, options);
+
+    }
+</script>
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main -->
+<div id="chart"></div>
+        <table>
+            <tr>
+                <th>@LangMessages.get("viewstats.score")</th>
+                <th>@LangMessages.get("viewstats.numberCorrect")</th>
+                <th>@LangMessages.get("viewstats.numberWrong")</th>
+            </tr>
+            <tr>
+                <td>@LangMessages.get("viewstats.own")</td>
+                <td>@numberCorrect</td>
+                <td>@numberWrong</td>
+            </tr>
+            <tr>
+                <td>@LangMessages.get("viewstats.avg")</td>
+                <td>@avgCorrect</td>
+                <td>@avgWrong</td>
+            </tr>
+        </table>
+} {
+<!-- Sidebar -->
+
+<li>
+    <a href="@routes.ProfilesController.downloadManual()">@LangMessages.get("profileGeneral.downloadManual")</a>
+</li>
+}

@@ -1,0 +1,15 @@
+@(dirNames: List[String])(fileNames: List[String])
+
+<ul class="jqueryFileTree" style="display: none;">
+    <li class="directory collapsed">
+        <a href="#" rel="${dir}/">
+            ${dirName}
+        </a>
+    </li>
+
+    <li class="file ext_${extension}">
+        <a href="#" rel="${file}">
+            ${fileName}
+        </a>
+    </li>
+</ul>

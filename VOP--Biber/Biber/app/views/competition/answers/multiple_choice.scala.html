@@ -1,0 +1,19 @@
+@(firstChoice: Character = 'A')(numOfChoices: Integer = 4)(givenAnswer: Character = null)
+
+<script type="text/javascript">
+    function setAnswer(answer) {
+        $('#answer').val(answer);
+        $('#answer-form').submit();
+    }
+</script>
+
+<input type="hidden" name="answer" id="answer" value="@firstChoice" />
+
+@for( choice <- firstChoice.toInt to (firstChoice.toInt + numOfChoices - 1) ) {
+    @if(givenAnswer == choice.toChar) {
+        <button onclick="setAnswer('@(choice.toChar)'); return false;" style="background: green;width: 100%">@(choice.toChar)</button>
+    } else {
+        <button onclick="setAnswer('@(choice.toChar)'); return false;" style="width: 100%">@(choice.toChar)</button>
+    }
+
+}

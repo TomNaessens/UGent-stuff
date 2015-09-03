@@ -1,0 +1,15 @@
+\subsection{Veiligheid}
+
+In het geval van de veilige controller zien we dat deze de gemiddelde snelheid 
+begrenst wordt tot de bovengrens van \texttt{slow}. Op de rechte stukken 
+spreken we hier dus van een topsnelheid van ongeveer 70 km/h. Wanneer deze 
+controller bochten tegenkomt zal deze remmen. De snelheid daalt hierbij dan 
+daar 50 km/h. Dit trage gedrag zien we duidelijk in Tabel~\ref{tbl:resultssafe} 
+aan de rondetijden. Ook zal er bij deze lagere snelheden geen mogelijkheid zijn 
+om te driften. 
+
+Verder zal door onze manier van sturen ertoe leiden dat de wagen zelfs op rechte stukken kleine correcties probeert te maken. Dit zou opgevangen moeten worden door het vage regelsysteem maar dit is niet voldoende het geval. Volgens ons is dit te wijten aan \texttt{corner}-invoer. Deze zal namelijk zeer snel aangeven dat er een milde bocht is. Daarnaast zijn de randen van het parcours grillig, wat er nog sneller voor zal zorgen dat de controller beslist om bij te sturen.
+
+Doordat we onze sturing baseren op een locatie die een eind voor de wagen ligt zullen we ook niet naar het midden van de baan sturen maar naar het midden van de baan in de verte. Concreet zal de wagen dus meer naar de binnenkant van de bocht neigen.
+
+De veilige controller blijkt zeer robuust te zijn. De lijn die deze controller doorheen het parcours zal nemen is bijna exact dezelfde doordat de snelheid van de wagen ook steeds dezelfde zal zijn.

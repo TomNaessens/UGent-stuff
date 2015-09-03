@@ -1,0 +1,37 @@
+@(competition: Competition)(questionSet: models.Set)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(competition.getTitle()) {
+<!-- Head -->
+<script type="text/javascript" src='@routes.Assets.at("javascripts/time.js")'></script>
+<script type="text/javascript">
+    $(function() {
+        $('.time').html(printTime(
+            @questionSet.timeLimit,
+            '@LangMessages.get("time.hourSuffix")',
+            '@LangMessages.get("time.minuteSuffix")',
+            '@LangMessages.get("time.secondSuffix")'
+        ));
+    });
+</script>
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<h2>@competition.getTitle()</h2>
+<div class="well">
+@competitionSummary(competition)(questionSet)
+</div>
+
+<form action="@routes.CompetitionController.startCompetition(competition.id,questionSet.level.name())" method="get">
+    <input type="submit" value="Start competition" />
+</form>
+
+} {
+<!-- Sidebar -->
+<li><strong><a href="#">About the competition</a></strong></li>
+}

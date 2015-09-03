@@ -1,0 +1,10 @@
+Time for vector scale with size: 250: 3.3s, number of FLOP/s: 6.35501e+08
+Time for vector scale with size: 506: 3.45s, number of FLOP/s: 6.15165e+08
+Time for vector scale with size: 1018: 3.51s, number of FLOP/s: 6.08234e+08
+Time for vector scale with size: 2042: 3.54s, number of FLOP/s: 6.04857e+08
+Time for vector scale with size: 4090: 3.57s, number of FLOP/s: 6.00655e+08
+Time for vector scale with size: 8186: 3.58s, number of FLOP/s: 5.99416e+08
+Time for vector scale with size: 16378: 3.58s, number of FLOP/s: 5.99636e+08
+Time for vector scale with size: 32762: 3.6s, number of FLOP/s: 5.96414e+08
+Time for vector scale with size: 65530: 3.59s, number of FLOP/s: 5.9813e+08
+Time for vector scale with size: 131066: 3.59s, number of FLOP/s: 5.98157e+08

@@ -1,0 +1,77 @@
+x = 3;
+y = 0;
+while (x > 0) {
+    x = x - 1;
+    y = y + 1
+}
+
+[
+	(Assign "x" (L 3),fromList [("x",3)]),
+	(Assign "y" (L 0),fromList [("x",3),("y",0)]),
+	
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1)]),fromList [("x",0),("y",3)]),
+	(Assign "x" (Var "x" :-: L 1),fromList [("x",2),("y",0)]),
+	(Assign "y" (Var "y" :+: L 1),fromList [("x",2),("y",1)]),
+
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1)]),fromList [("x",0),("y",3)]),
+	(Assign "x" (Var "x" :-: L 1),fromList [("x",1),("y",1)]),
+	(Assign "y" (Var "y" :+: L 1),fromList [("x",1),("y",2)]),
+
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1)]),fromList [("x",0),("y",3)]),
+	(Assign "x" (Var "x" :-: L 1),fromList [("x",0),("y",2)]),
+	(Assign "y" (Var "y" :+: L 1),fromList [("x",0),("y",3)]),
+	
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1)]),fromList [("x",0),("y",3)])
+]
+
+
+
+x = 3;
+y = 0;
+z = 0;
+while (x > 0) {
+    x = x - 1;
+    y = y + 1;
+    while(3 > y) {
+        z = z + 1+2+9;
+        y = y + 1
+    }
+};
+x = z*3
+
+
+
+[
+	(Assign "x" (L 3),fromList [("x",3)]),
+	(Assign "y" (L 0),fromList [("x",3),("y",0)]),
+	(Assign "z" (L 0),fromList [("x",3),("y",0),("z",0)]),
+
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1),While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)])]),fromList [("x",0),("y",5),("z",24)]),
+		(Assign "x" (Var "x" :-: L 1),fromList [("x",2),("y",0),("z",0)]),
+		(Assign "y" (Var "y" :+: L 1),fromList [("x",2),("y",1),("z",0)]),
+
+		(While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)]),fromList [("x",2),("y",3),("z",24)]),
+			(Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),fromList [("x",2),("y",1),("z",12)]),
+			(Assign "y" (Var "y" :+: L 1),fromList [("x",2),("y",2),("z",12)]),
+
+		(While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)]),fromList [("x",2),("y",3)("z",24)]),		
+			(Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),fromList [("x",2),("y",2),("z",24)]),
+			(Assign "y" (Var "y" :+: L 1),fromList [("x",2),("y",3),("z",24)]),
+
+		(While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)]),fromList [("x",2),("y",3),("z",24)]),
+	
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1),While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)])]),fromList [("x",0),("y",5),("z",24)]),
+		(Assign "x" (Var "x" :-: L 1),fromList [("x",1),("y",3),("z",24)]),
+		(Assign "y" (Var "y" :+: L 1),fromList [("x",1),("y",4),("z",24)]),
+
+		(While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)]),fromList [("x",1),("y",4),("z",24)]),
+
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1),While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)])]),fromList [("x",0),("y",5),("z",24)]),
+		(Assign "x" (Var "x" :-: L 1),fromList [("x",0),("y",4),("z",24)]),
+		(Assign "y" (Var "y" :+: L 1),fromList [("x",0),("y",5),("z",24)]),
+
+		(While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)]),fromList [("x",0),("y",5),("z",24)]),
+
+	(While (Var "x" :>: L 0) (Seq [Assign "x" (Var "x" :-: L 1),Assign "y" (Var "y" :+: L 1),While (L 3 :>: Var "y") (Seq [Assign "z" (((Var "z" :+: L 1) :+: L 2) :+: L 9),Assign "y" (Var "y" :+: L 1)])]),fromList [("x",0),("y",5),("z",24)]),
+		(Assign "x" (Var "z" :*: L 3),fromList [("x",72),("y",5),("z",24)])
+]

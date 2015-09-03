@@ -1,0 +1,5 @@
+FLOPS/s for a non-contiguous access matrix-matrix multiplication: 8.80088e+08
+FLOPS/s for a contiguous access matrix-matrix multiplication: 2.06986e+09
+FLOPS/s for a BLAS matrix-matrix multiplication: 1.08108e+10
+FLOPS/s for a blocked matrix-matrix multiplication: 1.31471e+09
+

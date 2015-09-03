@@ -1,0 +1,31 @@
+Answers regarding questions to testing DFA with input
+-----------------------------------------------------
+
+d0 recognizes (eps)
+d1 recognizes (a)
+d2 recognizes (b)
+d3 recognizes (a(b*)a)
+d4 recognizes (a(b*))
+d5 recognizes (b+)
+
+
+Reading the input "abaabbaba", we visit the following stats:
+d0: initial state
+Read "a": d1
+Read "b": d4
+Read "a": d3
+Read "a": No possible states to visit from d3, so start at the initial state: d0, read "a": d1
+Read "b": d4
+Read "b": d4
+Read "a": d3
+Read "b": No possible states to visit from d3, so start at the initial state: d0, read "b": d2
+Read "a": d2 does not contain an outbound edge labeled "a", so start at the initial state: d0, read "a": d1
+End of input
+
+In order, the DFA goes through the following states: d0, d1, d4, d3, d0, d1, d4, d4, d3, d0, d2, d0, d1
+
+As all of these states are final, we read the following tokens:
+1. aba
+2. abba
+3. b
+4. a

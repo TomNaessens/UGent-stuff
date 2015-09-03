@@ -1,0 +1,216 @@
+REPORT GROUP 09
+===============
+
+In the test folder, a bunch of simple test files can be found for both static
+and dynamic indexing, testing valid indexations as well as underflow and
+overflow indexations. These are [dynamic|static]_[index|overflow|underflow].
+We also wrote two more extensive C files for benchmarking purposes. These both
+run a certain procedure a lot of times to get significant timing results. These
+files are long_for.c (an adaption of the given for.c) and fib.c (which
+calculates a list of Fibonacci numbers).
+
+For these files, we obtained the following benchmarking results. For the
+checked version of the program, we did a benchmark with the added branchweights
+and without.
+
+       program       |         avg. execution time (seconds)
+---------------------+--------------------------------------------------
+                     |  unchecked | checked | checked with branchweights
+---------------------+------------+---------+---------------------------
+long_for.exe         |    3.9515  |  4.5165 |  4.576
+fib.exe              |   35.7835  | 38.827  | 38.5935
+
+The complete benchmarking results can be found at the bottom of this file.
+
+
+It is clear that for static bounds checking (at compile time), there is no
+impact what so ever on the execution time of the program; the only impact is on
+the compilation time.
+
+Dynamic bound checking is different because we alter the program with our bound
+checking instructions. Every array access now has a additional 4 instructions
+before it; an instruction that checks if the array index is negative, one that
+checks if it is smaller than the array size, one instruction that does a
+logical 'or' on the two previous results and finally a instruction that decides
+whether or not to jump to the actual array access or to emit an error message
+and then abort the program. A naive approach is to say that we increase the
+cost of an array access by a factor of 5. Of course, not all instructions will
+have the same performance hit on our program; of particular concern to us in
+this scenario is the branch instruction; branches can prevent the underlying
+pipeline of the processor to be fully exploited, which in turn leads to a
+performance hit.
+
+However, modern processors use branch predictors which can minimize the impact
+on performance these instructions have. The effectiveness of these branch
+predictors depends on how easy it is to predict to which instruction a branch
+instruction will jump. Thankfully for us, the branch instructions we generate
+are very predictable; it is unlikely that the array access goes out of bounds
+(because a single out of bounds array access leads to the program exiting, it
+is impossible for it to be otherwise so). As such, the overhead of these branch
+instructions are limited. To aid this branch prediction, we have added a
+BranchWeight (see http://llvm.org/docs/BranchWeightMetadata.html) to the
+created branching instruction. We did however not find any speedup caused by
+adding this metadata, because as said before, the correct branch is very easily
+predicted by the branch predictor.
+
+That being said, we still see that there is a statistically significant impact
+on execution time due to the non-branch instructions we add to the benchmarked
+programs. We do have to keep in mind that the benchmarked programs were heavily
+relying on array accesses and it is unlikely that a 'real' program will suffer
+as much of an impact. As such, dynamic bound checking seems like a good option
+for debug compilations as they can help tremendously with debugging errors that
+are caused by array accesses that are out of bounds. Applying bound checking
+to release compilations seems less acceptable as there is a performance
+impact and technically speaking a release compilation should not have any
+erroneous array accesses in it anyway.
+
+
+BENCHMARK RESULTS
+=================
+
+====== test/fib.exe ======
+0:35.79,34.05,0.56
+0:35.83,34.42,0.50
+0:36.08,34.19,0.45
+0:35.73,34.04,0.49
+0:35.85,34.39,0.48
+0:35.95,34.11,0.54
+0:35.25,33.47,0.51
+0:35.30,33.51,0.42
+0:35.43,34.04,0.50
+0:35.65,34.15,0.47
+0:36.63,34.46,0.38
+0:36.05,33.88,0.42
+0:35.42,34.12,0.42
+0:35.90,34.54,0.42
+0:35.95,34.31,0.47
+0:35.79,34.15,0.43
+0:35.53,34.12,0.50
+0:36.12,33.84,0.47
+0:35.74,33.93,0.45
+0:35.68,33.85,0.44
+
+Avg: 35.7835
+--------------------------
+====== test/fib.checked.exe without branchweights ======
+0:38.45,37.00,0.43
+0:38.84,37.30,0.52
+0:38.44,37.01,0.47
+0:38.66,37.15,0.48
+0:39.51,37.31,0.50
+0:39.43,37.50,0.46
+0:38.56,37.04,0.50
+0:39.09,36.79,0.44
+0:38.74,36.88,0.50
+0:38.99,37.54,0.53
+0:38.22,36.72,0.49
+0:38.22,36.78,0.52
+0:38.24,36.76,0.48
+0:38.73,37.38,0.43
+0:39.65,37.33,0.38
+0:39.16,36.73,0.52
+0:39.01,37.55,0.46
+0:39.01,37.11,0.42
+0:38.95,37.54,0.48
+0:38.64,37.21,0.44
+
+Avg: 38.827
+--------------------------
+====== test/fib.checked.exe with branchweights ======
+0:37.45,35.83,0.54
+0:38.42,36.72,0.47
+0:38.30,36.81,0.51
+0:38.18,36.53,0.40
+0:38.19,36.81,0.48
+0:39.48,37.05,0.55
+0:39.30,36.94,0.52
+0:39.22,36.89,0.47
+0:39.37,37.11,0.45
+0:38.62,37.17,0.48
+0:38.26,36.85,0.46
+0:38.07,36.61,0.46
+0:38.73,37.40,0.40
+0:38.19,36.71,0.50
+0:38.31,36.79,0.45
+0:38.40,36.75,0.42
+0:38.84,37.03,0.42
+0:37.96,36.49,0.50
+0:39.52,38.00,0.51
+0:39.06,38.65,0.39
+
+Avg: 38.5935
+--------------------------
+
+
+====== test/long_for.exe ======
+0:04.04,3.81,0.12
+0:03.93,3.76,0.10
+0:04.06,3.77,0.18
+0:04.13,3.62,0.27
+0:03.73,3.60,0.08
+0:03.68,3.56,0.06
+0:03.97,3.70,0.11
+0:04.39,3.55,0.28
+0:03.83,3.59,0.11
+0:04.23,3.74,0.09
+0:04.04,3.72,0.12
+0:03.88,3.54,0.14
+0:03.75,3.52,0.07
+0:03.78,3.56,0.10
+0:04.02,3.74,0.15
+0:03.79,3.61,0.08
+0:04.02,3.78,0.10
+0:03.83,3.65,0.08
+0:03.98,3.84,0.04
+0:03.95,3.79,0.10
+
+Avg: 3.9515
+--------------------------
+====== test/long_for.checked.exe without branchweights ======
+0:04.49,4.30,0.08
+0:04.36,4.22,0.08
+0:04.64,4.36,0.16
+0:04.53,4.37,0.10
+0:04.24,4.10,0.07
+0:04.17,4.09,0.02
+0:04.27,4.09,0.08
+0:04.43,4.20,0.14
+0:04.78,4.07,0.35
+0:04.76,4.26,0.09
+0:04.62,4.45,0.07
+0:04.34,4.12,0.13
+0:04.70,4.54,0.08
+0:04.46,4.25,0.11
+0:04.35,4.13,0.14
+0:04.44,4.29,0.08
+0:04.34,4.10,0.14
+0:05.06,4.90,0.08
+0:04.69,4.48,0.03
+0:04.66,4.51,0.08
+
+Avg: 4.5165
+--------------------------
+====== test/long_for.checked.exe with branchweights ======
+0:04.66,4.44,0.11
+0:04.58,4.38,0.10
+0:04.59,4.45,0.07
+0:04.50,4.28,0.14
+0:04.78,4.58,0.08
+0:04.80,4.61,0.10
+0:04.55,4.33,0.10
+0:04.27,4.14,0.07
+0:04.89,4.70,0.06
+0:04.51,4.34,0.06
+0:04.42,4.25,0.09
+0:04.31,4.14,0.09
+0:04.41,4.21,0.11
+0:04.71,4.44,0.11
+0:04.57,4.41,0.08
+0:04.79,4.27,0.22
+0:04.56,4.44,0.03
+0:04.58,4.41,0.07
+0:04.51,4.33,0.09
+0:04.53,4.28,0.14
+
+Avg: 4.576
+--------------------------

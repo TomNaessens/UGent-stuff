@@ -1,0 +1,86 @@
+@(teacher: models.Teacher)(classes: List[models.Class])
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("organizerTeacherPage.head")) {
+<!-- Head -->
+<script type="text/javascript">
+	$(function(){
+		popover();
+	});
+	
+	function popover(){
+		$('#popover').popover({ 
+		    html : true,
+		    title: function() {
+		      return $("#popover-head").html();
+		    },
+		    content: function() {
+		      return $("#popover-content").html();
+		    }
+		}); 
+	}
+	
+</script>
+}{
+<!-- Toplinks -->
+} {
+<!-- Main -->
+<div class="span8">
+<div class="well">
+<b>Name</b>: @teacher.firstName @teacher.lastName</br>
+<b>E-mail</b>: @teacher.email </br>
+<b>Gender</b>: @teacher.gender </br>
+<b>Language</b>: @teacher.language</br>
+</div>
+<h2>@LangMessages.get("organizerSchoolsPage.schools")</h2>
+@for(school <- teacher.schools){
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@school.id">
+        @school.name
+      </a>
+    </div>
+    <div id="@(school.id)" class="accordion-body collapse">
+      <div class="accordion-inner">
+      <ul>
+      	@for(clazz <- classes){
+      		@if(clazz.school.id == school.id){
+      		<li>
+      			@clazz.name
+      		</li>
+      		}
+      	}
+      </ul>
+      </div>
+    </div>
+</div>
+}
+@if(School.allSchoolsNotHavingTeacher(teacher) != null){
+<a href="#"><img src="@routes.Assets.at("images/add.png")" id="popover" style="width:5%;height:5%"></a>
+<div id="popover-head" class="hide">
+	@LangMessages.get("organizerTeacherPage.addSchool")
+	<button type="button" id="close" class="close" onclick="$('#popover').popover('hide');$('.error').hide();">&times;</button>
+</div>
+<div id="popover-content" class="hide">
+	<div>
+		<form action="@routes.OrganizerController.addSchoolToTeacher()" method="post">
+			<select name="school">
+				@for(school <- School.allSchoolsNotHavingTeacher(teacher)) {
+				    <option value="@school.id">@school.name</option>	
+				} 
+			</select>
+			<input type="hidden" name="teacher" value="@teacher.bebrasId"/>
+			<button type="submit" class="btn btn-primary" >@LangMessages.get("common.submit")</button>
+		</form>
+	</div>
+</div>
+}
+
+</div>
+
+} {
+<!-- Sidebar -->
+}
+
+

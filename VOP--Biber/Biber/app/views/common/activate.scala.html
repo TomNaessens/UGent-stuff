@@ -1,0 +1,34 @@
+@(activateForm: Form[Application.Activate])
+@import utils.LangMessages
+
+<!-- Imports -->
+
+<!-- Main call -->
+@main(LangMessages.get("activate.activate")) {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+
+<!-- Main -->
+<h1>@LangMessages.get("activate.title")</h1>
+
+@helper.form(routes.Application.activate) {
+
+    @if(activateForm.hasGlobalErrors) {
+    <p class="error">
+        @activateForm.globalError.message()
+    </p>
+    }
+
+    @helper.inputPassword(activateForm("newPassword"), '_label -> LangMessages.get("activate.newPassword"))
+    @helper.inputPassword(activateForm("confirmNewPassword"), '_label -> LangMessages.get("activate.confirmNewPassword"))
+    <input type="submit" value="@LangMessages.get("common.submit")"/>
+
+}
+
+} {
+<!-- Sidebar -->
+}

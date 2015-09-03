@@ -1,0 +1,4 @@
+*.pdf
+
+# allow figures included in pdf
+!/includes/*

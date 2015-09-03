@@ -1,0 +1,33 @@
+@(top : List[ParticipationHistory])
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("top20.greeting")){
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main -->
+@if(top.size > 0 ) {
+<table>
+    <tr>
+        <th>@LangMessages.get("top20.participant")</th>
+        <th>@LangMessages.get("top20.totalscore")</th>
+    </tr>
+    @for(p <- top){
+        <tr>
+            <td>@p.participant.firstName @p.participant.lastName</td>
+            <td>@p.getTotalPoints()</td>
+        </tr>
+    }
+</table>
+        }
+@if(top.size == 0 ) {
+         <h4>@LangMessages.get("top20.noparticipants")</h4>
+        }
+} {
+<!-- Sidebar -->
+}

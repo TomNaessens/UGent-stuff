@@ -1,0 +1,37 @@
+9
+
+dir
+72
+https://svn.intec.ugent.be/svn/ODS/practica/Lab1/assignment/src/test
+https://svn.intec.ugent.be/svn/ODS
+
+
+
+2013-09-30T14:54:34.233165Z
+72
+svrstich
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+77abfb09-576a-4747-a51f-8ca0b7974ab2
+
+server
+dir
+
+common
+dir
+
+client
+dir
+

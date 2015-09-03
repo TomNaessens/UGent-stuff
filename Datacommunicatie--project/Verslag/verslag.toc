@@ -1,0 +1,28 @@
+\select@language {dutch}
+\contentsline {section}{\numberline {1}Broncodering}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Opstellen Huffmancode}{2}{subsection.1.1}
+\contentsline {subsubsection}{\numberline {1.1.1}Relatieve frequenties}{2}{subsubsection.1.1.1}
+\contentsline {subsubsection}{\numberline {1.1.2}Resulterende Huffmanboom}{2}{subsubsection.1.1.2}
+\contentsline {subsubsection}{\numberline {1.1.3}Gemiddeld aantal codebits}{2}{subsubsection.1.1.3}
+\contentsline {subsection}{\numberline {1.2}Implementatie \texttt {create\_codebook$\left (\right )$}}{2}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Entropie (K = 1..10)}{4}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Gemiddeld aantal codebits (K = 1..10)}{6}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}Bespreking E[n] tegenover ondergrens}{7}{subsection.1.5}
+\contentsline {subsection}{\numberline {1.6}Canonische Huffmancode}{8}{subsection.1.6}
+\contentsline {subsection}{\numberline {1.7}Opstellen canonische vorm}{8}{subsection.1.7}
+\contentsline {subsection}{\numberline {1.8}Implementatie \texttt {create\_canonical\_codebook$\left (\right )$}}{9}{subsection.1.8}
+\contentsline {section}{\numberline {2}Kanaalcodering}{9}{section.2}
+\contentsline {subsection}{\numberline {2.1}Bespreking Hammingcode}{9}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Minimale Hammingafstand}{9}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Foutdetecterend en foutcorrigerend vermogen}{10}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Checkveelterm}{10}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Generator- en checkmatrix}{10}{subsubsection.2.1.4}
+\contentsline {subsection}{\numberline {2.2}Opstellen en bespreking van syndroomtabel}{11}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Implementatie \texttt {Ham\_Encode$\left (\right )$} en \texttt {Ham\_Decode$\left (\right )$}}{12}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Productcode \texttt {Prod\_encode$\left (\right )$}}{13}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Implementatie Decoder en oncorrigeerbare foutpatronen}{14}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Bepaling decodeerfout bij productcode adhv simulaties}{14}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Verschillen tussen verstuurde afbeeldingen}{15}{subsection.2.7}
+\contentsline {section}{\numberline {3}Volledig systeem}{16}{section.3}
+\contentsline {subsection}{\numberline {3.1}Ontvangen afbeeldingen}{16}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Bespreking verschillen}{16}{subsection.3.2}

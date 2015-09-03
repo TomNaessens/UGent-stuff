@@ -1,0 +1,54 @@
+@(directory: String)
+@import utils.LangMessages
+<form id="questionform" action="@routes.QuestionsController.setQuestionInfo(0,directory)" method="POST">
+		
+		<div>
+		<input id="answer" type="text" name="answer" placeholder="@LangMessages.get("uploadQuestions.answer")" class="question-info-input" style="margin-left:14px"><i style="display:none" id="answerOK" class="icon-ok"></i><i style="display:none" id="answerERR" class="uploadinfo icon-remove"></i>
+		<select id="answerType" name="answertype" class="question-info-input" style="margin-left:14px">
+		<option id="noAnswerType" selected disabled>@LangMessages.get("uploadQuestions.answerType")</option>
+		@for(at <- AnswerType.values()) {
+		<option value="@at.name()" id="@at.name()">@at</option>
+		}
+		</select><i style="display:none" id="answerTypeOK" class="uploadinfo icon-ok"></i><i style="display:none" id="answerTypeERR" class="uploadinfo icon-remove"></i>
+		<div id="languagePanels">
+		@for(lang <- Language.values()) {
+		<div style="display:none" id="@lang.name()Panel">
+		<h3>@lang.toString()</h3>
+		<div>
+			<input placeholder="@LangMessages.get("uploadQuestions.titlePlaceholder")" style="margin-left:14px;" type="text" id="@lang.name()name" name="@lang.name()name" class="question-info-input"><i style="display:none" title="@LangMessages.get("uploadQuestions.ok")" id="@lang.name()nameOK" class="icon-ok"></i><i style="display:none" id="@lang.name()nameERR" class="icon-remove"></i><br>
+			<i style="width:14px" onclick='getQuestion@lang.name() ()' class="icon-chevron-right button-icon"></i><input placeholder="@LangMessages.get("uploadQuestions.questionPlaceholder")" type="text" id="@lang.name()question" name="@lang.name()question" class="question-info-input"><i style="display:none" id="@lang.name()questionOK" class="uploadinfo icon-ok"></i><i style="display:none" id="@lang.name()questionERR" class="uploadinfo icon-remove"></i><br>
+			<i style="width:14px" onclick='getFeedback@lang.name() ()' class="icon-chevron-right button-icon"></i><input placeholder="@LangMessages.get("uploadQuestions.feedbackPlaceholder")" type="text" id="@lang.name()feedback" name="@lang.name()feedback" class="question-info-input"><i style="display:none" id="@lang.name()feedbackOK" class="uploadinfo icon-ok"></i><i style="display:none" id="@lang.name()feedbackERR" class="uploadinfo icon-remove"></i><br>
+		</div>
+		</div>
+		}
+		<div style="display:none" id="EXTRASPanel">
+		<h3>@LangMessages.get("uploadQuestions.extra")</h3>
+		<div id="extrasInput">
+		<input type="text" name="extras">
+		</div>
+		<i onclick="addPanel()" style="cursor:pointer" class="icon-plus"></i>
+		</div>
+		
+		</div>
+		</div>
+	<input id="questionbutton" type="button" value="create" onclick="submitQuestion(0)"><img id="loading-img" style="width:24px;height:24px;display:none" src="@routes.Assets.at("images/ajax-loader.gif")">
+	<script>
+	@for(lang <- Language.values()) {
+		function getQuestion@lang.name() (){
+			var ref = $('#fileTree a.selected').attr('rel');
+			$('#@lang.name()question').val(ref);
+			
+		};		
+		function getFeedback@lang.name() (){
+			var ref = $('#fileTree a.selected').attr('rel');
+			$('#@lang.name()feedback').val(ref);
+			
+		};
+	}
+	function addPanel() {
+		$('#extrasInput').append('<input type="text" name="extras">');
+	}
+	
+	</script>
+
+</form>

@@ -1,0 +1,4 @@
+> Zijn er foutpatronen die
+de oorspronkelijke Hammingcode wel kan corrigeren, maar deze nieuwe decoder niet?
+
+Ja, als op 2*x ( met x > 1 ) rijen op dezelfde kolom een fout in dezelfde kolom staat zal de pariteitscheck kloppen en dus zullen de fouten niet verbeterd worden.

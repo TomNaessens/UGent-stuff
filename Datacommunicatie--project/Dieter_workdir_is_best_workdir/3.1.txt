@@ -1,0 +1,80 @@
+g(x) =  x^4 + x^3 + 1 en we hebben een cyclische ( 15, 11 ) hammingcode 
+
+1. > Wat is de minimale hammingafstand van deze code ?
+
+Op pagina 72 vinden we dat als (x^4 + x^3 + 1) ( de generatorveelterm ) primitief is, de minimale Hammingafstand 3 heeft. 
+
+We zien dat, als we proberen veeltermen ( x^l + 1 ) te delen door ( x^4 + x^3 + 1 ), de kleinste l waarvoor we kunnen delen 15 is, wat onze bloklengte is. We hebben dus bewezen dat het een primitieve veelterm is. Hieruit halen we dus dat de minimala hammingafstand 3 is.
+
+Voor bevestiging, hij staat in deze tabel : http://mathworld.wolfram.com/PrimitivePolynomial.html
+Werkwijze staat hier nog eens : http://answers.yahoo.com/question/index?qid=20110525215501AAPCqFQ
+
+2. > Wat is het foutdetecterend en foutcorrigerend
+2. > vermogen van deze code ?
+
+Op pagina 51 staat dat het gegarandeerde foutdetecterend vermogen de minimale hammingsafstand - 1 is.
+
+Ons gegarandeerde foutdetecterende vermogen is dus 2.
+
+Op pagina 54 staat dat het gegarandeerde foutcorrigerend vermogen de (minimale hammingafstand - 1 )/2 naar beneden afgerond is. 
+
+Ons gegarandeerde foutcorrigerend vermogen is dus 1.
+
+3. > Bepaal de checkveelterm h(x)
+
+De checkveelterm halen we uit de vergelijking x^15 + 1 = g(x)*h(x) met g(x) de generatorveelterm en h(x) de checkveelterm ( pagina 62-63 ).
+
+(x^15+1) / g(x) = h(x)
+
+(x^15+1) / ( x^4+x^3+1) =  x^11+x^10+x^9+x^8+x^6+x^4+x^3+1
+
+> Bepaal de generator- en checkmatrix van deze code. Zet de bekomen matrices om in systematische vorm: Gsys = (I11|P) en Hsys = (P^T|I4)
+
+> generatormatrix
+
+Op pagina 64-65 vinden we de uitleg hiervoor. 
+
+We bekomen
+
+G = 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0
+	0 1 0 0 1 1 0 0 0 0 0 0 0 0 0
+	0 0 1 0 0 1 1 0 0 0 0 0 0 0 0
+	0 0 0 1 0 0 1 1 0 0 0 0 0 0 0 
+	0 0 0 0 1 0 0 1 1 0 0 0 0 0 0 
+	0 0 0 0 0 1 0 0 1 1 0 0 0 0 0
+	0 0 0 0 0 0 1 0 0 1 1 0 0 0 0	
+	0 0 0 0 0 0 0 1 0 0 1 1 0 0 0 
+	0 0 0 0 0 0 0 0 1 0 0 1 1 0 0 
+	0 0 0 0 0 0 0 0 0 1 0 0 1 1 0
+	0 0 0 0 0 0 0 0 0 0 1 0 0 1 1   
+
+Naar systematische vorm doen we zoals op pagina 65 
+
+Makkelijker : zet eerste identiteitsmatrix links en zoek dan som van rijen zodat de eerste x bits ( met x de grootte van de identiteitsmatrix ) goed uitkomen.
+
+Gsys =
+
+1 0 0 0 0 0 0 0 0 0 0 1 0 0 1
+0 1 0 0 0 0 0 0 0 0 0 1 1 0 1 
+0 0 1 0 0 0 0 0 0 0 0 1 1 1 1
+0 0 0 1 0 0 0 0 0 0 0 1 1 1 0
+0 0 0 0 1 0 0 0 0 0 0 0 1 1 1
+0 0 0 0 0 1 0 0 0 0 0 1 0 1 0
+0 0 0 0 0 0 1 0 0 0 0 0 1 0 1
+0 0 0 0 0 0 0 1 0 0 0 1 0 1 1
+0 0 0 0 0 0 0 0 1 0 0 1 1 0 0 
+0 0 0 0 0 0 0 0 0 1 0 0 1 1 0
+0 0 0 0 0 0 0 0 0 0 1 0 0 1 1   
+
+> checkmatrix 
+
+Naar systematische vorm doen we zoals op pagina 67 : P^T | I_n-k
+
+Hsys = 
+
+1 1 1 1 0 1 0 1 1 0 0 1 0 0 0
+0 1 1 1 1 0 1 0 1 1 0 0 1 0 0
+0 0 1 1 1 1 0 1 0 1 1 0 0 1 0
+1 1 1 0 1 0 1 1 0 0 1 0 0 0 1
+
+	

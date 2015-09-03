@@ -1,0 +1,72 @@
+@(servers: List[FileServer])
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("monitorFTP.overview.title")) {
+<!-- Head -->
+<script type="text/javascript">
+
+    $(function() {
+        jsRoutes.controllers.MonitorFTPController.getStatus().ajax().done(function(result) {
+            $.each(result, function(serverId, serverStatus) {
+                var type;
+                if(serverStatus.serverStatus == "ONLINE") {
+                    type = "success";
+                } else if(serverStatus.serverStatus == "OFFLINE") {
+                    type = "error";
+                }
+                $("#" + serverId).addClass(type);
+            });
+        });
+    });
+
+</script>
+
+} {
+<!-- Toplinks -->
+} {
+<!-- Main content -->
+@wflash()
+
+<table class="table" id="monitor-table">
+    <tr>
+        <th>@LangMessages.get("monitorFTP.overview.host")</th>
+        <th>@LangMessages.get("monitorFTP.overview.port")</th>
+        <th>@LangMessages.get("monitorFTP.overview.questionFolder")</th>
+        <th>@LangMessages.get("monitorFTP.overview.publicLink")</th>
+        <th>@LangMessages.get("monitorFTP.overview.username")</th>
+        <th>@LangMessages.get("monitorFTP.overview.pass")</th>
+        <th>@LangMessages.get("common.actions")</th>
+    </tr>
+    @for(q <- servers) {
+    <tr id="@q.id">
+        <td>@q.host</td>
+        <td>@q.port</td>
+        <td>@q.questionFolder</td>
+        <td>@q.publicLink</td>
+        <td>@q.username</td>
+        <td>@q.pass</td>
+        <td>
+            <div class="btn-group">
+                <a class="btn" href="@routes.MonitorFTPController.renderEditServer(q.id)" title=@LangMessages.get("monitorFTP.overview.edit")><i class="icon-pencil"></i></a>
+                <a class="btn" href="@routes.MonitorFTPController.removeServer(q.id)" title=@LangMessages.get("monitorFTP.overview.remove")><i class="icon-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+    }
+</table>
+
+<div align="right">
+    <p>
+    <div class="btn-group">
+        <a class="btn" href=@routes.MonitorFTPController.renderAddServer><i class="icon-plus"></i> @LangMessages.get("monitorFTP.overview.add")</a>
+    </div>
+    </p>
+</div>
+} {
+<!-- Sidebar -->
+ <li><a href="@routes.ProfilesController.seeProfile">@LangMessages.get("profilePage.profile")</a></li>
+}
+

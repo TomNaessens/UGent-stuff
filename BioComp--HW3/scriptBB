@@ -1,0 +1,29 @@
+# create intersection files
+cat * | sort | uniq -c >> AAbreast
+
+grep "6" AAbreast >> AAbreastint
+
+cat * | sort | uniq -c >> AAformula
+
+grep "6" AAformula >> AAformulaint
+# now we now the intersection
+
+
+# combine all the peptides from formula fed babies
+cat E* >> totalformula
+
+cat totalformula | sort | uniq -u >> uniquetotalformula
+
+# idem for breast feeding
+
+cat E* >> totalbreast
+
+cat totalbreast | sort | uniq -u >> uniquetotalbreast
+
+# subtract from the "ints" the totals:
+	# prep file
+	awk '{print $2}' AAbreastint >> AAbreastintpept
+	awk '{print $2}' AAformulaint >> AAformulaintpept
+
+grep -F -x -v -f '/home/bart/Documenten/computational biology/homework3/results/formula/uniquetotalformula AAbreastintpept' > result1
+grep -F -x -v -f '/home/bart/Documenten/computational biology/homework3/results/breast/uniquetotalbreast AAformulaintpept' > result2

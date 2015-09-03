@@ -1,0 +1,84 @@
+\chapter{Ontwerp en verificatie van een index in ACL2}
+\section{Voorafgaand}
+Vooraleer we over gaan op de bespreking van de specificaties met bijhorende concrete implementatie staan we eerst nog even stil bij de gebruikte datastructuur om deze index voor te stellen en enkele hulpfuncties. 
+
+Dit verslag dient als een tekstuele handleiding bij het eerste deel van het project. De formele specificaties, implementaties en verificaties kunnen gevonden worden in bijgevoegd bestand, \texttt{Bijlages/group3\_index.lisp}.
+
+\subsection{Hulpfuncties}
+Doorheen het volledige programma maken we gebruik van twee hulpfuncties, namelijk \texttt{is-ordered} en \texttt{is-ordered-string}. Deze functies controleren respectievelijk of een lijst van atomen van klein naar groot is gesorteerd, en of een lijst van strings alfabetisch is gesorteerd.
+
+Deze functies gaan na of de lijst uit nul of één elementen bestaat, of wanneer de lijst meer dan één element bevat gaan deze na of het eerste kleiner is dan het tweede element, en roept dan recursief zichzelf op met de ``staart'' van de lijst. Voor atomen wordt hier de functie \texttt{<=} gebruikt, voor \texttt{strings} gebruiken we \texttt{alphorder} als operator.
+
+\subsection{Datastructuur}
+\label{datastructuur}
+Lisp heeft hier een handige datastructuur voor ingebouwd zitten, namelijk een ``association list'', of ook wel ``alist''~\cite{alist}. Via de ingebouwde \texttt{alistp} functie kunnen we controleren of de opgebouwde index steeds een geldige alist is~\cite{ALIST6:online}. Om de correcte structuur en eigenschappen van de index te controleren hebben we volgende predikaat formeel gedefinieerd:
+\begin{lstlisting}
+(defun indexp (index)
+  (cond ((not (alistp index)) nil)
+        ((endp index) t)
+        ((not (stringp (caar index))) nil)
+        ((not (is-ordered-string (strip-cars index))) nil)
+        ((not (Nat-listp (cdar index))) nil)
+        ((not (is-ordered (cdar index))) nil)
+        (t (indexp (cdr index)))))
+\end{lstlisting}
+
+\section{Formele specificaties met bijhorende implementatie}
+Aangezien de formele specificaties rechtstreeks in ACL2 geïmplementeerd zijn volgt hier een overzicht van alle functies, met een korte beschrijving van hun werkwijze. De functies zelf kunnen in het bijgevoegde ACL2 bestand teruggevonden worden onder de vetgedrukte naamgeving.
+
+\begin{itemize}
+\item \textbf{\texttt{createIndex}:} Functie die een lege index aanmaakt, geeft simpelweg \texttt{nil} terug.
+
+\item \textbf{\texttt{getWords}:} Deze functie geeft, gegeven een index, met behulp van de ingebouwde \texttt{strip-cars} functie alle woorden terug uit de lijst.
+
+\item \textbf{\texttt{getPages}:} Deze functie geeft, gegeven een woord en een index, alle pagina's uit de index terug bijhorende aan het gegeven woord. De implementatie van deze functie is iets ingewikkelder, en recursief geïmplementeerd.
+
+Wanneer de lijst leeg is, geven we \texttt{nil} terug. Dit dient ook als basisgeval voor onze recursie. Aangezien de woorden alfabetisch zijn toegevoegd in de index kunnen we de woorden één voor één recursief opvragen en vergelijken. Wanneer we een match vinden geven we de bijhorende lijst van paginanummers terug. Wanneer het huidige woord voor het gevraagde woord komt, geven we \texttt{nil} terug, aangezien we zeker weten dat het woord later niet meer voor komt wegens het alfabetisch gesorteerd zijn van de lijst. Als geen van de voorgaande gevallen getriggerd zijn roepen we de functie recursief op met de staart van de lijst.
+
+\item \textbf{\texttt{addPage}:} Deze functie voegt, gegeven een pagina en een lijst van reeds gesorteerde paginanummers, een nieuw paginanummer toe aan deze lijst, op zo'n manier dat deze lijst nog steeds geordend is na toevoeging. Deze functie is een hulpfunctie die later gebruikt wordt in de \texttt{addEntry} functie. Voor de implementatie gaan we analoog te werk aan de vorige functie (\texttt{getPages}), met een uitzondering op teruggeven waarden.
+
+We gaan recursief te werk waarbij we enkele checks uitvoeren. Wanneer de pagina leeg is, of we op het eind van de lijst zijn gekomen door recursie geven we het opgegeven paginanummer terug. Als het eerste element groter is dan het opgegeven paginanummer geven we een nieuwe lijst terug, opgemaakt door het opgegeven paginanummer te concateneren met de overblijvende lijst. Wanneer het opgegeven paginanummer gelijk is aan het eerste paginanummer is dit een duplicaat, en geven we enkel de overblijvende lijst terug. In alle andere gevallen roepen we de functie recursief op met de staart van de lijst.
+
+\item \textbf{\texttt{addEntry}:} Deze functie voegt, gegeven een woord, een paginanummer en een index, het opgegeven paginanummer toe aan de lijst van paginanummers voor het opgegeven woord als dit woord reeds bestaat, en voegt anders alphabetisch het opgegeven woord samen met het opgegeven paginanummer toe aan de index. Ook deze functie is recursief geïmplementeerd en steunt op op de \texttt{addPage} functie.
+
+Bij het basisgeval voor deze recursie krijgen we een woord in combinatie met een paginanummer en een lege lijst (= index), waarbij we een nieuw associatief koppel van het woord met het paginummer teruggeven. Wanneer het opgegeven woord echter gelijk is aan het eerste element uit de index voegen we aan de hand van de \texttt{addPage} functie het paginanummer toe voor dit woord, en geven we deze geüpdatete combinatie, samengevoegd met de resterende index terug. Wanneer het opgegeven woord alfabetisch gezien voor het eerste woord in de huidige index ligt geven we een nieuwe combinatie van het opgegeven woord met het opgegeven paginanummer terug, geconcateneerd met het overblijvende deel van de index. In alle andere gevallen roepen we de functie opnieuw aan, maar ditmaal met de ``staart'' van de index.
+\end{itemize}
+
+
+\section{Beschrijving formele verificatie}
+De correcte werking van de bovenstaande functies dienen natuurlijk geverifieerd te worden op hun correcte werking. Daarom hebben we in ACL2 ook een aantal theorema's toegevoegd. Hier volgt een lijst van de geïmplementeerde theorema's met uitleg. De formele verificatie kan teruggevonden worden in het bestand, \texttt{Bijlages/group3\_index.lisp.a2s}.
+
+\begin{itemize}
+\item \textbf{\texttt{createIndex-correctness}:} Dit theorema gaat na of de index, gemaakt door de \texttt{createIndex} functie een correcte index teruggeeft. Hierbij testen we of een opgegeven index voldoet aan alle voorwaarden en restricties van de datastructuur uit Sectie \ref{datastructuur}.
+
+\item \textbf{\texttt{getWords-ordered}:} Dit theorema test, gegeven een index, of de woorden teruggegeven door de functie \texttt{getWords} in alfabetische volgorde staan. Hierbij maken we gebruik van de hulpfunctie \texttt{is-ordered-string}.
+
+\item \textbf{\texttt{getWords-get-words}:} Dit theorema controleert of, gegeven een index, de \texttt{getWords} functie wel degelijke de woorden uit deze index haalt. Deze verificatie is eigenlijk overbodig aangezien de \texttt{getWords} functie uit één statement bestaat, die al door ACL2 zelf wordt geverifieerd.
+
+\item \textbf{\texttt{getPages-ordered}:} Dit theorema test of, gegeven een woord en een index, de \texttt{getPages} functie een geordende lijst van paginanummers teruggeeft. Hiervoor passen we de hulpfunctie \texttt{is-ordered} toe op de \texttt{getPages} functie.
+
+\item \textbf{\texttt{getPages-gets-pages}:} (Opgelet: Dit theorema is helemaal onderaan het bestand gedeclareerd aangezien ACL2 anders problemen gaf bij het verifiëren van andere functies.) Dit theorema verifieert dat de \texttt{getPages} functie wel degelijk de lijst van paginanummers teruggeeft die bij het opgegeven woord horen. Dit doen we aan de hand van de ingebouwde \texttt{assoc-equal} functie, die gegeven een sleutel, het bijhorende sleutel en waarde paar uit een \texttt{alist} haalt~\cite{ASSOC8:online}. Als we hierna de ingebouwde \texttt{cdr} functie toepassen krijgen we de lijst van paginanummers geassocieerd met het opgeven woord. Aan de hand van de \texttt{equal} functie vergelijken we vervolgens de gelijkheid van deze twee lijsten.
+
+Aangezien ACL2 hier een verificatiefout opwierp omdat hij probeerde te generaliseren hebben we hier de hint ``do not generalize'' meegegeven, waarna dit theorema wel geverifieerd kon worden.
+
+\item \textbf{\texttt{addPage-ordered}:} Dit theorema test of, gegeven een paginanummer en een lijst van geordende paginanummers, de lijst geordend is na toevoeging van het opgegeven paginanummer. Ook hier maken we gebruik van de hulpfunctie \texttt{is-ordered}.
+
+\item \textbf{\texttt{addPage-adds}:} Dit theorema controleert of de \texttt{addPage} functie wel degelijk een woord toevoegt aan een lijst van paginanummers. Dit doen we door te testen of een getal dat nog geen 
+deel uitmaakt van de lijst, wel deel uitmaakt van de lijst na het toevoegen.
+
+\item \textbf{\texttt{addEntry-adds}:} Dit theorema test of, gegeven een correcte index, een natuurlijk getal en een woord, het woord wel degelijk wordt toegevoegd als het daarvoor nog niet bestond in de index. Hiervoor eisen we de correctheid van de gegeven argumenten, met de aanvulling dat het opgegeven woord nog niet voorkomt in de woorden in de index, en gaan we aan de hand van de \texttt{member} en \texttt{getWords} functie na of het opgegeven woord wel voorkomt in de lijst van de woorden in die index.
+
+\item \textbf{\texttt{addEntry-adds-non-existing-pages-to-existing-words}:} Dit theorema is een uitbreiding van voorgaand theorema waarbij gecontroleerd wordt of een pagina die nog geen deel uitmaakt van de pagina's bij een opgegeven woord na toevoeging van een nieuwe entry via de \texttt{addEntry} functie wel deel uitmaakt van die paginanummerlijst. Hiervoor breidden we het \texttt{addEntry-adds} theorema uit met de extra restrictie dat de index het woord reeds bevat en met de postcondities dat het nieuw toegevoegde paginanummer nu wel deel uitmaakt van de paginanummers bij het opgegeven woord, en dat deze lijst bovendien één element meer bevat dan voorheen.
+
+\item \textbf{\texttt{addEntry-doesnt-add-existing-pages-to-existing-words}:} Dit theorema is een kleine variatie op het voorgaande theorema. Hier eisen we dat het betreffende paginanummer wel reeds deel uitmaakt van de lijst van paginanummers bij het betreffende woord. Als resultaat controleren we of de originele lijst van paginanummers nog steeds \texttt{equal} is aan de lijst van paginanummes na het oproepen van de \texttt{addEntry} functie.
+
+\item \textbf{\texttt{addEntry-still-index}:} Dit eenvoudig theorema test of een index nog steeds een correcte index is na toevoeging van een nieuwe entry door te verifiëren dat de index nog steeds voldoet aan de datastructuur gedefinieerd in Sectie \ref{datastructuur}.
+
+Net zoals bij \texttt{getPages-gets-pages} wierp ACL2 hier een verificatiefout op aangezien hij probeerde te generaliseren. Hier hebben we dan ook de hint ``do not generalize'' aan meegegeven, waarna dit theorema wel geverifieerd kon worden.
+\end{itemize} 
+
+\section{Bijlages}
+\begin{itemize}
+\item \textbf{\texttt{Bijlages/group3\_index.lisp}:} Formele specificatie-, implementatie- en verificatiefuncties en -theorema's van de index
+\item \textbf{\texttt{Bijlages/group3\_index.lisp.a2s}:} Volledige \texttt{a2s} output van de ACL2 sessie bij het evalueren van alle functies en theorema's
+\end{itemize}

@@ -1,0 +1,34 @@
+@(classes: List[models.Class],comp: Competition)
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("competition.close.head")) {
+<!-- HEADER -->
+
+
+
+} { <!-- TOP -->
+
+
+} { <!-- BODY -->
+	@form(action = routes.Competitions.closeCompetition(comp.id)) {
+        <h2>@LangMessages.get("competition.close.head")</h2>
+		@LangMessages.get("competition.close.message")
+		@classes.groupBy(_.school).map {
+            case (school,sclasses) => {
+                <h4>@school.name</h4>
+                @for(c <- sclasses) {
+                    <input type="checkbox" name="@c.id" value="@c.id">@c.name <br>
+                }        
+            }
+            
+        }
+		<input type="submit" value="@LangMessages.get("competition.close.button")">
+	}
+
+} { <!-- SIDEBAR -->
+
+<li>
+    <a href="@routes.Competitions.render_create_competition()">@LangMessages.get("profileTeacher.competition")</a>
+</li>
+
+}

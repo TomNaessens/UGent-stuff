@@ -1,0 +1,41 @@
+@(listOfComps: List[Competition])( cl:models.Class)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("localCompetitionsClass.head")) {
+<!-- Head -->
+
+}{
+<!-- Toplinks -->
+
+}{
+<!-- Content -->
+<div class="span8" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+     xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<div class="well">
+    <h2>@LangMessages.get("localCompetitionsClass.head")</h2>
+<ul>
+    @for(c <- listOfComps) {
+    <li>
+        <span style="margin-left:15%">@c.id @c.getTitle() @if(c.compType == CompetitionType.OFFICIAL) { <button class="btn btn-warning btn-small"><i class="icon-white icon-star-empty"></i></button> }</span>
+        <div id="@(c.id)-download1" style="float:right">
+            <a href="@routes.WriteResultsToFile.downloadResults(c.id, cl.id, 1)"  class="btn btn-success"><i class="icon-white icon-download"></i>@(FileType.XLS)</a>
+        </div>
+        <div id="@(c.id)-download2" style="float:right">
+            <a href="@routes.WriteResultsToFile.downloadResults(c.id, cl.id, 2)"  class="btn btn-success"><i class="icon-white icon-download"></i>@(FileType.XLSX)</a>
+        </div>
+        <div id="@(c.id)-download3" style="float:right">
+            <a href="@routes.WriteResultsToFile.downloadResults(c.id, cl.id, 3)"  class="btn btn-success"><i class="icon-white icon-download"></i>@(FileType.CSV)</a>
+        </div>  </br>  </br>
+    </li>
+
+    }
+</ul>
+</div>
+</div>
+}{
+<!-- Sidebar -->
+<li><a href="@routes.ProfilesController.seeProfile()">@LangMessages.get("profilePage.profile")</a></li>
+}

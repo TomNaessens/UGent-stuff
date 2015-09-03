@@ -1,0 +1,47 @@
+@(myForm: DynamicForm )
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("endYear.head")){
+<!-- Head -->
+<style>
+    .center
+    {
+    clear: both;
+    text-align: center
+    }
+    .well
+    {
+    text-align: justify
+    }
+</style>
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main -->
+
+<div class="span8">
+    <div class="well">
+         @LangMessages.get("endYear.info")
+        <div class="center">
+            @form(routes.OrganizerController.endYear){
+            <input type="submit" class="btn btn-primary" name="action" value=@LangMessages.get("endYear.head")>
+            }
+        </div>
+    </div>
+</div>
+
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.ProfilesController.editProfile()">@LangMessages.get("profileGeneral.link")</a>
+</li>
+<li>
+    <a href="@routes.ProfilesController.downloadManual()">@LangMessages.get("profileGeneral.downloadManual")</a>
+</li>
+}

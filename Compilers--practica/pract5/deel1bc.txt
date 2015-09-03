@@ -1,0 +1,68 @@
+GROUP 09
+========
+
+Part 1.2
+--------
+
+The extra argument (t100) to the call is a pointer to the previous stack frame (the stack frame of the function in which the call happens), also known as a static/downstack link. This allows the called function to access the local variables in that stackframe instead of copying them over in to a new stackframe.
+
+Part 1.3
+--------
+
+For each stack frame, top -> bottom is highest address -> lowest address
+
+ADD_SQR
+===========================
+| limit                   | t100 + 16 ( argument of add_sqr(a, limit) )
+===========================
+| a                       | t100 + 12 ( argument of add_sqr(a, limit) )
+===========================
+| static link (main t100) | t100 + 8
+===========================
+| return address          | t100 + 4
+===========================
+| frame pointer           | t100
+===========================
+| idx                     | t100 - 4
+===========================
+| sum                     | t100 - 8
+===========================
+
+ADDONE
+==============================
+| static link (add_sqr t100) | t100 + 8
+==============================
+| return address             | t100 + 4
+==============================
+| frame pointer              | t100
+==============================
+| result                     | t100 - 4 ( used as eventual return value )
+==============================
+| if flag                    | t100 - 8 ( used in if(idx < limit) statement )
+==============================
+| result square()            | t100 - 12 ( a[idx]^2 )
+==============================
+| sum                        | t100 - 16 ( shallow copy of sum )
+==============================
+| sum address                | t100 - 20 ( address of sum when it is first initialized, t100-8 in the add_sqr stack frame previously )
+==============================
+
+
+MAIN
+=====================
+| frame pointer     | t100
+=====================
+| array pointer     | t100 - 4 ( copy of t100 - 24 )
+=====================
+| i                 | t100 - 8
+=====================
+| to_square         | t100 - 12
+=====================
+| i                 | t100 - 16 ( index i of for loop in main )
+=====================
+| 9                 | t100 - 20 ( upperbound of for loop in main )
+=====================
+| array pointer     | t100 - 24 ( result of initArray )
+=====================
+| frame pointer -4  | t100 - 28
+=====================

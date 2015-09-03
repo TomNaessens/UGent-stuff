@@ -1,0 +1,44 @@
+<!-- Arguments -->
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("index.title")) {
+<!-- Head -->
+
+} {
+
+<!-- Toplinks -->
+} {
+
+<!-- Main -->
+<h1>@LangMessages.get("index.welcome")</h1>
+Doe hier mee aan de Bebras competitie!<br />
+Als je een account hebt kan je rechtsboven via de knop "Log in" aan wedstrijden mee doen. Heb je nog geen account, dan kan je een account aanmaken via de knop "Register".<br />
+<a href="@routes.Competitions.renderUnrestrictedCompetitions()">Een test competitietje maken?</a>
+<br />
+
+<h1>Testdata</h1>
+Voor enthousiastelingen die even onze applicatie willen bekijken:
+
+<h2>Admin</h2>
+admin:secret
+
+<h2>Organizer</h2>
+organizer:secret
+
+<h2>Teacher</h2>
+teacher:secret
+
+<h2>Pupil</h2>
+pupil:secret
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.Competitions.renderUnrestrictedCompetitions()">@LangMessages.get("index.playUnrestrictedCompetition")</a>
+</li>
+<li>
+    <a href="@routes.ProfilesController.downloadManual()">@LangMessages.get("profileGeneral.downloadManual")</a>
+</li>
+}

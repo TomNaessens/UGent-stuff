@@ -1,0 +1,12 @@
+@(correct: Int)(wrong: Int)(viewAble: Boolean)
+@if(viewAble) {
+@if(correct > 0 || wrong > 0) {
+    <img src='http://chart.apis.google.com/chart?cht=p3&chs=450x200&chd=t:@correct,@wrong&chl=Correct|Wrong&chtt=Distribution&chco=ff0000'>
+}
+@if(correct == 0 && wrong == 0 ) {
+        <p>No statistics, this pupil has not taken this competition yet</p>
+        }
+}
+@if(!viewAble){
+         <h4>This statistics is part of a official competition, which must first  be closed</h4>
+        }

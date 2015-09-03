@@ -1,0 +1,219 @@
+# Routes
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#Play defined routes
+
+GET     /                                       controllers.Application.index(lang: Option[String] ?= None)
+
+#Get and Post route for logging in
+GET     /login                                  controllers.Application.login()
+POST    /login                                  controllers.Application.authenticate()
+
+#Get route for logging out
+GET     /logout                                 controllers.Application.logout()
+
+# Register as half registered pupil
+GET     /register      			                controllers.Application.renderRegisterAsHalfRegisteredPupil()
+POST    /register      			                controllers.Application.registerAsHalfRegisteredPupil()
+
+
+# Change password for first time page
+GET     /activate                               controllers.Application.render_activate()
+POST    /activate                               controllers.Application.activate()
+
+# Register organizer
+GET     /registerOrganizer                      controllers.AdminController.render_register_organizer()
+POST    /registerOrganizer                      controllers.AdminController.register_organizer()
+
+# Register teacher
+GET		/registerTeacher		                controllers.OrganizerController.renderRegisterTeacher()
+POST	/registerTeacher		                controllers.OrganizerController.registerTeacher()
+
+# Register pupils via xslx
+GET		/registerPupils		                    controllers.TeacherController.renderRegisterPupils()
+POST	/registerPupils		                    controllers.TeacherController.registerPupilsUploader()
+
+#ajax handler for retrieving progress of uploading
+GET		/registerPupils/progress/:id			controllers.TeacherController.retrieveProgress(id : String)
+
+# Open Competition
+GET 	/openCompetition/:id	                controllers.Competitions.render_open_competition(id: Long)
+POST 	/openCompetition/:id	                controllers.Competitions.openCompetition(id: Long)
+
+# Get route for profile page
+GET     /profile                                controllers.ProfilesController.seeProfile()
+
+# Get route for history of pupil
+GET     /profile/history                        controllers.ProfilesController.seeHistory()
+
+# Get route for list of pupils in a class for a teacher
+GET     /profile/Class:id                       controllers.ProfilesController.viewClass(id: Long)
+
+# Routes for monitoring pupils during a competition
+GET     /profile/monitor/:id                        controllers.MonitorCompetitionController.monitorCompetition(id: Long)
+
+# routes for create competition
+GET     /createCompetition		                controllers.Competitions.render_create_competition()
+POST	/createCompetition		                controllers.Competitions.createCompetition()
+
+# GET and POST route for registering a single pupil to a class
+GET		/profile/Class:id/registerSinglePupil	controllers.TeacherController.renderRegisterSinglePupil(id: Long)
+POST	/profile/Class:id/registerSinglePupil	controllers.TeacherController.registerSinglePupil(id: Long)
+
+#Ajax route for adding pupil to class
+GET		/profile/Class:id/addExistingPupil+:bebrasId	controllers.TeacherController.addExistingPupilToClass(id: String, bebrasId: String)
+
+# Taking a competition
+GET     /takeCompetition/:id/:level                    controllers.CompetitionController.beforeCompetition(id: Long, level: String)
+GET     /takeCompetition/:id/:level/start              controllers.CompetitionController.startCompetition(id: Long, level: String)
+POST    /takeCompetition/:id/:level/start              controllers.CompetitionController.startCompetition(id: Long, level: String)
+GET     /takeCompetition/:id/:level/finish             controllers.CompetitionController.finishCompetition(id: Long, level: String)
+GET     /takeCompetition/:id/:level/:question          controllers.CompetitionController.showQuestion(id: Long, level:String, question: Int)
+POST    /takeCompetition/:id/:level/:question/answer   controllers.CompetitionController.answerQuestion(id: Long, level:String, question: Int)
+
+# Upload questions
+GET     /uploadQuestion                         controllers.QuestionsController.renderUploadQuestions()
+POST    /questionUploads                         controllers.QuestionsController.questionUploader()
+GET		/questionUploads/$file<.+>			controllers.QuestionsController.viewFile(file: String)
+POST	/uploadQuestion                      	controllers.QuestionsController.updateQuestion()
+
+# Ajax get question url info
+GET		/question/:id							controllers.QuestionsController.getQuestionInfo(id: Long)
+POST	/question/:id/$dir<.+>	controllers.QuestionsController.setQuestionInfo(id: Long,dir: String)
+
+
+
+# Process uploaded questions
+GET		/processQuestions/:path					controllers.QuestionsController.renderProcessFiles(path: String)
+
+# Post for building the tree
+POST	/processQuestionsAjax/buildTree				            controllers.QuestionsController.fileTreeConnector()
+POST	/processQuestionsAjax/questionTree			            controllers.QuestionsController.buildQuestionTree()
+POST	/processQuestionsAjax/questionInfo			            controllers.QuestionsController.buildQuestionInfoTree()
+POST	/processQuestionsAjax/questionInfoWithoutLinks			controllers.QuestionsController.buildQuestionInfoTreeWithoutLinks()
+POST	/processQuestionsAjax/getQuestionContents/:file			controllers.QuestionsController.getQuestionContents(file: String)
+
+# Edit profile
+GET     /profile/edit                           controllers.ProfilesController.editProfile()
+POST    /profile                                controllers.ProfilesController.submitChangesProfile()
+
+# Ajax Calls
+GET     /profile/renewOnline                    controllers.ProfilesController.renewOnline()
+
+GET     /isOnline/:classId                      controllers.TeacherController.getPupilsStatus(classId: Long)
+
+# Javascript routing
+GET     /assets/javascripts/routes              controllers.Application.javascriptRoutes()
+
+# Map static resources from the /public folder to the /public path
+GET     /assets/*file                       	controllers.Assets.at(path="/public", file)
+
+# Routes for asking to reset password
+GET		/askResetPassword						controllers.Reset.renderAskReset()
+POST	/askResetPassword						controllers.Reset.askReset()
+
+# Routes for resetting password
+GET		/resetPassword/:token					controllers.Reset.renderResetPassword(token: String)
+POST	/resetPassword/:token					controllers.Reset.resetPassword(token:String)							
+
+#Ajax route for resetting pupil account
+GET		/resetPupilPassword/:bebrasId			controllers.TeacherController.resetPupilPassword(bebrasId: String)
+
+#Ajax route for mimicking a user
+GET		/mimickUser/:bebrasId					controllers.Application.mimickUser(bebrasId: String)
+
+# Stop mimicking
+GET		/stopMimick								controllers.Application.stopMimick()
+
+# Routes for registering a school
+GET		/registerSchool							controllers.OrganizerController.renderRegisterSchool()
+POST	/registerSchool							controllers.OrganizerController.registerSchool()
+
+GET		/closeCompetition/:id					controllers.Competitions.renderCloseCompetition(id: Long)
+POST	/closeCompetition/:id					controllers.Competitions.closeCompetition(id: Long)
+
+GET		/composeSet								controllers.SetController.renderComposeSet()
+POST	/composeSet								controllers.SetController.composeSet()
+
+GET		/manageSets								controllers.SetController.renderManageSets()
+GET     /manageSets/delete/:id                  controllers.SetController.deleteSet(id: Long)
+
+#Ajax route for upgrading and downgrading a set
+GET		/upgradeSet/:id							controllers.SetController.upgradeSet(id: Long)
+GET		/downgradeSet/:id						controllers.SetController.downgradeSet(id: Long)
+
+#GET and POST for updating a set
+GET		/editSet/:id							controllers.SetController.renderEditSet(id: Long)
+POST	/editSet/:id							controllers.SetController.editSet(id: Long)
+
+GET     /endYear                                controllers.OrganizerController.render_endYear()
+POST    /endYearSuccess                         controllers.OrganizerController.endYear()
+
+#Ajax route for adding a class to a school
+GET		/addClass/:school+:name+:level			controllers.TeacherController.addClassToSchool(school: String, name: String, level: String)
+
+# Routes for monitoring a competition
+GET     /monitor/:id                            controllers.MonitorCompetitionController.getPupilsStatusForCompetition(id: Long)
+POST    /monitor/:id/grantGraceTime             controllers.MonitorCompetitionController.grantGraceTime(id: Long)
+POST    /monitor/:id/deleteHistory              controllers.MonitorCompetitionController.deleteHistory(id: Long)
+POST    /monitor/:id/reopenCompetition          controllers.MonitorCompetitionController.reopenCompetition(id: Long)
+
+#Get routes for viewing results of local competition (teacher)
+GET     /recentLocalCompetitions                controllers.WriteResultsToFile.viewRecentCompetitions(id: Long)
+GET     /downloadResults                        controllers.WriteResultsToFile.downloadResults(idComp: Long, idClass: Long, type: Long)
+
+#Get routes for downloading classes
+GET     /downloadClasses                        controllers.WriteInfoToFile.renderDownloadClasses()
+POST    /downloadClasses                        controllers.WriteInfoToFile.downloadClasses()
+
+GET		/urq									controllers.Competitions.renderUnrestrictedCompetitions()
+
+#statistics
+
+GET     /statistics/viewQuestionsetStatistics/:id                        controllers.Statistics.viewQuestionSetStatistics(id: Long)
+POST    /statistics/viewStatsForCompetitionForUser/:id                   controllers.Statistics.showStats(id: Long)
+GET     /statistics/showRightAndWrong/:id/:bebrasId                                controllers.Statistics.showRightAndWrong(id: Long,bebrasId: String)
+GET     /statistics/downloadStatistics/:id                               controllers.Statistics.downloadStatistics(id: Long)
+GET     /statistics/downloadStatsForClass/:classId/:competitionId        controllers.Statistics.downloadStatisticsForClass(competitionId: Long,classId: Long)
+GET     /statistics/pupil/:historyId                                     controllers.Statistics.pupilDownloadStatistics(historyId: Long)
+GET     /statistics/question/getStatsForQuestion/:questionId/:setId            controllers.Statistics.getStatsForQuestion(setId: Long, questionId: Long)
+GET     /statistics/viewStatisticsForClass/:classId                     controllers.Statistics.viewStatsForClass(classId: Long)
+GET     /statistics/official/top20ranking                               controllers.Statistics.viewTop20()
+
+#Get routes for downloading manuals
+GET     /downloadManuals                        controllers.ProfilesController.downloadManual()
+
+# Routes for monitoring the fileservers
+GET     /monitorFTP                             controllers.MonitorFTPController.renderOverview()
+GET     /getStatus                              controllers.MonitorFTPController.getStatus()
+GET     /addServer                              controllers.MonitorFTPController.renderAddServer()
+POST    /addServer                              controllers.MonitorFTPController.addServer()
+GET     /editServer/:id                         controllers.MonitorFTPController.renderEditServer(id: Long)
+POST    /editServer/:id                         controllers.MonitorFTPController.editServer(id: Long)
+GET     /removeServer/:id                       controllers.MonitorFTPController.removeServer(id: Long)
+
+#Get routes for helppages
+
+GET     /help                                   controllers.ProfilesController.renderHelpPage()
+
+#Get teachers for school - AJAX
+GET		/getTeachersForSchool/:id				controllers.OrganizerController.getTeachersFromSchool(id: Long)
+
+#Add school to teacher
+GET		/teacherPage/:id						controllers.OrganizerController.renderTeacherPage(id: String)
+POST	/addSchoolToTeacher						controllers.OrganizerController.addSchoolToTeacher()
+
+#Change class name
+POST	/classForTeacher/changeName				controllers.TeacherController.changeClassName()
+
+#Merge pupils
+GET		/teacher/mergePupils					controllers.MergePupils.renderMergePupils()
+POST	/teacher/mergePupils					controllers.MergePupils.mergePupils()
+GET		/teacher/searchName/:name:school		controllers.MergePupils.searchName(name: String, school: String)
+
+#Get routes for downloading example registerPupils files
+GET     /downloadExamples                        controllers.TeacherController.downloadExamples(id: Long)
+
+GET		/viewSet/:id							controllers.SetController.viewSet(id: Long)

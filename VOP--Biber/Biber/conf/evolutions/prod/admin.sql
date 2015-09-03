@@ -1,0 +1,1 @@
+INSERT INTO admin (bebras_id, password, first_password, email, first_name, last_name, language) VALUES ('admin', '$2a$10$NgQVzdn1PHZ3TJ1CLmkQGuc0vu7hrTujm48ePqK.kdBuFgXVgKd.y', 'secret', 'admin@biber.ugent.be', 'admin', 'admin', 1);

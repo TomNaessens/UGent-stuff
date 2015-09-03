@@ -1,0 +1,20 @@
+@(comp: Competition)
+@import helper._
+@import utils.LangMessages
+@main(LangMessages.get("competition.open.official.head")) {
+
+} {
+
+
+} {
+	<h3>@LangMessages.get("competition.close.official.warning")</h3>
+	<!-- TODO: refer to the right competition page 
+		 TODO: Maybe add a calendar widget to specify how long the competition can run?
+	-->
+	<a href="#">@comp.getTitle()</a>
+	@form(action = routes.Competitions.closeCompetition(comp.id)) {
+		<input type="submit" value="@LangMessages.get("competition.close.button")">
+	}
+} {
+
+}

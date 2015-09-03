@@ -1,0 +1,30 @@
+@(askResetForm: Form[Reset.AskResetForm])
+
+<!-- Imports -->
+@import utils.LangMessages
+<!-- Main call -->
+@main(LangMessages.get("resetPassword.askReset.head")) {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+} {
+<!-- Main -->
+<h1>Reset your account</h1>
+@helper.form(routes.Reset.askReset) {
+	<p>Fill in one of both options</p>
+	@wflash()
+    @if(askResetForm.hasGlobalErrors) {
+    <p class="error">
+        @askResetForm.globalError.message()
+    </p>
+    }
+    @helper.inputText(askResetForm("bebrasId"), '_label -> "BebrasId:")
+    <p>or</p>
+    @helper.inputText(askResetForm("email"),'_label -> "Email:")    
+    <input type="submit" value="@LangMessages.get("common.submit")"/>
+}
+
+} {
+<!-- Sidebar -->
+}

@@ -1,0 +1,61 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[dutch]{babel}
+\title{Installation Manual Bebras (en)}
+\author{Team Biber}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[pdftex]{graphicx}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\makeindex
+\begin{document}
+\maketitle
+\parindent 0pt
+
+\section{Dependencies}
+\begin{itemize}
+\item Zorg ervoor dat je een werkende \href{http://www.playframework.com/documentation/2.1.0/Home}{Play installatie}. Wij gebruiken Play 2.1.0!
+\item Zorg ervoor dat je een werkende \href{http://www.oracle.com/technetwork/java/javase/downloads/index.html}{Java installatie} hebt. Wij gebruiken Java 7!
+\item Haal de code vanop deze repository \href{https://github.ugent.be/tnnaesse/Biber}{hier}.
+\item Als je geen werkende Git installatie hebt, verwijder dan \texttt{project/project/plugin.scala}
+\item Om de seleniumtests te doen slagen moet Firefox geïnstalleerd zijn! OPGELET: Het KAN zijn dat bij het testen enkele tests niet slagen door te veel delay. Wij stellen overal een maximum delay van 300ms tot 3 seconden in, afhankelijk van de pagina. Dit is in het merendeel van de gevallen genoeg gebleken. Als er een Seleniumtest faalt kan deze herdaan worden met \texttt{play 'test-only [naam test]'}.
+\end{itemize}
+
+\section{Testing}
+\begin{itemize}
+\item Open een terminal
+\item Navigeer naar de hoofdmap van onze code
+\item Navigeer naar de \texttt{Biber/} map
+\item Voer \texttt{play test} uit
+\end{itemize}
+
+\section{Developer mode}
+\begin{itemize}
+\item Open een terminal
+\item Navigeer naar de hoofdmap van onze code
+\item Navigeer naar de \texttt{Biber/} map
+\item Voer \texttt{play test} uit
+\item Voer \texttt{play run} uit; de developer modus werkt met een 'in memory' databank
+\item Navigeer naar \texttt{localhost:9000}
+\end{itemize}
+
+\section{Production mode}
+Voor je begint: zorg er eerst voor dat je een werkende Postgresinstallatie hebt met een voorgeconfigureerde gebruiker!
+
+\begin{itemize}
+\item Open een terminal
+\item Navigeer naar de hoofdmap van onze code
+\item Navigeer naar de Biber map
+\item Log in op uw Postgres installation met uw gebruiker naar keuze
+\item Importeer alle bestanden uit de map \texttt{conf/evolutions/prod} in volgorde (eerst \texttt{1.sql}, dan \texttt{2.sql} enzovoort). Laad hierna het script \texttt{admin.sql} in om de admingebruiker in de databank te zetten
+\item Pas \texttt{conf/prod.conf} aan en wijzig de databasedetails naar uw Postgresconfiguratie en -gebruiker
+\item Voer \texttt{play -Dconfig.file=conf/prod.conf start}
+\item Navigeer naar \texttt{localhost:9000/play/}
+\end{itemize}
+
+
+\end{document}

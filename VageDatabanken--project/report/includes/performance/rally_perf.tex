@@ -1,0 +1,34 @@
+\subsection{Drift}
+Omdat de driftcontroller gebaseerd is op de snelle controller zien we 
+gelijkaardige resultaten. Door te driften zien we echter voor Interlagos een 
+betere tijd opduiken.
+
+Zoals besproken bij de implementatie van deze controller is deze controller een 
+gewaagde versie van de speedcontroller waarbij we meer risico's nemen zoals 
+later remmen, oversturen, meer gas geven bij het verlaten van de bocht, etc. 
+Daarom zien we ook dat deze controller meer crasht dan de speedcontroller. 
+
+Het parcour op Interlagos is perfect voor deze controller. Door de wijde 
+bochten waarvan de hoek de hele bocht gelijk blijft drift hij zich hier vaak 
+mooi door. Omdat we sneller door de bochten durven gaan de speedcontroller, 
+alsook op de rechte stukken goed gas durven geven halen we hier zelfs een 
+snellere tijd dan bij de speedcontroller, al ligt de topsnelheid een stuk 
+lager. Bij de lange stukken durft hij wel eens de controle over het stuur 
+te verliezen door kleine stuurcorrecties, of niet genoeg afremmen bij het 
+insturen van een bocht. Ditzelfde gedrag zien we ook vaak bij Texas de kop 
+opsteken.
+
+Als we naar de tabel kijken in Tabel~\ref{tbl:resultsdrift} zien we dat de 
+wagen ook effectief meer drift dan de andere controllers.
+
+Op het parcours van Silverstone en Spa-Francorchamps presteert deze controller 
+veel minder goed en mogen we al blij zijn dat hij (in het geval van 
+Silverstone) het parcours uitrijdt. De wagen probeert zich vaak door bochten te 
+driften, maar aangezien die vaak te scherp zijn heeft hij hier meestal de 
+snelheid niet voor.
+
+De robuustheid van deze controller ligt nog lager dan die van die van de 
+speedcontroller. Rechte stukken worden soms snel genomen, soms niet. De ene 
+keer drift hij goed door bochten, waar hij de volgende keer traag zonder 
+driften door rijdt. De oorzaak hiervan is dat het gedrag een stuk minder 
+gecontroleerd en een stuk meer bruusk is dan bij andere controllers.

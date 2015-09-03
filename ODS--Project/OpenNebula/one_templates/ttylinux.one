@@ -1,0 +1,19 @@
+NAME   = ttylinux
+CPU    = 0.10
+MEMORY = 512
+
+DISK   = [ IMAGE_ID = 6 ]
+OS     = [ ARCH="x86_64"]
+NIC    = [ NETWORK_ID = 1 ]
+
+FEATURES=[ acpi="no" ]
+
+#CONTEXT = [
+#    hostname    = "$NAME",
+#    ip_public   = "PUBLIC_IP",
+#    files      = "/path/to/init.sh /path/to/id_dsa.pub",
+#    target      = "hdc",
+#    root_pubkey = "id_dsa.pub",
+#    username    = "opennebula",
+#    user_pubkey = "id_dsa.pub"
+#]

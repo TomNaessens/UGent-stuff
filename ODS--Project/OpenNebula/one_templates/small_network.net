@@ -1,0 +1,10 @@
+NAME = "Small network"
+TYPE = FIXED
+
+#Now we'll use the cluster private network (physical)
+BRIDGE = virbr0
+LEASES = [ IP="192.168.122.5"]
+LEASES = [ IP="192.168.122.6"]
+LEASES = [ IP="192.168.122.7"]
+LEASES = [ IP="192.168.122.8"]
+LEASES = [ IP="192.168.122.9"]

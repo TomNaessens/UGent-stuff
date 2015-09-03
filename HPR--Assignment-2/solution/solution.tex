@@ -1,0 +1,47 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{microtype}
+
+\author{Tom Naessens}
+
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
+\parindent 0pt
+\begin{document}
+\pagestyle{empty}
+
+\underline{HPR Homework: Assignment 2}  \hfill \underline{Tom Naessens}\\
+
+\textbf{Q1.1:} We edit the global variable \texttt{pi} locally in the threads. This causes a write race condition and can result into modified values being overwritten by other threads. We can solve this by using a mutex when \texttt{pi} gets incremented so only one thread can enter this critical section and safely write the result back to the memory before another thread can read it. The same counts for \texttt{cout} as \texttt{cout} also is an object that is shared between the threads were multiple threads can write to.
+
+\textbf{Q1.2}: When running the program multiple times, we see that the thread IDs are not always unique. The reason for this is the following: the variable \texttt{i}, the loop variable, is passed by reference to the threads. It is possible that before the thread has started and the \texttt{threadID} is assigned locally in the thread, the loop iterates one further and increments \texttt{i}. When the thread from the previous iteration has started, the wrong value is assigned to the local \texttt{threadID} variable. We can fix this by passing the loop variable, `disguised as' a void pointer, to our function and transform it back from a pointer to a long in the thread function.\\
+
+\textbf{Q2.1}: \qquad\qquad\qquad\qquad\qquad\qquad~~ \textbf{Q2.2}:\\
+\begin{tabular}{r||l|l}
+Threads & Runtime & Speedup \\ \hline\hline
+1  & 0.3     & 100.00\% \\ \hline
+2  & 0.43    & ~69.77\% \\ \hline 
+4  & 0.4075  & ~73.62\% \\ \hline
+8  & 0.22125 & 135.59\% \\ \hline
+16 & 0.23125 & 129.73\% \\
+\end{tabular} \quad
+\begin{tabular}{r||l|l}
+Threads & Runtime & Speedup \\ \hline\hline
+1  & 0.12    & 100.00\% \\ \hline
+2  & 0.055   & 218.18\% \\ \hline 
+4  & 0.0275  & 436.36\% \\ \hline
+8  & 0.02    & 600.00\% \\ \hline
+16 & 0.01375 & 827.73\% \\
+\end{tabular} \\
+
+\textbf{Q2.3}: The problem here is that we have multiple threads writing to the same
+array every time we add a value to our \texttt{localSum[]}. As different threads
+are writing to this array, the part of the array written to gets loaded into
+the cache, but is easily evicted by the different threads wanting to read from the other large array. We can fix this by using a temporary value, add the value to this temporary value and put this value in the \texttt{localSum[]} array once at the end of the inner thread function.
+
+\end{document}

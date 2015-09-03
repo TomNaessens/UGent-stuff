@@ -1,0 +1,83 @@
+\subsection{Drift}
+De driftcontroller is een meer gewaagde versie van de speedcontroller, waarbij 
+er drie algemene aanpassingen zijn gebeurd. Onderstaande beschrijven we onze 
+aanpassingen tegenover de hierboven besproken speedcontroller.
+
+Ten eerste hebben we het sturen bruusker gemaakt. Hiervoor hebben we zowel de
+lidmaatschapsfuncties van de termen voor \texttt{steering} iets meer richting de extremen gezet.
+We hebben ook de steering regels aangepast zoals in onderstaande regelblokken te zien
+zijn. In plaats van gewoon naar links te sturen in een gewone linkse bocht
+oversturen we eigenlijk. Idem voor rechts. Deze toevoegingen zorgen ervoor dat
+we eigenlijk té veel insturen in een bocht, waardoor de achterkant van de auto
+zal uitbreken en we beginnen driften.
+
+Dit driften moeten we natuurlijk ook tegengaan om de auto na het oversturen in
+een bocht te stabiliseren. Hiervoor voegen we twee nieuwe regels toe, regel 7 en
+8 in het \texttt{steering} ruleblock. Wanneer we in een bocht aan het driften
+zijn zal de \texttt{corner} variabele uit deze bocht willen sturen, wat
+automatisch al betekent dat de auto zal tegensturen. Dus, als we aan het driften
+zijn, en de zij-sensoren zien een niet te scherpe bocht naar links/rechts dan
+kunnen we concluderen dat we net hebben overstuurd in een bocht naar
+rechts/links. Om dit te corrigeren sturen we in dit geval dus scherp in de bocht
+die gezien wordt om het oversturen in de originele bocht tegen te gaan.
+
+Een tweede algemene aanpassing die we hebben gemaakt is het weghalen van 
+braking-rules. Om een deftige drift te kunnen uitvoeren moeten we met voldoende 
+snelheid in de bocht gaan, anders breekt de achterkant van de auto niet uit. We 
+willen ook niet extra gaan remmen tijdens het driften, dus ook deze regels 
+halen we weg. 
+
+Als laatste willen we uit op het eind van een drift ook extra gas geven om snel 
+weg te rijden (en om wat extra rook te ontwikkelen), dus ook hiervoor is een 
+extra regel toegevoegd.
+
+De lidmaatschapsfuncties van deze controllers is te vinden in de rechterkolom 
+van figuren \ref{fig:lidfties_in} en \ref{fig:lidfties_out}.
+
+\begin{lstlisting}
+RULEBLOCK steering
+  RULE 1 : IF corner IS sharp_left_corner THEN steering IS sharp_left;
+  RULE 2 : IF corner IS left_corner THEN steering IS sharp_left;
+  RULE 3 : IF corner IS mild_left_corner THEN steering IS mild_left;
+  RULE 4 : IF corner IS mild_right_corner THEN steering IS mild_right;
+  RULE 5 : IF corner IS right_corner THEN steering IS sharp_right;
+  RULE 6 : IF corner IS sharp_right_corner THEN steering IS sharp_right;
+
+  RULE 7 : IF lateralVelocity IS drifting AND (corner IS mild_right_corner OR 
+  corner IS right_corner) THEN steering IS sharp_right;
+  RULE 8 : IF lateralVelocity IS drifting AND (corner IS mild_left_corner  OR 
+  corner IS left_corner)  THEN steering IS sharp_left;
+END_RULEBLOCK
+
+RULEBLOCK speedup
+  RULE 1 : IF carSpeedKph IS slow AND frontSensorDistance IS near THEN 
+  acceleration IS fastly;
+  RULE 2 : IF carSpeedKph IS slow AND frontSensorDistance IS far THEN 
+  acceleration IS fastly;
+  RULE 3 : IF carSpeedKph IS normal AND frontSensorDistance IS far THEN 
+  acceleration IS fastly;
+
+  RULE 4 : IF carSpeedKph IS fast AND lateralVelocity IS minimal AND 
+  frontSensorDistance IS very_far THEN acceleration IS fastly;
+  RULE 5 : IF carSpeedKph IS hyper_fast AND frontSensorDistance IS NOT very_far 
+  THEN acceleration IS slowly;
+
+  RULE 6 : IF lateralVelocity IS drifting THEN acceleration IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK brake
+  RULE 4 : IF frontSensorDistance IS NOT far AND carSpeedKph IS fast THEN brake 
+  IS slowly;
+  RULE 5 : IF frontSensorDistance IS NOT very_far AND carSpeedKph IS very_fast 
+  THEN brake IS normal;
+  RULE 6 : IF carSpeedKph IS fast THEN brake IS normal;
+  RULE 7 : IF carSpeedKph IS very_fast AND frontSensorDistance IS NOT very_far 
+  THEN brake IS fastly;
+END_RULEBLOCK
+
+RULEBLOCK scanangle
+  RULE 1: IF frontSensorDistance is near THEN scanangle IS wide;
+  RULE 2: IF carSpeedKph IS very_fast THEN scanangle IS narrow;
+  RULE 3: IF carSpeedKph IS hyper_fast THEN scanangle IS very_narrow;
+END_RULEBLOCK
+\end{lstlisting}

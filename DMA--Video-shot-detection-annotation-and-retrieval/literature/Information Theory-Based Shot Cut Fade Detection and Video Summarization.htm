@@ -1,0 +1,1607 @@
+
+<!-- saved from url=(0126)http://webcache.googleusercontent.com/search?q=cache:http://poseidon.csd.auth.gr/papers/PUBLISHED/JOURNAL/pdf/Cernekova06a.pdf -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css"></style></head><body bgcolor="#ffffff" vlink="blue" link="blue"><div style="background:#fff;border:1px solid #999;margin:-1px -1px 0;padding:0;"><div style="background:#ddd;border:1px solid #999;color:#000;font:13px arial,sans-serif;font-weight:normal;margin:12px;padding:8px;text-align:left">Dit is de html-versie van het bestand <a href="http://poseidon.csd.auth.gr/papers/PUBLISHED/JOURNAL/pdf/Cernekova06a.pdf" style="text-decoration:underline;color:#00c">http://poseidon.csd.auth.gr/papers/PUBLISHED/JOURNAL/pdf/Cernekova06a.pdf</a>.<br> <b><font color="#0039b6">G</font> <font color="#c41200">o</font> <font color="#f3c518">o</font> <font color="#0039b6">g</font> <font color="#30a72f">l</font> <font color="#c41200">e</font></b> maakt automatisch een html-versie van documenten bij het indexeren van het web.</div></div><div style="position:relative">
+
+
+
+<meta name="CreationDate" content="D:20060503161558+03&#39;00&#39;">
+<meta name="ModDate" content="D:20060503161558+03&#39;00&#39;">
+<meta name="Producer" content="Acrobat Distiller 5.0 (Windows)">
+<meta name="Creator" content="dvips(k) 5.94b Copyright 2004 Radical Eye Software">
+<meta name="Title" content="C:/C/IEEELatex/journal_entropy/Cernekova_CSVT-04-02-14/Manuscript/Cernekova_CSVT-04-02-14.dvi">
+<title>Information Theory-Based Shot Cut/Fade Detection and Video Summarization</title>
+
+<table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="1"><b>Page 1</b></a></font></td></tr></tbody></table><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:218;left:839"><nobr>1</nobr></div>
+</span></font>
+<font size="5" face="Times"><span style="font-size:33px;font-family:Times">
+<div style="position:absolute;top:258;left:78"><nobr>Information Theory-Based Shot Cut/Fade Detection</nobr></div>
+<div style="position:absolute;top:300;left:268"><nobr>and Video Summarization</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:14px;font-family:Times">
+<div style="position:absolute;top:353;left:122"><nobr>Zuzana ˇCerneková, Ioannis Pitas, <i>Senior Member, IEEE </i>and Christophoros Nikou <i>Member, IEEE</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:11px;font-family:Times">
+<div style="position:absolute;top:440;left:88"><nobr><i><b>Abstract</b></i><b>— New methods for detecting shot boundaries in video</b></nobr></div>
+<div style="position:absolute;top:455;left:73"><nobr><b>sequences and for extracting key frames using metrics based on</b></nobr></div>
+<div style="position:absolute;top:470;left:73"><nobr><b>information theory are proposed. The method for shot boundary</b></nobr></div>
+<div style="position:absolute;top:485;left:73"><nobr><b>detection relies on the mutual information (MI) and the joint</b></nobr></div>
+<div style="position:absolute;top:500;left:73"><nobr><b>entropy (JE) between the frames. It can detect cuts, fade-</b></nobr></div>
+<div style="position:absolute;top:514;left:73"><nobr><b>ins and fade-outs. The detection technique was tested on the</b></nobr></div>
+<div style="position:absolute;top:529;left:73"><nobr><b>TRECVID2003 video test set having different types of shots</b></nobr></div>
+<div style="position:absolute;top:544;left:73"><nobr><b>and containing significant object and camera motion inside the</b></nobr></div>
+<div style="position:absolute;top:559;left:73"><nobr><b>shots. It is demonstrated that the method detects both fades and</b></nobr></div>
+<div style="position:absolute;top:574;left:73"><nobr><b>abrupt cuts with high accuracy. The information theory measure</b></nobr></div>
+<div style="position:absolute;top:589;left:73"><nobr><b>provides us with better results because it exploits the inter-frame</b></nobr></div>
+<div style="position:absolute;top:604;left:73"><nobr><b>information in a more compact way than frame subtraction. It</b></nobr></div>
+<div style="position:absolute;top:619;left:73"><nobr><b>was also successfully compared to other methods published in</b></nobr></div>
+<div style="position:absolute;top:634;left:73"><nobr><b>literature. The method for key frame extraction uses mutual</b></nobr></div>
+<div style="position:absolute;top:649;left:73"><nobr><b>information as well. We show that it captures satisfactorily the</b></nobr></div>
+<div style="position:absolute;top:664;left:73"><nobr><b>visual content of the shot.</b></nobr></div>
+<div style="position:absolute;top:687;left:88"><nobr><i><b>Index Terms</b></i><b>— shot boundary detection, entropy, mutual infor-</b></nobr></div>
+<div style="position:absolute;top:702;left:73"><nobr><b>mation, detection accuracy, video segmentation, video analysis,</b></nobr></div>
+<div style="position:absolute;top:717;left:73"><nobr><b>key frame extraction.</b></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:755;left:203"><nobr>I. I<font style="font-size:9px">NTRODUCTION</font></nobr></div>
+</span></font>
+<font size="6" face="Times"><span style="font-size:42px;font-family:Times">
+<div style="position:absolute;top:770;left:73"><nobr><b>I</b><font style="font-size:12px">NDEXING and retrieval of digital video is an active</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:795;left:93"><nobr>research area. Video segmentation is a fundamental step</nobr></div>
+<div style="position:absolute;top:813;left:73"><nobr>in analyzing video sequence content and in devising methods</nobr></div>
+<div style="position:absolute;top:831;left:73"><nobr>for efficient access, retrieval and browsing of large video</nobr></div>
+<div style="position:absolute;top:849;left:73"><nobr>databases. Shot boundary detection is an important task in</nobr></div>
+<div style="position:absolute;top:867;left:73"><nobr>managing video databases for indexing, browsing, search,</nobr></div>
+<div style="position:absolute;top:885;left:73"><nobr>summarization and other content-based operations. A video</nobr></div>
+<div style="position:absolute;top:903;left:73"><nobr>shot is defined as a sequence of frames captured by <i>one camera</i></nobr></div>
+<div style="position:absolute;top:920;left:73"><nobr><i>in a single continuous action in time and space </i>[1]. Usually it</nobr></div>
+<div style="position:absolute;top:938;left:73"><nobr>is a group of frames that have consistent visual characteristics</nobr></div>
+<div style="position:absolute;top:956;left:73"><nobr>(including color, texture and motion). Video shots are the</nobr></div>
+<div style="position:absolute;top:974;left:73"><nobr>basic structural building blocks of a video sequence. Their</nobr></div>
+<div style="position:absolute;top:992;left:73"><nobr>boundaries need to be determined possibly automatically to</nobr></div>
+<div style="position:absolute;top:1010;left:73"><nobr>allow content-based video manipulation.</nobr></div>
+<div style="position:absolute;top:1028;left:88"><nobr>Early work on shot detection was mainly focused on abrupt</nobr></div>
+<div style="position:absolute;top:1046;left:73"><nobr>cuts. A comparison of existing methods is presented in [2],</nobr></div>
+<div style="position:absolute;top:1064;left:73"><nobr>[3]. In some early approaches a cut is detected when a certain</nobr></div>
+<div style="position:absolute;top:1082;left:73"><nobr>difference measure between consecutive frames exceeds a</nobr></div>
+<div style="position:absolute;top:1100;left:73"><nobr>threshold. The difference measure is computed either at a</nobr></div>
+<div style="position:absolute;top:1118;left:73"><nobr>pixel level or at a block level. Noticing the weakness of pixel</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:1148;left:86"><nobr>Manuscript received February 12, 2004; revised November 3, 2004. This</nobr></div>
+<div style="position:absolute;top:1162;left:73"><nobr>study has been supported by the Commission of the European Communi-</nobr></div>
+<div style="position:absolute;top:1175;left:73"><nobr>ties in the framework of the Methods for Unified Multimedia Information</nobr></div>
+<div style="position:absolute;top:1189;left:73"><nobr>Retrieval (MOUMIR) project - RTN-1999-00177 MOUMIR. This paper was</nobr></div>
+<div style="position:absolute;top:1202;left:73"><nobr>recommended by Associate Editor R. Lienhart.</nobr></div>
+<div style="position:absolute;top:1217;left:86"><nobr>Z. Cerneková and I. Pitas are with Aristotle University of Thessaloniki,</nobr></div>
+<div style="position:absolute;top:1230;left:73"><nobr>Department of Informatics, Artificial Intelligence and Information Analysis</nobr></div>
+<div style="position:absolute;top:1244;left:73"><nobr>Laboratory, 54124 Thessaloniki, Greece (e-mail: zuzana@aiia.csd.auth.gr;</nobr></div>
+<div style="position:absolute;top:1257;left:73"><nobr>pitas@aiia.csd.auth.gr).</nobr></div>
+<div style="position:absolute;top:1270;left:86"><nobr>C. Nikou is with University of Ioannina, Department of Computer Science,</nobr></div>
+<div style="position:absolute;top:1284;left:73"><nobr>GR 45110 Ioannina, Greece (e-mail:cnikou@cs.uoi.gr).</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:438;left:468"><nobr>difference methods (high sensitivity to object and camera mo-</nobr></div>
+<div style="position:absolute;top:456;left:468"><nobr>tions), many researchers suggested the use of other measures</nobr></div>
+<div style="position:absolute;top:474;left:468"><nobr>based on global information, such as intensity histograms or</nobr></div>
+<div style="position:absolute;top:492;left:468"><nobr>color histograms [4]–[7]. The standard color histogram-based</nobr></div>
+<div style="position:absolute;top:510;left:468"><nobr>algorithm and its variations are widely used for detecting</nobr></div>
+<div style="position:absolute;top:528;left:468"><nobr>abrupt cuts. Even these histograms do not explicitly model</nobr></div>
+<div style="position:absolute;top:546;left:468"><nobr>the image difference caused by large camera motion, and</nobr></div>
+<div style="position:absolute;top:564;left:468"><nobr>thus, strictly speaking, are incapable to differentiate between</nobr></div>
+<div style="position:absolute;top:582;left:468"><nobr>smooth camera motion/parameter changes and gradual scene</nobr></div>
+<div style="position:absolute;top:600;left:468"><nobr>transitions. While the use of more complex features, such as</nobr></div>
+<div style="position:absolute;top:618;left:468"><nobr>image edges or histograms or motion vectors [8] improves the</nobr></div>
+<div style="position:absolute;top:636;left:468"><nobr>situation, it will only relieve but do not solve this problem [9].</nobr></div>
+<div style="position:absolute;top:654;left:468"><nobr>The possibility of detecting abrupt cuts by measuring infor-</nobr></div>
+<div style="position:absolute;top:672;left:468"><nobr>mation changes between adjacent images, quantized by mutual</nobr></div>
+<div style="position:absolute;top:689;left:468"><nobr>information in gray-scale space of the images is followed in</nobr></div>
+<div style="position:absolute;top:707;left:468"><nobr>[10]. In order to detect the video shot cut they are using</nobr></div>
+<div style="position:absolute;top:725;left:468"><nobr>affine image registration for compensation of camera panning</nobr></div>
+<div style="position:absolute;top:743;left:468"><nobr>and zooming. This makes the approach very computationally</nobr></div>
+<div style="position:absolute;top:761;left:468"><nobr>expensive.</nobr></div>
+<div style="position:absolute;top:779;left:483"><nobr>Gradual transitions such as dissolves, fade-ins, fade-outs</nobr></div>
+<div style="position:absolute;top:797;left:468"><nobr>and wipes are examined in [11]–[17]. Such transitions are</nobr></div>
+<div style="position:absolute;top:815;left:468"><nobr>generally more difficult to detect, due to camera and/or object</nobr></div>
+<div style="position:absolute;top:833;left:468"><nobr>motions within a shot. A <i>fade </i>is a transition of gradual</nobr></div>
+<div style="position:absolute;top:851;left:468"><nobr>decrease (fade-out) or increase (fade-in) of visual intensity.</nobr></div>
+<div style="position:absolute;top:869;left:468"><nobr>Fades are widely used in TV footage and their appearance</nobr></div>
+<div style="position:absolute;top:887;left:468"><nobr>generally signals a shot or story change. Therefore, their</nobr></div>
+<div style="position:absolute;top:905;left:468"><nobr>detection is a very powerful tool for shot classification and</nobr></div>
+<div style="position:absolute;top:923;left:468"><nobr>story summarization. Existing techniques for fade detection</nobr></div>
+<div style="position:absolute;top:940;left:468"><nobr>proposed in the literature rely on twin thresholding [18] or</nobr></div>
+<div style="position:absolute;top:958;left:468"><nobr>standard deviation of pixel intensities [2]. Hampapur et al</nobr></div>
+<div style="position:absolute;top:976;left:468"><nobr>[19] suggested a shot detection scheme based on modeling</nobr></div>
+<div style="position:absolute;top:994;left:468"><nobr>video edits. They computed a chromatic images by dividing</nobr></div>
+<div style="position:absolute;top:1012;left:468"><nobr>the intensity change of each pixel between two successive</nobr></div>
+<div style="position:absolute;top:1030;left:468"><nobr>frames by the intensity of the same pixel in the second frame.</nobr></div>
+<div style="position:absolute;top:1048;left:468"><nobr>During dissolves and fades, this chromatic image assumes a</nobr></div>
+<div style="position:absolute;top:1066;left:468"><nobr>reasonably constant value. This technique is very sensitive to</nobr></div>
+<div style="position:absolute;top:1084;left:468"><nobr>camera and object motion. Lienhart [2] proposed to locate first</nobr></div>
+<div style="position:absolute;top:1102;left:468"><nobr>all monochromatic frames in the video as potential start/end</nobr></div>
+<div style="position:absolute;top:1120;left:468"><nobr>points of fades. Monochromatic frames were identified as</nobr></div>
+<div style="position:absolute;top:1138;left:468"><nobr>frames with standard deviation of pixel intensities close to</nobr></div>
+<div style="position:absolute;top:1156;left:468"><nobr>zero. Fades were then detected by starting to search in both</nobr></div>
+<div style="position:absolute;top:1174;left:468"><nobr>directions for a linear increase in the standard deviation of</nobr></div>
+<div style="position:absolute;top:1192;left:468"><nobr>pixel intensity/color. An average true positive rate of 87% was</nobr></div>
+<div style="position:absolute;top:1210;left:468"><nobr>reported at a false alarm rate of 30%. An alternative approach</nobr></div>
+<div style="position:absolute;top:1227;left:468"><nobr>also based on the variance of pixel intensities was proposed</nobr></div>
+<div style="position:absolute;top:1245;left:468"><nobr>by Alattar [20]. Fades were detected first by recording all</nobr></div>
+<div style="position:absolute;top:1263;left:468"><nobr>negative spikes in the time series of the second order difference</nobr></div>
+<div style="position:absolute;top:1281;left:468"><nobr>of the pixel intensity variance, and then by ensuring that the</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:1363;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="2"><b>Page 2</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1406;left:73"><nobr>2</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1447;left:73"><nobr>first order difference of the mean of the video sequence was</nobr></div>
+<div style="position:absolute;top:1465;left:73"><nobr>relatively constant next to the above mentioned negative spike.</nobr></div>
+<div style="position:absolute;top:1483;left:73"><nobr>A combination of both approaches is described in Truong et al.</nobr></div>
+<div style="position:absolute;top:1501;left:73"><nobr>[21]. These methods have a relatively high false detection rate.</nobr></div>
+<div style="position:absolute;top:1519;left:73"><nobr>Moreover, even if the existing methods based on histograms</nobr></div>
+<div style="position:absolute;top:1537;left:73"><nobr>[22] detect scene changes correctly, they cannot detect fades</nobr></div>
+<div style="position:absolute;top:1555;left:73"><nobr>and other gradual video transitions.</nobr></div>
+<div style="position:absolute;top:1573;left:88"><nobr>Key frames provide a suitable video summarization and a</nobr></div>
+<div style="position:absolute;top:1590;left:73"><nobr>framework for video indexing, browsing and retrieval. The use</nobr></div>
+<div style="position:absolute;top:1608;left:73"><nobr>of key frames greatly reduces the amount of data required in</nobr></div>
+<div style="position:absolute;top:1626;left:73"><nobr>video indexing and provides an organizational framework for</nobr></div>
+<div style="position:absolute;top:1644;left:73"><nobr>dealing with the video content. A lot of research work has</nobr></div>
+<div style="position:absolute;top:1662;left:73"><nobr>been done in key frame extraction [23]–[25]. The simplest</nobr></div>
+<div style="position:absolute;top:1680;left:73"><nobr>proposed methods are choosing only one frame for each shot</nobr></div>
+<div style="position:absolute;top:1698;left:73"><nobr>(usually the first one), regardless of the complexity of visual</nobr></div>
+<div style="position:absolute;top:1716;left:73"><nobr>content. The more sophisticated approaches take into account</nobr></div>
+<div style="position:absolute;top:1734;left:73"><nobr>visual content, motion analysis and shot activity [26]. These</nobr></div>
+<div style="position:absolute;top:1752;left:73"><nobr>approaches either do not effectively capture the major visual</nobr></div>
+<div style="position:absolute;top:1770;left:73"><nobr>content or are computationally expensive.</nobr></div>
+<div style="position:absolute;top:1788;left:88"><nobr>In this paper, we propose a new approach for shot boundary</nobr></div>
+<div style="position:absolute;top:1806;left:73"><nobr>detection in the uncompressed image domain based on the mu-</nobr></div>
+<div style="position:absolute;top:1824;left:73"><nobr>tual information and the JE between consecutive video frames.</nobr></div>
+<div style="position:absolute;top:1842;left:73"><nobr>Mutual information is a measure of information transported</nobr></div>
+<div style="position:absolute;top:1860;left:73"><nobr>from one frame to another one. It is used for detecting abrupt</nobr></div>
+<div style="position:absolute;top:1877;left:73"><nobr>cuts, where the image intensity or color is abruptly changed.</nobr></div>
+<div style="position:absolute;top:1895;left:73"><nobr>A large video content difference between two frames, showing</nobr></div>
+<div style="position:absolute;top:1913;left:73"><nobr>weak inter-frame dependency leads to a low MI. The entropy</nobr></div>
+<div style="position:absolute;top:1931;left:73"><nobr>measure provides us with better results, because it exploits the</nobr></div>
+<div style="position:absolute;top:1949;left:73"><nobr>inter-frame information flow in a more compact way than a</nobr></div>
+<div style="position:absolute;top:1967;left:73"><nobr>frame subtraction. In the case of a fade-out, where the visual</nobr></div>
+<div style="position:absolute;top:1985;left:73"><nobr>intensity is usually decreasing to a black image, the decreasing</nobr></div>
+<div style="position:absolute;top:2003;left:73"><nobr>inter-frame joint entropy is used for detection. In case of a</nobr></div>
+<div style="position:absolute;top:2021;left:73"><nobr>fade-in, the increasing JE is used for detection. The application</nobr></div>
+<div style="position:absolute;top:2039;left:73"><nobr>of these entropy-based techniques for shot cut detection was</nobr></div>
+<div style="position:absolute;top:2057;left:73"><nobr>experimentally proven to be very efficient, since they produce</nobr></div>
+<div style="position:absolute;top:2075;left:73"><nobr>false acceptance rates very close to zero.</nobr></div>
+<div style="position:absolute;top:2093;left:88"><nobr>The proposed method was also favorably compared to other</nobr></div>
+<div style="position:absolute;top:2111;left:73"><nobr>recently proposed shot cut detection techniques. At first, we</nobr></div>
+<div style="position:absolute;top:2128;left:73"><nobr>compared the JE metric for fade detection to the technique</nobr></div>
+<div style="position:absolute;top:2146;left:73"><nobr>proposed by Lienhart [2] relying on the standard deviation</nobr></div>
+<div style="position:absolute;top:2164;left:73"><nobr>of pixel intensities. Finally, we compared our algorithm for</nobr></div>
+<div style="position:absolute;top:2182;left:73"><nobr>abrupt cut detection based on MI to two techniques relying</nobr></div>
+<div style="position:absolute;top:2200;left:73"><nobr>on histograms. The first one [22] combines two shot boundary</nobr></div>
+<div style="position:absolute;top:2218;left:73"><nobr>detection schemes based on color frame differences and color</nobr></div>
+<div style="position:absolute;top:2236;left:73"><nobr>vector histogram differences between successive frames. The</nobr></div>
+<div style="position:absolute;top:2254;left:73"><nobr>second technique [2] uses one of the most reliable variants of</nobr></div>
+<div style="position:absolute;top:2272;left:73"><nobr>histogram-based detection algorithms.</nobr></div>
+<div style="position:absolute;top:2290;left:88"><nobr>We propose also a method for extracting key frames from</nobr></div>
+<div style="position:absolute;top:2308;left:73"><nobr>each shot using already calculated MI values. The mutual</nobr></div>
+<div style="position:absolute;top:2326;left:73"><nobr>information expresses the changes in the shot and thus, the</nobr></div>
+<div style="position:absolute;top:2344;left:73"><nobr>selected key frames capture well the visual content of the shot.</nobr></div>
+<div style="position:absolute;top:2362;left:88"><nobr>The remainder of the paper is organized as follows: In</nobr></div>
+<div style="position:absolute;top:2380;left:73"><nobr>Section 2, a brief description of the MI and the JE as well</nobr></div>
+<div style="position:absolute;top:2398;left:73"><nobr>as a definition of abrupt cuts and fades are presented. The</nobr></div>
+<div style="position:absolute;top:2415;left:73"><nobr>description of our approach and its computational complexity</nobr></div>
+<div style="position:absolute;top:2433;left:73"><nobr>are addressed in Section 3. In Section 4, the method for</nobr></div>
+<div style="position:absolute;top:2451;left:73"><nobr>key frame extraction is described. Experimental results are</nobr></div>
+<div style="position:absolute;top:2469;left:73"><nobr>presented and commented in Section 5 and conclusions are</nobr></div>
+<div style="position:absolute;top:1447;left:468"><nobr>drawn in Section 6.</nobr></div>
+<div style="position:absolute;top:1484;left:540"><nobr>II. B<font style="font-size:9px">ACKGROUND AND DEFINITIONS</font></nobr></div>
+<div style="position:absolute;top:1506;left:468"><nobr><i>A. Mutual information</i></nobr></div>
+<div style="position:absolute;top:1529;left:483"><nobr>Let <i>X </i>be a discrete random variable with a set of pos-</nobr></div>
+<div style="position:absolute;top:1547;left:468"><nobr>sible outcomes <i>A<font style="font-size:8px">X</font></i></nobr></div>
+<div style="position:absolute;top:1546;left:604"><nobr>= <i>{a</i><font style="font-size:8px">1</font><i>,a</i><font style="font-size:8px">2</font><i>, ..a<font style="font-size:8px">N </font>} </i>having probabilities</nobr></div>
+<div style="position:absolute;top:1564;left:468"><nobr><i>{p</i><font style="font-size:8px">1</font><i>,p</i><font style="font-size:8px">2</font><i>, ..p<font style="font-size:8px">N </font>}</i>, with <i>p<font style="font-size:8px">X</font></i>(<i>x </i>= <i>a<font style="font-size:8px">i</font></i>) = <i>p<font style="font-size:8px">i</font>,p<font style="font-size:8px">i</font></i></nobr></div>
+<div style="position:absolute;top:1564;left:779"><nobr><i>≥ </i>0 and</nobr></div>
+<div style="position:absolute;top:1571;left:468"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1591;left:484"><nobr><i>xϵA<font style="font-size:5px">X </font><font style="font-size:12px">p</font>X</i><font style="font-size:12px">(</font><i><font style="font-size:12px">x</font></i><font style="font-size:12px">)=1. Entropy measures the information content</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1600;left:468"><nobr>or ”uncertainty” of <i>X </i>and it is given by [27], [28]:</nobr></div>
+<div style="position:absolute;top:1628;left:549"><nobr><i>H</i>(<i>X</i>) = <i>−</i></nobr></div>
+<div style="position:absolute;top:1614;left:627"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1650;left:622"><nobr><i>x∈A<font style="font-size:5px">X</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1628;left:657"><nobr><i>p<font style="font-size:8px">X</font></i>(<i>x</i>) log <i>p<font style="font-size:8px">X</font></i>(<i>x</i>)<i>.</i></nobr></div>
+<div style="position:absolute;top:1629;left:827"><nobr>(1)</nobr></div>
+<div style="position:absolute;top:1670;left:468"><nobr>The <i>joint entropy </i>of <i>X</i>, <i>Y </i>is expressed as:</nobr></div>
+<div style="position:absolute;top:1697;left:493"><nobr><i>H</i>(<i>X, Y </i>) = <i>−</i></nobr></div>
+<div style="position:absolute;top:1683;left:606"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1720;left:584"><nobr><i>x,y∈A<font style="font-size:5px">X </font>,A<font style="font-size:5px">Y</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1697;left:651"><nobr><i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>) log <i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>)</nobr></div>
+<div style="position:absolute;top:1698;left:827"><nobr>(2)</nobr></div>
+<div style="position:absolute;top:1740;left:468"><nobr>where <i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>) is the joint probability density function. For</nobr></div>
+<div style="position:absolute;top:1758;left:468"><nobr>two random variables <i>X </i>and <i>Y </i>, the <i>conditional entropy </i>of <i>Y</i></nobr></div>
+<div style="position:absolute;top:1776;left:468"><nobr>given <i>X </i>is written <i>H</i>(<i>Y |X</i>) and is defined as:</nobr></div>
+<div style="position:absolute;top:1821;left:493"><nobr><i>H</i>(<i>Y |X</i>) =</nobr></div>
+<div style="position:absolute;top:1807;left:596"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1843;left:590"><nobr><i>x∈A<font style="font-size:5px">X</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1821;left:626"><nobr><i>p<font style="font-size:8px">X</font></i>(<i>x</i>)<i>H</i>(<i>Y |X </i>= <i>x</i>) =</nobr></div>
+<div style="position:absolute;top:1862;left:563"><nobr>= <i>−</i></nobr></div>
+<div style="position:absolute;top:1848;left:625"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:1884;left:604"><nobr><i>x,y∈A<font style="font-size:5px">X </font>,A<font style="font-size:5px">Y</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:1862;left:671"><nobr><i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>) log <i>p<font style="font-size:8px">XY </font></i>(<i>x|y</i>) (3)</nobr></div>
+<div style="position:absolute;top:1905;left:468"><nobr>where <i>p<font style="font-size:8px">XY </font></i>(<i>x|y</i>) denotes conditional probability. The condi-</nobr></div>
+<div style="position:absolute;top:1923;left:468"><nobr>tional entropy <i>H</i>(<i>Y |X</i>) is the uncertainty in <i>Y </i>given knowl-</nobr></div>
+<div style="position:absolute;top:1941;left:468"><nobr>edge of <i>X</i>. It specifies the amount of information that is gained</nobr></div>
+<div style="position:absolute;top:1959;left:468"><nobr>by measuring a variable and already knowing another one. It</nobr></div>
+<div style="position:absolute;top:1977;left:468"><nobr>is very useful if we want to know if there is a functional</nobr></div>
+<div style="position:absolute;top:1995;left:468"><nobr>relationship between two data sets. Conditional entropy has</nobr></div>
+<div style="position:absolute;top:2013;left:468"><nobr>the following properties:</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2037;left:483"><nobr><i>• <font style="font-size:12px">H</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X|Y </font></i><font style="font-size:12px">) </font><i><font style="font-size:12px">≤ H</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X</font></i><font style="font-size:12px">)</font></nobr></div>
+<div style="position:absolute;top:2055;left:483"><nobr><i>• <font style="font-size:12px">H</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X|Y </font></i><font style="font-size:12px">) = </font><i><font style="font-size:12px">H</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">Y |X</font></i><font style="font-size:12px">)</font></nobr></div>
+<div style="position:absolute;top:2073;left:483"><nobr><i>• <font style="font-size:12px">H</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X|Y </font></i><font style="font-size:12px">)=0 </font><i><font style="font-size:12px">⇔ X </font></i><font style="font-size:12px">= </font><i><font style="font-size:12px">f</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">Y </font></i><font style="font-size:12px">)</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2090;left:468"><nobr>The <i>mutual information </i>between the random variables <i>X </i>and</nobr></div>
+<div style="position:absolute;top:2107;left:468"><nobr><i>Y </i>is given by:</nobr></div>
+<div style="position:absolute;top:2141;left:488"><nobr><i>I</i>(<i>X, Y </i>) = <i>−</i></nobr></div>
+<div style="position:absolute;top:2127;left:594"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2163;left:573"><nobr><i>x,y∈A<font style="font-size:5px">X </font>,A<font style="font-size:5px">Y</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2141;left:640"><nobr><i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>) log</nobr></div>
+<div style="position:absolute;top:2131;left:736"><nobr><i>p<font style="font-size:8px">XY </font></i>(<i>x, y</i>)</nobr></div>
+<div style="position:absolute;top:2151;left:729"><nobr><i>p<font style="font-size:8px">X</font></i>(<i>x</i>)<i>p<font style="font-size:8px">Y </font></i>(<i>y</i>)</nobr></div>
+<div style="position:absolute;top:2142;left:827"><nobr>(4)</nobr></div>
+<div style="position:absolute;top:2183;left:468"><nobr>and measures the amount of information conveyed by <i>X </i>about</nobr></div>
+<div style="position:absolute;top:2200;left:468"><nobr><i>Y </i>. Some important properties of the MI are:</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2225;left:483"><nobr><i>• <font style="font-size:12px">I</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X, Y </font></i><font style="font-size:12px">) </font><i><font style="font-size:12px">≥ </font></i><font style="font-size:12px">0.</font></nobr></div>
+<div style="position:absolute;top:2243;left:483"><nobr><i>• </i><font style="font-size:12px">For both independent and zero entropy sources </font><i><font style="font-size:12px">X </font></i><font style="font-size:12px">and </font><i><font style="font-size:12px">Y </font></i><font style="font-size:12px">:</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2257;left:498"><nobr><i>I</i>(<i>X, Y </i>)=0.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2279;left:483"><nobr><i>• <font style="font-size:12px">I</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">X, Y </font></i><font style="font-size:12px">) = </font><i><font style="font-size:12px">I</font></i><font style="font-size:12px">(</font><i><font style="font-size:12px">Y,X</font></i><font style="font-size:12px">)</font></nobr></div>
+<div style="position:absolute;top:2297;left:483"><nobr><i>• </i><font style="font-size:12px">The relation between the MI and the JE of random</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2311;left:498"><nobr>variables <i>X </i>and <i>Y </i>is given by:</nobr></div>
+<div style="position:absolute;top:2338;left:551"><nobr><i>I</i>(<i>X, Y </i>) = <i>H</i>(<i>X</i>) + <i>H</i>(<i>Y </i>) <i>− H</i>(<i>X, Y </i>)</nobr></div>
+<div style="position:absolute;top:2339;left:827"><nobr>(5)</nobr></div>
+<div style="position:absolute;top:2366;left:498"><nobr>where <i>H</i>(<i>X</i>) and <i>H</i>(<i>Y </i>) are the marginal entropies of <i>X</i></nobr></div>
+<div style="position:absolute;top:2384;left:498"><nobr>and <i>Y </i>.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2406;left:483"><nobr><i>• </i><font style="font-size:12px">The MI is a measure of the additional information known</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2420;left:498"><nobr>about one expression pattern when given another as is</nobr></div>
+<div style="position:absolute;top:2438;left:498"><nobr>given by</nobr></div>
+<div style="position:absolute;top:2465;left:578"><nobr><i>I</i>(<i>X, Y </i>) = <i>H</i>(<i>X</i>) <i>− H</i>(<i>X|Y </i>)<i>.</i></nobr></div>
+<div style="position:absolute;top:2465;left:827"><nobr>(6)</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:2551;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="3"><b>Page 3</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2594;left:839"><nobr>3</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2635;left:73"><nobr>According to (5), the MI not only provides us with a measure</nobr></div>
+<div style="position:absolute;top:2653;left:73"><nobr>of correspondence between <i>X </i>and <i>Y </i>but also takes into</nobr></div>
+<div style="position:absolute;top:2671;left:73"><nobr>account the information carried by each frame at their overlap.</nobr></div>
+<div style="position:absolute;top:2689;left:73"><nobr>By these means, MI decreases when the amount of shared</nobr></div>
+<div style="position:absolute;top:2707;left:73"><nobr>information between <i>H</i>(<i>X</i>) and <i>H</i>(<i>Y </i>) is small. We can</nobr></div>
+<div style="position:absolute;top:2725;left:73"><nobr>also see from (6) that the MI will reduce if <i>X </i>carries no</nobr></div>
+<div style="position:absolute;top:2743;left:73"><nobr>information about <i>Y </i>.</nobr></div>
+<div style="position:absolute;top:2785;left:73"><nobr><i>B. Video Cuts and Fades</i></nobr></div>
+<div style="position:absolute;top:2807;left:88"><nobr>A video shot cut (abrupt cut) is an instantaneous content</nobr></div>
+<div style="position:absolute;top:2825;left:73"><nobr>transition from one shot to the next one. It is obtained by</nobr></div>
+<div style="position:absolute;top:2843;left:73"><nobr>simply concatenating two different shots without the use of</nobr></div>
+<div style="position:absolute;top:2861;left:73"><nobr>any other transition effect. The cut boundaries show an abrupt</nobr></div>
+<div style="position:absolute;top:2879;left:73"><nobr>change in image intensity or color. Cuts between shots with</nobr></div>
+<div style="position:absolute;top:2897;left:73"><nobr>little content or camera motion and constant illumination</nobr></div>
+<div style="position:absolute;top:2915;left:73"><nobr>conditions can be easily detected by looking for sharp intensity</nobr></div>
+<div style="position:absolute;top:2933;left:73"><nobr>changes. However, in the presence of fast object motion, cam-</nobr></div>
+<div style="position:absolute;top:2951;left:73"><nobr>era motion or illumination changes, it is difficult to distinguish</nobr></div>
+<div style="position:absolute;top:2969;left:73"><nobr>if intensity changes are due to shot content changes or a shot</nobr></div>
+<div style="position:absolute;top:2987;left:73"><nobr>cut [18].</nobr></div>
+<div style="position:absolute;top:3048;left:418"><nobr>(a)</nobr></div>
+<div style="position:absolute;top:3097;left:418"><nobr>(b)</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:3126;left:73"><nobr>Fig. 1.</nobr></div>
+<div style="position:absolute;top:3126;left:123"><nobr><i>Consecutive frames from “news” video sequence showing: (a) a</i></nobr></div>
+<div style="position:absolute;top:3140;left:73"><nobr><i>fade-out;(b) a fade-in.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3173;left:88"><nobr>A fade-out is a video transition determining the progressive</nobr></div>
+<div style="position:absolute;top:3191;left:73"><nobr>darkening of a shot until the last frame becomes black, as can</nobr></div>
+<div style="position:absolute;top:3209;left:73"><nobr>be seen in Figure 1a. A fade-in allows the gradual transition</nobr></div>
+<div style="position:absolute;top:3227;left:73"><nobr>from a black frame to the fully illuminated one, as shown in</nobr></div>
+<div style="position:absolute;top:3245;left:73"><nobr>Figure 1b. Fades spread the boundary between two shots across</nobr></div>
+<div style="position:absolute;top:3263;left:73"><nobr>a number of consecutive video frames. They have both start</nobr></div>
+<div style="position:absolute;top:3281;left:73"><nobr>and end frames identifying the transition sequence. In both</nobr></div>
+<div style="position:absolute;top:3299;left:73"><nobr>cases (fade-in, fade-out) fades can be mathematically modeled</nobr></div>
+<div style="position:absolute;top:3317;left:73"><nobr>as luminance scaling operations. If <i>G</i>(<i>x, y, t</i>) is a gray scale</nobr></div>
+<div style="position:absolute;top:3335;left:73"><nobr>sequence and <i>l<font style="font-size:8px">s </font></i>is the length of the transition sequence, an</nobr></div>
+<div style="position:absolute;top:3352;left:73"><nobr>intensity scaling of <i>G</i>(<i>x, y, t</i>) is modeled as [18]:</nobr></div>
+<div style="position:absolute;top:3385;left:98"><nobr><i>f</i>(<i>x, y, t</i>) = <i>G</i>(<i>x, y, t</i>) <i>· </i>(1 <i>−</i></nobr></div>
+<div style="position:absolute;top:3375;left:279"><nobr><i>t</i></nobr></div>
+<div style="position:absolute;top:3396;left:276"><nobr><i>l<font style="font-size:8px">s</font></i></nobr></div>
+<div style="position:absolute;top:3385;left:289"><nobr>)</nobr></div>
+<div style="position:absolute;top:3385;left:316"><nobr><i>t ∈ </i>[<i>t</i><font style="font-size:8px">0</font><i>,t</i><font style="font-size:8px">0 </font>+ <i>l<font style="font-size:8px">s</font></i>]</nobr></div>
+<div style="position:absolute;top:3386;left:433"><nobr>(7)</nobr></div>
+<div style="position:absolute;top:3419;left:73"><nobr>Therefore, fade-out is modeled by:</nobr></div>
+<div style="position:absolute;top:3452;left:161"><nobr><i>f</i>(<i>x, y, t</i>) = <i>G</i><font style="font-size:8px">1</font>(<i>x, y, t</i>) <i>· </i>(</nobr></div>
+<div style="position:absolute;top:3442;left:320"><nobr><i>l</i><font style="font-size:8px">1 </font><i>− t</i></nobr></div>
+<div style="position:absolute;top:3463;left:332"><nobr><i>l</i><font style="font-size:8px">1</font></nobr></div>
+<div style="position:absolute;top:3452;left:357"><nobr>)</nobr></div>
+<div style="position:absolute;top:3453;left:433"><nobr>(8)</nobr></div>
+<div style="position:absolute;top:3486;left:73"><nobr>and fade-in by:</nobr></div>
+<div style="position:absolute;top:3518;left:173"><nobr><i>f</i>(<i>x, y, t</i>) = <i>G</i><font style="font-size:8px">2</font>(<i>x, y, t</i>) <i>· </i>(</nobr></div>
+<div style="position:absolute;top:3508;left:335"><nobr><i>t</i></nobr></div>
+<div style="position:absolute;top:3528;left:332"><nobr><i>l</i><font style="font-size:8px">2</font></nobr></div>
+<div style="position:absolute;top:3518;left:345"><nobr>)</nobr></div>
+<div style="position:absolute;top:3519;left:433"><nobr>(9)</nobr></div>
+<div style="position:absolute;top:3562;left:191"><nobr>III. S<font style="font-size:9px">HOT DETECTION</font></nobr></div>
+<div style="position:absolute;top:3585;left:88"><nobr>In our approach, the MI and the JE between two successive</nobr></div>
+<div style="position:absolute;top:3603;left:73"><nobr>frames are calculated separately for each of the RGB compo-</nobr></div>
+<div style="position:absolute;top:3621;left:73"><nobr>nents. Let us consider that the video sequence gray levels vary</nobr></div>
+<div style="position:absolute;top:3639;left:73"><nobr>from 0 to <i>N − </i>1. At frame <b>f </b><i><font style="font-size:8px">t </font></i>three <i>N × N </i>matrices <b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3646;left:418"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3639;left:446"><nobr>,</nobr></div>
+<div style="position:absolute;top:3657;left:73"><nobr><b>C</b><i><font style="font-size:8px">G</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3665;left:86"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3657;left:118"><nobr>and <b>C</b><i><font style="font-size:8px">B</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3665;left:155"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3657;left:187"><nobr>are created carrying information on the gray</nobr></div>
+<div style="position:absolute;top:2635;left:468"><nobr>level transitions between frames <b>f</b><i><font style="font-size:8px">t </font></i>and <b>f</b><i><font style="font-size:8px">t</font></i><font style="font-size:8px">+1</font>. In the case of the</nobr></div>
+<div style="position:absolute;top:2652;left:468"><nobr><i>R </i>component, the element <b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2660;left:652"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2652;left:680"><nobr>(<i>i, j</i>), with 0 <i>≤ i ≤ N − </i>1</nobr></div>
+<div style="position:absolute;top:2671;left:468"><nobr>and 0 <i>≤ j ≤ N − </i>1, corresponds to the probability that a pixel</nobr></div>
+<div style="position:absolute;top:2689;left:468"><nobr>with gray level <i>i </i>in frame <b>f</b><i><font style="font-size:8px">t </font></i>has gray level <i>j </i>in frame <b>f</b><i><font style="font-size:8px">t</font></i><font style="font-size:8px">+1</font>.</nobr></div>
+<div style="position:absolute;top:2707;left:468"><nobr>By the other words, <b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2714;left:608"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2706;left:636"><nobr>(<i>i, j</i>) is a number of pixels which</nobr></div>
+<div style="position:absolute;top:2725;left:468"><nobr>change from gray level <i>i </i>in frame <b>f</b><i><font style="font-size:8px">t </font></i>to gray level <i>j </i>in frame</nobr></div>
+<div style="position:absolute;top:2742;left:468"><nobr><b>f</b><i><font style="font-size:8px">t</font></i><font style="font-size:8px">+1</font>, divided by the number of pixels in the video frame.</nobr></div>
+<div style="position:absolute;top:2761;left:468"><nobr>Following equation (4), the mutual information <i>I <font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2768;left:773"><nobr><i>t,t</i>+1 <font style="font-size:12px">of the</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2778;left:468"><nobr>transition from frame <b>f</b><i><font style="font-size:8px">t </font></i>to frame <b>f</b><i><font style="font-size:8px">t</font></i><font style="font-size:8px">+1 </font>for the <i>R </i>component</nobr></div>
+<div style="position:absolute;top:2796;left:468"><nobr>is expressed by:</nobr></div>
+<div style="position:absolute;top:2836;left:484"><nobr><i>I<font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2844;left:491"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2836;left:523"><nobr>= <i>−</i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2822;left:553"><nobr><i>N−</i>1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2822;left:555"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2858;left:556"><nobr><i>i</i>=0</nobr></div>
+<div style="position:absolute;top:2822;left:581"><nobr><i>N−</i>1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2822;left:584"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2858;left:584"><nobr><i>j</i>=0</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2836;left:610"><nobr><b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2844;left:622"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2836;left:651"><nobr>(<i>i, j</i>) log</nobr></div>
+<div style="position:absolute;top:2824;left:717"><nobr><b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2832;left:729"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2824;left:758"><nobr>(<i>i, j</i>)</nobr></div>
+<div style="position:absolute;top:2847;left:707"><nobr><b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2854;left:720"><nobr><i>t</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2847;left:729"><nobr>(<i>i</i>)<b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2855;left:759"><nobr><i>t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2847;left:779"><nobr>(<i>j</i>)</nobr></div>
+<div style="position:absolute;top:2836;left:799"><nobr><i>. </i>(10)</nobr></div>
+<div style="position:absolute;top:2877;left:468"><nobr>The total MI is defined as:</nobr></div>
+<div style="position:absolute;top:2904;left:556"><nobr><i>I<font style="font-size:8px">t,t</font></i><font style="font-size:8px">+1</font></nobr></div>
+<div style="position:absolute;top:2904;left:611"><nobr><i>I<font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2912;left:617"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2904;left:649"><nobr>+ <i>I<font style="font-size:8px">G</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2912;left:671"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2904;left:703"><nobr>+ <i>I<font style="font-size:8px">B</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2912;left:724"><nobr><i>t,t</i>+1<i><font style="font-size:12px">.</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2905;left:820"><nobr>(11)</nobr></div>
+<div style="position:absolute;top:2933;left:468"><nobr>By using the same considerations, the JE <i>H<font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2940;left:767"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2933;left:805"><nobr>of the</nobr></div>
+<div style="position:absolute;top:2951;left:468"><nobr>transition from frame <b>f</b><i><font style="font-size:8px">t </font></i>to frame <b>f</b><i><font style="font-size:8px">t</font></i><font style="font-size:8px">+1</font>, for the <i>R </i>component,</nobr></div>
+<div style="position:absolute;top:2969;left:468"><nobr>is given by:</nobr></div>
+<div style="position:absolute;top:3008;left:492"><nobr><i>H<font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3016;left:505"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3008;left:537"><nobr>= <i>−</i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:2994;left:568"><nobr><i>N−</i>1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2994;left:570"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3030;left:571"><nobr><i>i</i>=0</nobr></div>
+<div style="position:absolute;top:2994;left:596"><nobr><i>N−</i>1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:2994;left:598"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3030;left:598"><nobr><i>j</i>=0</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3008;left:624"><nobr><b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3016;left:636"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3008;left:665"><nobr>(<i>i, j</i>) log <b>C</b><i><font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3016;left:732"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3008;left:761"><nobr>(<i>i, j</i>)<i>.</i></nobr></div>
+<div style="position:absolute;top:3009;left:820"><nobr>(12)</nobr></div>
+<div style="position:absolute;top:3050;left:468"><nobr>The total JE is defined as:</nobr></div>
+<div style="position:absolute;top:3076;left:544"><nobr><i>H<font style="font-size:8px">t,t</font></i><font style="font-size:8px">+1</font></nobr></div>
+<div style="position:absolute;top:3076;left:605"><nobr><i>H<font style="font-size:8px">R</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3084;left:617"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3076;left:649"><nobr>+ <i>H<font style="font-size:8px">G</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3084;left:677"><nobr><i>t,t</i>+1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3076;left:708"><nobr>+ <i>H<font style="font-size:8px">B</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3084;left:736"><nobr><i>t,t</i>+1<i><font style="font-size:12px">.</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3077;left:820"><nobr>(13)</nobr></div>
+<div style="position:absolute;top:3116;left:468"><nobr><i>A. Abrupt shot cut detection</i></nobr></div>
+<div style="position:absolute;top:3139;left:483"><nobr>A small value of the MI <i>I<font style="font-size:8px">t,t</font></i><font style="font-size:8px">+1 </font>indicates the existence</nobr></div>
+<div style="position:absolute;top:3157;left:468"><nobr>of a cut between frames <i>f<font style="font-size:8px">t </font></i>and <i>f<font style="font-size:8px">t</font></i><font style="font-size:8px">+1</font>. Basically, in this</nobr></div>
+<div style="position:absolute;top:3175;left:468"><nobr>context, abrupt cut detection is the outlier detection in an</nobr></div>
+<div style="position:absolute;top:3193;left:468"><nobr>one-dimensional MI signal given by (11) [29]. In order to</nobr></div>
+<div style="position:absolute;top:3211;left:468"><nobr>detect possible shot cuts, an adaptive thresholding approach</nobr></div>
+<div style="position:absolute;top:3229;left:468"><nobr>was employed. Local MI mean values on an one-dimensional</nobr></div>
+<div style="position:absolute;top:3247;left:468"><nobr>temporal window <i>W </i>of size <i>N<font style="font-size:8px">W </font></i>are obtained at each time</nobr></div>
+<div style="position:absolute;top:3264;left:468"><nobr>instance <i>t<font style="font-size:8px">c </font></i>without considering the current value <i>I<font style="font-size:8px">t</font><font style="font-size:5px">c</font><font style="font-size:8px">,t</font><font style="font-size:5px">c</font></i><font style="font-size:8px">+1 </font>at</nobr></div>
+<div style="position:absolute;top:3282;left:468"><nobr>the current window center <i>t<font style="font-size:8px">c </font></i>[29]:</nobr></div>
+<div style="position:absolute;top:3310;left:592"><nobr>¯<i>I<font style="font-size:8px">t</font><font style="font-size:5px">c </font></i>=</nobr></div>
+<div style="position:absolute;top:3303;left:638"><nobr>1</nobr></div>
+<div style="position:absolute;top:3324;left:629"><nobr><i>N<font style="font-size:8px">W</font></i></nobr></div>
+<div style="position:absolute;top:3299;left:661"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:3336;left:661"><nobr><i>t∈W</i></nobr></div>
+<div style="position:absolute;top:3345;left:661"><nobr><i>t</i>=<i>tc</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3313;left:687"><nobr><i>I<font style="font-size:8px">t,t</font></i><font style="font-size:8px">+1</font></nobr></div>
+<div style="position:absolute;top:3314;left:820"><nobr>(14)</nobr></div>
+<div style="position:absolute;top:3363;left:468"><nobr>The quantity</nobr></div>
+<div style="position:absolute;top:3359;left:554"><nobr>¯<i>I<font style="font-size:8px">t</font><font style="font-size:5px">c </font>/I<font style="font-size:8px">t</font><font style="font-size:5px">c</font><font style="font-size:8px">,t</font><font style="font-size:5px">c</font></i><font style="font-size:8px">+1 </font>is then compared to a threshold <i>ϵ<font style="font-size:8px">c</font></i></nobr></div>
+<div style="position:absolute;top:3381;left:468"><nobr>in order to detect the peaks, which correspond to the shot</nobr></div>
+<div style="position:absolute;top:3399;left:468"><nobr>cuts. Threshold <i>ϵ<font style="font-size:8px">c </font></i>was chosen experimentally. An example of</nobr></div>
+<div style="position:absolute;top:3417;left:468"><nobr>abrupt cut detection using MI is illustrated in Figure 2.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:3627;left:468"><nobr>Fig. 2.</nobr></div>
+<div style="position:absolute;top:3627;left:515"><nobr><i>Time series of the MI from “ABC news” video sequence showing</i></nobr></div>
+<div style="position:absolute;top:3640;left:468"><nobr><i>abrupt cuts and one fade.</i></nobr></div>
+</span></font>
+
+<div style="position:absolute;top:3739;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="4"><b>Page 4</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:3782;left:73"><nobr>4</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:3985;left:73"><nobr>Fig. 3. <i>The joint entropy signal from “CNN news” video sequence showing</i></nobr></div>
+<div style="position:absolute;top:3998;left:73"><nobr><i>a fade-out and fade-in to the next shot.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4052;left:73"><nobr><i>B. Fade detection</i></nobr></div>
+<div style="position:absolute;top:4082;left:88"><nobr>Since MI decreases when the transmitted information from</nobr></div>
+<div style="position:absolute;top:4100;left:73"><nobr>one frame to another is small (in case of cuts and fades)</nobr></div>
+<div style="position:absolute;top:4118;left:73"><nobr>the JE (13) is employed, to efficiently distinguish fades from</nobr></div>
+<div style="position:absolute;top:4136;left:73"><nobr>cuts. The JE measures the amount of information carried by</nobr></div>
+<div style="position:absolute;top:4154;left:73"><nobr>the union of these frames. Therefore, its value decreases only</nobr></div>
+<div style="position:absolute;top:4172;left:73"><nobr>during fades, where a weak amount of inter-frame information</nobr></div>
+<div style="position:absolute;top:4190;left:73"><nobr>is present. The pattern showing fade out and fade in is</nobr></div>
+<div style="position:absolute;top:4208;left:73"><nobr>shown on Figure 3. Thus, only the values of <i>H<font style="font-size:8px">t,t</font></i><font style="font-size:8px">+1 </font>below</nobr></div>
+<div style="position:absolute;top:4225;left:73"><nobr>a certain threshold <i>ϵ<font style="font-size:8px">f </font></i>are examined. These values correspond</nobr></div>
+<div style="position:absolute;top:4243;left:73"><nobr>to the black frames. The instance, where the JE is at a local</nobr></div>
+<div style="position:absolute;top:4261;left:73"><nobr>minimum, is detected and is characterized as the end time</nobr></div>
+<div style="position:absolute;top:4279;left:73"><nobr>instance <i>t<font style="font-size:8px">e </font></i>of the fade-out. At this point the frame has become</nobr></div>
+<div style="position:absolute;top:4297;left:73"><nobr>black, it does not carry any information. The next step consists</nobr></div>
+<div style="position:absolute;top:4315;left:73"><nobr>in searching for the fade-out start point <i>t<font style="font-size:8px">s </font></i>in the previous</nobr></div>
+<div style="position:absolute;top:4333;left:73"><nobr>frames using the criterion:</nobr></div>
+<div style="position:absolute;top:4365;left:185"><nobr><i>H<font style="font-size:8px">t</font><font style="font-size:5px">s</font><font style="font-size:8px">,t</font><font style="font-size:5px">s</font></i><font style="font-size:8px">+1 </font><i>− H<font style="font-size:8px">t</font><font style="font-size:5px">s</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">,t</font><font style="font-size:5px">s</font></i></nobr></div>
+<div style="position:absolute;top:4386;left:177"><nobr><i>H<font style="font-size:8px">t</font><font style="font-size:5px">s</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">,t</font><font style="font-size:5px">s </font>− H<font style="font-size:8px">t</font><font style="font-size:5px">s</font><font style="font-size:8px">−</font></i><font style="font-size:8px">2</font><i><font style="font-size:8px">,t</font><font style="font-size:5px">s</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font></nobr></div>
+<div style="position:absolute;top:4375;left:322"><nobr><i>≥ T</i></nobr></div>
+<div style="position:absolute;top:4376;left:425"><nobr>(15)</nobr></div>
+<div style="position:absolute;top:4420;left:73"><nobr>where <i>T </i>is a predefined threshold which guarantees that, at</nobr></div>
+<div style="position:absolute;top:4438;left:73"><nobr>start point <i>t<font style="font-size:8px">s</font></i>, the JE starts decreasing. In order to handle a spe-</nobr></div>
+<div style="position:absolute;top:4456;left:73"><nobr>cific type of video sequences where the frame content remains</nobr></div>
+<div style="position:absolute;top:4474;left:73"><nobr>exactly the same for two or three consecutive frames, due to</nobr></div>
+<div style="position:absolute;top:4492;left:73"><nobr>the chosen video digitalization procedure (typically a reduced</nobr></div>
+<div style="position:absolute;top:4510;left:73"><nobr>digitization frame rate), we check the possible increase of JE</nobr></div>
+<div style="position:absolute;top:4527;left:73"><nobr>values up to the third frame. The same procedure also applies</nobr></div>
+<div style="position:absolute;top:4545;left:73"><nobr>for fade-in detection (with <i>t<font style="font-size:8px">s </font></i>being detected at first). Finally,</nobr></div>
+<div style="position:absolute;top:4563;left:73"><nobr>since the fade has boundary spread across number of frames,</nobr></div>
+<div style="position:absolute;top:4581;left:73"><nobr>the segment is considered as a fade only if <i>t<font style="font-size:8px">e </font>− t<font style="font-size:8px">s </font>≥ </i>2,</nobr></div>
+<div style="position:absolute;top:4599;left:73"><nobr>otherwise it is labeled as a cut. An example of JE signal</nobr></div>
+<div style="position:absolute;top:4617;left:73"><nobr>showing a fade-out detection is presented in Figure 4.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:4811;left:73"><nobr>Fig. 4. <i>The joint entropy signal from “basketball” video sequence showing</i></nobr></div>
+<div style="position:absolute;top:4824;left:73"><nobr><i>a fade-out and a transition from a black frame to the next shot.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:3823;left:468"><nobr><i>C. Computational complexity</i></nobr></div>
+<div style="position:absolute;top:3846;left:483"><nobr>The computational complexity of these algorithms consist</nobr></div>
+<div style="position:absolute;top:3864;left:468"><nobr>of calculating three histograms for each color component <i>R</i>,</nobr></div>
+<div style="position:absolute;top:3881;left:468"><nobr><i>G</i>, <i>B </i>for two consecutive frames. If the frame size is <i>n </i>pixels</nobr></div>
+<div style="position:absolute;top:3900;left:468"><nobr>than we need <i>n </i>additions to calculate one histogram. First we</nobr></div>
+<div style="position:absolute;top:3918;left:468"><nobr>need to calculate 3 histograms, which consist of 3<i>n </i>additions.</nobr></div>
+<div style="position:absolute;top:3936;left:468"><nobr>We also need another 3<i>N</i><font style="font-size:8px">2 </font>multiplications, (<i>N −</i>1)<font style="font-size:8px">2 </font>additions</nobr></div>
+<div style="position:absolute;top:3954;left:468"><nobr>and <i>N</i><font style="font-size:8px">2 </font>logarithm calculations for computing (10), where <i>N</i></nobr></div>
+<div style="position:absolute;top:3971;left:468"><nobr>is number of video sequence gray levels separately for <i>R</i>, <i>G</i></nobr></div>
+<div style="position:absolute;top:3989;left:468"><nobr>and <i>B </i>color channels. Thus, for calculation the MI between</nobr></div>
+<div style="position:absolute;top:4007;left:468"><nobr>two frames <i>O</i>(<i>n </i>+ <i>N</i><font style="font-size:8px">2</font>) additions, <i>O</i>(<i>N</i><font style="font-size:8px">2</font>) multiplications and</nobr></div>
+<div style="position:absolute;top:4025;left:468"><nobr><i>O</i>(<i>N</i><font style="font-size:8px">2</font>) logarithm calculations are needed. The same order of</nobr></div>
+<div style="position:absolute;top:4043;left:468"><nobr>computational complexity is needed for the calculation of JE,</nobr></div>
+<div style="position:absolute;top:4061;left:468"><nobr>namely 3(<i>n </i>+ (<i>N − </i>1)<font style="font-size:8px">2</font>)+2 additions, 3<i>N</i><font style="font-size:8px">2 </font>multiplications</nobr></div>
+<div style="position:absolute;top:4079;left:468"><nobr>and 3<i>N</i><font style="font-size:8px">2 </font>logarithm calculations.</nobr></div>
+<div style="position:absolute;top:4118;left:566"><nobr>IV. K<font style="font-size:9px">EY FRAME SELECTION</font></nobr></div>
+<div style="position:absolute;top:4141;left:483"><nobr>After the temporal segmentation of a video sequence to</nobr></div>
+<div style="position:absolute;top:4159;left:468"><nobr>shots, the key frames can be selected from each shot for</nobr></div>
+<div style="position:absolute;top:4177;left:468"><nobr>video indexing. Our approach uses MI values, which provided</nobr></div>
+<div style="position:absolute;top:4195;left:468"><nobr>us information about content changes between consecutive</nobr></div>
+<div style="position:absolute;top:4213;left:468"><nobr>frames in the shot. Let us have a video shot having <i>N<font style="font-size:8px">L </font></i>frames</nobr></div>
+<div style="position:absolute;top:4230;left:468"><nobr><i>s </i>= <i>{f</i><font style="font-size:8px">1</font><i>,f</i><font style="font-size:8px">2</font><i>, ..., f<font style="font-size:8px">N</font><font style="font-size:5px">L </font>} </i>obtained by our method for shot cut</nobr></div>
+<div style="position:absolute;top:4249;left:468"><nobr>detection [30] described in the section III. Let the MI values</nobr></div>
+<div style="position:absolute;top:4267;left:468"><nobr>in this shot be <i>I<font style="font-size:8px">s </font></i>= <i>{I</i><font style="font-size:8px">1</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">2</font><i>,I</i><font style="font-size:8px">2</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">3</font><i>, ..., I<font style="font-size:8px">N</font><font style="font-size:5px">L</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">,N</font><font style="font-size:5px">L </font>}</i>. In order to find</nobr></div>
+<div style="position:absolute;top:4285;left:468"><nobr>if the content in the shot changes significantly, the standard</nobr></div>
+<div style="position:absolute;top:4303;left:468"><nobr>deviation <i>σ<font style="font-size:8px">I</font><font style="font-size:5px">s</font></i></nobr></div>
+<div style="position:absolute;top:4303;left:557"><nobr>of the MI within this shot is calculated. The</nobr></div>
+<div style="position:absolute;top:4321;left:468"><nobr>value <i>σ<font style="font-size:8px">I</font><font style="font-size:5px">s</font></i></nobr></div>
+<div style="position:absolute;top:4321;left:532"><nobr>is compared to predefined threshold <i>ϵ</i>. If <i>σ<font style="font-size:8px">I</font><font style="font-size:5px">s </font>&lt; ϵ</i>,</nobr></div>
+<div style="position:absolute;top:4338;left:468"><nobr>we assume that the content did not change significantly during</nobr></div>
+<div style="position:absolute;top:4356;left:468"><nobr>the shot. Thus, any frame can effectively represent the visual</nobr></div>
+<div style="position:absolute;top:4374;left:468"><nobr>content. Such a shot can present for example, a anchor person</nobr></div>
+<div style="position:absolute;top:4392;left:468"><nobr>in a news video sequence. In this case, the first or a middle</nobr></div>
+<div style="position:absolute;top:4410;left:468"><nobr>frame is selected as key frame.</nobr></div>
+<div style="position:absolute;top:4428;left:483"><nobr>In the case of bigger content changes within the shot, the</nobr></div>
+<div style="position:absolute;top:4446;left:468"><nobr>shot must be described by more than one key frame. This is</nobr></div>
+<div style="position:absolute;top:4464;left:468"><nobr>done by a split-merge approach. The MI values in the shot</nobr></div>
+<div style="position:absolute;top:4482;left:468"><nobr>are divided into clusters <i>{c<font style="font-size:8px">i</font>}<font style="font-size:8px">K</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:4490;left:654"><nobr><i>i</i>=1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4482;left:674"><nobr>, where <i>K </i>is a number of</nobr></div>
+<div style="position:absolute;top:4500;left:468"><nobr>clusters obtained after the split-merge algorithm. The threshold</nobr></div>
+<div style="position:absolute;top:4518;left:468"><nobr>parameter <i>δ </i>controls the number of created frame clusters.</nobr></div>
+<div style="position:absolute;top:4536;left:468"><nobr>Initially, all the MI values in the shot are assigned to the one</nobr></div>
+<div style="position:absolute;top:4554;left:468"><nobr>cluster <i>c</i><font style="font-size:8px">1 </font>= <i>{I</i><font style="font-size:8px">1</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">2</font><i>,I</i><font style="font-size:8px">2</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">3</font><i>, ..., I<font style="font-size:8px">N</font><font style="font-size:5px">L</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">,N</font><font style="font-size:5px">L </font>}</i>. The standard deviation</nobr></div>
+<div style="position:absolute;top:4571;left:468"><nobr><i>σ<font style="font-size:8px">c</font></i><font style="font-size:5px">1 </font>of these values in the cluster is compared to the predefined</nobr></div>
+<div style="position:absolute;top:4590;left:468"><nobr>threshold <i>δ</i>. If it exceeds the threshold, <i>σ<font style="font-size:8px">c</font></i><font style="font-size:5px">1 </font><i>&gt; δ</i>, all the MI val-</nobr></div>
+<div style="position:absolute;top:4608;left:468"><nobr>ues are split in two clusters: <i>c</i><font style="font-size:8px">11 </font>= <i>{I</i><font style="font-size:8px">1</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">2</font><i>,I</i><font style="font-size:8px">2</font><i><font style="font-size:8px">,</font></i><font style="font-size:8px">3</font><i>, ..., I<font style="font-size:5px">NL</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:4624;left:786"><nobr>2 <i><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">, </font>NL</i></nobr></div>
+<div style="position:absolute;top:4624;left:824"><nobr>2</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4607;left:837"><nobr><i>}</i></nobr></div>
+<div style="position:absolute;top:4628;left:468"><nobr>and <i>c</i><font style="font-size:8px">12 </font>= <i>{I<font style="font-size:5px">NL</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:4644;left:558"><nobr>2 <i><font style="font-size:8px">, </font>NL</i></nobr></div>
+<div style="position:absolute;top:4644;left:581"><nobr>2 <font style="font-size:8px">+1</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4628;left:609"><nobr><i>,I<font style="font-size:5px">NL</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:4644;left:630"><nobr>2 <font style="font-size:8px">+1</font><i><font style="font-size:8px">, </font>NL</i></nobr></div>
+<div style="position:absolute;top:4644;left:668"><nobr>2 <font style="font-size:8px">+2</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:4628;left:696"><nobr><i>, ..., I<font style="font-size:8px">N</font><font style="font-size:5px">L</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font><i><font style="font-size:8px">,N</font><font style="font-size:5px">L </font>}</i>. The al-</nobr></div>
+<div style="position:absolute;top:4648;left:468"><nobr>gorithm works recursively till the standard deviation of the</nobr></div>
+<div style="position:absolute;top:4666;left:468"><nobr>MI values in the cluster is smaller than the given threshold <i>δ</i>.</nobr></div>
+<div style="position:absolute;top:4684;left:468"><nobr>Then, consecutive clusters are checked for possible merging.</nobr></div>
+<div style="position:absolute;top:4702;left:468"><nobr>If the standard deviation of two consecutive clusters is smaller</nobr></div>
+<div style="position:absolute;top:4720;left:468"><nobr>than threshold <i>δ</i>, these clusters are merged. This way, all</nobr></div>
+<div style="position:absolute;top:4738;left:468"><nobr>frames from the given shot are split to clusters, depending</nobr></div>
+<div style="position:absolute;top:4756;left:468"><nobr>on the MI values. After this procedure, only those clusters</nobr></div>
+<div style="position:absolute;top:4774;left:468"><nobr>having enough frames are considered as <i>key clusters </i>[26] and</nobr></div>
+<div style="position:absolute;top:4791;left:468"><nobr>a representative frame is extracted from this cluster as the</nobr></div>
+<div style="position:absolute;top:4809;left:468"><nobr>potential key frame. In this paper, key cluster should have</nobr></div>
+<div style="position:absolute;top:4827;left:468"><nobr>more than <i>N<font style="font-size:8px">L</font>/</i>(<i>K ∗ </i>2) frames, where <i>N </i>is number of frames</nobr></div>
+<div style="position:absolute;top:4845;left:468"><nobr>in the shot and <i>K </i>is number of clusters. In [26] a key cluster</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:4927;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="5"><b>Page 5</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:4970;left:839"><nobr>5</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5011;left:73"><nobr>should have at least <i>N<font style="font-size:8px">L</font>/K </i>frames. However, in the case when</nobr></div>
+<div style="position:absolute;top:5029;left:73"><nobr>we have only 2 clusters, this method will discard the smaller</nobr></div>
+<div style="position:absolute;top:5047;left:73"><nobr>one, which is not acceptable. For each key cluster the most</nobr></div>
+<div style="position:absolute;top:5065;left:73"><nobr>representative frame is taken as a potential key frame. The</nobr></div>
+<div style="position:absolute;top:5083;left:73"><nobr>most representative frame is the one which maximizes inter-</nobr></div>
+<div style="position:absolute;top:5101;left:73"><nobr>frame mutual information in the cluster:</nobr></div>
+<div style="position:absolute;top:5144;left:161"><nobr><i>f<font style="font-size:8px">key </font></i>= arg max</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:5156;left:244"><nobr>¯<i>f</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5127;left:262"><nobr>(</nobr></div>
+<div style="position:absolute;top:5134;left:278"><nobr>1</nobr></div>
+<div style="position:absolute;top:5154;left:273"><nobr><i>N<font style="font-size:8px">j</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:5128;left:301"><nobr><i>N<font style="font-size:5px">j</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5129;left:298"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:5px;font-family:Times">
+<div style="position:absolute;top:5166;left:307"><nobr><i>i</i></nobr></div>
+<div style="position:absolute;top:5173;left:299"><nobr>¯</nobr></div>
+<div style="position:absolute;top:5175;left:297"><nobr><i>f</i>=<i>fi</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5144;left:325"><nobr><i>I </i><font style="font-size:8px">¯</font><i><font style="font-size:8px">f ,f</font><font style="font-size:5px">i</font></i></nobr></div>
+<div style="position:absolute;top:5127;left:353"><nobr>)</nobr></div>
+<div style="position:absolute;top:5144;left:425"><nobr>(16)</nobr></div>
+<div style="position:absolute;top:5197;left:73"><nobr>where <i>N<font style="font-size:8px">j </font></i>is number of frames in the cluster, we call this frame</nobr></div>
+<div style="position:absolute;top:5215;left:73"><nobr>median frame. An example of this procedure can be seen in</nobr></div>
+<div style="position:absolute;top:5233;left:73"><nobr>Figure 5.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:5472;left:73"><nobr>Fig. 5.</nobr></div>
+<div style="position:absolute;top:5472;left:120"><nobr><i>The MI signal from “star” video sequence presenting the clusters</i></nobr></div>
+<div style="position:absolute;top:5485;left:73"><nobr><i>created by split-merge method. The selected potential key frames from each</i></nobr></div>
+<div style="position:absolute;top:5499;left:73"><nobr><i>cluster is shown in Figure 6.</i></nobr></div>
+<div style="position:absolute;top:5680;left:73"><nobr>Fig. 6. <i>Potential key frames from “star” video sequence extracted from each</i></nobr></div>
+<div style="position:absolute;top:5693;left:73"><nobr><i>cluster of the shot.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5728;left:88"><nobr>After extracting potential key frames <i>{k<font style="font-size:8px">i</font>}<font style="font-size:8px">K</font></i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:5736;left:344"><nobr><i>i</i>=1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5728;left:369"><nobr>from the shot</nobr></div>
+<div style="position:absolute;top:5746;left:73"><nobr><i>s</i>, we try to reduce the number of key frames that represent the</nobr></div>
+<div style="position:absolute;top:5764;left:73"><nobr>shot. To do this, these key frames are compared to each other</nobr></div>
+<div style="position:absolute;top:5782;left:73"><nobr>by calculating their MI using (11). If the content of the key</nobr></div>
+<div style="position:absolute;top:5800;left:73"><nobr>frames is similar enough (as indicated by a high MI value),</nobr></div>
+<div style="position:absolute;top:5818;left:73"><nobr>the shot can be presented by less key frames. Therefore, if</nobr></div>
+<div style="position:absolute;top:5835;left:73"><nobr><i>I<font style="font-size:8px">k</font><font style="font-size:5px">i</font><font style="font-size:8px">,k</font><font style="font-size:5px">i</font></i><font style="font-size:5px">+1 </font><i>&gt; ϵ</i>, where <i>ϵ </i>is a predefined threshold, only the frame</nobr></div>
+<div style="position:absolute;top:5853;left:73"><nobr><i>k<font style="font-size:8px">i</font></i><font style="font-size:8px">+1 </font>is considered to be a key frame and is compared to the</nobr></div>
+<div style="position:absolute;top:5872;left:73"><nobr>next potential key frame <i>k<font style="font-size:8px">i</font></i><font style="font-size:8px">+2</font>. Otherwise, both frames <i>k<font style="font-size:8px">i </font></i>and</nobr></div>
+<div style="position:absolute;top:5889;left:73"><nobr><i>k<font style="font-size:8px">i</font></i><font style="font-size:8px">+1 </font>are taken as key frames and <i>k<font style="font-size:8px">i</font></i><font style="font-size:8px">+1 </font>is further compared to</nobr></div>
+<div style="position:absolute;top:5908;left:73"><nobr>the others potential key frames <i>{k<font style="font-size:8px">i</font></i><font style="font-size:8px">+2</font><i>,...,k<font style="font-size:8px">K</font>}</i>. An example</nobr></div>
+<div style="position:absolute;top:5926;left:73"><nobr>can be seen in Figure 6. After calculating the MI between these</nobr></div>
+<div style="position:absolute;top:5944;left:73"><nobr>frames, only the first frame (frame number 1904) was selected</nobr></div>
+<div style="position:absolute;top:5962;left:73"><nobr>as a key frame to represent content of the shot. This procedure</nobr></div>
+<div style="position:absolute;top:5979;left:73"><nobr>of the reduction of key frame number enhances the robustness</nobr></div>
+<div style="position:absolute;top:5997;left:73"><nobr>of our method to the choice of threshold <i>δ </i>used in the split-</nobr></div>
+<div style="position:absolute;top:6015;left:73"><nobr>merge procedure. Let us note that we are not interested only</nobr></div>
+<div style="position:absolute;top:6033;left:73"><nobr>in picking the fewest possible key frames but also in picking</nobr></div>
+<div style="position:absolute;top:5011;left:468"><nobr>good key frames that are visually and possibly semantically</nobr></div>
+<div style="position:absolute;top:5029;left:468"><nobr>important.</nobr></div>
+<div style="position:absolute;top:5047;left:483"><nobr>The reduction of the number of key frames can be done by</nobr></div>
+<div style="position:absolute;top:5065;left:468"><nobr>using Median LVQ [31]. This way, we can handle the problem</nobr></div>
+<div style="position:absolute;top:5083;left:468"><nobr>when the potential key frames are similar in the beginning and</nobr></div>
+<div style="position:absolute;top:5101;left:468"><nobr>in the end of the shot. At first we assign all the potential key</nobr></div>
+<div style="position:absolute;top:5118;left:468"><nobr>frames to one cluster <i>c</i><font style="font-size:8px">1</font>. Then the key frame that maximizes</nobr></div>
+<div style="position:absolute;top:5136;left:468"><nobr>inter-frame MI is chosen as representative key frame <i>k</i><font style="font-size:8px">1 </font>of</nobr></div>
+<div style="position:absolute;top:5154;left:468"><nobr>this cluster. We find the key frame <i>k</i>, which minimizes the MI</nobr></div>
+<div style="position:absolute;top:5172;left:468"><nobr>between the representative key frame <i>k</i><font style="font-size:8px">1 </font>and other key frames.</nobr></div>
+<div style="position:absolute;top:5190;left:468"><nobr>If this MI is below a given threshold, we split the cluster to the</nobr></div>
+<div style="position:absolute;top:5208;left:468"><nobr>two. The key frame <i>k</i>, is chosen as a representative <i>k</i><font style="font-size:8px">2 </font>for new</nobr></div>
+<div style="position:absolute;top:5226;left:468"><nobr>cluster <i>c</i><font style="font-size:8px">2</font>. Then we reassign the rest of key frames to these</nobr></div>
+<div style="position:absolute;top:5244;left:468"><nobr>two clusters. If the MI of a key frame and the representative</nobr></div>
+<div style="position:absolute;top:5261;left:468"><nobr><i>k</i><font style="font-size:8px">2 </font>is higher than MI of this key frame and the representative</nobr></div>
+<div style="position:absolute;top:5279;left:468"><nobr><i>k</i><font style="font-size:8px">1 </font>of the cluster <i>c</i><font style="font-size:8px">1 </font>we assign this key frame to the cluster</nobr></div>
+<div style="position:absolute;top:5297;left:468"><nobr><i>c</i><font style="font-size:8px">2</font>. We repeat this procedure recursively, till we find all key</nobr></div>
+<div style="position:absolute;top:5316;left:468"><nobr>frames.</nobr></div>
+<div style="position:absolute;top:5352;left:509"><nobr>V. E<font style="font-size:9px">XPERIMENTAL RESULTS AND DISCUSSION</font></nobr></div>
+<div style="position:absolute;top:5374;left:483"><nobr>The proposed method was tested on several TV sequences</nobr></div>
+<div style="position:absolute;top:5392;left:468"><nobr>(see Table I) containing many commercials, characterized</nobr></div>
+<div style="position:absolute;top:5410;left:468"><nobr>by significant camera parameter changes like zoom-ins/outs,</nobr></div>
+<div style="position:absolute;top:5428;left:468"><nobr>pans, abrupt camera movements as well as significant object</nobr></div>
+<div style="position:absolute;top:5446;left:468"><nobr>and camera motion inside single shots. The video sequences</nobr></div>
+<div style="position:absolute;top:5464;left:468"><nobr>contain film, sport, studio news, advertisements, political talks</nobr></div>
+<div style="position:absolute;top:5481;left:468"><nobr>and TV series logos. These 4 video sequences “basketball”,</nobr></div>
+<div style="position:absolute;top:5499;left:468"><nobr>“news”, “football” and “movie” totaled about 30 min, their</nobr></div>
+<div style="position:absolute;top:5517;left:468"><nobr>frame size varying between 176 <i>× </i>112 and 176 <i>× </i>144 pixels.</nobr></div>
+<div style="position:absolute;top:5535;left:468"><nobr>These videos have a specific digitization feature: they frame</nobr></div>
+<div style="position:absolute;top:5553;left:468"><nobr>content changes every 3rd frame instead of every frame. For</nobr></div>
+<div style="position:absolute;top:5571;left:468"><nobr>each video sequence, a human observer determined the precise</nobr></div>
+<div style="position:absolute;top:5589;left:468"><nobr>locations and duration of the transitions to be used as ground</nobr></div>
+<div style="position:absolute;top:5607;left:468"><nobr>truth.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:5635;left:633"><nobr>TABLE I</nobr></div>
+<div style="position:absolute;top:5653;left:543"><nobr>T<font style="font-size:7px">HE VIDEO SET USED IN OUR EXPERIMENTS</font>.</nobr></div>
+<div style="position:absolute;top:5681;left:531"><nobr><b>video</b></nobr></div>
+<div style="position:absolute;top:5681;left:614"><nobr><b>frames</b></nobr></div>
+<div style="position:absolute;top:5681;left:670"><nobr><b>cuts</b></nobr></div>
+<div style="position:absolute;top:5681;left:710"><nobr><b>fade-ins</b></nobr></div>
+<div style="position:absolute;top:5681;left:769"><nobr><b>fade-outs</b></nobr></div>
+<div style="position:absolute;top:5698;left:518"><nobr><b>basketball</b></nobr></div>
+<div style="position:absolute;top:5698;left:620"><nobr>3882</nobr></div>
+<div style="position:absolute;top:5698;left:674"><nobr>44</nobr></div>
+<div style="position:absolute;top:5698;left:727"><nobr>7</nobr></div>
+<div style="position:absolute;top:5698;left:789"><nobr>4</nobr></div>
+<div style="position:absolute;top:5712;left:532"><nobr><b>news</b></nobr></div>
+<div style="position:absolute;top:5712;left:620"><nobr>9446</nobr></div>
+<div style="position:absolute;top:5712;left:674"><nobr>40</nobr></div>
+<div style="position:absolute;top:5712;left:727"><nobr>6</nobr></div>
+<div style="position:absolute;top:5712;left:789"><nobr>6</nobr></div>
+<div style="position:absolute;top:5726;left:525"><nobr><b>football</b></nobr></div>
+<div style="position:absolute;top:5726;left:620"><nobr>5589</nobr></div>
+<div style="position:absolute;top:5726;left:674"><nobr>28</nobr></div>
+<div style="position:absolute;top:5726;left:727"><nobr>0</nobr></div>
+<div style="position:absolute;top:5726;left:789"><nobr>0</nobr></div>
+<div style="position:absolute;top:5740;left:529"><nobr><b>movie</b></nobr></div>
+<div style="position:absolute;top:5740;left:617"><nobr>19722</nobr></div>
+<div style="position:absolute;top:5740;left:671"><nobr>147</nobr></div>
+<div style="position:absolute;top:5740;left:727"><nobr>0</nobr></div>
+<div style="position:absolute;top:5740;left:789"><nobr>0</nobr></div>
+<div style="position:absolute;top:5757;left:594"><nobr><b>TREC video sequences</b></nobr></div>
+<div style="position:absolute;top:5771;left:504"><nobr><b>6 debate videos</b></nobr></div>
+<div style="position:absolute;top:5771;left:614"><nobr>125977</nobr></div>
+<div style="position:absolute;top:5771;left:671"><nobr>230</nobr></div>
+<div style="position:absolute;top:5771;left:727"><nobr>0</nobr></div>
+<div style="position:absolute;top:5771;left:789"><nobr>0</nobr></div>
+<div style="position:absolute;top:5785;left:493"><nobr><b>4 CNN news videos</b></nobr></div>
+<div style="position:absolute;top:5785;left:614"><nobr>209978</nobr></div>
+<div style="position:absolute;top:5785;left:668"><nobr>1287</nobr></div>
+<div style="position:absolute;top:5785;left:724"><nobr>57</nobr></div>
+<div style="position:absolute;top:5785;left:786"><nobr>57</nobr></div>
+<div style="position:absolute;top:5799;left:494"><nobr><b>4 ABC news videos</b></nobr></div>
+<div style="position:absolute;top:5799;left:614"><nobr>206144</nobr></div>
+<div style="position:absolute;top:5799;left:668"><nobr>1269</nobr></div>
+<div style="position:absolute;top:5799;left:724"><nobr>64</nobr></div>
+<div style="position:absolute;top:5799;left:786"><nobr>69</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:5836;left:483"><nobr>To enable future comparison with other boundary detec-</nobr></div>
+<div style="position:absolute;top:5854;left:468"><nobr>tion techniques, newscasts from the reference video test set</nobr></div>
+<div style="position:absolute;top:5872;left:468"><nobr>TRECVID 2003 was added to the testing set, containing</nobr></div>
+<div style="position:absolute;top:5890;left:468"><nobr>video sequences of more than 6 hours duration that has been</nobr></div>
+<div style="position:absolute;top:5908;left:468"><nobr>digitized with a frame rate of 29.97fps at a resolution of</nobr></div>
+<div style="position:absolute;top:5925;left:468"><nobr>352 <i>× </i>264 pixels. We used spatially downsampled frames for</nobr></div>
+<div style="position:absolute;top:5944;left:468"><nobr>our experiments with resolution 176 <i>× </i>132 pixels to speed</nobr></div>
+<div style="position:absolute;top:5962;left:468"><nobr>up calculations. The ground truth provided by TRECVID was</nobr></div>
+<div style="position:absolute;top:5980;left:468"><nobr>used for these video sequences.</nobr></div>
+<div style="position:absolute;top:5997;left:483"><nobr>In order to evaluate the performance of the shot cut detection</nobr></div>
+<div style="position:absolute;top:6015;left:468"><nobr>method presented in Section III, the following measures were</nobr></div>
+<div style="position:absolute;top:6033;left:468"><nobr>used, inspired by the receiver operating characteristics in</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:6115;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="6"><b>Page 6</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6158;left:73"><nobr>6</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:6425;left:73"><nobr>Fig. 7.</nobr></div>
+<div style="position:absolute;top:6425;left:121"><nobr><i>The recall-precision graph obtained for shot cut detection method</i></nobr></div>
+<div style="position:absolute;top:6438;left:73"><nobr><i>by varying threshold ϵ<font style="font-size:6px">c </font>in the range </i>[1<i>.</i>7<i>, </i>6<i>.</i>5]<i>.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6488;left:73"><nobr>statistical detection theory [3], [32]. Let <i>GT </i>denote the ground</nobr></div>
+<div style="position:absolute;top:6506;left:73"><nobr>truth, <i>Det </i>the detected (correct and false) shots cuts using</nobr></div>
+<div style="position:absolute;top:6524;left:73"><nobr>our methods. The following performance measures have been</nobr></div>
+<div style="position:absolute;top:6541;left:73"><nobr>used:</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6567;left:88"><nobr><i>• </i><font style="font-size:12px">the </font><i><font style="font-size:12px">Recall </font></i><font style="font-size:12px">measure, also known as the true positive</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6581;left:104"><nobr>function or sensitivity, that corresponds to the ratio of</nobr></div>
+<div style="position:absolute;top:6599;left:104"><nobr>correct experimental detections over the number of all</nobr></div>
+<div style="position:absolute;top:6617;left:104"><nobr>true detections:</nobr></div>
+<div style="position:absolute;top:6649;left:205"><nobr><i>Recall </i>=</nobr></div>
+<div style="position:absolute;top:6639;left:269"><nobr><i>|Det</i></nobr></div>
+<div style="position:absolute;top:6628;left:301"><nobr>⋂</nobr></div>
+<div style="position:absolute;top:6639;left:316"><nobr><i>GT|</i></nobr></div>
+<div style="position:absolute;top:6659;left:290"><nobr><i>|GT|</i></nobr></div>
+<div style="position:absolute;top:6649;left:344"><nobr>;</nobr></div>
+<div style="position:absolute;top:6650;left:425"><nobr>(17)</nobr></div>
+<div style="position:absolute;top:6686;left:104"><nobr>where <i>|GT| </i>denotes the cardinality of set <i>GT</i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:6708;left:88"><nobr><i>• </i><font style="font-size:12px">the </font><i><font style="font-size:12px">Precision </font></i><font style="font-size:12px">measure defined as the ratio of correct ex-</font></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6722;left:104"><nobr>perimental detections over the number of all experimental</nobr></div>
+<div style="position:absolute;top:6740;left:104"><nobr>detections:</nobr></div>
+<div style="position:absolute;top:6772;left:193"><nobr><i>P recision </i>=</nobr></div>
+<div style="position:absolute;top:6762;left:281"><nobr><i>|Det</i></nobr></div>
+<div style="position:absolute;top:6751;left:313"><nobr>⋂</nobr></div>
+<div style="position:absolute;top:6762;left:328"><nobr><i>GT|</i></nobr></div>
+<div style="position:absolute;top:6782;left:301"><nobr><i>|Det|</i></nobr></div>
+<div style="position:absolute;top:6772;left:356"><nobr><i>.</i></nobr></div>
+<div style="position:absolute;top:6773;left:425"><nobr>(18)</nobr></div>
+<div style="position:absolute;top:6808;left:88"><nobr>For our experiments we used the size of temporal window</nobr></div>
+<div style="position:absolute;top:6826;left:73"><nobr><i>N<font style="font-size:8px">W </font></i>= 3. We have tested the method with several choices of</nobr></div>
+<div style="position:absolute;top:6844;left:73"><nobr>threshold <i>ϵ<font style="font-size:8px">c</font></i>. The recall-precision curve obtained by changing</nobr></div>
+<div style="position:absolute;top:6862;left:73"><nobr>threshold <i>ϵ<font style="font-size:8px">c </font></i>is shown in Figure 7. The experimental tests,</nobr></div>
+<div style="position:absolute;top:6880;left:73"><nobr>performed using a common prefixed threshold (<i>ϵ<font style="font-size:8px">c </font></i>= 3<i>.</i>1)</nobr></div>
+<div style="position:absolute;top:6898;left:73"><nobr>for all video sequences are summarized in Table II (MI</nobr></div>
+<div style="position:absolute;top:6916;left:73"><nobr>method). The elapsed time for obtaining results (abrupt cuts</nobr></div>
+<div style="position:absolute;top:6934;left:73"><nobr>and fades) for one video sequence having 51384 frames was</nobr></div>
+<div style="position:absolute;top:6951;left:73"><nobr>1517 seconds. Thus, the algorithm can operate in real time for</nobr></div>
+<div style="position:absolute;top:6970;left:73"><nobr>the raw video sequence. The large majority of the cuts were</nobr></div>
+<div style="position:absolute;top:6988;left:73"><nobr>correctly detected even in the case of the video sequences,</nobr></div>
+<div style="position:absolute;top:7006;left:73"><nobr>which contain fast object and camera movements. A part of</nobr></div>
+<div style="position:absolute;top:7024;left:73"><nobr>the video sequence showing a cut between two shots involving</nobr></div>
+<div style="position:absolute;top:7042;left:73"><nobr>high content motion that was successfully detected by the</nobr></div>
+<div style="position:absolute;top:7060;left:73"><nobr>proposed method is presented in Figure 8. A snapshot of</nobr></div>
+<div style="position:absolute;top:7078;left:73"><nobr>the “football” sequence is shown in Figure 9, where a big</nobr></div>
+<div style="position:absolute;top:7095;left:73"><nobr>object appears in front of the camera. This case is wrongly</nobr></div>
+<div style="position:absolute;top:7113;left:73"><nobr>characterized by existing methods as a transition, whereas our</nobr></div>
+<div style="position:absolute;top:7131;left:73"><nobr>method correctly does not detect a transition.</nobr></div>
+<div style="position:absolute;top:7150;left:88"><nobr>Sensitivity to camera flashes is shown on Figure 10. Fig-</nobr></div>
+<div style="position:absolute;top:7167;left:73"><nobr>ure 10a, 10b show the color histogram difference and MI</nobr></div>
+<div style="position:absolute;top:7185;left:73"><nobr>respectively, calculated for the same part of video sequence</nobr></div>
+<div style="position:absolute;top:7203;left:73"><nobr>containing a lot of camera flashes. Notice that the MI metric</nobr></div>
+<div style="position:absolute;top:7221;left:73"><nobr>is significantly less sensitive to shot illumination changes</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:6245;left:468"><nobr>Fig. 8.</nobr></div>
+<div style="position:absolute;top:6245;left:519"><nobr><i>Consecutive frames from “football” video sequence showing an</i></nobr></div>
+<div style="position:absolute;top:6259;left:468"><nobr><i>abrupt cut between two shots coupled with large video object motion.</i></nobr></div>
+<div style="position:absolute;top:6344;left:468"><nobr>Fig. 9.</nobr></div>
+<div style="position:absolute;top:6344;left:514"><nobr><i>Consecutive frames from “football” video sequence showing a big</i></nobr></div>
+<div style="position:absolute;top:6358;left:468"><nobr><i>object appearance in front of the camera during panning.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:6406;left:468"><nobr>(camera flashes) even in the RGB color space compared to</nobr></div>
+<div style="position:absolute;top:6424;left:468"><nobr>histogram-based methods. This is clear from (6) and the</nobr></div>
+<div style="position:absolute;top:6442;left:468"><nobr>properties of conditional entropy. In case of camera flash</nobr></div>
+<div style="position:absolute;top:6460;left:468"><nobr>occurrence, the main information transported from one frame</nobr></div>
+<div style="position:absolute;top:6478;left:468"><nobr>to the next one is preserved, which means that they differ only</nobr></div>
+<div style="position:absolute;top:6496;left:468"><nobr>in luminance by a certain amount. Thus, from properties of</nobr></div>
+<div style="position:absolute;top:6513;left:468"><nobr>conditional entropy <i>H</i>(<i>X|Y </i>) <i>∼</i>= 0 and accordingly <i>I</i>(<i>X, Y </i>) <i>∼</i>=</nobr></div>
+<div style="position:absolute;top:6531;left:468"><nobr><i>H</i>(<i>X</i>). In the case of shot cuts the two frames are independent</nobr></div>
+<div style="position:absolute;top:6549;left:468"><nobr>and there is no information transported between them, which</nobr></div>
+<div style="position:absolute;top:6567;left:468"><nobr>means <i>I</i>(<i>X, Y </i>)=0. In the case of histogram comparisons, the</nobr></div>
+<div style="position:absolute;top:6585;left:468"><nobr>camera flashes sometimes produce more significant peaks than</nobr></div>
+<div style="position:absolute;top:6603;left:468"><nobr>the peaks corresponding to cuts, which cause false detections.</nobr></div>
+<div style="position:absolute;top:6844;left:903"><nobr>(a)</nobr></div>
+<div style="position:absolute;top:7057;left:903"><nobr>(b)</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:7087;left:468"><nobr>Fig. 10. <i>A part of video sequence containing many camera flashes. (a) color</i></nobr></div>
+<div style="position:absolute;top:7100;left:468"><nobr><i>histogram comparison and (b) mutual information calculated for the same</i></nobr></div>
+<div style="position:absolute;top:7114;left:468"><nobr><i>part of video sequence.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7150;left:483"><nobr>The obtained results are better than the results for shot cut</nobr></div>
+<div style="position:absolute;top:7167;left:468"><nobr>detections reported in the TRECVID2003 competition [33].</nobr></div>
+<div style="position:absolute;top:7185;left:468"><nobr>The best reported abrupt cut detection results for recall and</nobr></div>
+<div style="position:absolute;top:7203;left:468"><nobr>precision are 93% and 95% respectively, whereas our method</nobr></div>
+<div style="position:absolute;top:7221;left:468"><nobr>produces 97% recall and 95% precision. Most false detections</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:7303;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="7"><b>Page 7</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:7346;left:839"><nobr>7</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:7380;left:434"><nobr>TABLE II</nobr></div>
+<div style="position:absolute;top:7398;left:327"><nobr>F<font style="font-size:7px">IXED THRESHOLD SHOT CUT DETECTION RESULTS</font>.</nobr></div>
+<div style="position:absolute;top:7426;left:481"><nobr><b>Combined</b></nobr></div>
+<div style="position:absolute;top:7426;left:580"><nobr><b>Color histogram</b></nobr></div>
+<div style="position:absolute;top:7439;left:363"><nobr><b>MI method</b></nobr></div>
+<div style="position:absolute;top:7439;left:460"><nobr><b>histogram method</b></nobr></div>
+<div style="position:absolute;top:7439;left:604"><nobr><b>method</b></nobr></div>
+<div style="position:absolute;top:7453;left:271"><nobr><b>video</b></nobr></div>
+<div style="position:absolute;top:7453;left:347"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:7453;left:396"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:7453;left:461"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:7453;left:511"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:7453;left:578"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:7453;left:627"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:7470;left:259"><nobr><b>basketball</b></nobr></div>
+<div style="position:absolute;top:7470;left:351"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:7470;left:407"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:7470;left:465"><nobr>0.91</nobr></div>
+<div style="position:absolute;top:7470;left:522"><nobr>0.97</nobr></div>
+<div style="position:absolute;top:7470;left:581"><nobr>0.52</nobr></div>
+<div style="position:absolute;top:7470;left:637"><nobr>0.85</nobr></div>
+<div style="position:absolute;top:7484;left:273"><nobr><b>news</b></nobr></div>
+<div style="position:absolute;top:7484;left:351"><nobr>0.96</nobr></div>
+<div style="position:absolute;top:7484;left:407"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:7484;left:465"><nobr>0.96</nobr></div>
+<div style="position:absolute;top:7484;left:522"><nobr>0.98</nobr></div>
+<div style="position:absolute;top:7484;left:581"><nobr>0.80</nobr></div>
+<div style="position:absolute;top:7484;left:637"><nobr>0.89</nobr></div>
+<div style="position:absolute;top:7498;left:266"><nobr><b>football</b></nobr></div>
+<div style="position:absolute;top:7498;left:351"><nobr>0.93</nobr></div>
+<div style="position:absolute;top:7498;left:407"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7498;left:466"><nobr>0.96</nobr></div>
+<div style="position:absolute;top:7498;left:522"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7498;left:581"><nobr>0.68</nobr></div>
+<div style="position:absolute;top:7498;left:637"><nobr>0.68</nobr></div>
+<div style="position:absolute;top:7512;left:270"><nobr><b>movie</b></nobr></div>
+<div style="position:absolute;top:7512;left:351"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:7512;left:407"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:7512;left:466"><nobr>0.93</nobr></div>
+<div style="position:absolute;top:7512;left:522"><nobr>0.98</nobr></div>
+<div style="position:absolute;top:7512;left:581"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:7512;left:637"><nobr>0.93</nobr></div>
+<div style="position:absolute;top:7530;left:245"><nobr><b>6 debate videos</b></nobr></div>
+<div style="position:absolute;top:7530;left:352"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7530;left:407"><nobr>0.99</nobr></div>
+<div style="position:absolute;top:7530;left:466"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7530;left:522"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7530;left:581"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:7530;left:637"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:7544;left:252"><nobr><b>4 CNN news</b></nobr></div>
+<div style="position:absolute;top:7544;left:351"><nobr><b>0.96</b></nobr></div>
+<div style="position:absolute;top:7544;left:407"><nobr><b>0.96</b></nobr></div>
+<div style="position:absolute;top:7544;left:465"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:7544;left:522"><nobr>0.83</nobr></div>
+<div style="position:absolute;top:7544;left:581"><nobr>0.85</nobr></div>
+<div style="position:absolute;top:7544;left:637"><nobr>0.84</nobr></div>
+<div style="position:absolute;top:7558;left:252"><nobr><b>4 ABC news</b></nobr></div>
+<div style="position:absolute;top:7558;left:351"><nobr><b>0.97</b></nobr></div>
+<div style="position:absolute;top:7558;left:407"><nobr><b>0.94</b></nobr></div>
+<div style="position:absolute;top:7558;left:465"><nobr>0.85</nobr></div>
+<div style="position:absolute;top:7558;left:522"><nobr>0.81</nobr></div>
+<div style="position:absolute;top:7558;left:581"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:7558;left:637"><nobr>0.73</nobr></div>
+<div style="position:absolute;top:7575;left:255"><nobr><b>TREC total</b></nobr></div>
+<div style="position:absolute;top:7575;left:351"><nobr><b>0.97</b></nobr></div>
+<div style="position:absolute;top:7575;left:407"><nobr><b>0.95</b></nobr></div>
+<div style="position:absolute;top:7575;left:465"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:7575;left:522"><nobr>0.83</nobr></div>
+<div style="position:absolute;top:7575;left:581"><nobr>0.86</nobr></div>
+<div style="position:absolute;top:7575;left:637"><nobr>0.80</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7625;left:73"><nobr>were caused by corrupted parts of video sequences, where</nobr></div>
+<div style="position:absolute;top:7643;left:73"><nobr>a sequence of exactly the same frames is followed by a</nobr></div>
+<div style="position:absolute;top:7661;left:73"><nobr>significantly different frame. This case is shown in Figure</nobr></div>
+<div style="position:absolute;top:7679;left:73"><nobr>11. In some cases, false detections appeared in the case</nobr></div>
+<div style="position:absolute;top:7697;left:73"><nobr>of commercials where artistic camera edits were used. The</nobr></div>
+<div style="position:absolute;top:7715;left:73"><nobr>missed shot cut detections were caused mainly by shot changes</nobr></div>
+<div style="position:absolute;top:7733;left:73"><nobr>between two images with very similar spatial color distribution</nobr></div>
+<div style="position:absolute;top:7751;left:73"><nobr>(Figure 12a) or if the shot change occurred only in a part of</nobr></div>
+<div style="position:absolute;top:7769;left:73"><nobr>the video frame (Figure 12b). Some video sequences contained</nobr></div>
+<div style="position:absolute;top:7786;left:73"><nobr>a special type of hard cut, which contained one transitional</nobr></div>
+<div style="position:absolute;top:7804;left:73"><nobr>frame (“cut in two frames”). In this case, the MI shows a</nobr></div>
+<div style="position:absolute;top:7822;left:73"><nobr>double peak, which was not always a strong one. Therefore,</nobr></div>
+<div style="position:absolute;top:7840;left:73"><nobr>in some cases, its use caused misdetection. Such fake peaks</nobr></div>
+<div style="position:absolute;top:7858;left:73"><nobr>could be caused, for example, by flash. This drawback could</nobr></div>
+<div style="position:absolute;top:7876;left:73"><nobr>be improved by a pre-processing stage, where all double MI</nobr></div>
+<div style="position:absolute;top:7894;left:73"><nobr>peaks would be checked for the possibility of corresponding</nobr></div>
+<div style="position:absolute;top:7912;left:73"><nobr>to a hard cut, by comparing the previous and the successive</nobr></div>
+<div style="position:absolute;top:7930;left:73"><nobr>frame. In case the MI value is still small, we can modify it to</nobr></div>
+<div style="position:absolute;top:7948;left:73"><nobr>become a single peak.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:8147;left:73"><nobr>Fig. 11. <i>A mutual information of temporally subsampled video sequence.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8178;left:88"><nobr>We compared our algorithm to the technique proposed in</nobr></div>
+<div style="position:absolute;top:8276;left:418"><nobr>(a)</nobr></div>
+<div style="position:absolute;top:8340;left:418"><nobr>(b)</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:8369;left:73"><nobr>Fig. 12.</nobr></div>
+<div style="position:absolute;top:8369;left:126"><nobr><i>Consecutive frames from video sequences presenting abrupt cuts,</i></nobr></div>
+<div style="position:absolute;top:8383;left:73"><nobr><i>which caused missed shot cut detection: a) shot changes between two images</i></nobr></div>
+<div style="position:absolute;top:8396;left:73"><nobr><i>with very similar spatial color distribution and b) shot change occurs only in</i></nobr></div>
+<div style="position:absolute;top:8409;left:73"><nobr><i>a part of the video frame.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:7625;left:468"><nobr>[22]. This approach combines two shot boundary detection</nobr></div>
+<div style="position:absolute;top:7643;left:468"><nobr>schemes based on color frame differences and color vector</nobr></div>
+<div style="position:absolute;top:7661;left:468"><nobr>histogram differences between successive frames. It is claimed</nobr></div>
+<div style="position:absolute;top:7679;left:468"><nobr>to detect shot boundaries efficiently even under strong video</nobr></div>
+<div style="position:absolute;top:7697;left:468"><nobr>edit effects and camera motion. This method operates in the</nobr></div>
+<div style="position:absolute;top:7715;left:468"><nobr>HLS color space and ignores luminance information in order</nobr></div>
+<div style="position:absolute;top:7733;left:468"><nobr>to overcome the possible drawback of histogram sensitivity</nobr></div>
+<div style="position:absolute;top:7751;left:468"><nobr>to shot illumination changes. The results of this algorithm</nobr></div>
+<div style="position:absolute;top:7769;left:468"><nobr>applied on the same video sequences are summarized in</nobr></div>
+<div style="position:absolute;top:7786;left:468"><nobr>Table II (second and third columns). Several false shot cut</nobr></div>
+<div style="position:absolute;top:7804;left:468"><nobr>detections were performed due to camera flashes. Although</nobr></div>
+<div style="position:absolute;top:7822;left:468"><nobr>this approach has a high shot cut detection rate, it is generally</nobr></div>
+<div style="position:absolute;top:7840;left:468"><nobr>lower compared to that of our proposed technique (Table II; MI</nobr></div>
+<div style="position:absolute;top:7858;left:468"><nobr>method). Our technique is robust to the detection of shots with</nobr></div>
+<div style="position:absolute;top:7876;left:468"><nobr>small length, occurring particularly during TV advertisements.</nobr></div>
+<div style="position:absolute;top:7894;left:468"><nobr>Out of the falsely detected cuts, about 10% of them come from</nobr></div>
+<div style="position:absolute;top:7912;left:468"><nobr>other types of transitions which were detected by chance.</nobr></div>
+<div style="position:absolute;top:7930;left:483"><nobr>Another algorithm, that was used for comparison purposes</nobr></div>
+<div style="position:absolute;top:7948;left:468"><nobr>is the so-called color histogram-based shot boundary detection</nobr></div>
+<div style="position:absolute;top:7966;left:468"><nobr>algorithm [2]. It is one of the most reliable variants of</nobr></div>
+<div style="position:absolute;top:7983;left:468"><nobr>histogram-based detection algorithms. Hard cuts and other</nobr></div>
+<div style="position:absolute;top:8001;left:468"><nobr>short-lasting transitions are detected as single peaks in the</nobr></div>
+<div style="position:absolute;top:8019;left:468"><nobr>time series of the differences between color histograms of</nobr></div>
+<div style="position:absolute;top:8037;left:468"><nobr>contiguous frames or of frames lying at a certain distance <i>k</i></nobr></div>
+<div style="position:absolute;top:8055;left:468"><nobr>apart. A hard cut is detected if only the <i>i</i>-th color histogram</nobr></div>
+<div style="position:absolute;top:8073;left:468"><nobr>difference value exceeds a certain threshold <i>φ </i>within a local</nobr></div>
+<div style="position:absolute;top:8091;left:468"><nobr>environment of a given radius of frame <i>f<font style="font-size:8px">i</font></i>. A global threshold-</nobr></div>
+<div style="position:absolute;top:8109;left:468"><nobr>ing is used. In order to cope with the particular type of hard</nobr></div>
+<div style="position:absolute;top:8127;left:468"><nobr>cut, which consists of one transitional frame, double peaks</nobr></div>
+<div style="position:absolute;top:8145;left:468"><nobr>were modified into single peaks in a pre-processing stage.</nobr></div>
+<div style="position:absolute;top:8163;left:468"><nobr>Table II (fifth and sixth columns) shows the results obtained</nobr></div>
+<div style="position:absolute;top:8181;left:468"><nobr>by this method with threshold <i>φ </i>= 0<i>.</i>4. One can see that,</nobr></div>
+<div style="position:absolute;top:8199;left:468"><nobr>in general, the results are poorer than those of our proposed</nobr></div>
+<div style="position:absolute;top:8217;left:468"><nobr>method using MI, they are even lower than the results obtained</nobr></div>
+<div style="position:absolute;top:8235;left:468"><nobr>by the combined histogram method.</nobr></div>
+<div style="position:absolute;top:8252;left:483"><nobr>The same measures (17) and (18) have been used for the</nobr></div>
+<div style="position:absolute;top:8270;left:468"><nobr>evaluation of fade detection performance. The spatial overlap</nobr></div>
+<div style="position:absolute;top:8288;left:468"><nobr>precision has been used as well defined as:</nobr></div>
+<div style="position:absolute;top:8315;left:502"><nobr><i>Spatial Overlap Precision </i>=</nobr></div>
+<div style="position:absolute;top:8352;left:599"><nobr>=</nobr></div>
+<div style="position:absolute;top:8342;left:649"><nobr>1</nobr></div>
+<div style="position:absolute;top:8362;left:616"><nobr><i>|GT</i></nobr></div>
+<div style="position:absolute;top:8351;left:646"><nobr>⋂</nobr></div>
+<div style="position:absolute;top:8362;left:661"><nobr><i>Det|</i></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:8336;left:694"><nobr><i>|GT|</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8338;left:696"><nobr>∑</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:8374;left:697"><nobr><i>i</i>=1</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8342;left:723"><nobr><i>|Det<font style="font-size:8px">i</font></i></nobr></div>
+<div style="position:absolute;top:8330;left:760"><nobr>⋂</nobr></div>
+<div style="position:absolute;top:8342;left:775"><nobr><i>GT<font style="font-size:8px">i</font>|</i></nobr></div>
+<div style="position:absolute;top:8362;left:723"><nobr><i>|Det<font style="font-size:8px">i</font></i></nobr></div>
+<div style="position:absolute;top:8351;left:760"><nobr>⋃</nobr></div>
+<div style="position:absolute;top:8362;left:775"><nobr><i>GT<font style="font-size:8px">i</font>|</i></nobr></div>
+<div style="position:absolute;top:8352;left:807"><nobr><i>, </i>(19)</nobr></div>
+<div style="position:absolute;top:8391;left:473"><nobr>where <i>GT<font style="font-size:8px">i </font></i>is a subset of <i>GT</i>, which represents the duration</nobr></div>
+<div style="position:absolute;top:8409;left:468"><nobr>of one fade. Overlap is considered to be a strong measure for</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:8491;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="8"><b>Page 8</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:8534;left:73"><nobr>8</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:8568;left:432"><nobr>TABLE III</nobr></div>
+<div style="position:absolute;top:8586;left:256"><nobr>E<font style="font-size:7px">VALUATION OF FADE DETECTION BY THE PROPOSED JOINT ENTROPY METHOD</font>.</nobr></div>
+<div style="position:absolute;top:8614;left:276"><nobr><b>video</b></nobr></div>
+<div style="position:absolute;top:8614;left:395"><nobr><b>fade-ins</b></nobr></div>
+<div style="position:absolute;top:8614;left:559"><nobr><b>fade-outs</b></nobr></div>
+<div style="position:absolute;top:8627;left:341"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:8627;left:390"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:8627;left:452"><nobr>Overlap</nobr></div>
+<div style="position:absolute;top:8627;left:509"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:8627;left:558"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:8627;left:621"><nobr>Overlap</nobr></div>
+<div style="position:absolute;top:8644;left:264"><nobr><b>basketball</b></nobr></div>
+<div style="position:absolute;top:8644;left:346"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:8644;left:401"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:8644;left:461"><nobr><b>0.78</b></nobr></div>
+<div style="position:absolute;top:8644;left:513"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:8644;left:569"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:8644;left:628"><nobr><b>0.90</b></nobr></div>
+<div style="position:absolute;top:8658;left:277"><nobr><b>news</b></nobr></div>
+<div style="position:absolute;top:8658;left:346"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:8658;left:401"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:8658;left:460"><nobr><b>0.71</b></nobr></div>
+<div style="position:absolute;top:8658;left:513"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:8658;left:568"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:8658;left:628"><nobr>0.85</nobr></div>
+<div style="position:absolute;top:8675;left:257"><nobr><b>4 CNN news</b></nobr></div>
+<div style="position:absolute;top:8675;left:346"><nobr><b>1.00</b></nobr></div>
+<div style="position:absolute;top:8675;left:401"><nobr>0.84</nobr></div>
+<div style="position:absolute;top:8675;left:460"><nobr><b>0.83</b></nobr></div>
+<div style="position:absolute;top:8675;left:513"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:8675;left:568"><nobr><b>0.84</b></nobr></div>
+<div style="position:absolute;top:8675;left:628"><nobr>0.86</nobr></div>
+<div style="position:absolute;top:8689;left:257"><nobr><b>4 ABC news</b></nobr></div>
+<div style="position:absolute;top:8689;left:346"><nobr>0.93</nobr></div>
+<div style="position:absolute;top:8689;left:401"><nobr><b>0.90</b></nobr></div>
+<div style="position:absolute;top:8689;left:460"><nobr><b>0.74</b></nobr></div>
+<div style="position:absolute;top:8689;left:513"><nobr>0.92</nobr></div>
+<div style="position:absolute;top:8689;left:568"><nobr><b>0.92</b></nobr></div>
+<div style="position:absolute;top:8689;left:628"><nobr>0.75</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8740;left:73"><nobr>detection accuracy, since, for example, a shot of length <i>N<font style="font-size:8px">L</font></i></nobr></div>
+<div style="position:absolute;top:8758;left:73"><nobr>shifted by one frame results in only <i><font style="font-size:8px">N</font><font style="font-size:5px">L</font><font style="font-size:8px">−</font></i><font style="font-size:8px">1</font></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:8767;left:309"><nobr><i>N<font style="font-size:5px">L</font></i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:8758;left:341"><nobr>overlap.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:9031;left:73"><nobr>Fig. 13.</nobr></div>
+<div style="position:absolute;top:9031;left:126"><nobr><i>The recall-precision graph obtained for fade detection method by</i></nobr></div>
+<div style="position:absolute;top:9044;left:73"><nobr><i>varying threshold ϵ<font style="font-size:6px">f </font>in the range </i>[0<i>.</i>01<i>, </i>1<i>.</i>5] <i>and choosing T </i>= 3<i>.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:9077;left:88"><nobr>The fade detection method was tested for several choices of</nobr></div>
+<div style="position:absolute;top:9094;left:73"><nobr>threshold <i>ϵ<font style="font-size:8px">f </font></i>. The recall-precision curve obtained by changing</nobr></div>
+<div style="position:absolute;top:9112;left:73"><nobr>threshold <i>ϵ<font style="font-size:8px">f </font></i>is shown in Figure 13. The experimental tests,</nobr></div>
+<div style="position:absolute;top:9130;left:73"><nobr>performed using a common prefixed thresholds (<i>ϵ<font style="font-size:8px">f </font></i>= 0<i>.</i>15</nobr></div>
+<div style="position:absolute;top:9148;left:73"><nobr>and <i>T </i>= 3) for all video sequences are summarized in</nobr></div>
+<div style="position:absolute;top:9166;left:73"><nobr>Table III. Using this setup, the fade boundaries were detected</nobr></div>
+<div style="position:absolute;top:9184;left:73"><nobr>within a precision of <i>±</i>2 frames. In most cases, the boundaries</nobr></div>
+<div style="position:absolute;top:9202;left:73"><nobr>toward black frames were recognized without any error. The</nobr></div>
+<div style="position:absolute;top:9220;left:73"><nobr>robustness of the JE measure in fade detection and, especially,</nobr></div>
+<div style="position:absolute;top:9238;left:73"><nobr>in avoiding false fade detections is illustrated in Figures 14</nobr></div>
+<div style="position:absolute;top:9256;left:73"><nobr>and 15. The use of JE for detecting fades is robust in case</nobr></div>
+<div style="position:absolute;top:9274;left:73"><nobr>big objects move in front of the camera, that can cause severe</nobr></div>
+<div style="position:absolute;top:9292;left:73"><nobr>occlusion and a blank frame in the video sequence. In our</nobr></div>
+<div style="position:absolute;top:9310;left:73"><nobr>experiments, the threshold was set to a very low value to avoid</nobr></div>
+<div style="position:absolute;top:9328;left:73"><nobr>false detections (see Figure 15). Some fade detections were</nobr></div>
+<div style="position:absolute;top:9346;left:73"><nobr>missed when there was noise in the black frame or when the</nobr></div>
+<div style="position:absolute;top:9364;left:73"><nobr>fading was not complete and the end frame was just very dark</nobr></div>
+<div style="position:absolute;top:9381;left:73"><nobr>gray instead of black. In the TRECVID competition, only the</nobr></div>
+<div style="position:absolute;top:9399;left:73"><nobr>abrupt cuts and the gradual transitions are evaluated separately.</nobr></div>
+<div style="position:absolute;top:9417;left:73"><nobr>Therefore, we cannot make comparison of our results to those</nobr></div>
+<div style="position:absolute;top:9435;left:73"><nobr>of other TRECVID participants.</nobr></div>
+<div style="position:absolute;top:9454;left:88"><nobr>Our method for fade detection was compared to the ap-</nobr></div>
+<div style="position:absolute;top:9472;left:73"><nobr>proach proposed in [2] that is based on the standard deviation</nobr></div>
+<div style="position:absolute;top:9490;left:73"><nobr>of pixel intensities (SD method) and claims to detect fades</nobr></div>
+<div style="position:absolute;top:9508;left:73"><nobr>with high detection rate and to determine fade boundaries</nobr></div>
+<div style="position:absolute;top:9526;left:73"><nobr>with high precision. In order to obtain results three differ-</nobr></div>
+<div style="position:absolute;top:9543;left:73"><nobr>ent parameters have to be set: minimal required length of</nobr></div>
+<div style="position:absolute;top:9561;left:73"><nobr>a fade, minimal required correlation and maximal allowed</nobr></div>
+<div style="position:absolute;top:9579;left:73"><nobr>standard deviation of the pixel color values in the first/last</nobr></div>
+<div style="position:absolute;top:9597;left:73"><nobr>monochrome frame of a fade. We used the default setup of</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:8880;left:468"><nobr>Fig. 14.</nobr></div>
+<div style="position:absolute;top:8880;left:520"><nobr><i>The joint entropy signal from “star” video sequence representing</i></nobr></div>
+<div style="position:absolute;top:8894;left:468"><nobr><i>no fades.</i></nobr></div>
+<div style="position:absolute;top:9153;left:468"><nobr>Fig. 15.</nobr></div>
+<div style="position:absolute;top:9153;left:523"><nobr><i>The joint entropy signal from “news” video sequence having 2</i></nobr></div>
+<div style="position:absolute;top:9166;left:468"><nobr><i>fades.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:9219;left:468"><nobr>the parameters in the algorithm, as proposed in [2], since it</nobr></div>
+<div style="position:absolute;top:9237;left:468"><nobr>was referred that this choice attains the best performance. As</nobr></div>
+<div style="position:absolute;top:9255;left:468"><nobr>can be seen in Table IV, several fades were not correctly</nobr></div>
+<div style="position:absolute;top:9273;left:468"><nobr>detected by this method. You can notice a very low recall</nobr></div>
+<div style="position:absolute;top:9291;left:468"><nobr>in case of “basketball” and “news” video sequences, which</nobr></div>
+<div style="position:absolute;top:9309;left:468"><nobr>was caused by the video content change every 3rd frame.</nobr></div>
+<div style="position:absolute;top:9327;left:468"><nobr>The above mentioned observations were also confirmed by</nobr></div>
+<div style="position:absolute;top:9344;left:468"><nobr>the starting/ending frame location estimation provided by our</nobr></div>
+<div style="position:absolute;top:9362;left:468"><nobr>JE approach and the SD technique and their error statistics</nobr></div>
+<div style="position:absolute;top:9380;left:468"><nobr>are presented in Tables V and VI respectively. For all fades</nobr></div>
+<div style="position:absolute;top:9398;left:468"><nobr>(Table I), the starting and ending frames were detected by</nobr></div>
+<div style="position:absolute;top:9416;left:468"><nobr>both methods and the location errors were calculated. The</nobr></div>
+<div style="position:absolute;top:9434;left:468"><nobr>JE proposed method provided superior performance than the</nobr></div>
+<div style="position:absolute;top:9452;left:468"><nobr>SD method in median and mean error values and presented</nobr></div>
+<div style="position:absolute;top:9470;left:468"><nobr>no errors in fade-out end point detection. Furthermore, the</nobr></div>
+<div style="position:absolute;top:9488;left:468"><nobr>significantly smaller maximum errors of the JE technique with</nobr></div>
+<div style="position:absolute;top:9506;left:468"><nobr>regard to those of the SD method illustrate the robustness of</nobr></div>
+<div style="position:absolute;top:9524;left:468"><nobr>our algorithm.</nobr></div>
+<div style="position:absolute;top:9543;left:483"><nobr>After the video was segmented to video shots, we applied</nobr></div>
+<div style="position:absolute;top:9561;left:468"><nobr>our method for key frame selection on the video sequences.</nobr></div>
+<div style="position:absolute;top:9579;left:468"><nobr>In the case of shots without significant content changes, our</nobr></div>
+<div style="position:absolute;top:9597;left:468"><nobr>method successfully chose only one frame, even if more</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:9679;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="9"><b>Page 9</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:9722;left:839"><nobr>9</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:9756;left:432"><nobr>TABLE IV</nobr></div>
+<div style="position:absolute;top:9774;left:307"><nobr>E<font style="font-size:7px">VALUATION OF FADE DETECTION BY THE </font>SD <font style="font-size:7px">METHOD </font>[2].</nobr></div>
+<div style="position:absolute;top:9803;left:276"><nobr><b>video</b></nobr></div>
+<div style="position:absolute;top:9803;left:395"><nobr><b>fade-ins</b></nobr></div>
+<div style="position:absolute;top:9803;left:559"><nobr><b>fade-outs</b></nobr></div>
+<div style="position:absolute;top:9817;left:341"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:9817;left:390"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:9817;left:452"><nobr>Overlap</nobr></div>
+<div style="position:absolute;top:9817;left:509"><nobr>Recall</nobr></div>
+<div style="position:absolute;top:9817;left:558"><nobr>Precision</nobr></div>
+<div style="position:absolute;top:9817;left:621"><nobr>Overlap</nobr></div>
+<div style="position:absolute;top:9834;left:264"><nobr><b>basketball</b></nobr></div>
+<div style="position:absolute;top:9834;left:346"><nobr>0.14</nobr></div>
+<div style="position:absolute;top:9834;left:401"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9834;left:461"><nobr>0.41</nobr></div>
+<div style="position:absolute;top:9834;left:513"><nobr>0.50</nobr></div>
+<div style="position:absolute;top:9834;left:569"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9834;left:628"><nobr>0.85</nobr></div>
+<div style="position:absolute;top:9848;left:277"><nobr><b>news</b></nobr></div>
+<div style="position:absolute;top:9848;left:346"><nobr>0.17</nobr></div>
+<div style="position:absolute;top:9848;left:401"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9848;left:460"><nobr>0.54</nobr></div>
+<div style="position:absolute;top:9848;left:513"><nobr>0.17</nobr></div>
+<div style="position:absolute;top:9848;left:568"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9848;left:628"><nobr>0.65</nobr></div>
+<div style="position:absolute;top:9865;left:257"><nobr><b>4 CNN news</b></nobr></div>
+<div style="position:absolute;top:9865;left:346"><nobr>0.96</nobr></div>
+<div style="position:absolute;top:9865;left:401"><nobr>0.84</nobr></div>
+<div style="position:absolute;top:9865;left:460"><nobr>0.70</nobr></div>
+<div style="position:absolute;top:9865;left:513"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9865;left:568"><nobr>0.71</nobr></div>
+<div style="position:absolute;top:9865;left:628"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:9879;left:257"><nobr><b>4 ABC news</b></nobr></div>
+<div style="position:absolute;top:9879;left:346"><nobr>1.00</nobr></div>
+<div style="position:absolute;top:9879;left:401"><nobr>0.88</nobr></div>
+<div style="position:absolute;top:9879;left:460"><nobr>0.68</nobr></div>
+<div style="position:absolute;top:9879;left:513"><nobr>0.97</nobr></div>
+<div style="position:absolute;top:9879;left:568"><nobr>0.87</nobr></div>
+<div style="position:absolute;top:9879;left:628"><nobr>0.81</nobr></div>
+<div style="position:absolute;top:9910;left:434"><nobr>TABLE V</nobr></div>
+<div style="position:absolute;top:9928;left:224"><nobr>F<font style="font-size:7px">ADE </font>L<font style="font-size:7px">OCATION </font>E<font style="font-size:7px">RROR </font>S<font style="font-size:7px">TATISTICS FOR THE PROPOSED </font>JE <font style="font-size:7px">METHOD </font>(<font style="font-size:7px">IN FRAME NUMBERS</font>).</nobr></div>
+<div style="position:absolute;top:9958;left:310"><nobr><b>effects</b></nobr></div>
+<div style="position:absolute;top:9958;left:435"><nobr><b>fade-outs</b></nobr></div>
+<div style="position:absolute;top:9958;left:569"><nobr><b>fade-ins</b></nobr></div>
+<div style="position:absolute;top:9972;left:311"><nobr><b>frame</b></nobr></div>
+<div style="position:absolute;top:9971;left:419"><nobr><i>f<font style="font-size:6px">s</font></i></nobr></div>
+<div style="position:absolute;top:9971;left:485"><nobr><i>f<font style="font-size:6px">e</font></i></nobr></div>
+<div style="position:absolute;top:9971;left:552"><nobr><i>f<font style="font-size:6px">s</font></i></nobr></div>
+<div style="position:absolute;top:9971;left:616"><nobr><i>f<font style="font-size:6px">e</font></i></nobr></div>
+<div style="position:absolute;top:9986;left:295"><nobr><b>median bias</b></nobr></div>
+<div style="position:absolute;top:9986;left:422"><nobr>2</nobr></div>
+<div style="position:absolute;top:9986;left:488"><nobr><b>0</b></nobr></div>
+<div style="position:absolute;top:9986;left:555"><nobr><b>0</b></nobr></div>
+<div style="position:absolute;top:9986;left:619"><nobr>2</nobr></div>
+<div style="position:absolute;top:10000;left:274"><nobr><b>mean bias </b><i>± </i><b>s. dev.</b></nobr></div>
+<div style="position:absolute;top:10000;left:401"><nobr>2.3 <i>± </i>1.7</nobr></div>
+<div style="position:absolute;top:10000;left:467"><nobr><b>0.2 </b><i>± </i><b>0.4</b></nobr></div>
+<div style="position:absolute;top:10000;left:533"><nobr><b>0.3 </b><i>± </i><b>0.6</b></nobr></div>
+<div style="position:absolute;top:10000;left:600"><nobr><b>2.6 </b><i>±</i><b>2.6</b></nobr></div>
+<div style="position:absolute;top:10014;left:303"><nobr><b>max bias</b></nobr></div>
+<div style="position:absolute;top:10014;left:422"><nobr>9</nobr></div>
+<div style="position:absolute;top:10014;left:488"><nobr><b>1</b></nobr></div>
+<div style="position:absolute;top:10014;left:555"><nobr><b>2</b></nobr></div>
+<div style="position:absolute;top:10014;left:616"><nobr>10</nobr></div>
+<div style="position:absolute;top:10045;left:432"><nobr>TABLE VI</nobr></div>
+<div style="position:absolute;top:10062;left:250"><nobr>F<font style="font-size:7px">ADE </font>L<font style="font-size:7px">OCATION </font>E<font style="font-size:7px">RROR </font>S<font style="font-size:7px">TATISTICS FOR THE </font>SD <font style="font-size:7px">METHOD </font>(<font style="font-size:7px">IN FRAME NUMBERS</font>).</nobr></div>
+<div style="position:absolute;top:10092;left:309"><nobr><b>effects</b></nobr></div>
+<div style="position:absolute;top:10092;left:433"><nobr><b>fade-outs</b></nobr></div>
+<div style="position:absolute;top:10092;left:568"><nobr><b>fade-ins</b></nobr></div>
+<div style="position:absolute;top:10107;left:310"><nobr><b>frame</b></nobr></div>
+<div style="position:absolute;top:10106;left:418"><nobr><i>f<font style="font-size:6px">s</font></i></nobr></div>
+<div style="position:absolute;top:10106;left:483"><nobr><i>f<font style="font-size:6px">e</font></i></nobr></div>
+<div style="position:absolute;top:10106;left:549"><nobr><i>f<font style="font-size:6px">s</font></i></nobr></div>
+<div style="position:absolute;top:10106;left:615"><nobr><i>f<font style="font-size:6px">e</font></i></nobr></div>
+<div style="position:absolute;top:10121;left:294"><nobr><b>median bias</b></nobr></div>
+<div style="position:absolute;top:10121;left:421"><nobr>1</nobr></div>
+<div style="position:absolute;top:10121;left:487"><nobr>1</nobr></div>
+<div style="position:absolute;top:10121;left:548"><nobr>1.5</nobr></div>
+<div style="position:absolute;top:10121;left:619"><nobr>1</nobr></div>
+<div style="position:absolute;top:10135;left:273"><nobr><b>mean bias </b><i>± </i><b>s. dev.</b></nobr></div>
+<div style="position:absolute;top:10134;left:400"><nobr>1<i>.</i>7 <i>± </i>2<i>.</i>3</nobr></div>
+<div style="position:absolute;top:10134;left:465"><nobr>1<i>.</i>3 <i>± </i>0<i>.</i>9</nobr></div>
+<div style="position:absolute;top:10134;left:531"><nobr>1<i>.</i>8 <i>± </i>2<i>.</i>2</nobr></div>
+<div style="position:absolute;top:10134;left:597"><nobr>2<i>.</i>9 <i>± </i>3<i>.</i>0</nobr></div>
+<div style="position:absolute;top:10149;left:302"><nobr><b>max bias</b></nobr></div>
+<div style="position:absolute;top:10149;left:421"><nobr>8</nobr></div>
+<div style="position:absolute;top:10149;left:487"><nobr>4</nobr></div>
+<div style="position:absolute;top:10149;left:553"><nobr>4</nobr></div>
+<div style="position:absolute;top:10149;left:618"><nobr>9</nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:10199;left:73"><nobr>potential key frames were extracted after clustering. For shots</nobr></div>
+<div style="position:absolute;top:10217;left:73"><nobr>with big content changes, usually due to camera or object</nobr></div>
+<div style="position:absolute;top:10235;left:73"><nobr>motions, more key frames were selected, depending on visual</nobr></div>
+<div style="position:absolute;top:10253;left:73"><nobr>complexity of the shot. An example of key frames extracted</nobr></div>
+<div style="position:absolute;top:10271;left:73"><nobr>from one shot with more complicated content can be seen in</nobr></div>
+<div style="position:absolute;top:10289;left:73"><nobr>Figure 16. The selected key frames of a certain video sequence</nobr></div>
+<div style="position:absolute;top:10307;left:73"><nobr>are shown in Figure 17. Thus, our method captures the shot</nobr></div>
+<div style="position:absolute;top:10325;left:73"><nobr>content very well.</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:10476;left:73"><nobr>Fig. 16. <i>Examples of key frames selected by our method from “star” video</i></nobr></div>
+<div style="position:absolute;top:10489;left:73"><nobr><i>sequence to represent visual content of one shot.</i></nobr></div>
+<div style="position:absolute;top:10629;left:73"><nobr>Fig. 17. <i>Examples of key frames extracted by our method from “star” video</i></nobr></div>
+<div style="position:absolute;top:10642;left:73"><nobr><i>sequence.</i></nobr></div>
+</span></font>
+<font size="3" face="Times"><span style="font-size:12px;font-family:Times">
+<div style="position:absolute;top:10691;left:204"><nobr>VI. C<font style="font-size:9px">ONCLUSION</font></nobr></div>
+<div style="position:absolute;top:10714;left:88"><nobr>A novel technique for shot transitions detection is presented.</nobr></div>
+<div style="position:absolute;top:10731;left:73"><nobr>We propose a new method for detecting abrupt cuts and</nobr></div>
+<div style="position:absolute;top:10749;left:73"><nobr>fades using the MI and the JE measures respectively. The</nobr></div>
+<div style="position:absolute;top:10767;left:73"><nobr>accuracy of our approach was experimentally shown to be</nobr></div>
+<div style="position:absolute;top:10785;left:73"><nobr>very high. Experiments illustrated that fade detection using</nobr></div>
+<div style="position:absolute;top:10199;left:468"><nobr>the JE can efficiently differentiate fades from cuts, pans, object</nobr></div>
+<div style="position:absolute;top:10217;left:468"><nobr>or camera motion and other types of video scene transitions,</nobr></div>
+<div style="position:absolute;top:10235;left:468"><nobr>while most of the methods reported in the current literature</nobr></div>
+<div style="position:absolute;top:10253;left:468"><nobr>fail to characterize these kinds of transitions. The method was</nobr></div>
+<div style="position:absolute;top:10271;left:468"><nobr>successfully compared to other methods reported in literature.</nobr></div>
+<div style="position:absolute;top:10311;left:591"><nobr>A<font style="font-size:9px">CKNOWLEDGMENT</font></nobr></div>
+<div style="position:absolute;top:10335;left:483"><nobr>The C-SPAN video used in this work is provided for</nobr></div>
+<div style="position:absolute;top:10353;left:468"><nobr>research purposes by C-SPAN through the TREC Information-</nobr></div>
+<div style="position:absolute;top:10371;left:468"><nobr>Retrieval Research Collection. C-SPAN video is copyrighted.</nobr></div>
+<div style="position:absolute;top:10411;left:614"><nobr>R<font style="font-size:9px">EFERENCES</font></nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:10437;left:468"><nobr>[1] X. U. Cabedo and S. K. Bhattacharjee, “Shot detection tools in digital</nobr></div>
+<div style="position:absolute;top:10451;left:489"><nobr>video,” in <i>Proceedings of Non-linear Model Based Image Analysis 1998,</i></nobr></div>
+<div style="position:absolute;top:10464;left:489"><nobr><i>Springer Verlag, Glasgow</i>, July 1998, pp. 121–126.</nobr></div>
+<div style="position:absolute;top:10478;left:468"><nobr>[2] R. Lienhart, “Comparison of automatic shot boundary detection algo-</nobr></div>
+<div style="position:absolute;top:10491;left:489"><nobr>rithms,” in <i>Proc. of SPIE Storage and Retrieval for Image and Video</i></nobr></div>
+<div style="position:absolute;top:10505;left:489"><nobr><i>Databases VII, San Jose, CA, U.S.A.</i>, vol. 3656, January 1999, pp. 290–</nobr></div>
+<div style="position:absolute;top:10518;left:489"><nobr>301.</nobr></div>
+<div style="position:absolute;top:10532;left:468"><nobr>[3] P. Browne, A. F. Smeaton, N. Murphy, N. O’Connor, S. Marlow, and</nobr></div>
+<div style="position:absolute;top:10545;left:489"><nobr>C. Berrut, “Evaluation and combining digital video shot boundary detec-</nobr></div>
+<div style="position:absolute;top:10559;left:489"><nobr>tion algorithms,” in <i>Proceedings of the Fourth Irish Machine Vision and</i></nobr></div>
+<div style="position:absolute;top:10572;left:489"><nobr><i>Information Processing Conference, Queens University Belfast</i>, 2000.</nobr></div>
+<div style="position:absolute;top:10586;left:468"><nobr>[4] A. Dailianas, R. B. Allen, and P. England, “Comparison of automatic</nobr></div>
+<div style="position:absolute;top:10599;left:489"><nobr>video segmentation algorithms,” in <i>Proceedings, SPIE Photonics East’95:</i></nobr></div>
+<div style="position:absolute;top:10613;left:489"><nobr><i>Integration Issues in Large Commercial Media Delivery Systems, Oct.</i></nobr></div>
+<div style="position:absolute;top:10626;left:489"><nobr><i>1995, Philadelphia</i>, vol. 2615, 1995, pp. 2–16.</nobr></div>
+<div style="position:absolute;top:10640;left:468"><nobr>[5] G. Ahanger and T. Little, “A survey of technologies for parsing and</nobr></div>
+<div style="position:absolute;top:10653;left:489"><nobr>indexing digital video,” <i>Journal of visual Communication and Image</i></nobr></div>
+<div style="position:absolute;top:10666;left:489"><nobr><i>Representation</i>, vol. 7, no. 1, pp. 28–43, 1996.</nobr></div>
+<div style="position:absolute;top:10680;left:468"><nobr>[6] N. V. Patel and I. K. Sethi, “Video shot detection and characterization</nobr></div>
+<div style="position:absolute;top:10694;left:489"><nobr>for video databases,” <i>Pattern Recognition</i>, vol. 30, no. 4, pp. 583–592,</nobr></div>
+<div style="position:absolute;top:10707;left:489"><nobr>April 1997.</nobr></div>
+<div style="position:absolute;top:10721;left:468"><nobr>[7] S. Tsekeridou and I. Pitas, “Content-based video parsing and indexing</nobr></div>
+<div style="position:absolute;top:10734;left:489"><nobr>based on audio-visual interaction,” <i>IEEE Trans. on Circuits and Systems</i></nobr></div>
+<div style="position:absolute;top:10747;left:489"><nobr><i>for Video Technology</i>, vol. 11, no. 4, pp. 522–535, 2001.</nobr></div>
+<div style="position:absolute;top:10761;left:468"><nobr>[8] C.-L. Huang and B.-Y. Liao, “A robust scene-change detection method</nobr></div>
+<div style="position:absolute;top:10774;left:489"><nobr>for video segmentation,” <i>IEEE Trans. Circuits and Systems for Video</i></nobr></div>
+<div style="position:absolute;top:10788;left:489"><nobr><i>Technology</i>, vol. 11 no.12, pp. 1281–1288, 2001.</nobr></div>
+</span></font>
+
+<div style="position:absolute;top:10867;left:0"><hr><table border="0" width="100%"><tbody><tr><td bgcolor="eeeeee" align="right"><font face="arial,sans-serif"><a name="10"><b>Page 10</b></a></font></td></tr></tbody></table></div><font size="2" face="Times"><span style="font-size:8px;font-family:Times">
+<div style="position:absolute;top:10910;left:73"><nobr>10</nobr></div>
+</span></font>
+<font size="2" face="Times"><span style="font-size:9px;font-family:Times">
+<div style="position:absolute;top:10954;left:73"><nobr>[9] A. Hanjalic, “Shot-boundary detection: Unraveled and resolved?” <i>IEEE</i></nobr></div>
+<div style="position:absolute;top:10967;left:95"><nobr><i>Trans. Circuits and Systems for Video Technology</i>, vol. 12 no.2, pp. 90–</nobr></div>
+<div style="position:absolute;top:10981;left:95"><nobr>105, 2002.</nobr></div>
+<div style="position:absolute;top:10994;left:73"><nobr>[10] T. Butz and J. Thiran, “Shot boundary detection with mutual informa-</nobr></div>
+<div style="position:absolute;top:11008;left:95"><nobr>tion,” in <i>Proc. 2001 IEEE Int. Conf. Image Processing, Greece</i>, vol. 3,</nobr></div>
+<div style="position:absolute;top:11021;left:95"><nobr>October 2001, pp. 422–425.</nobr></div>
+<div style="position:absolute;top:11035;left:73"><nobr>[11] R. Lienhart, “Reliable dissolve detection,” in <i>Proc. of SPIE Storage and</i></nobr></div>
+<div style="position:absolute;top:11048;left:95"><nobr><i>Retrieval for Media Databases 2001</i>, vol. 4315, January 2001, pp. 219–</nobr></div>
+<div style="position:absolute;top:11061;left:95"><nobr>230.</nobr></div>
+<div style="position:absolute;top:11075;left:73"><nobr>[12] M. S. Drew, Z.-N. Li, and X. Zhong, “Video dissolve and wipe detection</nobr></div>
+<div style="position:absolute;top:11088;left:95"><nobr>via spatio-temporal images of chromatic histogram differences,” in <i>Proc.</i></nobr></div>
+<div style="position:absolute;top:11102;left:95"><nobr><i>2000 IEEE Int. Conf. on Image Processing</i>, vol. 3, 2000, pp. 929–932.</nobr></div>
+<div style="position:absolute;top:11115;left:73"><nobr>[13] R. Lienhart and A. Zaccarin, “A system for reliable dissolve detection</nobr></div>
+<div style="position:absolute;top:11129;left:95"><nobr>in video,” in <i>Proceeding of IEEE Intl. Conf. on Image Processing 2001</i></nobr></div>
+<div style="position:absolute;top:11142;left:95"><nobr><i>(ICIP’01), Thessaloniki, Greece</i>, Oct. 2001, pp. 406-409.</nobr></div>
+<div style="position:absolute;top:11155;left:73"><nobr>[14] R. Zabih, J. Miller, and K. Mai, “A feature-based algorithm for detecting</nobr></div>
+<div style="position:absolute;top:11169;left:95"><nobr>and classifying production effects,” <i>ACM Journal of Multimedia Systems</i>,</nobr></div>
+<div style="position:absolute;top:11182;left:95"><nobr>vol. 7, pp. 119–128, 1999.</nobr></div>
+<div style="position:absolute;top:11196;left:73"><nobr>[15] Y. Wang, Z. Liu, and J.-C. Huang, “Multimedia content analysis using</nobr></div>
+<div style="position:absolute;top:11209;left:95"><nobr>both audio and visual clues,” <i>IEEE Signal Processing Magazine</i>, vol. 17,</nobr></div>
+<div style="position:absolute;top:11223;left:95"><nobr>no. 6, pp. 12–36, November 2000.</nobr></div>
+<div style="position:absolute;top:11236;left:73"><nobr>[16] A. Hanjalic, “Shot-boundary detection: unraveled and resolved?” <i>Cir-</i></nobr></div>
+<div style="position:absolute;top:11250;left:95"><nobr><i>cuits and Systems for Video Technology, IEEE Trans. on</i>, vol. Volume:</nobr></div>
+<div style="position:absolute;top:11263;left:95"><nobr>12, no. 2, pp. 90 – 105, Feb. 2002.</nobr></div>
+<div style="position:absolute;top:11277;left:73"><nobr>[17] W. J. Heng and K. N. Ngan, “Shot boundary refinement for long</nobr></div>
+<div style="position:absolute;top:11290;left:95"><nobr>transition in digital video sequence,” <i>Multimedia, IEEE Trans. on</i>, vol.</nobr></div>
+<div style="position:absolute;top:11303;left:95"><nobr>Volume: 4, no. 4, pp. 434 – 445, Dec. 2002.</nobr></div>
+<div style="position:absolute;top:11317;left:73"><nobr>[18] A. D. Bimbo, <i>Visual Information Retrieval</i>.</nobr></div>
+<div style="position:absolute;top:11317;left:355"><nobr>Morgan Kaufmann</nobr></div>
+<div style="position:absolute;top:11330;left:95"><nobr>Publishers, Inc, San Francisco, California, 1999.</nobr></div>
+<div style="position:absolute;top:11344;left:73"><nobr>[19] A. Hampapur, R. Jain, and T. Weymouth, “Digital video segmentation,”</nobr></div>
+<div style="position:absolute;top:11357;left:95"><nobr>in <i>Proc. ACM Multimedia 94, San Francisco, CA</i>, October 1994, pp.</nobr></div>
+<div style="position:absolute;top:11371;left:95"><nobr>357–364.</nobr></div>
+<div style="position:absolute;top:11384;left:73"><nobr>[20] A. M. Alattar, “Detecting fade regions in uncompressed video se-</nobr></div>
+<div style="position:absolute;top:11398;left:95"><nobr>quences,” in <i>Proc. 1997, IEEE Int. Conf. Acoustics, Speech, and Signal</i></nobr></div>
+<div style="position:absolute;top:11411;left:95"><nobr><i>Processing</i>, 1997, pp. 3025–3028.</nobr></div>
+<div style="position:absolute;top:11425;left:73"><nobr>[21] B. T. Truong, C. Dorai, and S. Venkatesh, “New enhancements to cut,</nobr></div>
+<div style="position:absolute;top:11438;left:95"><nobr>fade, and dissolve detection processes in video segmentation,” in <i>ACM</i></nobr></div>
+<div style="position:absolute;top:11451;left:95"><nobr><i>Multimedia 2000</i>, November 2000, pp. 219–227.</nobr></div>
+<div style="position:absolute;top:11465;left:73"><nobr>[22] S. Tsekeridou, S. Krinidis, and I. Pitas, “Scene change detection based</nobr></div>
+<div style="position:absolute;top:11478;left:95"><nobr>on audio-visual analysis and interaction,” in <i>Proc. 2000 Multi-Image</i></nobr></div>
+<div style="position:absolute;top:11492;left:95"><nobr><i>Search and Analysis Workshop</i>, March 2001, pp. 214-225.</nobr></div>
+<div style="position:absolute;top:11505;left:73"><nobr>[23] B. G. unsel and A. M. Tekalp, “Content-based video abstraction,” in</nobr></div>
+<div style="position:absolute;top:11519;left:95"><nobr><i>Proc. 1998 IEEE Int. Conf. on Image Processing, Chicago IL, October</i>,</nobr></div>
+<div style="position:absolute;top:11532;left:95"><nobr>1998.</nobr></div>
+<div style="position:absolute;top:11546;left:73"><nobr>[24] A. Nagasaka and Y. Tanaka, “Automatic video indexing and full-video</nobr></div>
+<div style="position:absolute;top:11559;left:95"><nobr>search for object appearances,” in <i>Visual Database Systems</i>, vol. II, 1992.</nobr></div>
+<div style="position:absolute;top:11573;left:73"><nobr>[25] W. Wolf, “Key frame selection by motion analysis,” in <i>Proc. 1996 IEEE</i></nobr></div>
+<div style="position:absolute;top:11586;left:95"><nobr><i>Int. Conf. Acoust., Speech and Signal Proc.</i>, 1996, vol. 2, pp. 1228-1231.</nobr></div>
+<div style="position:absolute;top:11599;left:73"><nobr>[26] Y. Zhuang, Y. Rui, T. S. Huang, and S. Metrotra, “Adaptive key frame</nobr></div>
+<div style="position:absolute;top:11613;left:95"><nobr>extraction using unsupervised clustering,” in <i>In Proc. of IEEE Int. Conf.</i></nobr></div>
+<div style="position:absolute;top:11626;left:95"><nobr><i>on Image Processing, Chicago IL, October</i>, 1998, pp. 886–890.</nobr></div>
+<div style="position:absolute;top:11640;left:73"><nobr>[27] T. M. Cover and J. A. Thomas, <i>Elements of Information Theory</i>. John</nobr></div>
+<div style="position:absolute;top:11653;left:95"><nobr>Wiley and Sons, New York, 1991.</nobr></div>
+<div style="position:absolute;top:11667;left:73"><nobr>[28] A. Papoulis, <i>Probability, Random Variables, and Stochastic Processes</i>.</nobr></div>
+<div style="position:absolute;top:11680;left:95"><nobr>New York: McGraw-Hill, Inc., 1991.</nobr></div>
+<div style="position:absolute;top:11693;left:73"><nobr>[29] I. Pitas and A. Venetsanopoulos, <i>Nonlinear Digital Filters: Principles</i></nobr></div>
+<div style="position:absolute;top:11707;left:95"><nobr><i>and Applications</i>. Kluwer Academic, 1990.</nobr></div>
+<div style="position:absolute;top:11720;left:73"><nobr>[30] Z.Cernekova, C.Nikou, and I.Pitas, “Shot detection in video sequences</nobr></div>
+<div style="position:absolute;top:11734;left:95"><nobr>using entropy-based metrics,” in <i>Proc. 2002 IEEE Int. Conf. Image</i></nobr></div>
+<div style="position:absolute;top:11747;left:95"><nobr><i>Processing, Rochester N.Y., USA, 22-25 September</i>, 2002, vol. III, pp.</nobr></div>
+<div style="position:absolute;top:11761;left:95"><nobr>421-424.</nobr></div>
+<div style="position:absolute;top:11774;left:73"><nobr>[31] C.Kotropoulos and I.Pitas, “A variant of learning vector quantizer based</nobr></div>
+<div style="position:absolute;top:11788;left:95"><nobr>on split-merge statistical tests,” in <i>in Proc. of Lecture Notes in Computer</i></nobr></div>
+<div style="position:absolute;top:11801;left:95"><nobr><i>Science:Computer Analysis of Images and Patterns, Springer Verlang,</i></nobr></div>
+<div style="position:absolute;top:11815;left:95"><nobr><i>1993</i>, 1993.</nobr></div>
+<div style="position:absolute;top:11828;left:73"><nobr>[32] C. E. Metz, “Basic principles of ROC analysis,” <i>Seminars in Nuclear</i></nobr></div>
+<div style="position:absolute;top:11841;left:95"><nobr><i>Medicine</i>, vol. 8, pp. 283–298, 1978.</nobr></div>
+<div style="position:absolute;top:11855;left:73"><nobr>[33] “Trec video retrieval evaluation,” 2003. [Online]. Available: http://www-</nobr></div>
+<div style="position:absolute;top:11868;left:95"><nobr>nlpir.nist.gov/projects/trecvid/</nobr></div>
+<div style="position:absolute;top:10954;left:591"><nobr><b>Zuzana ˇCerneková </b>received the Diploma of Mas-</nobr></div>
+<div style="position:absolute;top:10967;left:591"><nobr>ter of Science in 1999 from Comenius University,</nobr></div>
+<div style="position:absolute;top:10981;left:591"><nobr>Bratislava, Slovakia.</nobr></div>
+<div style="position:absolute;top:10994;left:603"><nobr>She has studied informatics with specialization</nobr></div>
+<div style="position:absolute;top:11008;left:591"><nobr>on Mathematics methods of informatics and Com-</nobr></div>
+<div style="position:absolute;top:11021;left:591"><nobr>puter Graphics. She took Doctor of Natural sciences</nobr></div>
+<div style="position:absolute;top:11035;left:591"><nobr>(RNDr.) in 2000. She was a researcher and lecture</nobr></div>
+<div style="position:absolute;top:11048;left:591"><nobr>assistant at the Department of Computer Graphics</nobr></div>
+<div style="position:absolute;top:11061;left:591"><nobr>and Image Processing, Faculty of Mathematics and</nobr></div>
+<div style="position:absolute;top:11075;left:591"><nobr>Physics, Comenius University. Her research interests</nobr></div>
+<div style="position:absolute;top:11088;left:591"><nobr>lie in the areas of computer graphics, visualization,</nobr></div>
+<div style="position:absolute;top:11102;left:468"><nobr>3D animations, multimedia, video processing and pattern recognition. She</nobr></div>
+<div style="position:absolute;top:11115;left:468"><nobr>is currently a pre-doc researcher and Ph.D. student at the Department of</nobr></div>
+<div style="position:absolute;top:11129;left:468"><nobr>Informatics, Aristotle University of Thessaloniki, Greece.</nobr></div>
+<div style="position:absolute;top:11142;left:480"><nobr>Ms. Cernekova is a member of the SCCG organizing committee.</nobr></div>
+<div style="position:absolute;top:11209;left:591"><nobr><b>Ioannis Pitas </b>(SM’94) received the Dipl. Elect.</nobr></div>
+<div style="position:absolute;top:11223;left:591"><nobr>Eng. in 1980 and the Ph.D. degree in electrical</nobr></div>
+<div style="position:absolute;top:11236;left:591"><nobr>engineering in 1985, both from the University of</nobr></div>
+<div style="position:absolute;top:11250;left:591"><nobr>Thessaloniki, Thessaloniki, Greece.</nobr></div>
+<div style="position:absolute;top:11263;left:603"><nobr>Since 1994, he has been a Professor at the De-</nobr></div>
+<div style="position:absolute;top:11277;left:591"><nobr>partment of Informatics, University of Thessaloniki,</nobr></div>
+<div style="position:absolute;top:11290;left:591"><nobr>Greece. His current interests are in the areas of dig-</nobr></div>
+<div style="position:absolute;top:11303;left:591"><nobr>ital image processing, multimedia signal processing,</nobr></div>
+<div style="position:absolute;top:11317;left:591"><nobr>multidimensional signal processing and computer vi-</nobr></div>
+<div style="position:absolute;top:11330;left:591"><nobr>sion. He has published over 450 papers, contributed</nobr></div>
+<div style="position:absolute;top:11344;left:591"><nobr>in 17 books and authored, co-authored, edited, co-</nobr></div>
+<div style="position:absolute;top:11357;left:468"><nobr>edited 7 books in his area of interest. He is the co-author of the books</nobr></div>
+<div style="position:absolute;top:11371;left:468"><nobr>Nonlinear Digital Filters: Principles and Applications (Norwell, MA: Kluwer,</nobr></div>
+<div style="position:absolute;top:11384;left:468"><nobr>1990) and 3D Image Processing Algorithms (New York: Wiley, 2000), is</nobr></div>
+<div style="position:absolute;top:11398;left:468"><nobr>the author of the books Digital Image Processing Algorithms (Englewood</nobr></div>
+<div style="position:absolute;top:11411;left:468"><nobr>Cliffs, NJ: Prentice Hall, 1993), Digital Image Processing Algorithms and</nobr></div>
+<div style="position:absolute;top:11425;left:468"><nobr>Applications (New York: Wiley, 2000), Digital Image Processing (in Greek,</nobr></div>
+<div style="position:absolute;top:11438;left:468"><nobr>1999), and is the editor of the book Parallel Algorithms and Architectures for</nobr></div>
+<div style="position:absolute;top:11451;left:468"><nobr>Digital Image Processing, Computer Vision and Neural Networks (New York:</nobr></div>
+<div style="position:absolute;top:11465;left:468"><nobr>Wiley, 1993) and co-editor of the book Nonlinear Model-Based Image/Video</nobr></div>
+<div style="position:absolute;top:11478;left:468"><nobr>Processing and Analysis (New York: Wiley, 2000). He is/was principal</nobr></div>
+<div style="position:absolute;top:11492;left:468"><nobr>investigator/researcher in more than 40 competitive R&amp;D projects and in 11</nobr></div>
+<div style="position:absolute;top:11505;left:468"><nobr>educational projects, all mostly funded by the European Union.</nobr></div>
+<div style="position:absolute;top:11519;left:480"><nobr>Dr. Pitas is/was Associate Editor of the IEEE TRANSACTIONS ON</nobr></div>
+<div style="position:absolute;top:11532;left:468"><nobr>CIRCUITS AND SYSTEMS, IEEE TRANSACTIONS ON NEURAL NET-</nobr></div>
+<div style="position:absolute;top:11546;left:468"><nobr>WORKS, IEEE TRANSACTIONS ON IMAGE PROCESSING, IEICE, Cir-</nobr></div>
+<div style="position:absolute;top:11559;left:468"><nobr>cuits Systems and Signal Processing, and was co-editor of Multidimensional</nobr></div>
+<div style="position:absolute;top:11573;left:468"><nobr>Systems and Signal Processing. He was Chair of the 1995 IEEE Workshop</nobr></div>
+<div style="position:absolute;top:11586;left:468"><nobr>on Nonlinear Signal and Image Processing (NSIP95), Technical Chair of the</nobr></div>
+<div style="position:absolute;top:11599;left:468"><nobr>1998 European Signal Processing Conference, and General Chair of IEEE</nobr></div>
+<div style="position:absolute;top:11613;left:468"><nobr>ICIP2001. He was co-chair of the 2003 International workshop on Rich media</nobr></div>
+<div style="position:absolute;top:11626;left:468"><nobr>content production. He was technical co-chair of the 2003 Greek Informatics</nobr></div>
+<div style="position:absolute;top:11640;left:468"><nobr>conference (EPY).</nobr></div>
+<div style="position:absolute;top:11714;left:591"><nobr><b>Christophoros Nikou </b>(M’02) was born in Thes-</nobr></div>
+<div style="position:absolute;top:11727;left:591"><nobr>saloniki, Greece, in 1971. He received the Ph.D.</nobr></div>
+<div style="position:absolute;top:11741;left:591"><nobr>degree in image processing and computer vision in</nobr></div>
+<div style="position:absolute;top:11754;left:591"><nobr>1999, the DEA degree in optoelectronics and image</nobr></div>
+<div style="position:absolute;top:11767;left:591"><nobr>processing in 1995, both from Louis Pasteur Univer-</nobr></div>
+<div style="position:absolute;top:11781;left:591"><nobr>sity, Strasbourg, France, and the Diploma degree in</nobr></div>
+<div style="position:absolute;top:11794;left:591"><nobr>electrical engineering from the Aristotle University</nobr></div>
+<div style="position:absolute;top:11808;left:591"><nobr>of Thessaloniki in 1994.</nobr></div>
+<div style="position:absolute;top:11821;left:603"><nobr>During 2001, he was a Senior Researcher with the</nobr></div>
+<div style="position:absolute;top:11835;left:591"><nobr>Department of Informatics, Aristotle University of</nobr></div>
+<div style="position:absolute;top:11848;left:591"><nobr>Thessaloniki, where he conducted research in image</nobr></div>
+<div style="position:absolute;top:11862;left:468"><nobr>processing in the framework of various European projects. From 2002 to</nobr></div>
+<div style="position:absolute;top:11875;left:468"><nobr>2004, he was with Compucon S.A., Thessaloniki, Greece, managing research</nobr></div>
+<div style="position:absolute;top:11888;left:468"><nobr>projects in 3-D medical image processing and analysis. Since 2004 he is</nobr></div>
+<div style="position:absolute;top:11902;left:468"><nobr>Lectuer at the Depatment of Computer Science, University of Ioannina,</nobr></div>
+<div style="position:absolute;top:11915;left:468"><nobr>Greece. His research interests mainly include computer vision, pattern recog-</nobr></div>
+<div style="position:absolute;top:11929;left:468"><nobr>nition, biomedical image processing, image registration and segmentation,</nobr></div>
+<div style="position:absolute;top:11942;left:468"><nobr>deformable models, statistical image processing.</nobr></div>
+<div style="position:absolute;top:11956;left:480"><nobr>Dr. Nikou is a member of the Technical Chamber of Greece.</nobr></div>
+</span></font>
+
+
+</div></body></html>

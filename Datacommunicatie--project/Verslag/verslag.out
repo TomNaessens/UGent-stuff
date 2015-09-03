@@ -1,0 +1,27 @@
+\BOOKMARK [1][-]{section.1}{Broncodering}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Opstellen Huffmancode}{section.1}% 2
+\BOOKMARK [3][-]{subsubsection.1.1.1}{Relatieve frequenties}{subsection.1.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.1.2}{Resulterende Huffmanboom}{subsection.1.1}% 4
+\BOOKMARK [3][-]{subsubsection.1.1.3}{Gemiddeld aantal codebits}{subsection.1.1}% 5
+\BOOKMARK [2][-]{subsection.1.2}{Implementatie create\137codebook\(\)}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.3}{Entropie \(K = 1..10\)}{section.1}% 7
+\BOOKMARK [2][-]{subsection.1.4}{Gemiddeld aantal codebits \(K = 1..10\)}{section.1}% 8
+\BOOKMARK [2][-]{subsection.1.5}{Bespreking E[n] tegenover ondergrens}{section.1}% 9
+\BOOKMARK [2][-]{subsection.1.6}{Canonische Huffmancode}{section.1}% 10
+\BOOKMARK [2][-]{subsection.1.7}{Opstellen canonische vorm}{section.1}% 11
+\BOOKMARK [2][-]{subsection.1.8}{Implementatie create\137canonical\137codebook\(\)}{section.1}% 12
+\BOOKMARK [1][-]{section.2}{Kanaalcodering}{}% 13
+\BOOKMARK [2][-]{subsection.2.1}{Bespreking Hammingcode}{section.2}% 14
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Minimale Hammingafstand}{subsection.2.1}% 15
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Foutdetecterend en foutcorrigerend vermogen}{subsection.2.1}% 16
+\BOOKMARK [3][-]{subsubsection.2.1.3}{Checkveelterm}{subsection.2.1}% 17
+\BOOKMARK [3][-]{subsubsection.2.1.4}{Generator- en checkmatrix}{subsection.2.1}% 18
+\BOOKMARK [2][-]{subsection.2.2}{Opstellen en bespreking van syndroomtabel}{section.2}% 19
+\BOOKMARK [2][-]{subsection.2.3}{Implementatie Ham\137Encode\(\) en Ham\137Decode\(\)}{section.2}% 20
+\BOOKMARK [2][-]{subsection.2.4}{Productcode Prod\137encode\(\)}{section.2}% 21
+\BOOKMARK [2][-]{subsection.2.5}{Implementatie Decoder en oncorrigeerbare foutpatronen}{section.2}% 22
+\BOOKMARK [2][-]{subsection.2.6}{Bepaling decodeerfout bij productcode adhv simulaties}{section.2}% 23
+\BOOKMARK [2][-]{subsection.2.7}{Verschillen tussen verstuurde afbeeldingen}{section.2}% 24
+\BOOKMARK [1][-]{section.3}{Volledig systeem}{}% 25
+\BOOKMARK [2][-]{subsection.3.1}{Ontvangen afbeeldingen}{section.3}% 26
+\BOOKMARK [2][-]{subsection.3.2}{Bespreking verschillen}{section.3}% 27

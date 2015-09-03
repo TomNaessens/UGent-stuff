@@ -1,0 +1,6 @@
+@(question: Question)
+@import utils.LangMessages
+<div>
+	<a href="@question.getQuestionURL()">@question.getTitle()</a><br>
+	<a href="@question.getFeedbackURL()">@LangMessages.get("question.answer"): @question.answer</a>
+</div>

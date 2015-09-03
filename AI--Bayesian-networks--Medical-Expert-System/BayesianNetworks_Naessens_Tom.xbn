@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<ANALYSISNOTEBOOK NAME="Notebook.bndefault" ROOT="bndefault">
+  <BNMODEL NAME="bndefault"><STATICPROPERTIES><FORMAT>MSR DTAS XML</FORMAT>
+        <VERSION>1.0</VERSION>
+        <CREATOR>Microsoft Research DTAS</CREATOR>
+        </STATICPROPERTIES>
+      <DYNAMICPROPERTIES><PROPERTYTYPE NAME="DTASDG_Notes" TYPE="stringarray"><COMMENT>Notes on the diagram</COMMENT>
+          </PROPERTYTYPE>
+        <PROPERTYTYPE NAME="MS_Addins" TYPE="stringarray"/>
+        <PROPERTYTYPE NAME="MS_Asym" TYPE="string"><COMMENT>Asymmetric assessment information stored as a string</COMMENT>
+          </PROPERTYTYPE>
+        <PROPERTYTYPE NAME="MS_label" TYPE="enumeration" ENUMSET="other hypothesis informational problem fixobs fixunobs unfixable configuration"><COMMENT>Diagnostic Network Node Types</COMMENT>
+          </PROPERTYTYPE>
+        <PROPERTY NAME="DTASDG_Notes"><PROPVALUE><![CDATA[[1,1364,14971\] ]]></PROPVALUE>
+          </PROPERTY>
+        </DYNAMICPROPERTIES>
+      <VARIABLES><VAR NAME="Bronchitis" TYPE="discrete" XPOS="610" YPOS="5823"><FULLNAME>Bronchitis</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>informational</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="ChestPain" TYPE="discrete" XPOS="10089" YPOS="9816"><FULLNAME>ChestPain</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="CommonCold" TYPE="discrete" XPOS="20339" YPOS="6704"><FULLNAME>CommonCold</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>informational</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="Fever" TYPE="discrete" XPOS="16883" YPOS="9814"><FULLNAME>Fever</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="LooseCough" TYPE="discrete" XPOS="6669" YPOS="16553"><FULLNAME>LooseCough</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="LungCancer" TYPE="discrete" XPOS="6772" YPOS="5762"><FULLNAME>LungCancer</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>informational</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="Pneumonia" TYPE="discrete" XPOS="13446" YPOS="6825"><FULLNAME>Pneumonia</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>informational</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="RunnyNose" TYPE="discrete" XPOS="23553" YPOS="9811"><FULLNAME>RunnyNose</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="ShortnessOfBreath" TYPE="discrete" XPOS="6757" YPOS="12964"><FULLNAME>ShortnessOfBreath</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="Smoking" TYPE="discrete" XPOS="6749" YPOS="1649"><FULLNAME>Smoking</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        <VAR NAME="WeakenedImmuneSystem" TYPE="discrete" XPOS="13454" YPOS="2627"><FULLNAME>WeakenedImmuneSystem</FULLNAME>
+          <STATENAME>Yes</STATENAME>
+          <STATENAME>No</STATENAME>
+          <PROPERTY NAME="MS_label"><PROPVALUE>hypothesis</PROPVALUE>
+            </PROPERTY>
+          </VAR>
+        </VARIABLES>
+      <STRUCTURE><ARC PARENT="Smoking" CHILD="Bronchitis"/>
+        <ARC PARENT="Pneumonia" CHILD="ChestPain"/>
+        <ARC PARENT="LungCancer" CHILD="ChestPain"/>
+        <ARC PARENT="Pneumonia" CHILD="Fever"/>
+        <ARC PARENT="CommonCold" CHILD="Fever"/>
+        <ARC PARENT="Bronchitis" CHILD="LooseCough"/>
+        <ARC PARENT="Pneumonia" CHILD="LooseCough"/>
+        <ARC PARENT="Smoking" CHILD="LungCancer"/>
+        <ARC PARENT="WeakenedImmuneSystem" CHILD="Pneumonia"/>
+        <ARC PARENT="LungCancer" CHILD="Pneumonia"/>
+        <ARC PARENT="CommonCold" CHILD="RunnyNose"/>
+        <ARC PARENT="Bronchitis" CHILD="ShortnessOfBreath"/>
+        <ARC PARENT="Pneumonia" CHILD="ShortnessOfBreath"/>
+        <ARC PARENT="LungCancer" CHILD="ShortnessOfBreath"/>
+        </STRUCTURE>
+      <DISTRIBUTIONS><DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Smoking"/>
+            </CONDSET>
+          <PRIVATE NAME="Bronchitis"/>
+          <DPIS><DPI INDEXES="0 ">0.3 0.7 </DPI>
+            <DPI INDEXES="1 ">0.01 0.99 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Pneumonia"/>
+            <CONDELEM NAME="LungCancer"/>
+            </CONDSET>
+          <PRIVATE NAME="ChestPain"/>
+          <DPIS><DPI INDEXES="0 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="0 1 ">0.9 0.1 </DPI>
+            <DPI INDEXES="1 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="1 1 ">0.1 0.9 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><PRIVATE NAME="CommonCold"/>
+          <DPIS><DPI>0.35 0.65 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Pneumonia"/>
+            <CONDELEM NAME="CommonCold"/>
+            </CONDSET>
+          <PRIVATE NAME="Fever"/>
+          <DPIS><DPI INDEXES="0 0 ">0.92 0.08 </DPI>
+            <DPI INDEXES="0 1 ">0.9 0.1 </DPI>
+            <DPI INDEXES="1 0 ">0.2 0.8 </DPI>
+            <DPI INDEXES="1 1 ">0.01 0.99 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Bronchitis"/>
+            <CONDELEM NAME="Pneumonia"/>
+            </CONDSET>
+          <PRIVATE NAME="LooseCough"/>
+          <DPIS><DPI INDEXES="0 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="0 1 ">0.9 0.1 </DPI>
+            <DPI INDEXES="1 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="1 1 ">0.1 0.9 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Smoking"/>
+            </CONDSET>
+          <PRIVATE NAME="LungCancer"/>
+          <DPIS><DPI INDEXES="0 ">0.1 0.9 </DPI>
+            <DPI INDEXES="1 ">0.01 0.99 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="WeakenedImmuneSystem"/>
+            <CONDELEM NAME="LungCancer"/>
+            </CONDSET>
+          <PRIVATE NAME="Pneumonia"/>
+          <DPIS><DPI INDEXES="0 0 ">0.335 0.665 </DPI>
+            <DPI INDEXES="0 1 ">0.3 0.7 </DPI>
+            <DPI INDEXES="1 0 ">0.05 0.95 </DPI>
+            <DPI INDEXES="1 1 ">0.001 0.999 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="CommonCold"/>
+            </CONDSET>
+          <PRIVATE NAME="RunnyNose"/>
+          <DPIS><DPI INDEXES="0 ">0.95 0.05 </DPI>
+            <DPI INDEXES="1 ">0.01 0.99 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><CONDSET><CONDELEM NAME="Bronchitis"/>
+            <CONDELEM NAME="Pneumonia"/>
+            <CONDELEM NAME="LungCancer"/>
+            </CONDSET>
+          <PRIVATE NAME="ShortnessOfBreath"/>
+          <DPIS><DPI INDEXES="0 0 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="0 0 1 ">0.9 0.1 </DPI>
+            <DPI INDEXES="0 1 0 ">0.9 0.1 </DPI>
+            <DPI INDEXES="0 1 1 ">0.8 0.2 </DPI>
+            <DPI INDEXES="1 0 0 ">0.5 0.5 </DPI>
+            <DPI INDEXES="1 0 1 ">0.5 0.5 </DPI>
+            <DPI INDEXES="1 1 0 ">0.5 0.5 </DPI>
+            <DPI INDEXES="1 1 1 ">0.01 0.99 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><PRIVATE NAME="Smoking"/>
+          <DPIS><DPI>0.29 0.71 </DPI>
+            </DPIS>
+          </DIST>
+        <DIST TYPE="discrete"><PRIVATE NAME="WeakenedImmuneSystem"/>
+          <DPIS><DPI>0.05 0.95 </DPI>
+            </DPIS>
+          </DIST>
+        </DISTRIBUTIONS>
+      </BNMODEL>
+    </ANALYSISNOTEBOOK>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
+  "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
+
+<module>
+	<!-- Add necessary source paths. Change this to your own source path if it is different -->
+
+	<!-- Make sure that the source path matches your default path! -->
+	<source path="ods.lab2" />
+
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+
+	<!-- Inherits the Restlet core module -->
+	<inherits name='org.restlet.Restlet' />
+
+</module>

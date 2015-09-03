@@ -1,0 +1,22 @@
+==11008== Cachegrind, a cache and branch-prediction profiler
+==11008== Copyright (C) 2002-2013, and GNU GPL'd, by Nicholas Nethercote et al.
+==11008== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==11008== Command: ./matmat
+==11008== 
+--11008-- warning: L3 cache found, using its data for the LL simulation.
+==11008== 
+==11008== I   refs:      13,842,982,858
+==11008== I1  misses:             1,321
+==11008== LLi misses:             1,295
+==11008== I1  miss rate:           0.00%
+==11008== LLi miss rate:           0.00%
+==11008== 
+==11008== D   refs:       6,131,889,088  (4,591,440,995 rd   + 1,540,448,093 wr)
+==11008== D1  misses:       195,977,970  (  194,459,017 rd   +     1,518,953 wr)
+==11008== LLd misses:       193,016,617  (  191,498,361 rd   +     1,518,256 wr)
+==11008== D1  miss rate:            3.1% (          4.2%     +           0.0%  )
+==11008== LLd miss rate:            3.1% (          4.1%     +           0.0%  )
+==11008== 
+==11008== LL refs:          195,979,291  (  194,460,338 rd   +     1,518,953 wr)
+==11008== LL misses:        193,017,912  (  191,499,656 rd   +     1,518,256 wr)
+==11008== LL miss rate:             0.9% (          1.0%     +           0.0%  )

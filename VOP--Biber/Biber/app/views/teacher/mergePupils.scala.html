@@ -1,0 +1,145 @@
+@(schools: List[School])
+<!-- Imports -->
+@import utils.LangMessages
+
+
+@main(LangMessages.get("mergePupils.title")){
+<!-- Head -->
+
+<style type="text/css">
+</style>
+}{
+<!-- Toplinks -->
+
+}{
+<!-- Main content -->
+<div class="span8">
+<p class="">
+            <span class="badge badge-success"></span>
+            <span class="badge badge-important"></span>
+</p>
+  <h3>@LangMessages.get("mergePupils.title")</h3>
+  <div>
+	<div id="left">
+		<div>
+			<select id="school">
+			@for(school <- schools) {
+				<option value="@school.id">@school.name</option>
+			}
+			</select>
+		</div>
+		<div class="input-append">
+		  <input class="span2" id="searchName" type="text" placeholder="Lastname, Firstname">
+		  <button id="search" class="btn" type="button">@LangMessages.get("mergePupils.search")</button>
+		</div>
+		<div id="searchResults">
+		</div>
+	</div>
+	<div>
+	<h3>@LangMessages.get("mergePupils.selected")</h3>
+		<form id="mergeForm">
+			<div id="selectedPupils">
+			</div>
+			<p>
+    			<button type="submit" class="btn btn-primary">@LangMessages.get("mergePupils.submit")</button>
+  			</p>
+		</form>
+	</div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $('#search').click(function(e) {
+        var name = $('#searchName').val();
+        var school = $('#school').val();
+        if(name == ""){
+        	//error handling
+        	return;
+        }
+        jsRoutes.controllers.MergePupils.searchName(name,school).ajax().done(
+    			function(result){
+    				var pupils = result.pupils;
+	        		$('#searchResults').empty();
+    	        	if(pupils != null){
+    	            	for (var i = 0; i < pupils.length; i++) {
+    	            		if(!pupils[i].isOnline){
+    	            			$('#searchResults').append("<p><a rel='tooltip' href='#' class='addPupil'>"+ pupils[i].bebrasId +"</a></p>"); //TODO much more info about a user maybe with tooltip
+    	            		}
+    	            		else{
+    	            			$('#searchResults').append("<p><a rel='tooltip'>" + pupils[i].bebrasId + "</a>, online -> not possible to add</p>"); //TODO much more info about a user maybe with tooltip
+    	            		}
+    	            		$('a[rel=tooltip]').last().tooltip({
+    	            			html: 'true',
+    	            			title: addTooltipText(pupils[i])        
+    	            		});
+    	            	}
+    	            }
+    	        	else{
+    	        		$('#searchResults').append("<a>no results</a>");
+    	        	}
+    			});
+    });
+    
+    function addTooltipText(pupil){
+    	var name = pupil.firstName + " " + pupil.lastName;
+    	return name +"<br>Current class: " + pupil.currentClassName + "<br>Birthday: " + pupil.dateOfBirth;
+    }
+    
+    $('#searchResults').on('click', 'a.addPupil', function() {
+    	var bebrasId = $(this).text();
+    	$('#selectedPupils').append("<p><input type='radio' name='keep' value='"+ bebrasId + "'><a href='#' id='selected-"+ bebrasId+"' class='removePupil'> "+ bebrasId +"</a></p>");  	
+    	$(this).empty();
+    });
+    
+    $('#selectedPupils').on('click','a.removePupils',function(){    	
+    	$(this).empty();
+    });
+    
+    $("#mergeForm").submit(function(event) {
+	   	 
+	   	  /* stop form from submitting normally */
+	   	  event.preventDefault();	   	 
+	   	 var i=0;
+	   	 var selected = new Array();
+	   	 $('#selectedPupils > p > a').each(function () { 
+			selected[i] = $(this).text();
+			i++;
+	   	 });
+	   	 if(i<2){
+		   	$(".badge").text("");
+	   		$(".badge-important").text("Select at least 2 pupils!");
+	   		 return;
+	   	 }
+	   	 var keep = $("#mergeForm").serialize();
+	   	 var str = keep.split("=");
+	   	 if(str.length > 1){
+	   	 	keep = str[1]; 
+	   	 }
+	   	 else{
+	   	 	keep = "";
+	   	 }
+	   	  /* Send the data using post */
+	   	 var posting = $.post("@routes.MergePupils.mergePupils()", { 'selected':JSON.stringify(selected), 'keep':keep } );
+	   	 
+	   	  /* Put the results in a div */
+	   	 posting.done(function( data ) {
+	   	    $(".badge").text("");
+   	     	$(".badge-success").text(data.ok);
+   	     	$('#searchResults').empty();
+   	     	$('#selectedPupils').empty();
+	   	 });
+    	});
+    
+    
+    
+</script>
+}{
+<!-- Sidebar -->
+<li>
+    <a href="@routes.TeacherController.renderRegisterPupils">@LangMessages.get("profileTeacher.registerPupils")</a>
+</li>
+<li>
+    <a href="@routes.WriteInfoToFile.renderDownloadClasses">Download classes</a>
+</li>
+}

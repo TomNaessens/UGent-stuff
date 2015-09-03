@@ -1,0 +1,1 @@
+Flops/s for a 256 x 256 strided memory access matrix-vector multiplication: 1.19156e+09

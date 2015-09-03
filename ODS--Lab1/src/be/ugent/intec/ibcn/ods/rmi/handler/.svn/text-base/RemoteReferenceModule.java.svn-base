@@ -1,0 +1,97 @@
+package be.ugent.intec.ibcn.ods.rmi.handler;
+
+import java.util.UUID;
+
+import be.ugent.intec.ibcn.ods.rmi.call.RemoteCall;
+import be.ugent.intec.ibcn.ods.rmi.call.RemoteInstance;
+import be.ugent.intec.ibcn.ods.rmi.call.RemoteReturn;
+import be.ugent.intec.ibcn.ods.rmi.exception.ODSRMIException;
+
+/**
+ * A handler who knows a RemoteInstance and its local implementations. Used to
+ * delegate calls to the correct implementation objects.
+ *
+ * Local implementation objects must register with methods
+ * {@link be.ugent.intec.ibcn.ods.rmi.handler.RemoteReferenceModule#registerGlobal registerGlobal}
+ * and
+ * {@link be.ugent.intec.ibcn.ods.rmi.handler.RemoteReferenceModule#exportObject exportObject}
+ * to work remotely.
+ *
+ * @see	be.ugent.intec.ibcn.ods.rmi.handler.RemoteInstance
+ */
+public class RemoteReferenceModule {
+
+    //TODO::
+    //Class attribute to hold the references towards the exported objects.
+    //private ...
+    /*
+     * Wrapper to register a Singleton class object
+     * */
+    @SuppressWarnings("unchecked") //$NON-NLS-1$
+    public void registerGlobal(Class cInterface, Object objImplementation) throws ODSRMIException {
+        exportObject(cInterface, objImplementation, null);
+    }
+
+    /*
+     * Wrapper to register an object of a given class
+     * */
+    public void exportObject(Class cInterface, Object exportedObject) throws ODSRMIException {
+        UUID objUUID = java.util.UUID.randomUUID();
+        String instanceId = objUUID.toString();
+
+        exportObject(cInterface, exportedObject, instanceId);
+    }
+
+    /**
+     * Actual implementation of the object registration procedure
+     *
+     * @param cInterface
+     * @param objImplementation
+     * @param instanceId
+     * @throws ODSRMIException
+     */
+    //TODO:: Implement the registration procedure
+    @SuppressWarnings("unchecked") //$NON-NLS-1$
+    private void exportObject(Class cInterface, Object objImplementation, String instanceId) throws ODSRMIException {
+    }
+
+    /**
+     * Retrieves a remote reference of a given object
+     *
+     * @param obj
+     * @return
+     */
+    //TODO:: Implement the retrieval procedure
+    RemoteInstance getRemoteReference(Object obj) {
+        return null;
+    }
+
+    /**
+     * This procedure analyses the incoming message and invokes the appropriate
+     * procedure from the server-object's implementation.
+     *
+     * @param remoteCall
+     * @return
+     * @throws ODSRMIException
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */
+    //TODO:: Implement the dispatching procedure
+    public RemoteReturn dispatchCall(RemoteCall remoteCall) throws ODSRMIException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException {
+        return null;
+    }
+
+    public static Class[] typeFromObjects(Object[] objects) {
+        Class[] argClasses = null;
+        if (objects != null) {
+            argClasses = new Class[objects.length];
+            for (int n = 0; n < objects.length; n++) {
+                Object obj = objects[n];
+                argClasses[n++] = obj.getClass();
+            }
+        }
+        return argClasses;
+    }
+}

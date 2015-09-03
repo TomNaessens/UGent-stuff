@@ -1,0 +1,24 @@
+@(comps : List[Competition])(clazz: models.Class)
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+
+@main(LangMessages.get("stats.head")) {
+
+<!-- Header -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<ul>
+    @for(c <- comps){
+    <li><a href="@routes.Statistics.downloadStatisticsForClass(c.id, clazz.id)">@LangMessages.get("Competition") @c.id, @if(c.isOpen==1){Open}@if(c.isOpen!=1){Closed}</a></li>
+    }
+</ul>
+} {
+<!-- Sidebar -->
+
+}

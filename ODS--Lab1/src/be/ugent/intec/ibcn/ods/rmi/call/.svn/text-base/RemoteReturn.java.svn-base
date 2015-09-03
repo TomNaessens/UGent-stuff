@@ -1,0 +1,10 @@
+package be.ugent.intec.ibcn.ods.rmi.call;
+
+/**
+ * Class that holds method return information.
+ *
+ */
+//TODO:: Complete the implementation of this class
+public class RemoteReturn implements IRemoteMessage {
+
+}

@@ -1,0 +1,52 @@
+@(registerForm: Form[TeacherController.RegisterSinglePupil])(cl: models.Class)
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("registerSinglePupil.view.head")+ " " + cl.name) {
+<!-- Header -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<h1>@LangMessages.get("registerSinglePupil.view.head") @cl.name</h1>
+
+@form(routes.TeacherController.registerSinglePupil(cl.id)) {
+
+        @if(registerForm.hasGlobalErrors) {
+        <p class="error">
+            @registerForm.globalError.message
+        </p>
+        }
+        @wflash()
+		
+        @inputText(registerForm("firstName"), '_label -> LangMessages.get("register.fields.firstName"))
+        @inputText(registerForm("lastName"), '_label -> LangMessages.get("register.fields.lastName"))
+        @inputText(registerForm("email"), '_label -> LangMessages.get("register.fields.email"))
+        @select(
+            field = registerForm("gender"),
+        options = options("MALE" -> LangMessages.get("enum.gender.MALE"), "FEMALE" -> LangMessages.get("enum.gender.FEMALE")),
+        	'_default -> LangMessages.get("editProfile.selectGender"),
+        	'_label -> LangMessages.get("editProfile.gender"),
+        '_error -> registerForm("gender").error.map(_.withMessage(LangMessages.get("editProfile.selectGenderError")))
+        )
+        
+        @select(
+            field = registerForm("language"),
+        	options = options("ENGLISH" -> LangMessages.get("enum.language.ENGLISH"), "DUTCH" -> LangMessages.get("enum.language.DUTCH"),"FRENCH" -> LangMessages.get("enum.language.FRENCH"),"GERMAN" -> LangMessages.get("enum.language.GERMAN")),
+            '_default -> LangMessages.get("editProfile.selectLanguage"),
+        	'_label -> LangMessages.get("editProfile.language"),
+        	'_error -> registerForm("language").error.map(_.withMessage(LangMessages.get("editProfile.selectLanguageError")))
+        )
+        @inputText(registerForm("dateOfBirth"), '_label -> LangMessages.get("register.fields.dateOfBirth"))
+        <input type="submit" value="@LangMessages.get("common.submit")"/>
+}
+
+} {
+<!-- Sidebar -->
+<li><a href="@routes.ProfilesController.seeProfile()">@LangMessages.get("profilePage.profile")</a></li>
+}

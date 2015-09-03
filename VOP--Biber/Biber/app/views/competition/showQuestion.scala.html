@@ -1,0 +1,156 @@
+@(history: models.History)(question: Question)(questionIndex: Int)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- TODO: iframe should take all the space it can, but it doesn't (the iframe is too small) -->
+
+<!-- Main call -->
+@main(history.getCompetition().getTitle()) {
+<!-- Head -->
+<script type="text/javascript" src='@routes.Assets.at("javascripts/time.js")'></script>
+<script type="text/javascript">
+    function updateTime(time) {
+        time = Math.floor(time / 1000);
+
+        $('.time').html(printTime(
+            time,
+            '@LangMessages.get("time.hourSuffix")',
+            '@LangMessages.get("time.minuteSuffix")',
+            '@LangMessages.get("time.secondSuffix")'
+        ));
+    }
+
+    function finishCompetition() {
+        window.location = '@routes.CompetitionController.finishCompetition(history.getCompetition().id, history.getQuestionSet().level.name())';
+    }
+
+    function resizeFrame() 
+    {
+        var h = $(window).height();
+        var w = $(window).width();
+        var nav = $('#top').height();
+        var answers = $('#answerform').height();
+        var height = h - nav - answers - 300; //maybe change the constant or compute differently
+      	if(height <= 300)
+      		height = 400;
+        $("iframe").css('height',height);
+    }
+
+    $(function() {
+    	$(window).resize(resizeFrame).resize();
+        startCounter( @(history.getTimeLeft()), updateTime, 1000, finishCompetition );
+    });
+</script>
+} {
+<!-- Toplinks -->
+} {
+<!-- Main content -->
+<h1>@question.getTitle()</h1>
+<div style="text-align: center; padding: auto; margin: auto;">
+    <i class="icon-star"></i>
+    <span class="difficulty">@question.getDifficulty(history.getQuestionSet())</span>
+    <i class="icon-time"></i>
+    <span class="time"></span>
+</div>
+
+<div id="question-content">
+    <iframe src="@question.getQuestionURL()" style="width: 100%;" frameborder="0">
+    </iframe>
+</div>
+
+<!-- The templates need to post the answer as the POST-parameter with key 'answer' -->
+<script type="text/javascript">
+    $(function() {
+        // Listeners
+        $('#answer-form').submit(function() {
+            var answer = $('[name=answer]');
+
+            if (answer == undefined || answer.val() == "") {
+                $('#noAnswerDialog').modal('show');
+                return false;
+            }
+
+            return true;
+        });
+    });
+</script>
+<div class="modal hide" id="noAnswerDialog">
+    <div class="modal-header">
+        @LangMessages.get("competition.take.noAnswerGiven")
+    </div>
+    <div class="modal-body">
+        @LangMessages.get("competition.take.askNoAnswerGiven")
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">@LangMessages.get("common.ok")</button>
+    </div>
+</div>
+<form method="POST" action="@routes.CompetitionController.answerQuestion(history.getCompetition().id, history.getQuestionSet().level.name(), questionIndex)" id="answer-form">
+    @question.answerType match {
+
+    case AnswerType.REGULAR_EXPRESSION => {
+        @if(history.getGivenAnswer(question) != null) {
+            @views.html.competition.answers.regular_expression(history.getGivenAnswer(question))
+        } else {
+            @views.html.competition.answers.regular_expression()
+        }
+    }
+
+    case AnswerType.MULTIPLE_CHOICE    => {
+        @if(history.getGivenAnswer(question) != null) {
+            @views.html.competition.answers.multiple_choice('A')(4)(history.getGivenAnswer(question).charAt(0))
+        } else {
+            @views.html.competition.answers.multiple_choice('A')(4)()
+        }
+    }
+
+    }
+</form>
+<form method="GET" action="@routes.CompetitionController.finishCompetition(history.getCompetition().id, history.getQuestionSet().level.name())">
+    <a href="#finishDialog" data-toggle="modal" class="btn" role="button" style="width: 100%;">@LangMessages.get("competition.take.finishCompetition")</a>
+    <div class="modal hide" id="finishDialog">
+        <div class="modal-header">
+            @LangMessages.get("competition.take.finishCompetition")
+        </div>
+        <div class="modal-body">
+            @LangMessages.get("competition.take.askFinishCompetition")
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">@LangMessages.get("common.no")</button>
+            <input id="submitFinish" type="submit" class="btn" value='@LangMessages.get("common.yes")' />
+        </div>
+    </div>
+</form>
+
+} {
+<!-- Sidebar -->
+<h3>Questions</h3>
+
+<ul class="question-list">
+    @for(i <- 1 to (history.getQuestionSet().size()) ) {
+    @defining(history.getQuestionSet().getSetQuestions().get(i-1).question) { current =>
+
+    <li>
+        @if(history.getGivenAnswer(current) != null) {
+        <i class="icon-ok"></i>
+        } else {
+        <i class="icon-question-sign"></i>
+        }
+
+        @if(current.equals(question)) {
+        <b>
+            <a style="display: inline; margin: 0; padding: 0; border-left: none;" href="@routes.CompetitionController.showQuestion(history.getCompetition().id, history.getQuestionSet().level.name(), i)">
+                @question.getTitle()
+            </a>
+        </b>
+        } else {
+        <a style="display: inline; margin: 0; padding: 0; border-left: none;" href="@routes.CompetitionController.showQuestion(history.getCompetition().id, history.getQuestionSet().level.name(), i)">
+            @current.getTitle()
+        </a>
+        }
+    </li>
+    }
+    }
+</ul>
+}

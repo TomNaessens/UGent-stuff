@@ -1,0 +1,535 @@
+index.title = Startseite
+index.welcome = Willkommen
+index.playUnrestrictedCompetition = Spielen Freie Wettbewerb
+
+common.index = Startseite
+common.login = Anmelden
+common.logout = Abmelden
+common.links = Links
+common.register = Registrieren
+common.competition = Wettbewerb
+common.question = Frage
+common.questionSet = Frage Set
+common.level = Niveau
+common.notFound = Die angegebene {0} konnte nicht gefunden werden
+common.forgotPassword = Passwort vergessen?
+common.submit =  Einreichen
+common.password = Passwort
+common.feedback = Reaktion
+common.close = Schließen
+common.required = erforderlich
+common.yes = ja
+common.no = nein
+common.help =  Hilfe
+common.pupil = Schüler
+common.status = Status
+common.actions = Aktionen
+common.ok = ok
+
+register.error.mail = Registrieren ok! Login details: {0}, {1}. Aber Mailserver ist gebrochen. Bitte kontaktieren Sie einen Administrator.
+reset.error.mail = Mail-Server unterbrochen. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie einen Administrator.
+
+time.hourSuffix = s
+time.minuteSuffix = m
+time.secondSuffix = s
+
+mimick.mimickUser = Mimick Benutzer
+mimick.stopMimick = Abmelden als {0}
+mimickUsers.error.online =  Nutzer online. Versuchen Sie es später erneut.
+mimickUser.error.notExisting = BebrasId nicht vorhanden
+mimickUser.error.notAuthorized = Sie sind nicht berechtigt, diese Person zu imitieren
+
+notAuthorized.admin =  Sie haben versucht {0} zu betreten, Sie müssen dafür als Admin angemeldet sein.
+notAuthorized.teacher =  Sie haben versucht {0} zu betreten, Sie müssen dafür als Lehrer angemeldet sein.
+notAuthorized.organizer = Sie haben versucht {0} zu betreten, Sie müssen dafür als Organisator angemeldet sein.
+notAuthorized.pupil = Sie haben versucht {0} zu betreten, Sie müssen dafür als Schüler angemeldet sein.
+
+resetPassword.mail.subject = [Biber]: Token zum Zurücksetzen Ihr Passwort ein.
+resetPassword.mail.message = Bitte besuchen Sie: {0}, um den Prozess der Zurücksetzen des Passworts starten. Dieses Token wird in 1 Tag auslaufen.
+resetPassword.askResetForm.empty = Bitte geben Sie Ihre E-Mail oder bebrasId.
+resetPassword.askResetForm.notCorrect =  BebrasId und / oder E-Mail ist nicht vorhanden.
+resetPassword.askResetForm.success = Eine E-Mail wurde abgeschickt mit weiteren Anweisungen.
+resetPassword.tokenExpired = Dieses Token ist abgelaufen. Bitte erneuern Sie den Vorgang.
+resetPassword.error.technical = Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie einen Administrator, wenn das Problem weiterhin besteht.
+resetPassword.mail.success.subject = [Biber]: Ihr Passwort wurde zurückgesetzt.
+resetPassword.mail.success.message =  Das Passwort für Ihr Konto wurde zurückgesetzt.
+resetPassword.success = Ihr Passwort wurde erfolgreich geändert.
+resetPassword.askResetForm.askTeacherForReset =  Wir konnten nicht finden eine E-Mail. Bitte kontaktieren Sie Ihren Lehrer, wenn Sie Ihr Passwort zurücksetzen möchten.
+resetPassword.askReset.head = Ihr Passwort zurücksetzen
+resetPassword.reset.head =   Ihr Passwort zurücksetzen
+resetPassword.reset.newPassword = Neues Passwort
+resetPassword.reset.confirmNewPassword =  Neues Passwort bestätigen
+
+addClass.addClass = Hinzufügen einer neuen Klasse
+addClass.school =  Schule wählen
+addClass.name =  Name der Klasse:
+addClass.level = Niveau wählen
+addClass.exists = Klasse ist bereits vorhanden in dieser Schule.
+addClass.nameRequired = Ein Name für die Klasse ist nicht erforderlich.
+
+addPupilToClass.title = Bestehenden Schüler mitt BebrasId zur Klasse hinzufügen
+addPupilToClass.notExisting = BebrasId nicht vorhanden
+addPupilToClass.empty = BebrasId erforderlich!
+
+resetPupilPassword.mail.subject = [Biber]: Neue Logindaten für Schüler
+resetPupilPassword.mail.message = Neue Login-Daten für Schüler: BebrasId: {0}, passwort: {1}
+resetPupilPassword.reset = Zurücksetzen
+
+registerSchool.register =  Schule Registrieren
+registerSchool.name = Name
+registerSchool.zipCode =  Postleitzahl
+registerSchool.street =  Straße
+registerSchool.country = Land
+registerSchool.number = Anzahl
+registerSchool.city = Stadt
+registerSchool.success = Schule {0} erfolgreich registriert.
+
+registerTeacher.register =  Registrieren Lehrer
+registerTeacher.success =  Lehrer erfolgreich registriert. Füllen Sie in Form, um einen anderen Lehrer hinzuzufügen.
+registerTeacher.fields.schools = Wählen Sie die Schule / Schulen dieses Lehrers
+
+login.invalidLogin = Ungültiger Benutzername oder Passwort
+logout.success = Du wurdest abgemeldet
+
+activate.passwordsNotEqual = Kennwort bestätigen nicht gleich das neue Passwort
+activate.newPassword = Neues Passwort
+activate.confirmNewPassword = Neues Passwort bestätigen
+activate.title =  Wählen sie neues Passwort und aktivieren Konto.
+activate.activate = aktivieren
+
+authenticate.sorry = Entschuldigung
+authenticate.sorry2 = aber Sie sind bereits angemeldet.
+authenticate.alreadyLoggedIn = Leider {0}, aber es scheint, sind Sie bereits angemeldet. Wenn Sie nicht ausdrücklich vorher abmelden, warten Sie eine Minute und versuchen Sie es erneut.
+authenticate.alreadyLoggedIn.head = Bereits angemeldet
+
+competition.open.button = Öffnen
+competition.open.classesParticipating = Die Klassen, die derzeit an werden in diesem Quiz sind
+competition.open.noClassesParticipating = Derzeit gibt es keine Klassen die Teilnahme an diesem Quiz
+competition.open.classes = Sie können öffnen, den Wettbewerb für folgende Klassen
+competition.open.noClasses = Sie haben diesen Wettbewerb für alle Klassen eröffnet
+competition.open.official.head =  Öffnen Sie die offizielle Woche
+competition.open.official.warning = Dies wird die offizielle Wettbewerb zu öffnen, von nun an werden die Lehrer in der Lage sein, ihre Klassen zu öffnen für der offizielle Wettbewerb
+competition.open.openCompetition = offenen Wettbewerb
+competition.open.info = Informationen
+competition.open.participating = Teilnehmende
+competition.open.actions = Aktionen
+
+competition.create.noSets = Bitte erstellen Sie zuerst mindestens einen offiziellen set.
+competition.create.head = Erstellen Sie eine neue
+competition.create.drophere =  Bitte hinterlassen Sie Ihre ausgewählte Frage Satz lose
+competition.create.competitionname = Wettbewerb Namen
+competition.create.names = geben Sie einen Namen
+competition.create.namesrequired = Es muss mindestens ein Namen gegebenen werden
+competition.create.setrequired = Hinzufügen Fragensatz
+competition.create.noSetsTeacher = Bitte fragen Sie einen Organizer, um einige lokale questionsets hinzuzufügen.
+
+competition.close.head = Ende Wettbewerb
+competition.close.message = Welche Klassen wollen Sie den Wettbewerb am Ende?
+competition.close.button = Ende
+competition.close.official.warning = Dies schließt den offiziellen Wettbewerb für alle Klassen
+
+competition.take.stillHaveUnfinishedCompetition = Sie haben noch ein unfertiges Wettbewerb, beenden Sie bitte diesen Wettbewerb vor dem Start eines neuen
+competition.take.cannotParticipate = Sie können nicht in der ausgewählten Wettbewerb teilnehmen
+competition.take.alreadyTaken = Du hast diesen Wettbewerb gemacht und kann es nicht zweimal
+competition.take.remainingTime =  Verbleibende Zeit
+competition.take.finishCompetition =  Beenden Wettbewerb
+competition.take.timeLimit = Schlusstermin
+competition.take.results = Ergebnisse
+competition.take.totalTime =  insgesamt benötigte Zeit
+competition.take.givenAnswer = Ihre Antwort
+competition.take.noPoints =  Nr. Punkte
+competition.take.askFinishCompetition = Sind Sie sicher, dass Sie den Wettbewerb beenden?
+competition.take.noAnswerGiven = Keine Antwort
+competition.take.askNoAnswerGiven = Du hast nicht eine Antwort geben auf die Frage, geben Sie bitte eine Antwort oder überspringen Sie die Frage
+competition.take.competitionFinished = Sie haben erfolgreich den Wettbewerb abgeschlossen!
+competition.take.numberOfQuestions = Anzahl der Fragen
+competition.take.totalNumberOfPoints = Gesamtzahl der Punkte
+competition.take.initialNumberOfPoints = Anfängliche Anzahl der Punkte
+
+competition.monitor.monitorCompetition =  Überwachen Wettbewerb
+competition.monitor.grantGraceTime = Zuschuss Gnade Zeit
+competition.monitor.deleteHistory =  Historie löschen
+competition.monitor.reopenCompetition = Öffnen Wettbewerb
+competition.monitor.askDeleteHistory = Sind Sie sicher, wollen die ganze Historie für {0} gespeichert löschen?
+competition.monitor.askGraceTime = Wie viel Gnade Zeit wollen Sie {0} geben?
+competition.monitor.askReopenCompetition = Wie viel Zeit wollen Sie die Schüler geben wen den die Wettbewerb wieder öffnet? (Anmerkung: Bei der Ausstellung einer Wiedereröffnung, der Wettbewerb wird sofort gestartet werden!)
+competition.monitor.answered =  Beantwortet
+
+competition.unrestricted = Freie Wettbewerbe
+competition.unrestricted.take =Wählen Sie den freie Wettbewerb Sie annehmen möchten
+
+register.emailAlreadyInUse = Diese E-Mail-Adresse ist bereits im Einsatz.
+register.checkMailForPassword = Überprüfen Sie Ihre Mailbox für Ihre bebrasId und Passwort
+register.email.subject = Login-Daten für Ihr Konto
+register.email.message = Login-Daten für Ihr neu erstelltes Konto: BebrasId: {0}, Passwort: {1}
+register.fields.firstName = Vorname
+register.fields.lastName = Nachname
+register.fields.email = E-mail
+register.submit = einreichen
+register.fields.dateOfBirth = Geburtsdatum (TT / MM / JJJJ):
+register.fields.bebrasIdOpt = BebrasId (optional):
+register.fields.telephone = Rufnummer
+register.fields.schools = Schulen
+register.selectSchool = Bitte wählen Sie mindestens eine Schule
+
+registerPupils.view.title = Registrieren Schüler
+registerPupils.view.chooseSchool = Bitte wählen Sie eine Schule
+
+registerPupils.csvNotSupported = CSV-Dateien werden derzeit nicht unterstützt.
+registerPupils.filetypeNotSupported = Dateityp nicht unterstützt. Sollte xls / xlsx / csv sein.
+registerPupils.classesNotOwnedByTeacher = Klasse {0} existiert bereits in dieser Schule, ist aber nicht die Klasse. Löschen Sie dieses Blatt aus Ihrer Datei und versuchen Sie es erneut.
+registerPupils.success = Speichern / Aktualisieren gelungen. Bitte überprüfen Sie Ihre E-Mail!
+registerPupils.bebrasIdNotCorrect = Schüler mit BebrasId {0} existiert nicht. Bitte korrigieren Sie diese oder löschen Sie die Zeile aus der Datei.
+registerPupils.email.subject = Zugangsdaten für registrierte Schüler
+registerPupils.email.message = Die Anlage enthält die Einzelheiten (einschließlich BebrasId und Passwort) für die neu zugelassenen Schüler.
+registerPupils.emailExistsPupil1 = Email {0} existiert bereits.
+registerPupils.emailExistsPupil2 = Schüler mit dieser E-Mail wurde bebrasId {0}, füllen Sie bitte das bebrasId Spalte für diese Schüler.
+registerPupils.emailExists1 = Email {0} existiert bereits im System ist aber nicht von einem Schüler.
+registerPupils.emailExists2	= Bitte wählen Sie eine andere E-Mail oder lassen Sie es leer.
+registerPupils.fileEmpty = Bitte wählen Sie eine Datei!
+registerPupils.uploadProgress =  Upload Fortschritt:
+registerPupils.uploadFile = Upload Datei
+registerPupils.errors = Fehler bei der Verarbeitung Ihrer Datei:
+registerPupils.failed = Verarbeitung fehlgeschlagen. Bitte korrigieren Sie die angezeigten Fehler und versuchen Sie es erneut!
+registerPupils.final = Ergebnis:
+registerPupils.error.enum.language = Sprache Wert "{0}" nicht richtig. Bitte verwenden Niederländisch, Deutsch, Französisch oder Englisch!
+registerPupils.error.enum.level =  Niveau der Klasse "{0}" nicht richtig. Bitte benutzen Sie WOOKIE,PADAWAN,JEDI or EWOK!
+registerPupils.error.enum.gender = Gender "{0}" nicht richtig. Bitte benutzen Sie M oder F!
+registerPupils.error.mail = E-Mail-Server reagiert nicht. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie einen Administrator!
+registerPupils.downloadExamples = Downloaden Sie Beispiele
+registerPupils.downloadExamplesText = Klicken Sie auf die entsprechende Schaltfläche, um die Datei im gewünschten Format herunterladen:
+registerPupils.emailNotCorrect = Email {0} ist keine gültige E-Mail.
+registerPupils.dateFormatNotCorrect = Geburtstag leer oder nicht richtig. Verwendung:'' tt / mm / jjjj''
+registerPupils.error.cellEmpty = Niveau, Jahr, Geschlecht oder Sprache Zelle leer. Füllen Sie alle!
+
+uploadingView.title = Uploading Datei
+uploadingView.progressBar.text = Verarbeitung Datei:
+
+registerSinglePupil.actionLink = Registrieren Sie einen neuen Schüler für diese Klasse
+registerSinglePupil.dateFormatNotCorrect = Datumsformat nicht korrekt. Verwenden TT / MM / JJJJ!
+registerSinglePupil.view.head = Registrieren Sie einen neuen Schüler für
+
+person.online = online
+person.offline = offline
+
+profilePage.info = Meine Info
+profilePage.home = Startseite
+profilePage.profile = Profil
+
+profileGeneral.link = Profil bearbeiten
+profileGeneral.downloadManual = Download Anleitung
+
+profileTeacher.head =  Lehrer Profil
+profileTeacher.myClasses = Meine Klassen
+profileTeacher.myCompetitions = Meine Wettbewerbe
+profileTeacher.size = Größe
+profileTeacher.registerPupils = Registrieren Schüler
+profileTeacher.terminatedCompetitions = Geschlossene Wettbewerbe
+profileTeacher.competition = Neue lokale Wettbewerb
+profileTeacher.other = Andere
+profileTeacher.competitions = Wettbewerbe
+profileTeacher.pupils = Schüler
+
+profilePupil.head = Schüler Profil
+profilePupil.availableQuizzes = Erhältliche Wettbewerbe
+profilePupil.history = Meine Historie
+profilePupil.viewMyHistory = Meine Historie
+profilePupil.competitions = Wettbewerbe
+profilePupil.other = Andere
+profilePupil.classTitle = Klasse Details
+profilePupil.class = Klasse: {0}
+profilePupil.teacher = Lehrer: {0} {1}
+profilePupil.schoolName = Schule: {0}
+
+profileOrganizer.head = Organisator Profil
+profileOrganizer.tasks = Organisator Tasks
+profileOrganizer.newCompetition = Neues Offizieller Wettbewerb
+profileOrganizer.newSet = Neue Frage Set
+profileOrganizer.registerNewTeacher = Registrieren neue Lehrer
+profileOrganizer.terminatedCompetitions = Geschlossen Offizielle Wettbewerbe
+profileOrganizer.officialCompetitions = Offizielle Wettbewerbe
+profileOrganizer.manageSets =  Frage sets managen
+profileOrganizer.endYear =  Laufende Schuljahr Beenden
+profileOrganizer.other = Andere
+profileOrganizer.competitions = Wettbewerbe
+profileOrganizer.register = Registrieren
+
+organizerSchoolsPage.explain = Klicken Sie auf eine Schule für jeden registrierten Lehrer für diese Schule zu sehen
+organizerSchoolsPage.schools = Schulen:
+organizerTeacherPage.head = Lehrer Seite
+organizerTeacherPage.addSchool = Hinzufügen einer Schule für Lehrer
+
+profileAdmin.head = Administrator Profil
+profileAdmin.tasks = Aufgaben
+profileAdmin.other = Andere
+profileAdmin.register = Registrieren
+
+editProfile.head = Profil ändern
+editProfile.selectLanguage = --- Sprache auswählen ---
+editProfile.language = Sprache
+editProfile.selectLanguageError = Bitte wählen Sie die gewünschte Sprache
+editProfile.selectGender = --- Wählen Geschlecht ---
+editProfile.gender = Geschlecht
+editProfile.selectGenderError = Bitte wählen Sie Ihr Geschlecht
+editProfile.change = Profil ändern
+editProfile.email = E-mail
+editProfile.firstName = Vorname
+editProfile.lastName = Nachname
+editProfile.tel = Telefon
+editProfile.mailIncorrect = Email {0} ist keine gültige E-Mail.
+
+registerOrganizer.head = Registrieren neue Organisator
+registerOrganizer.success =  Organizer succesfully registered. Fill in the form to add another organizer
+
+endYear.head =  Ende Jahr
+endYear.info = Bitte lesen Sie den folgenden Text genau, bevor Sie fortfahren. Mit dieser Aktion schließt Sie das Schuljahr und kann das neue Jahr beginnen. Dies löscht alle Verbindungen zwischen den Schülern und ihren jeweiligen Klassen. Dies wird den Schülern nur die Möglichkeit freie Wettbewerben zu spielen . Lehrer werden auch unverbunden von all ihren Klassen. Diese Aktion kann nicht rückgängig gemacht werden. So vorsichtig vorgehen!
+endYear.success =  Sie haben erfolgreich die Anwendung auf das nächste Jahr verschoben!
+endYear.goBackToProfile =  Zurück zum Profil
+
+localCompetitionsClass.head = Fertige Lokale Wettbewerbe
+
+history.head = Meine Historie
+
+composeSet.head = Arrangieren Meine Frage Set
+composeSet.chooseQuestions = Wählen Sie die Fragen
+composeSet.link = link
+composeSet.nameAndLevel = Wählen Sie den Namen und das Niveau
+composeSet.selectDifficultyError = Bitte wählen Sie den Schwierigkeitsgrad
+composeSet.selectDifficulty = --- Wählen Schwierigkeitsgrad ---
+composeSet.difficulty = Schwierigkeit
+composeSet.hidden = ist verborgen
+composeSet.notHidden = Ist nicht verborgen
+composeSet.selectHidden = --- Wählen Sie Sichtbarkeit ---
+composeSet.errorHidden = Bitte ausfüllen wenn Dieses Set wird verborgen
+composeSet.restricted =  eingeschränkt
+composeSet.notRestricted =  nicht eingeschränkt
+composeSet.selectRestricted = --- Wählen Publikum ---
+composeSet.errorRestricted = Bitte ausfüllen, wenn Dieses Set ist eingeschränkt
+composeSet.selectLevel = --- Wählen Niveau ----
+composeSet.errorLevel = Bitte füllen Sie das Niveau des Set
+composeSet.timelimit = Zeitlimit (minuten)
+composeSet.values = Wählen Sie die Besonderheiten
+composeSet.fail = Felder nicht korrekt ausgefüllt. Mindestens 1 Titel gegeben werden sollte. Richtige und falsche Punkte und Zeitlimit sollten Zahlen sein
+composeSet.correct = Punkte bei der richtige
+composeSet.incorrect = Punkte bei der falschen
+composeSet.button = erschaffen
+composeSet.cannotRemoveSet = Es gibt einen oder mehrere Wettbewerbe, die diese questionset verwenden. Sie können die Frage Set nicht entfernen,  bevor diese den Wettbewerb (s) entfernt werden.
+composeSet.ENGLISH = Englischen Titel
+composeSet.DUTCH =  Niederländischen Titel
+composeSet.FRENCH = Französischen Titel
+composeSet.GERMAN = Deutschen Titel
+
+question.answer = Antwort
+
+set.difficulty = Schwierigkeit
+set.correctPoints = Hinzugefügt Punkte, wenn richtig
+set.incorrectPoints = Punkte abgezogen, wenn falsche
+set.name = Frage set
+set.name.plural = Frage sets
+
+enum.language.French = Französisch
+enum.language.Dutch =  Niederländisch
+enum.language.English = Englisch
+enum.language.German = Deutsch
+
+enum.language.ENGLISH = Englisch
+enum.language.DUTCH = Niederländisch
+enum.language.FRENCH = Französisch
+enum.language.GERMAN = Deutsch
+
+enum.gender.MALE = männlich
+enum.gender.MALE.ab = m
+enum.gender.FEMALE = weiblich
+enum.gender.FEMALE.ab = w
+
+enum.competitionType.LOCAL = Lokale
+enum.competitionType.OFFICIAL = Offizielle
+enum.competitionType.UNRESTRICTED = Frei
+
+enum.level.WOOKIE = Wookie
+enum.level.PADAWAN = Padawan
+enum.level.JEDI = Jedi
+enum.level.EWOK = Ewok
+
+enum.difficulties.EASY = Leicht
+enum.difficulties.AVERAGE = Durchschnitt
+enum.difficulties.HARD = Schwierig
+
+enum.status.READY =  BEREIT
+enum.status.STARTED = GESTARTET
+enum.status.FINISHED = ERLEDIGT
+
+enum.answerType.REGULAR_EXPRESSION = Regulärer Ausdruck
+enum.answerType.MULTIPLE_CHOICE = Multiple Choice
+
+uploadQuestions.upload = Fragen hochladen
+uploadQuestions.head = Laden Sie Fragen Datei
+uploadQuestions.failed = Hochladen fehlgeschlagen!
+uploadQuestions.errors = Fehler:
+uploadQuestions.questions = Fragen
+uploadQuestions.zipFile = Zip Datei
+uploadQuestions.new = Fügen Sie eine neue Frage
+uploadQuestions.questionView = Frage bearbeiten
+uploadQuestions.ok = Das ging ganz gut
+uploadQuestions.uploadFail = Konnte nicht hochgeladen Datei-Server
+uploadQuestions.specifyName = Bitte geben Sie einen Namen für diese Sprache, wenn Sie Dateien hochladen möchten
+uploadQuestions.questionInfo = Info
+uploadQuestions.answer = Beantworten
+uploadQuestions.answerType = Wählen Antwort Typ
+uploadQuestions.inSetWarning = Die Frage ist Teil eines Set, sie kann nicht gelöscht werden
+uploadQuestions.answerTypeErr = Eine Antwort Typ sollte angegeben werden
+uploadQuestions.newQuestionENGLISH = fügen eine englische Frage
+uploadQuestions.newQuestionDUTCH = fügen Sie eine Frage Dutch
+uploadQuestions.newQuestionGERMAN = fügen Sie eine deutsche Frage
+uploadQuestions.newQuestionFRENCH = fügen Sie eine Französisch Frage
+uploadQuestions.titlePlaceholder = Titel
+uploadQuestions.questionPlaceholder = Frage
+uploadQuestions.feedbackPlaceholder = Reaktion
+uploadQuestions.extensionFail = Ein HTML-Dokument ist erforderlich
+uploadQuestions.addExtras = fügen Sie zusätzliche Dateien
+uploadQuestions.extra = Extras
+uploadQuestions.search = Suche Fragen
+uploadQuestions.head = Fragen hochladen
+uploadQuestions.answerErr = Dies ist nicht eine gute Multiple-Choice-Antwort
+uploadQuestions.questionsHelp = Wählen Sie die Frage, die Sie bearbeiten möchten, oder drücken Sie Hinzufügen Frage, um eine neue zu erstellen
+uploadQuestions.questionInfoHelp = Wähle hier die Sprache, oder die Datei, die Sie bearbeiten möchten
+uploadQuestions.zipfileHelp = Klicken Sie auf die Datei, die Sie auswählen möchten, und drücken Sie>, um es auf die Frage / Feedback Feld hinzufügen. Sie können auch die Datei in das bevorzugte Feld geben oder geben Sie es selbst.
+uploadQuestions.answerErr = Dies ist nicht eine gute Multiple-Choice-Antwort
+
+uploadQuestions.wysiwyg.title = Verwenden Sie ein Online-Editor
+uploadQuestions.wysiwyg.saveSuccess =  Frage gespeichert erfolgreich!
+uploadQuestions.wysiwyg.titleLabel =  Titel
+uploadQuestions.wysiwyg.typeLabel = Typ
+uploadQuestions.wysiwyg.answerLabel = Beantworten
+uploadQuestions.wysiwyg.questionLabel = Frage
+uploadQuestions.wysiwyg.feedbackLabel =  Rückkopplung
+uploadQuestions.wysiwyg.save = Speichern
+uploadQuestions.wysiwyg.zipFile = Laden Sie ein zip
+uploadQuestions.wysiwyg.fileError = Allgemeine Datei error!
+uploadQuestions.wysiwyg.answerError = Bitte wählen Sie eine passende Antwort!
+uploadQuestions.wysiwyg.feedbackError = Bitte geben Sie Feedback!
+uploadQuestions.wysiwyg.questionError = Bitte geben Sie eine Frage!
+uploadQuestions.wysiwyg.answertypeError = Bitte geben Sie eine answertype!
+uploadQuestions.wysiwyg.titleError = Bitte geben Sie einen Titel!
+
+downloadClasses.head = Download Classes
+downloadClasses.info =  Here you can download the classes of your registered schools, select a school, and a format type. You can choose between the current classes or the classes of the previous year. This latter option can be useful when needing to register your students for a new year.
+downloadClasses.download = Download
+downloadClasses.selectSchool = --- Select a School ---
+downloadClasses.school = School
+downloadClasses.selectSchoolError =   Please select a school
+downloadClasses.selectType = --- Select a Type ---
+downloadClasses.type = Type
+downloadClasses.selectTypeError = Please select a type for your download file
+downloadClasses.current = Current
+downloadClasses.previous = Previous
+downloadClasses.selectYear = --- Select a Year ---
+downloadClasses.year = Year
+downloadClasses.selectYearError = Please select a year
+
+stats.downloadStats = Statistiken downloaden
+stats.head = Statistiken
+downloadStatistics.head = Download-Statistiken für eine dieser Klassen
+downloadStatistics.chooseClass =  Wählen Sie eine Klasse
+questionsetsstats.numberofparticipants = Anzahl der Teilnehmer
+viewstats.score = Ergebnis
+viewstats.numberWrong = Anzahl falsch
+viewstats.numberCorrect = Anzahl korrekt
+viewstats.own = eigen
+viewstats.avg = Durchschnitt
+pupilquestionstats.distr = Ausschüttung für
+top20.greeting = Dies ist die Top 20 für den offiziellen Wettbewerb
+top20.participant = Teilnehmer
+top20.totalscore = Gesamtscore
+top20.noparticipants = Niemand hat an der offiziellen Wettkampf teilgenommen
+competitionresults.procentright = % Richtig von allen Teilnehmern
+
+helpPage.downloadHead = Bedienungsanleitung
+helpPage.title = Was wollen Sie tun?
+helpPage.download = Für weitere Informationen, laden Sie die Bedienungsanleitung. Dies kann über einen Link auf Ihrer Profilseite.
+helpPage.editProfileHead = Bearbeiten Sie Ihr Profil
+helpPage.editProfile = Um Ihr Profil zu bearbeiten, auf Ihrem profilepage Klick auf den Link ''Profil bearbeiten''.
+helpPage.generalHead = Benötigen andere Funktion?
+helpPage.general = In der Liste der Links auf der linken Seite Ihres profilepage finden Sie alle anderen Funktionen. Einfach auf den entsprechenden Link klicken und Sie werden auf die Seite zu gehen.
+
+helpPagePupil.head = Hilfe Seite Schüler
+helpPagePupil.viewHistoryHead = Sehen Sie Ihre Historie
+helpPagePupil.viewHistory = Gehen Sie zu Ihrem Profil und klicken Sie auf den Link Mein Historie.
+helpPagePupil.playUnrestrictedHead = Spielen Freie Wettbewerb
+helpPagePupil.playUnrestricted = Wähle einen Wettbewerb aus der Liste der Wettbewerbe auf Ihrem profilepage und folgen Sie den Anweisungen.
+helpPagePupil.playOfficialHead = Spielen Official Competition
+helpPagePupil.playOfficial = Um den offiziellen Wettbewerb zu spielen, müssen Sie zu einer Klasse gehören, fragen Sie Ihren Lehrer für weitere Informationen.
+helpPagePupil.registerHead = Registrieren?
+helpPagePupil.register = Wenn Sie sich registrieren möchten, kontaktieren Sie Ihren Lehrer oder klicken Sie auf den entsprechenden Link auf der Hauptseite.
+
+helpPageTeacher.head = Hilfe Seite Lehrer
+helpPageTeacher.addClassHead = Fügen Sie eine Klasse
+helpPageTeacher.addClass =  Auf der profilepage können Sie auf der Plus-Taste unter dem ''Meine Klassen'' Liste anklicken.
+helpPageTeacher.openLocalHead =  Öffnen Sie Lokale Wettbewerb
+helpPageTeacher.openLocal =  Klick auf den Wettbewerb auf dem profilepage unter'' Meine Wettbewerbe''.
+helpPageTeacher.closeLocalHead =  Schließen Lokale Wettbewerb
+helpPageTeacher.closeLocal =  Klick auf das rote Kreuz neben dem Wettbewerb auf Ihrem profilepage unter'' Meine Wettbewerbe''.
+helpPageTeacher.viewResultsHead = Ergebnisse anzeigen von Wettbewerb
+helpPageTeacher.viewResults =  Nach einem Wettbewerb für eine bestimmte Klasse geschlossen wird, klicken Sie auf den Namen der Klasse auf Ihrer profilepage und klicken Sie auf der nächsten Seite auf den Link'' sehen'' letzten Wettbewerben. Nun sehen Sie eine Seite, wo Sie die Ergebnisse herunterladen können .
+helpPageTeacher.addPupilHead = Hinzufügen Einzel-Schüler
+helpPageTeacher.addPupil =  Klicken Sie auf die Klasse auf Ihrer profilepage unter ''Meine Klassen''. Auf der nächsten Seite finden Sie den Link auf der rechten Seite.
+
+helpPageOrganizer.head = Hilfe Seite Organisator
+helpPageOrganizer.mimickUserHead = Übernahme Konto
+helpPageOrganizer.mimickUser = Als Organisator können Sie überholen ein Lehrer seine oder ihre Rechnung. Dazu klicken Sie auf der  ''Mimic Benutzer'' Taste Ihrer Profilseite.
+
+helpPageAdmin.head = Hilfe Seite Admin
+helpPageAdmin.mimickUserHead = Übernahme Konto
+helpPageAdmin.mimickUser =  Als Administrator können Sie überholen einen Organisator und Lehrer seine oder ihre Rechnung. Dazu klicken Sie auf der  ''Mimic Benutzer'' Taste Ihrer Profilseite.
+helpPageAdmin.registerOrganizerHead = Registrieren eines Organisator
+helpPageAdmin.registerOrganizer = Einfach auf den ''registrieren Organisator'' Link klicken  auf Ihrem profilepage nach links.
+
+helpPage.contactHead =  Kontakt
+helpPage.contactAdmin = wenden Sie sich an
+helpPage.admin = admin
+helpPage.oran =  oder
+helpPage.organizer = Organisator
+
+monitorFTP.overview.linkTo = Verwalten FTP-Servern
+monitorFTP.overview.title = FTP-servern: Übersicht
+monitorFTP.overview.add = Server hinzufügen
+monitorFTP.overview.edit = Server bearbeiten
+monitorFTP.overview.remove = Server entfernen
+monitorFTP.overview.host = Host
+monitorFTP.overview.port = Port
+monitorFTP.overview.questionFolder = Frage Ordner
+monitorFTP.overview.publicLink = Öffentlicher Link
+monitorFTP.overview.username = Benutzername
+monitorFTP.overview.pass = Passwort
+monitorFTP.overview.serverOffline = Einer der FTP-Server ist offline. Besuchen Sie die Übersicht so schnell wie möglich!
+monitorFTP.addServer.title = Hinzufügen neuer FTP-Server
+monitorFTP.addServer.fields.host = Host
+monitorFTP.addServer.fields.port = Port
+monitorFTP.addServer.fields.questionFolder = Öffentlicher Link
+monitorFTP.addServer.fields.publicLink = Öffentlicher Link
+monitorFTP.addServer.fields.username = Benutzername
+monitorFTP.addServer.fields.pass = Passwort
+MonitorFTP.errors.cantDeleteServer = Es gibt immer noch Fragen auf diesem Server. Daher kann diese Server nicht gelöscht werden.
+
+changeClassName.error = Klasse existiert. (Lehrer {0}).
+changeClassName.click = Klicken Sie auf den Namen, um es zu ändern!
+changeClassName.title = Name der Klasse:
+classForTeacher.head = Klasse Seite
+
+mergePupils.title = Zusammenführen Schüler
+mergePupils.submit = Einreichen
+mergePupils.search = Suchen
+mergePupils.selected = Ausgewählte Schüler (wählen Sie die IDs die Sie behalten möchten)
+mergePupils.error.format = Format nicht korrekt ist, den Einsatz ''Nachname, Vorname''.
+mergePupils.success = Zusammenführen erfolgreich.
+
+download.statistics =
+Competition =
+nostats =
+closeFirst =
+questionTitle =
+answer =
+correct =
+wrong =
+
+

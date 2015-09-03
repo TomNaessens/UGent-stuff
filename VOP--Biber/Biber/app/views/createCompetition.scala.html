@@ -1,0 +1,90 @@
+@(questionSets: List[models.Set])
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("competition.create.head")) {
+<!-- Head -->
+<script src='@routes.Assets.at("javascripts/jquery-ui-1.10.2.biber.js")' type='text/javascript'></script>
+<link rel='stylesheet' type='text/css' media='screen' href='@routes.Assets.at("stylesheets/jquery-biber.css")'>
+
+<style>
+    #red {color:RED}
+</style>
+
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<div class="span8">
+<h2>@LangMessages.get("competition.create.head")</h2>
+<form id="form" action="@routes.Competitions.createCompetition()" method="POST">
+    @if(flash.contains("name")) {
+    <p><span class="label label-important">@LangMessages.get("competition.create.namesrequired")</span></p>
+    }
+    @if(flash.contains("set")) {
+    <p><span class="label label-important">@LangMessages.get("competition.create.setrequired")</span></p>
+    }
+
+    @if(questionSets.size == 0 && Application.getCurrentlyLoggedInOrganizer()!=null){
+        <div id="red">@LangMessages.get("competition.create.noSets")</div>
+    }
+    @if(questionSets.size==0 && Application.getCurrentlyLoggedInTeacher()!=null){
+        <div id="red">@LangMessages.get("competition.create.noSetsTeacher")</div>
+    }
+
+    <div class="accordion" id="langs">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#langs" href="#langstab">
+        			@LangMessages.get("competition.create.names")
+        		</a>
+			</div>
+        	<div id="langstab" class="accordion-body collapse in">
+        		<div class="accordion-inner">
+            		@for(lang <- Language.values()) {
+            		<input type="text" name="@lang.name()" placeholder="@lang.toString()"><br/>
+            		}
+            	</div>
+            </div>
+        </div>
+    </div>
+
+	<div class="accordion" id="level-accordion">
+        @questionSets.groupBy(_.level).map {
+        case (level, sets) => {
+       <div class="accordion-group">
+    	<div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#level-accordion" href="#collapse@level.name()">
+        @level.toString()
+      	</a>
+		</div>
+		    <div id="collapse@level.name()" class="accordion-body collapse">
+      			<div class="accordion-inner">
+                <table>
+                    @sets.map { set =>
+                    <tr>
+                    <td>
+                    <input type="radio" name="Set@level.name" value="@set.id"><a href="@routes.SetController.viewSet(set.id)">@set.getTitle()</a>
+                    </td>
+                    </tr>
+                    }
+                </table>
+                </div>
+          	</div>
+        </div>
+        }
+        
+        }
+    </div>
+
+    <input class="btn" type="submit" value="create">
+</form>
+</div>
+} {
+<!-- Sidebar -->
+<li><a href="@routes.ProfilesController.seeProfile">@LangMessages.get("profilePage.profile")</a></li>
+}

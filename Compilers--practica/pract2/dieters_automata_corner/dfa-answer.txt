@@ -1,0 +1,52 @@
+Dieter Decaestecker
+
+Answers regarding questions to testing DFA with input
+-----------------------------------------------------
+
+> For each acceptance state of this DFA, indicate which token is recognized.
+
+q0 accepts token B (epsilon)
+q1 accepts token A ("a") 
+q2 accepts token C ("b")
+q3 accepts token B ("aa")
+q4 accepts token A ("ab")
+q5 accepts token C ("bb")
+
+> Show which states the DFA goes through for the input abaabbaba. What tokens will be recognized?
+
+Order of states : q0 -> q1 -> q4 -> q3 -> q0 -> q1 -> q4 -> q4 -> q3 -> q0 -> q2 -> q0 -> q1
+Order of tokens : B ("aba"), B ("abba"), C ("b"), A ("a")
+
+q0
+->
+q1 consumes "a", "baabbaba" 
+->
+q4 consumes "b", "aabbaba"
+-> 
+q3 consumes "a", "abbaba"
+
+Final state, no potential transitions, restarts at initial state ( Token B recognized )
+
+q0
+->
+q1 consumes "a", "bbaba"
+->
+q4 consumes "b", baba"
+->
+q4 consumes "b", "aba"
+-> 
+q3 consumes "a", "ba"
+
+Final state, no potential transitions, restarts at initial state ( Token B recognized )
+
+q0
+->
+q2 consumes "b", "a"
+
+Final state, no possible transitions, restarts at initial state ( Token C recognized )
+
+q0 
+-> 
+q1 consumes "a", epsilon
+
+Finished input. ( Token A recognized )

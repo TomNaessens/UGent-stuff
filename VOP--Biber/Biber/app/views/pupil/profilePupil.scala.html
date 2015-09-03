@@ -1,0 +1,43 @@
+
+@(availableQuizzes: List[Competition], pupil: Pupil)
+
+<!-- Imports -->
+@import utils.LangMessages
+
+<!-- ProfileGeneral call -->
+@profileGeneral(LangMessages.get("profilePupil.head"))(pupil){
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+@if(pupil.currentClass != null){
+<h2>@LangMessages.get("profilePupil.classTitle")</h2>
+<ul>
+<li>@LangMessages.get("profilePupil.class",pupil.currentClass.name)</li>
+<li>@LangMessages.get("level"): @pupil.currentClass.level.toString()</li>
+<li>@LangMessages.get("profilePupil.teacher", pupil.currentClass.teacher.firstName, pupil.currentClass.teacher.lastName)</li>
+<li>@LangMessages.get("profilePupil.schoolName", pupil.currentClass.school.name)</li>
+</ul>
+}
+
+@if(availableQuizzes != null && !availableQuizzes.isEmpty()){
+<h2>@LangMessages.get("profilePupil.availableQuizzes")</h2>
+<ul>
+    @for(p <- availableQuizzes) {
+    <li><a href="@routes.CompetitionController.beforeCompetition(p.id, pupil.getLevel().name())">@p.getTitle()</a> @if(p.compType == CompetitionType.OFFICIAL) { <button class="btn btn-warning btn-small"><i class="icon-white icon-star-empty"></i></button>}</li>
+    }
+</ul>
+}
+
+} {
+<!-- Sidebar -->
+    <h4 class="blue">@LangMessages.get("profilePupil.competitions")</h4>
+    <li><a href="@routes.Competitions.renderUnrestrictedCompetitions()">@LangMessages.get("competition.unrestricted")</a> </li>
+    <li><a href="@routes.ProfilesController.seeHistory">@LangMessages.get("profilePupil.viewMyHistory")</a></li>
+    <h4 class="blue">@LangMessages.get("profilePupil.other")</h4>
+
+}
+

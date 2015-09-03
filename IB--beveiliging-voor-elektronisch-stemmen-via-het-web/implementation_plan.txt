@@ -1,0 +1,98 @@
+
+Entiteiten:
+- De Stemmer: Desktop Applicatie.
+- De Bijzitter: Server
+- De Stembus: Server
+- De Overheid: Server
+
+Opmerkingen: Ik heb de stembus weggelaten uit de shit hieronder. Waarom? Omdat
+het gewoon een proxy is tussen de stemmer en de overheid. De communicatie tussen
+overheid en bijzitter verloopt natuurlijk wel rechtstreeks.
+
+Verloop
+=======
+
+Contact Stemmer/Bijzitter
+-------------------------
+
+- Stemmer stuurt een GET request naar de bijzitter om een nonce te krijgen:
+  { nonce: <random data's> }
+  GET zeus.ugent.be/bijzitter/nonce
+
+- Stemmer tekent deze nonce met zijn eID en stuurt hem terug.
+  {
+    nonde: <same random data's>,
+    identity: <rijksregister?>,
+    sign: <sign of random data's>
+  }
+  POST zeus.ugent.be/bijzitter/letter
+
+- Bijzitter stuurt een symmetrische sleutel, anonieme identiteit en stembrief
+  naar de stemmer. Zelf onhoudt hij de link tussen de sleutel, de anonieme
+  identiteit en de werkelijke identiteit.
+  {
+    key: <random data's>
+    id: <random data's>
+    choices: {
+        "partij1": ["persoon1", "persoon2", "persoon3"],
+        "partij2": ["persoon4", "persoon5", "persoon6"]
+    }
+  }
+  Output van bovenstaande POST
+
+Invullen stembrief
+------------------
+
+Ja via een CLI eerst een partij selecteren, dan een aantal mensen van die
+partij. Dan hoera done.
+
+- Stemmer encrypteert de ingevulde brief met de symmetrische sleutel.
+
+Contact met Stemmer/Overheid & Overheid/Bijzitter
+-------------------------------------------------
+
+- Stemmer POST naar de overheid. De ciphertext (indien gedecrypteerd) is van de
+  vorm: "Partij: [Voorkeursstem1, Voorkeursstem2]"
+  {
+    id: <random id data's from bijzitter>
+    mac: <messages digest stuffs>
+    iv: <initialisation vector>
+    ciphertext: <actual encrypted text>
+  }
+  POST zeus.ugent.be/stembus/stem
+
+- Overheid POST het id naar de bijzitter.
+  {
+    id: <random id data's from stemmer>
+  }
+  POST zeus.ugent.be/bijzitter/confirm
+
+- De bijzitter antwoordt met de sleutel. Zelf markeert de bijzitter de
+  bijhorende stemmer als "gestemd".
+  {
+    sleutel: <symmetrische sleutel overheid>
+  }
+  Output van bovenstaande POST
+
+- De overheid decrypteert de stembrief, telt de stemmen
+
+Contact Stemmer/Bijzitter
+-------------------------
+
+- De Stemmer stuurt een POST met zijn/haar rrnr naar de bijzitter en nonce, om achter zijn/haar stembewijs te
+  vragen.
+  {
+    identity: <data rrnr>
+    anonymous_identity: <data anonymous id>
+  }
+  POST zeus.ugent.be/bijzitter/check
+
+- De Bijzitter checkt of de stemmer als "gestemd" gemarkeerd is, en antwoord met
+  een getekende (met certificaat) brief:
+  {
+    brief: "Meneer/Mevrouw <info uit rijksregister> heeft gestemd."
+    sign: <sign van above brief>
+  }
+  resultaat van de bovenstaande POST
+
+

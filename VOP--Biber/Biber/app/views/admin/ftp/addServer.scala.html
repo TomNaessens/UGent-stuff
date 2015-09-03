@@ -1,0 +1,39 @@
+@(registerForm: Form[FileServer], route: play.api.mvc.Call)
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main(LangMessages.get("monitorFTP.addServer.title")) {
+<!-- Head -->
+
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+@form(route) {
+
+@if(registerForm.hasGlobalErrors) {
+<p class="error">
+    @registerForm.globalError.message
+</p>
+}
+
+@inputText(registerForm("host"), '_label -> LangMessages.get("monitorFTP.addServer.fields.host"))
+@inputText(registerForm("port"), '_label -> LangMessages.get("monitorFTP.addServer.fields.port"))
+@inputText(registerForm("questionFolder"), '_label -> LangMessages.get("monitorFTP.addServer.fields.questionFolder"))
+@inputText(registerForm("publicLink"), '_label -> LangMessages.get("monitorFTP.addServer.fields.publicLink"))
+@inputText(registerForm("username"), '_label -> LangMessages.get("monitorFTP.addServer.fields.username"))
+@inputText(registerForm("pass"), '_label -> LangMessages.get("monitorFTP.addServer.fields.pass"))
+
+<input type="submit" value="@LangMessages.get("common.submit")" />
+}
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.MonitorFTPController.renderOverview">@LangMessages.get("monitorFTP.overview.linkTo")</a>
+</li>
+}

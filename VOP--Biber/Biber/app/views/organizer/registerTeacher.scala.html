@@ -1,0 +1,77 @@
+@(registerForm: Form[OrganizerController.RegisterTeacher])(schools:List[String])
+
+<!-- Imports -->
+@import helper._
+@import utils.LangMessages
+
+<!-- Main call -->
+@main("Register Teacher") {
+<!-- Head -->
+<link rel="stylesheet" type="text/css" media="screen" href='@routes.Assets.at("stylesheets/jquery.multiselect.css")'>
+<link rel="stylesheet" type="text/css" media="screen" href='@routes.Assets.at("stylesheets/jquery.multiselect.filter.css")'>
+<script src='@routes.Assets.at("javascripts/jquery.multiselect.filter.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/jquery.multiselect.js")' type="text/javascript"></script>   
+<script type="text/javascript">
+$(function(){
+	$("select[multiple='multiple']").multiselect({header: "@LangMessages.get("registerTeacher.fields.schools")"}).multiselectfilter(); 
+});
+</script>
+} {
+<!-- Toplinks -->
+
+} {
+<!-- Main content -->
+<div class="span8">
+<h2>Register teacher</h2>
+
+@form(routes.OrganizerController.registerTeacher) {
+
+        @if(registerForm.hasGlobalErrors) {
+        <p>
+        	<span class="label label-important">
+            @registerForm.globalError.message
+            </span>
+        </p>
+        }
+
+        @wflash()
+        <div style="float:left">
+        @inputText(registerForm("firstName"), '_label -> LangMessages.get("register.fields.firstName"))
+        @inputText(registerForm("lastName"), '_label -> LangMessages.get("register.fields.lastName"))
+        @inputText(registerForm("email"), '_label -> LangMessages.get("register.fields.email"))
+        <input class="btn" type="submit" value="@LangMessages.get("register.submit")"/>
+        </div>
+        <div style="float:right">
+        @select(
+            field = registerForm("gender"),
+        options = options("MALE" -> LangMessages.get("enum.gender.MALE"), "FEMALE" -> LangMessages.get("enum.gender.FEMALE")),
+        	'_default -> LangMessages.get("editProfile.selectGender"),
+        	'_label -> LangMessages.get("editProfile.gender"),
+        '_error -> registerForm("Language").error.map(_.withMessage(LangMessages.get("editProfile.selectGenderError")))
+        )
+        
+        @select(
+            field = registerForm("language"),
+        	options = options("ENGLISH" -> LangMessages.get("enum.language.ENGLISH"), "DUTCH" -> LangMessages.get("enum.language.DUTCH"),"FRENCH" -> LangMessages.get("enum.language.FRENCH"),"GERMAN" -> LangMessages.get("enum.language.GERMAN")),
+            '_default -> LangMessages.get("editProfile.selectLanguage"),
+        	'_label -> LangMessages.get("editProfile.language"),
+        	'_error -> registerForm("Language").error.map(_.withMessage(LangMessages.get("editProfile.selectLanguageError")))
+        )
+        
+        @inputText(registerForm("telephone"), '_label -> LangMessages.get("register.fields.telephone"))
+        <label>@LangMessages.get("register.fields.schools")</label>
+        <select name="selectedSchools[]" multiple="multiple" style="width:200px">
+		@for(s <- schools) {
+		    <option value="@s">@s</option>
+		} 
+		</select>
+        </div>
+        </div>
+}
+
+} {
+<!-- Sidebar -->
+<li>
+    <a href="@routes.OrganizerController.renderRegisterSchool">@LangMessages.get("registerSchool.register")</a>
+</li>
+}

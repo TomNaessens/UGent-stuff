@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence	
+								http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="transactions-optional"
+		transaction-type="RESOURCE_LOCAL">
+
+		<!-- TODO define the location of your entities here! -->
+		<class>ods.lab2.entities.Student</class>
+		<class>ods.lab2.entities.Quotation</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="javax.persistence.jdbc.driver"
+				value="com.google.appengine.api.rdbms.AppEngineDriver" />
+			<property name="javax.persistence.jdbc.driver"
+				value="com.google.appengine.api.rdbms.AppEngineDriver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:google:rdbms://feisty-reality-367:odslab2/ODSLAB2" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="" />
+		</properties>
+	</persistence-unit>
+</persistence> 

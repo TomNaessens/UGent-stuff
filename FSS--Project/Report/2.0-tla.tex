@@ -1,0 +1,84 @@
+\chapter{Specificatie en verificatie in TLA+/TLC}
+\section{Voorafgaand}
+Ook dit deel van het verslag dient als een tekstuele handleiding bij het tweede deel van het project. De formele specificaties en verificaties kunnen gevonden worden in bijgevoegd bestand,  \texttt{Bijlages/Luchthaven.tla}. Om de constanten te definiëren leveren we ook een configuratiebestand mee, \texttt{Bijlages/Luchthaven.cfg}.
+
+Vooraleer we over gaan op de bespreking van alle acties met bijhorende verificatie lichten we even ons extra assumpties, het gebruikte luchthavenmodel, de onderverdeling in zones en de gebruikte variabelen toe.
+
+\subsection{Assumpties}
+Een veiligheidsassumptie die we toevoegen is dat het deel tussen de taxibaan en het platform maar door één vliegtuig kan gebruikt worden, op eender welk moment. Voor het platform zelf geldt dezelfde aanname. Pas wanneer een vliegtuig in een gate is of op het vertrekkend gedeelte van de taxibaan is aangekomen, wordt het platform vrijgegeven.
+
+\subsection{Beschrijving Formele specificatie}
+Ons vliegveld kunnen we in het algemeen voorstellen als een wachtlijnsysteem, met enkele buffers. De ``invoer'' en de ``uitvoer'' van dit systeem verlopen langs één ``kanaal'' dat niet tezelfdertijd kan worden gebruikt voor meerdere invoer- en uitvoeroperaties, noch voor de combinatie van één invoer en één uitvoer op eenzelfde moment.
+
+\subsubsection{Zones}
+Meer concreet bestaat ons vliegveld uit de onderstaande onderdelen. Voor de naamgeving gebruiken we dezelfde als in het bijgevoegde bestand. Deze komen allemaal behalve de \texttt{taxiway} overeen met het schema uit de opgave.  
+
+\begin{itemize}
+\item \textbf{\texttt{runway}:} De \texttt{runway} is de landings-/startbaan van het vliegveld. Deze kan maar door één vliegtuig tegelijk gebruikt worden, voor of het opstijgen, of het landen van het betreffende vliegtuig.
+\item \textbf{\texttt{taxiwayIn}:} Na het landen schuiven vliegtuigen door naar de \texttt{taxiwayIn}. Dit is het deel van de taxibaan aan de rechterkant van het schema. Dit gedeelte bestaat uit enkele plaatsen in een soort van aanschuifsysteem om het \texttt{platform} te betreden. Voor de rest van het verslag zullen we dit het inkomende gedeelte van de taxibaan noemen, of kortweg ingaande taxibaan.
+\item \textbf{\texttt{platform}:} Het platform vormt de verbinding tussen de \texttt{gates} en de \texttt{taxiway}. Net als de \texttt{runway} is dit een zone waar maar één vliegtuig is toegelaten op één moment. Vliegtuigen die zich begeven naar of weg van de gates gebruiken deze zone.
+\item \textbf{\texttt{gates}:} Vliegtuigen wachten in de \texttt{gates} tot ze terug mogen opstijgen. Dit wordt ook als een bufferzone aanzien.
+\item \textbf{\texttt{taxiwayOut}:} Vliegtuigen die zich in de gates bevinden en willen opstijgen begeven zich terug via het \texttt{platform} naar de \texttt{taxiwayOut}. Ook dit is een buffer waar een aantal vliegtuigen kunnen wachten alvorens toegelaten te worden tot de \texttt{runway}. Voor de rest van het verslag zullen we dit het uitgaande gedeelte van de taxibaan noemen, of kortweg uitgaande taxibaan.
+\end{itemize}
+ 
+\subsubsection{Modellering één-vliegtuig-zones}
+\label{eenvliegtuigzones}
+De zones waar maar één vliegtuig is toegelaten op één moment worden gemodelleerd aan de hand van een status-variabele. Deze kan drie waarden aannemen: \texttt{out} voor vliegtuigen op hun weg naar de \texttt{taxiwayOut} of opstijgende vliegtuigen, \texttt{in} voor vliegtuigen die landen op de \texttt{runway} of zich naar de gates begeven en \texttt{free} voor zones waar zich geen vliegtuigen op bevinden.
+ 
+\subsubsection{Modellering bufferzones}
+De bufferzones hierboven besproken (\texttt{taxiwayIn}, \texttt{gates} en \texttt{taxiwayOut}) modelleren we niet volledig. We houden niet bij welk vliegtuig zich waar in de buffer bevindt, maar enkel de aantallen vliegtuigen in elke buffer. Hierbij gebruiken we respectievelijk de variabelen \texttt{taxiwayInFreePlaces}, \texttt{gatesInUse} en \texttt{taxiwayOutFreePlaces}.
+
+\subsubsection{Modellering van vliegtuigen die willen landen}
+Als laatste hebben we nog een manier nodig om vliegtuigen die willen landen te modelleren. Dit doen we aan de hand van de \texttt{land} variabele die de waarde \texttt{1} aan neemt als er een vliegtuig wil landen, en \texttt{0} wanneer dit niet het geval is. 
+
+\section{Formele specificatie}
+\subsection{Constanten}
+Om luchthavens van allerlei groottes te kunnen voorstellen bieden we enkele constanten aan die in het configuratiebestand kunnen gespecificeerd worden. Deze variabelen zijn \texttt{AmountOfGates}, \texttt{TaxiInSize} en \texttt{TaxiOutSize} en stellen respectievelijk het aantal gates, het aantal vliegtuigen dat de ingaande taxibaan kan bevatten en het aantal vliegtuigen dat de uitgaande taxibaan kan bevatten voor.
+
+\subsection{Acties}
+\begin{itemize}
+\item \textbf{\texttt{NewPlane}:} Dit is een triviale actie die aangeeft of er een vliegtuig is dat wil landen. Dit gebeurt door de \texttt{land} variable op waarde \texttt{1} te zetten.
+\item \textbf{\texttt{Arrival}:} De \texttt{arrival} actie laat een vliegtuig landen, op behoud van enkele voorwaarden: er moet een vliegtuig zijn dat wil landen, er moet een plaats vrij zijn om het vliegtuig te kunnen ontvangen op de inkomende taxibaan en er moet een gate vrij zijn. Bovendien moet natuurlijk ook de landingsbaan vrij zijn. Als aan al deze voorwaarden voldaan is reserveren we zowel een plaats op de inkomende taxi als in de gates, reserveren we de landingsbaan en geven we aan dat dat het vliegtuig niet meer wil landen (aangezien het al aan het landen is) door \texttt{land} terug op \texttt{0} te zetten.
+\item \textbf{\texttt{RunwayToTaxi}:} Deze actie geeft de \texttt{runway} terug vrij door het landende vliegtuig naar het inkomende gedeelte van de taxibaan te leiden. Aangezien de plaats op deze taxibaan reeds eerder gereserveerd werd, zodat we het vrijgeven van de taxibaan kunnen garanderen, hoeven we in deze actie geen plaats meer te reserveren.
+\item \textbf{\texttt{TaxiToPlatform}:} De \texttt{TaxiToPlatform} actie geeft een migratie aan van een vliegtuig van de inkomende taxibaan naar het platform. Hiervoor moet het platform vrij zijn om botsingen te vermijden en moet er natuurlijk een vliegtuig zijn op de ingaande taxibaan. Wanneer aan deze voorwaarden voldaan is geven we aan dat het platform bezet is, en geven we een plaats vrij op de inkomende taxibaan.
+\item \textbf{\texttt{PlatformToGate}:} Ook deze actie geeft een beweging van een vliegtuig aan, deze keer van het platform naar een gate. Aangezien gates al bij de landing gereserveerd worden geven we simpelweg het platform vrij, op voorwaarde dat het platform een inkomend vliegtuig bevat.
+\item \textbf{\texttt{GateToPlatform}:} Vliegtuigen die willen vertrekken moeten zich eerst naar het platform begeven. Dit gebeurt wanneer er een vliegtuig in de gate zit, er plaatsen op de uitgaande taxibaan vrij zijn en het platform vrij is. Als aan deze voorwaarden voldaan is geven we aan dat het platform bezet is en dat er een gate is vrijgekomen. We reserveren hier ook al meteen een plaats op de uitgaande taxibaan zodat het vliegtuig bij het verlaten van het platform met zekerheid een plaats heeft en dus het platform niet onnodig zal bezet houden.
+\item \textbf{\texttt{PlatformToTaxi}:} Deze actie beschrijft wat er dient te gebeuren wanneer een vliegtuig zich van het platform naar de uitgaande taxibaan verplaatst en vindt plaats wanneer de status van het \texttt{platform} \texttt{out} is. Aangezien de plaats op de taxibaan al in de voorgaande actie (\texttt{GateToPlatform}) is gereserveerd, dienen we hier gewoon het \texttt{platform} terug vrij te geven.
+\item \textbf{\texttt{TaxiToRunway}:} Een vliegtuig kan zich enkel naar de \texttt{runway} verplaatsen wanneer deze vrij is en wanneer er zich een vliegtuig op de uitgaande taxibaan bevindt. Wanneer dit het geval is geven we de plaats vrij op de uitgaande taxibaan en bezetten we de \texttt{runway}.
+\item \textbf{\texttt{TakesOff}:} Het opstijgen van een vliegtuig gebeurt wanneer er zich een vliegtuig dat wenst op te stijgen op de startbaan bevindt. Bij het opstijgen geven we de startbaan terug vrij.
+\item \textbf{\texttt{RejectPlane}:} Deze actie wijst vliegtuigen die wensen te landen af, wanneer er geen vrije gates zijn. We verwijzen deze door naar een andere luchthaven, of naar een later tijdstip door de \texttt{land} variabele terug op \texttt{0} te zetten.
+\end{itemize}
+
+\subsection{Veiligheidsvereiste}
+Zoals eerder vermeld in Sectie \ref{eenvliegtuigzones} kan de status van een zone waar maar één vliegtuig op eender welk moment dient te worden toegelaten drie statussen aannemen: \texttt{free}, \texttt{out} en \texttt{in}. \texttt{free} betekent dat deze zone vrij te betreden is aangezien er zich geen vliegtuig bevindt. \texttt{out} en \texttt{in} betekenen dat de zone bezet is. 
+
+Door als voorwaarde voor het betreden van de zone te eisen dat de betreffende zone vrij is zorgt ervoor dat een bezette zone nooit door twee vliegtuigen tegelijk bezet kan betreden worden, zodat deze nooit botsen.
+
+\subsection{Fairnessvereiste}
+Een vliegtuig moet ooit kunnen landen als het dat wil (en als er voldoende vrije plaatsen zijn). Een vliegtuig dat wil opstijgen moet hier ook de kans tot krijgen. Meer bepaald willen we dat alle acties eventueel voorkomen, ook al zijn ze op bepaalde momenten niet \texttt{enabled} aangezien bepaalde acties de ``enabling conditions'' van andere acties kunnen beïnvloeden. In TLA+/TLC realiseren we dit door gebruik te maken van ``strong fairness'' en leggen we door middel van \texttt{SF\_vars(actie)} deze voorwaarde op voor alle acties.
+
+Merk wel op dat we hier geen rekening houden met welk vliegtuig precies uit de gates vertrekt, of uit beide delen van de taxibaan. We zorgen er voor dat dit eerlijk gebeurt, blijft gebeuren en dat alles veilig blijft. De selectie van het betreffende vliegtuig laten we over aan externe programma's en algoritmes.
+
+\section{Beschrijving formele verificatie}
+Om het opgestelde model te verifiëren definiëren we enkele theorema's. Deze zijn te vinden onderin het bijgevoegde bestand. Hier volgt een kort overzicht van de gedefinieerde theorema's samen met hun tekstuele beschrijving. In bijgevoegd bestand \texttt{Bijlages/Luchthaven\_verificatieuitvoer.txt} kan de uitvoer van de TLA+/TLC checker gevonden worden.
+
+\begin{itemize}
+\item \textbf{\texttt{Types}:} Ten allen tijde dienen de gebruikte variabelen aan bepaalde voorwaarden te voldoen. Zo eisen we dat de \texttt{runway} en het \texttt{platform} altijd een status hebben overeenkomstig met \texttt{out}, \texttt{in} of \texttt{free}, dat de bufferzones altijd nul tot hun grootte aantal vliegtuigen kunnen bevatten, en dat het landen of vals (\texttt{0}) of waar (\texttt{1}) kan zijn.
+
+\item \textbf{Controleren op vastlopen:} Om te vermijden dat het programma vast loopt doordat één-vliegtuig-zones bezet blijven en nooit vrijkomen controleren we of dit het geval kan zijn. Dit doen we aan de hand om te eisen dat voor eender welk moment in de tijd, wanneer de betreffende zone bezet is, te eisen dat er een toekomstig moment is waarop dit niet het geval is. Voor zones waar meerdere vliegtuigen zijn toegelaten zoals de \texttt{taxiwayIn}, de \texttt{taxiwayOut} en de \texttt{gates} eisen we dat er op elk moment waarop deze zone vol zit, een toekomstig moment bestaat waar niet het maximum aantal plaatsen bezet zijn. De hiervoor gedefinieerde theorema's zijn \texttt{RunwayAlwaysBecomesFreeEventually}, \texttt{PlatformAlwaysBecomesFreeEventually}, \newline \texttt{TaxiwayInAlwaysBecomesFreeEventually}, \texttt{TaxiwayOutAlwaysBecomesFreeEventually} en \texttt{GatesAlwaysBecomesFreeEventually}.
+
+\item \textbf{Controleren op crashes:} Er zijn twee zones waar vliegtuigen elkaar kunnen kruisen en daarom ook kunnen botsen. Deze zones zijn de \texttt{runway} en het \texttt{platform}. De acties die tot beweging kunnen leiden in deze zones zijn respectievelijk \texttt{TaxiToPlatform} en \texttt{PlatformToTaxi}, en \texttt{Arrival} en \texttt{TakeOff}. De theorema's \texttt{NoPlatformCrashes} en \texttt{NoRunwayCrashes} controleren dat op eender wel moment maar één van de twee betreffende acties kan \texttt{enabled} zijn.
+
+\item \textbf{Controleren op overlopen van buffers:} Net als voorgaande controle kan een botsing optreden wanneer er zich te veel vliegtuigen op de bufferzones bevinden. Deze zones zijn de \texttt{taxiwayIn}, de \texttt{taxiwayOut} en de \texttt{gates}. Om dit te controleren kijken we of het vol zijn van deze buffers impliceert dat de ``enabling conditions'' niet geldig zijn voor de acties die het verplaatsen naar, alsook het reserveren van deze bufferzones (\texttt{Arrival} voor de \texttt{gates} en de \texttt{taxiwayIn}, en \texttt{GateToPlatform} voor de \texttt{taxiwayOut}).
+\end{itemize}
+
+Enkele theorema's hebben we niet formeel bewezen in TLA+/TLC aangezien deze ``by design'' niet kunnen voorkomen. Een actie die bijvoorbeeld zijn eigen ``enabling conditions'' ``disablet'' kan niet twee keer na elkaar worden opgeroepen. Een voorbeeld hiervan is de \texttt{Arrival} actie. Deze heeft als enabling conditie dat de \texttt{runway} \texttt{free} moet zijn, en past daarna de status van de \texttt{runway} aan naar \texttt{in}. Het is vanzelfsprekend dat deze actie geen twee keer na elkaar kan optreden zodat er geen vliegtuig kan landen terwijl er zich een ander vliegtuig op de \texttt{runway} bevindt. Analoog hier aan kan er geen vliegtuig opstijgen als er zich nog een vliegtuig op de \texttt{runway} bevindt.
+
+\section{Bijlages}
+\begin{itemize}
+\item \textbf{\texttt{Bijlages/Luchthaven.tla}}: Bevat de implementatie van alle acties en specificaties.
+
+\item \textbf{\texttt{Bijlages/Luchthaven.cfg}}: Het bijhorende configuratiebestand voor bovenstaand bestand. Bevat de parameters om het aantal \texttt{gates} en de groottes van de \texttt{taxiwayIn} en \texttt{taxiwayOut} aan te passen.
+
+\item \textbf{\texttt{Bijlages/Luchthaven\_verificatieuitvoer.txt}}: Voorbeelduitvoer van de TLA+/TLC checker voor het bijgevoegde configuratiebestand.
+\end{itemize}

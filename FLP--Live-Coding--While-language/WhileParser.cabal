@@ -1,0 +1,12 @@
+Name:          WhileParser
+Version:       0.1
+Author:        Tom Naessens <Tom.Naessens@UGent.be>
+Maintainer:    Tom.Naessens@UGent.be
+Build-type:    Simple
+cabal-version: >= 1.2
+
+Executable whileParser
+  Hs-source-dirs: .
+  Main-is:        Main.hs
+
+  Build-depends: base, containers, mtl
