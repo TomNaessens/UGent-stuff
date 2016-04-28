@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\URIResolver\", ".", "{4BB25B10-FC0D-4FFD-95CF-3773D80403B8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/URIResolver"
+		Debug.AspNetCompiler.PhysicalPath = "..\URIResolver\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\URIResolver\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/URIResolver"
+		Release.AspNetCompiler.PhysicalPath = "..\URIResolver\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\URIResolver\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1893"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BB25B10-FC0D-4FFD-95CF-3773D80403B8}.Debug|.NET.ActiveCfg = Debug|.NET
+		{4BB25B10-FC0D-4FFD-95CF-3773D80403B8}.Debug|.NET.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

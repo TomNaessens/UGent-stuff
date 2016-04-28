@@ -1,0 +1,203 @@
+<?xml version='1.0'?>
+<xsl:stylesheet result-ns="" indent-result="yes" xmlns:xsl="http://www.w3.org/TR/WD-xsl" xmlns="http://www.w3.org/TR/REC-html40" xmlns:xsv="http://www.w3.org/2000/05/xsv">
+ <!-- $Id: xsv.msxsl,v 1.5 2000/09/28 15:25:26 ht Exp $ -->
+ <!-- Stylesheet for XSV output:  this version for IE5 as released -->
+ <!-- Hacks to compensate for broken MS implementation -->
+ <xsl:template match="*">
+  <xsl:apply-templates/>
+ </xsl:template>
+ <xsl:template match="textnode()">
+  <xsl:value-of/>
+ </xsl:template>
+
+ <!-- The real stylesheet starts here -->
+ <xsl:template match="/">
+  <HTML>
+   <HEAD>
+    <TITLE>
+     Schema validation report for
+	<xsl:value-of select="xsv:xsv/@target"/>
+    </TITLE>
+   </HEAD>
+   <BODY>
+    <xsl:apply-templates/>
+   </BODY>
+  </HTML>
+ </xsl:template>
+ 
+ <xsl:template match="xsv:xsv">
+  <H3>Schema validating with <xsl:value-of select="@version"/></H3>
+  <xsl:if test="@crash">
+    <P><STRONG>Schema validator crashed</STRONG><BR />
+The maintainers of XSV will be notified, you don't need to
+send mail about this unless you have extra information to provide.
+If there are Schema errors reported below, try correcting
+them and re-running the validation.</P>
+  </xsl:if>
+  <UL>
+    <xsl:apply-templates select="@target"/>
+    <xsl:apply-templates select="@docElt"/>
+    <xsl:apply-templates select="@validation"/>
+    <xsl:apply-templates select="@schemaLocs"/>
+    <xsl:apply-templates select="@schemaDocs"/>
+    <xsl:apply-templates select="@schemaErrors"/>
+    <xsl:apply-templates select="@instanceAssessed"/>
+    <xsl:apply-templates select="@instanceErrors"/>
+  </UL>
+  <HR/>
+  <xsl:apply-templates select="xsv:XMLMessages"/>
+  <xsl:if test="xsv:importAttempt|xsv:includeAttempt">
+   <H3>Schema resources involved</H3>
+   <xsl:apply-templates select="xsv:importAttempt|xsv:includeAttempt"/>
+   <HR/>
+  </xsl:if>
+  <xsl:if test="xsv:schemaWarning">
+   <H3>Schema representation Warnings</H3>
+   <xsl:if test="xsv:schemaWarning[@phase='schema']">
+    <H4>Detected during schema construction</H4>
+    <xsl:for-each select="xsv:schemaWarning[@phase='schema']">
+  <P><SPAN STYLE="color: green"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Warning</SPAN>: <xsl:value-of select="."/></P>
+    </xsl:for-each>
+   </xsl:if>
+   <xsl:if test="xsv:schemaWarning[@phase='instance']">
+    <H4>Detected during instance validation</H4>
+    <xsl:for-each select="xsv:schemaWarning[@phase='instance']">
+  <P><SPAN STYLE="color: green"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Warning</SPAN>: <xsl:value-of select="."/></P>
+    </xsl:for-each>
+   </xsl:if>
+  </xsl:if>
+  <xsl:if test="xsv:schemaError">
+   <H3>Schema representation errors</H3>
+  <xsl:if test="xsv:schemaError[@phase='schema']">
+    <H4>Detected during schema construction</H4>
+    <xsl:for-each select="xsv:schemaError[@phase='schema']">
+  <P><SPAN STYLE="color: red"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Error</SPAN>: <xsl:value-of select="."/></P>
+    </xsl:for-each>
+   </xsl:if>
+   <xsl:if test="xsv:schemaError[@phase='instance']">
+    <H4>Detected during instance validation</H4>
+    <xsl:for-each select="xsv:schemaError[@phase='instance']">
+  <P><SPAN STYLE="color: red"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Error</SPAN>: <xsl:value-of select="."/></P>
+    </xsl:for-each>
+   </xsl:if>
+  </xsl:if>
+  <xsl:if test="xsv:invalid|xsv:warning">
+   <H3>Problems with the schema-validity of the target</H3> 
+  <xsl:apply-templates select="xsv:invalid|xsv:warning"/>
+  </xsl:if>
+ </xsl:template>
+ 
+ <xsl:template match="@*">
+  <LI>
+<STRONG><xsl:eval>this.nodeName</xsl:eval></STRONG>: <xsl:value-of select="."/></LI>
+ </xsl:template>
+
+ <xsl:template match="@schemaDocs|@docElt">
+  <LI>
+<STRONG><xsl:eval>this.nodeName</xsl:eval></STRONG>: <CODE><xsl:value-of select="."/></CODE></LI>
+ </xsl:template>
+ 
+  <xsl:template match="@target">
+  <LI><STRONG>Target</STRONG>: <CODE><xsl:value-of select="."/></CODE>
+   <BR/>&#160;&#160;&#160;(<xsl:apply-templates select="../@realName"/>
+   <xsl:apply-templates select="../@size"/>
+   <xsl:apply-templates select="../@modDate"/>
+   <xsl:apply-templates select="../@server"/>)</LI>
+ </xsl:template>
+ 
+ <xsl:template match="@realName">Real name: <xsl:value-of select="."/></xsl:template>
+  
+ <xsl:template match="@size">
+  <BR/>&#160;&#160;&#160;&#160;Length: <xsl:value-of select="."/> bytes
+ </xsl:template>
+  
+ <xsl:template match="@modDate">
+  <BR/>&#160;&#160;&#160;&#160;Last Modified: <xsl:value-of select="."/>
+ </xsl:template>
+  
+ <xsl:template match="@server">
+  <BR/>&#160;&#160;&#160;&#160;Server: <xsl:value-of select="."/>
+ </xsl:template>
+
+ <xsl:template match="@schemaErrors">
+  <LI>The schema(s) used for schema-validation had <xsl:value-of select="."/> errors</LI>
+ </xsl:template>
+
+<xsl:template match="@schemaErrors[.=0]">
+  <LI>The schema(s) used for schema-validation had no errors</LI>
+ </xsl:template>
+ 
+ <xsl:template match="@schemaErrors[.=-1]">
+  <LI>The schema(s) used for schema-validation had fatal errors</LI>
+ </xsl:template>
+
+ <xsl:template match="@schemaErrors[.=1]">
+  <LI>The schema(s) used for schema-validation had 1 error</LI>
+ </xsl:template>
+ 
+ <xsl:template match="@instanceErrors">
+  <LI><xsl:value-of select="."/> schema-validity problems were found in the target</LI>
+ </xsl:template>
+ <xsl:template match="@instanceErrors[.=0]">
+  <LI>No schema-validity problems were found in the target</LI>
+  
+ </xsl:template><xsl:template match="@instanceErrors[.=1]">
+  <LI>One schema-validity problem was found in the target</LI>
+ </xsl:template>
+ 
+ <xsl:template match="@validation[.='lax']">
+  <LI>No declaration for document root found, validation was lax</LI>
+ </xsl:template>
+ 
+ <xsl:template match="@validation[.='strict']">
+  <LI>Validation was strict, starting with type <CODE><xsl:value-of select="../@rootType"/></CODE></LI>
+ </xsl:template>
+ 
+ <xsl:template match="xsv:XMLMessages">
+  <H3>Low-level XML well-formedness and/or validity processing output</H3>
+  <P>
+  <PRE><xsl:apply-templates/></PRE>
+  </P>
+  <HR/>
+ </xsl:template>
+ 
+ <xsl:template match="xsv:importAttempt">
+  <P>Attempt to import a schema document from <CODE>
+<xsl:value-of select="@URI"/></CODE> for
+   <xsl:choose><xsl:when test="@namespace"><CODE><xsl:value-of select="@namespace"/></CODE></xsl:when>
+    <xsl:otherwise>no namespace</xsl:otherwise>,
+   </xsl:choose>
+   <xsl:choose>
+    <xsl:when test=".[@outcome='success']"> succeeded</xsl:when>
+    <xsl:when test=".[@outcome='redundant']"> skipped, already loaded</xsl:when>
+    <xsl:when test=".[@outcome='skipped']"> skipped, other docs already loaded for
+this namespace: <xsl:value-of select="@otherLocs"/></xsl:when>
+    <xsl:when test=".[@outcome='failure']"> failed</xsl:when>
+   </xsl:choose>
+</P>
+ </xsl:template> 
+
+ <xsl:template match="xsv:includeAttempt">
+  <P>Attempt to include a schema document from <CODE>
+<xsl:value-of select="@URI"/></CODE> for
+   <xsl:choose><xsl:when test="@namespace"><CODE><xsl:value-of select="@namespace"/></CODE></xsl:when>
+    <xsl:otherwise>no namespace</xsl:otherwise>,
+   </xsl:choose>
+   <xsl:choose>
+    <xsl:when test=".[@outcome='success']"> succeeded</xsl:when>
+    <xsl:when test=".[@outcome='redundant']"> skipped, already loaded</xsl:when>
+    <xsl:when test=".[@outcome='skipped']"> skipped, other docs already loaded for
+this namespace: <xsl:value-of select="@otherLocs"/></xsl:when>
+    <xsl:when test=".[@outcome='failure']"> failed</xsl:when>
+   </xsl:choose>
+</P>
+ </xsl:template>
+ 
+ <xsl:template match="xsv:invalid">
+  <P><SPAN STYLE="color: red"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Invalid<xsl:if test="@code">&#160;<xsl:value-of select="@code"/></xsl:if></SPAN>: <xsl:value-of select="."/></P>
+ </xsl:template>
+ 
+ <xsl:template match="xsv:warning">
+  <P><SPAN STYLE="color: green"><xsl:value-of select="@resource"/>:<xsl:value-of select="@line"/>:<xsl:value-of select="@char"/></SPAN>: <SPAN STYLE="color: blue">Warning</SPAN>: <xsl:value-of select="."/></P>
+ </xsl:template>
+</xsl:stylesheet>

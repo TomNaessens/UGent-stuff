@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="urn:be:ugent:mmlab:uriresolver" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="urn:be:ugent:mmlab:uriresolver" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:be:ugent:mmlab:uriresolver">
+      <s:element name="ResolveURI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uri" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResolveURIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ResolveURIResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ResolveURISoapIn">
+    <wsdl:part name="parameters" element="tns:ResolveURI" />
+  </wsdl:message>
+  <wsdl:message name="ResolveURISoapOut">
+    <wsdl:part name="parameters" element="tns:ResolveURIResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResolveURIHttpGetIn">
+    <wsdl:part name="uri" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ResolveURIHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ResolveURIHttpPostIn">
+    <wsdl:part name="uri" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ResolveURIHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="URIResolverSoap">
+    <wsdl:operation name="ResolveURI">
+      <wsdl:input message="tns:ResolveURISoapIn" />
+      <wsdl:output message="tns:ResolveURISoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="URIResolverHttpGet">
+    <wsdl:operation name="ResolveURI">
+      <wsdl:input message="tns:ResolveURIHttpGetIn" />
+      <wsdl:output message="tns:ResolveURIHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="URIResolverHttpPost">
+    <wsdl:operation name="ResolveURI">
+      <wsdl:input message="tns:ResolveURIHttpPostIn" />
+      <wsdl:output message="tns:ResolveURIHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="URIResolverSoap" type="tns:URIResolverSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ResolveURI">
+      <soap:operation soapAction="urn:be:ugent:mmlab:uriresolver/ResolveURI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="URIResolverSoap12" type="tns:URIResolverSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ResolveURI">
+      <soap12:operation soapAction="urn:be:ugent:mmlab:uriresolver/ResolveURI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="URIResolverHttpGet" type="tns:URIResolverHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="ResolveURI">
+      <http:operation location="/ResolveURI" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="URIResolverHttpPost" type="tns:URIResolverHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="ResolveURI">
+      <http:operation location="/ResolveURI" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="URIResolver">
+    <wsdl:port name="URIResolverSoap" binding="tns:URIResolverSoap">
+      <soap:address location="http://multimedialab.elis.ugent.be:8080/URIResolver/URIResolver.asmx" />
+    </wsdl:port>
+    <wsdl:port name="URIResolverSoap12" binding="tns:URIResolverSoap12">
+      <soap12:address location="http://multimedialab.elis.ugent.be:8080/URIResolver/URIResolver.asmx" />
+    </wsdl:port>
+    <wsdl:port name="URIResolverHttpGet" binding="tns:URIResolverHttpGet">
+      <http:address location="http://multimedialab.elis.ugent.be:8080/URIResolver/URIResolver.asmx" />
+    </wsdl:port>
+    <wsdl:port name="URIResolverHttpPost" binding="tns:URIResolverHttpPost">
+      <http:address location="http://multimedialab.elis.ugent.be:8080/URIResolver/URIResolver.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

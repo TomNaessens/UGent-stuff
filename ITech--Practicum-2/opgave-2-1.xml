@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIDL xmlns="urn:mpeg:mpeg21:2002:02-DIDL-NS"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:mpeg:mpeg21:2002:02-DIDL-NS
+      http://vstudent.elis.ugent.be/itech/bestanden/21000-02.xsd">
+  
+	<Item>
+		<Descriptor>
+			<Statement mimeType="text/plain">DID voor een filmcollectie (groep 1)</Statement>
+		</Descriptor>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Black Hawk Down</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/black_hawk_down.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:black_hawk_down"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Brotherhood of the Wolf</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/brotherhood_of_the_wolf.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:brotherhood_of_the_wolf"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Charlie Chocolate</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/charlie_chocolate.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:charlie_chocolate"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Constantine</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/constantine.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:constantine"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Corpse Bride</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/corpse_bride.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:corpse_bride"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Day after Tomorrow</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/day_after_tomorrow.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:day_after_tomorrow"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Finding Neverland</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/finding_neverland.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:finding_neverland"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">House of Flying Daggers</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/flying_daggers.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:flying_daggers"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Harry Potter and the Prisoner of Azkaban</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/harry_potter_azkaban.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:harry_potter_azkaban"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Ice Age</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/ice_age.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:ice_age"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Kingdom of Heaven</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/kingdom_of_heaven.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:kingdom_of_heaven"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Monsters Inc.</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/monsters_inc.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:monsters_inc"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Lord of the Rings: the Return of the King</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/return_of_the_king.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:return_of_the_king"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Sin City</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/sin_city.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:sin_city"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">The Aviator</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/the_aviator.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:the_aviator"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">The Merchant of Venice</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/the_merchant_of_venice.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:the_merchant_of_venice"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">The New World</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/the_new_world.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:the_new_world"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Underworld</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/underworld.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:underworld"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">Van Helsing</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/van_helsing.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:van_helsing"/>
+			</Component>
+		</Item>
+
+		<Item>
+			<Descriptor>
+				<Statement mimeType="text/plain">War of the Worlds</Statement>
+			</Descriptor>
+			<Descriptor>
+				<Component>
+					<Resource mimeType="image/jpg" ref="http://multimedialab.elis.ugent.be/posters/war_of_the_worlds.jpg"/>
+				</Component>
+			</Descriptor>
+			<Component>
+				<Resource mimeType="video/x-ms-wmv" ref="urn:mpeg:mpeg21:be:ugent:mmlab:trailers:war_of_the_worlds"/>
+			</Component>
+		</Item>
+	</Item>
+</DIDL>

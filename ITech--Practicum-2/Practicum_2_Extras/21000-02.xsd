@@ -1,0 +1,370 @@
+<?xml version="1.0"?>
+<!--============================================================-->
+<!--============================================================-->
+<!--                                                            -->
+<!--           Schema for DIDL XML Document Type                -->
+<!--                                                            -->
+<!--============================================================-->
+<!--============================================================-->
+<xsd:schema targetNamespace="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="0.01">
+	<!--============================================================
+
+	 Basic Principles that apply to all element types:
+
+	 1) Any element with an attribute named 'id' of type ID may 
+	    have a Reference child.
+
+	 2) Elements with an attribute of type ID *may not* have any
+	    attributes which are required.  This is because
+	    attributes should be inheritable from a Reference
+	    if they are not specified, which is not possible
+	    if they are required. 
+
+	 3) If an element has a Reference child 
+	    then only Descriptor (and possibly Condition) elements may 
+	    precede it, and no elements may follow it.
+
+	============================================================-->
+	<xsd:attributeGroup name="ID_ATTRS">
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:attributeGroup>
+	<!--============================================================
+
+	 DIDL element may contain exactly one Container or Item.
+
+	============================================================-->
+	<xsd:element name="DIDL">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Declarations" minOccurs="0"/>
+				<xsd:choice>
+					<xsd:element ref="Container"/>
+					<xsd:element ref="Item"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 A Declarations element contains any number of Items, Descriptors,
+	 Components, and Anchors, in any order.
+
+	============================================================-->
+	<xsd:element name="Declarations">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="Item"/>
+				<xsd:element ref="Descriptor"/>
+				<xsd:element ref="Component"/>
+				<xsd:element ref="Annotation"/>
+				<xsd:element ref="Anchor"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Container element may contain any number of Container elements
+	 followed by any number of Items.
+
+	============================================================-->
+	<xsd:element name="Container">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:choice>
+					<xsd:element ref="Reference"/>
+					<xsd:sequence>
+						<xsd:element ref="Container" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element ref="Item" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Item element contains any number Choice elements,
+	 followed by at least one Item or Component element.
+	 An Item can be conditional.
+
+	============================================================-->
+	<xsd:element name="Item">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Choice" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:choice>
+					<xsd:element ref="Reference"/>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element ref="Item"/>
+						<xsd:element ref="Component"/>
+					</xsd:choice>
+				</xsd:choice>
+				<xsd:element ref="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 A Descriptor contains descriptive data about its parent
+	 element.
+
+	 The Descriptor can be resource-based (comprised of a single 
+	 Component), or text-based (comprised of a single Statement).
+	 A Descriptor can be conditional.
+	
+	============================================================-->
+	<xsd:element name="Descriptor">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:choice>
+					<xsd:element ref="Reference"/>
+					<xsd:element ref="Component"/>
+					<xsd:element ref="Statement"/>
+				</xsd:choice>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 A Statement contains descriptive data within a 
+	 Descriptor. 
+
+	 Attribs: 
+	 mimeType  - A string identifying the type of metadata
+	 ref  - A URI from which the metadata can be obtained
+	 localPath - Specifies the required relative location for a cached version
+	 encoding - Specifies the encoding format of the statement
+
+	============================================================-->
+	<xsd:element name="Statement">
+		<xsd:complexType mixed="true">
+			<xsd:sequence>
+				<xsd:any namespace="##any" processContents="lax" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="mimeType" type="xsd:string" use="required"/>
+			<xsd:attribute name="ref" type="xsd:anyURI"/>
+			<xsd:attribute name="localPath" type="xsd:anyURI"/>
+			<xsd:attribute name="encoding" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Component element contains one or more Resource elements, followed by any 
+	 number of Anchor elements.
+	 A Component can be conditional.
+
+	============================================================-->
+	<xsd:element name="Component">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:choice>
+					<xsd:element ref="Reference"/>
+					<xsd:element ref="Resource" maxOccurs="unbounded"/>
+				</xsd:choice>
+				<xsd:element ref="Anchor" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 An Anchor element indicates a point of interest in the
+	 resource of the parent Component.
+	 An Anchor can be conditional.
+	
+	 Attribs:
+	 precedence  - An unsigned integer value indicating the 
+	               relative ranking of this Anchor among 
+	               the other anchors in an Item.  The highest
+	               precedence anchor is the default entry 
+	               point.
+
+	 fragment  - The fragment identifier that locates the part
+	             of interest within the associated resource. This
+	             string, when appended to the SRC attribute
+	             of the parent, plus a '#', becomes the full
+	             URI for the part of interest.
+
+	============================================================-->
+	<xsd:element name="Anchor">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Reference" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="precedence" type="xsd:unsignedInt"/>
+			<xsd:attribute name="fragment" type="xsd:string"/>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Condition element contains no children.  It indicates a
+	 selection condition for the parent file.  Multiple Condition
+	 tags indicate an 'OR' relationship, in that only one Condition
+	 needs to be satisfied for the parent element to be retrieved,
+	 included, etc.  The individual IDs in the require attribute of
+	 a Condition tag have an 'AND' relationship in that selection
+	 of all of the IDs referenced are required to satisfy that
+	 Condition.
+
+	 Attribs:
+	 require   - Indicates the Selection(s) that must be affirmed 
+	             for this Condition to be "satisfied".
+
+	 except    - Indicates the Selection(s) that must be denied 
+	             for this Condition to be "satisfied".
+
+	============================================================-->
+	<xsd:element name="Condition">
+		<xsd:complexType>
+			<xsd:attribute name="require" type="xsd:IDREFS"/>
+			<xsd:attribute name="except" type="xsd:IDREFS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Choice element contains one or more Selections.  
+	 A Choice can be conditional.
+	 
+	 Attribs:
+
+	 minSelections   - Minimum number of Selections that must be made. If 
+	                   not present, there is no minimum.
+
+	 maxSelections   - Maximum number of Selections that can be made. If 
+	                   not present, there is no maximum.
+
+	 default   - Indicates one or more default selections to use in the absence
+	             of info to make a more specific decision.  Must conform to the
+	             requirements of the minSelections and/or maxSelections
+	             attributes if present.
+
+	 choice_id   - Serves as a target for Assertion elements.
+
+	============================================================-->
+	<xsd:element name="Choice">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Selection" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="minSelections" type="xsd:nonNegativeInteger"/>
+			<xsd:attribute name="maxSelections" type="xsd:positiveInteger"/>
+			<xsd:attribute name="default" type="xsd:IDREFS"/>
+			<xsd:attribute name="choice_id" type="xsd:ID"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Selection element contains no children.
+	 A Selection can be conditional.
+
+	 Attrib: select_id - Uniquely identifies the Selection
+
+	============================================================-->
+	<xsd:element name="Selection">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Condition" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="select_id" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Resource element contains or points to resource data.
+
+	 Attribs: 
+	 mimeType  - An identifier of a recognized scheme indicating the type
+	             of the resource.
+	 ref  - A URI from which the resource data can be obtained
+	 localPath - Specifies the required relative location for a cached version
+	 encoding - Specifies the encoding format of the resource
+
+	============================================================-->
+	<xsd:element name="Resource">
+		<xsd:complexType mixed="true">
+			<xsd:sequence>
+				<xsd:any namespace="##any" processContents="lax" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="mimeType" type="xsd:string" use="required"/>
+			<xsd:attribute name="ref" type="xsd:anyURI"/>
+			<xsd:attribute name="localPath" type="xsd:anyURI"/>
+			<xsd:attribute name="encoding" type="xsd:string"/>
+		</xsd:complexType>
+		<!-- "mixed" content model allows for embedded resources -->
+	</xsd:element>
+	<!--============================================================
+	 
+	 Reference contains no child elements				
+
+	 Attrib: target - Points to the referenced element
+
+	============================================================-->
+	<xsd:element name="Reference">
+		<xsd:complexType>
+			<xsd:attribute name="target" type="xsd:anyURI" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Annotation contains any number of Assertions followed by 
+	 any number of Descriptors followed by any number of Anchors			
+
+	 Attrib: target - Points to the element being annotated
+
+	 Restrictions: 
+		1. The target must reference an element within the
+		   parent Item, or can reference the parent Item itself.
+		2. The contents of an Annotation must conform with the 
+		   content model of the targeted element. For example,
+		   Anchors can be included only if the target references
+		   a Component.
+
+	============================================================-->
+	<xsd:element name="Annotation">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="Reference"/>
+				<xsd:sequence>
+					<xsd:element ref="Assertion" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="Descriptor" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="Anchor" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:choice>
+			<xsd:attribute name="target" type="xsd:anyURI"/>
+			<xsd:attributeGroup ref="ID_ATTRS"/>
+		</xsd:complexType>
+	</xsd:element>
+	<!--============================================================
+
+	 Assertion contains no child elements
+
+	 Attribs: 
+
+		target – identifies the Choice that this Assertion affects
+		true   - The set of selection IDs which are asserted as true
+		false  - The set of selection IDs which are asserted as false
+
+	============================================================-->
+	<xsd:element name="Assertion">
+		<xsd:complexType>
+			<xsd:attribute name="target" type="xsd:anyURI" use="required"/>
+			<xsd:attribute name="true" type="xsd:NMTOKENS" use="optional"/>
+			<xsd:attribute name="false" type="xsd:NMTOKENS" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

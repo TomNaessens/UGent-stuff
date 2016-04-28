@@ -1,0 +1,67 @@
+@prefix :           <http://berio.elis.ugent.be/ontology/itech1/>   .
+
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#>         .
+@prefix owl:        <http://www.w3.org/2002/07/owl#>                .
+@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   .
+@prefix foaf:       <http://xmlns.com/foaf/0.1/>                    .
+
+#Om xsd:Date te kunnen gebruiken
+@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
+
+# DBPedia
+@prefix resource:   <http://dbpedia.org/resource/>          .
+@prefix category:   <http://dbpedia.org/resource/Category:> .
+
+:               rdf:type        owl:Ontology                                                ;
+                rdfs:comment    "Ontologie voor de beschrijving van digitale foto's."       ;
+                owl:imports     <http://downloads.dbpedia.org/3.2/en/dbpedia-ontology.owl>  ;
+                owl:imports     <http://xmlns.com/foaf/spec/index.rdf>                      .
+
+# Klasse die de foto voorstelt
+:Photo          rdf:type        owl:Class               ;
+                rdfs:comment    "Stelt een foto voor."  .
+
+# Maker van de foto
+:creator        rdf:type        owl:ObjectProperty                      ;
+                rdfs:comment    "De maker van deze song (evt. URI)."    ;
+                rdfs:domain     :Photo                                  ;
+                rdfs:range      foaf:Person                             .
+      
+# Wat er te zien is op de foto
+:about          rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              ;
+                rdfs:range      foaf:Literal        .
+
+# Thema van de foto
+:theme          rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              ;
+                owl:oneOf     (
+                    category:People
+                    category:Animals
+                    category:Architecture
+                    category:Nature
+                    category:Politics
+                    category:Humor
+                    category:Culture
+                    category:News
+                )                                   .
+
+
+# Plaats waar de foto gemaakt is
+:place          rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              .
+
+#Datum waarop de foto gemaakt is
+:date           rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              ;
+                rdfs:range      xsd:date            .
+
+#Korte beschrijving van de foto
+:description    rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              ;
+                rdfs:range      foaf:Literal        .
+
+#Titel van de foto
+:title          rdf:type        owl:ObjectProperty  ;
+                rdfs:domain     :Photo              ;
+                rdfs:range      foaf:Literal        .

@@ -1,0 +1,40 @@
+@prefix :           <http://berio.elis.ugent.be/ontology/itech1/>   .
+
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#>         .
+@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   .
+@prefix foaf:       <http://xmlns.com/foaf/0.1/>                    .
+
+#Om xsd:Date te kunnen gebruiken
+@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
+
+# DBPedia
+@prefix dbresource:   <http://dbpedia.org/resource/>          .
+@prefix dbcategory:   <http://dbpedia.org/resource/Category:> .
+
+:SteveMcCurry   a               foaf:Person ;
+                :name           "Steve McCurry" ;
+                :based_near     "Darby, Pennsylvania" .
+
+:CharlesCEbbets a               foaf:Person ;
+                :name           "Charles C. Ebbets" ;
+                :based_near     "Gadsden, Alabama" .
+
+<http://www.worldsfamousphotos.com/wp-content/uploads/2007/09/afghan-woman.jpg>
+    rdf:type        :Photo ;
+    :creator        dbresource:Steve_McCurry ;
+    :theme          dbcategory:People ;
+    :place          dbresource:Peshawar ;
+    :date           "1984-12-01" ;
+    :description    dbresource:Afghan_Girl ;
+    :title          "Afghan Girl"^^xsd:string .
+
+<http://upload.wikimedia.org/wikipedia/en/1/13/Lunch-atop-a-skyscraper-c1932.jpg>
+    rdf:type        :Photo ;
+    :creator        dbresource:Charles_Clyde_Ebbets ;
+    :about          "The photograph depicts eleven men eating lunch, seated on a girder with their feet dangling 256 meters above the New York City streets."^^xsd:string ;
+    :theme          dbcategory:People ;
+    :place          dbresource:RCA_Building ;
+    :date           "1932-09-20" ;
+    :description    dbresource:Lunch_atop_a_Skyscraper ;
+    :title          "Lunch atop a skyscraper"^^xsd:string .
+    
